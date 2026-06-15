@@ -270,6 +270,64 @@
     } catch (e) { /* audio blocked, fine */ }
   }
 
+  // ---------- iframe POST helper (cross-origin without CORS) ----------
+  // Renders a hidden <form> + <iframe>, populates the form with all
+  // fields, submits to ZOHO_ENDPOINT and watches the iframe for load
+  // before resolving. Mirrors exactly what Zoho's own embed code does.
+  function submitViaIframe(data) {
+    return new Promise(resolve => {
+      const frameName = 'nxf-frame-' + Math.random().toString(36).slice(2);
+      const iframe = document.createElement('iframe');
+      iframe.name = frameName;
+      iframe.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:0;height:0;border:0';
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.action = ZOHO_ENDPOINT;
+      form.method = 'POST';
+      form.target = frameName;
+      form.acceptCharset = 'UTF-8';
+      form.style.display = 'none';
+
+      const add = (name, value) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value == null ? '' : String(value);
+        form.appendChild(input);
+      };
+
+      Object.entries(ZOHO_HIDDEN).forEach(([k, v]) => add(k, v));
+      Object.entries(data).forEach(([k, v]) => {
+        if (v == null || v === '') return;
+        const zKey = ZOHO_FIELD_MAP[k];
+        if (!zKey) return;
+        const vm = ZOHO_VALUE_MAP[k];
+        const mapped = vm && vm[v] != null ? vm[v] : v;
+        add(zKey, mapped);
+      });
+      console.log('[nx-form] → Zoho POST via iframe', Object.fromEntries(
+        Array.from(form.querySelectorAll('input')).map(i => [i.name, i.value])
+      ));
+
+      document.body.appendChild(form);
+
+      let resolved = false;
+      const done = ok => {
+        if (resolved) return;
+        resolved = true;
+        setTimeout(() => { form.remove(); iframe.remove(); }, 1500);
+        resolve(ok);
+      };
+      iframe.addEventListener('load', () => done(true), { once: true });
+      // safety timeout — treat as success since Zoho rarely errors on
+      // valid web-to-lead POSTs and we cannot read the response anyway
+      setTimeout(() => done(true), 5000);
+
+      form.submit();
+    });
+  }
+
   // ---------- UTM capture (sticky for the session) ----------
   function captureUTM() {
     const params = new URLSearchParams(location.search);
@@ -574,22 +632,12 @@
     let ok = false;
     try {
       if (ZOHO_ENDPOINT) {
-        // Zoho web-to-lead expects application/x-www-form-urlencoded
-        // (that's what its own HTML <form> submits). Using FormData
-        // would send multipart/form-data which Zoho silently rejects.
-        const body = new URLSearchParams();
-        Object.entries(ZOHO_HIDDEN).forEach(([k, v]) => body.append(k, v));
-        Object.entries(data).forEach(([k, v]) => {
-          if (v == null || v === '') return;
-          const zKey = ZOHO_FIELD_MAP[k];
-          if (!zKey) return; // skip fields not in Zoho web form
-          const vm = ZOHO_VALUE_MAP[k];
-          const mapped = vm && vm[v] != null ? vm[v] : v;
-          body.append(zKey, mapped);
-        });
-        console.log('[nx-form] → Zoho POST', Object.fromEntries(body));
-        await fetch(ZOHO_ENDPOINT, { method: 'POST', body, mode: 'no-cors' });
-        ok = true; // no-cors: assume success unless network failed
+        // Submit via a real <form> POSTing into a hidden <iframe>.
+        // This is the classic web-to-lead pattern — it bypasses every
+        // CORS/no-cors quirk because it's a native browser navigation
+        // inside the iframe. Zoho receives an identical request to
+        // what its own embed code would send.
+        ok = await submitViaIframe(data);
       } else {
         // DEMO: just simulate latency + log
         await new Promise(r => setTimeout(r, 1100));
