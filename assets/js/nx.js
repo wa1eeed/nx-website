@@ -47,6 +47,31 @@
     rvEls.forEach(el => io.observe(el));
   }
 
+  // auto-rotating carousels ([data-carousel] with .slide children)
+  document.querySelectorAll('[data-carousel]').forEach(carousel => {
+    const slides = Array.from(carousel.querySelectorAll('.slide'));
+    if (slides.length < 2) return;
+    const interval = parseInt(carousel.dataset.interval, 10) || 3000;
+    let idx = slides.findIndex(s => s.classList.contains('active'));
+    if (idx < 0) { idx = 0; slides[0].classList.add('active'); }
+    let timer;
+    const tick = () => {
+      slides[idx].classList.remove('active');
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add('active');
+    };
+    const start = () => { stop(); timer = setInterval(tick, interval); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    start();
+    // Pause on hover for desktop, resume on leave
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    // Pause when tab is hidden (saves CPU)
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : start();
+    });
+  });
+
   // FAQ accordion
   document.querySelectorAll('.faq .q').forEach(q => {
     const a = q.querySelector('.a');
