@@ -12,8 +12,8 @@
   // Setup → Channels → Web Forms (NX Website Leads Form).
   const ZOHO_ENDPOINT = 'https://crm.zoho.sa/crm/WebToLeadForm';
   const ZOHO_HIDDEN = {
-    xnQsjsdp:      'a50bac98262581fd43315064ff31c3b730699b15efeeddd2f4c65aa4093d0ae1',
-    xmIwtLD:       '51bae8aef36fb0c8a046adfc70464d1ac09fb259d692ddc458ac7134db5d052a5f9ae15ff94871618ca59425f8c741a4',
+    xnQsjsdp:      '36f4791acdeae3763cabf4060054bc5d64a461f3c2070ca9b0e586363277411f',
+    xmIwtLD:       '57f9abfce5eb0339c8cb29cab7256fd07c9617d7bb7efc2911992a699b5ea084eae79b8c12ee8b80f7f5a7bce75ec1c4',
     actionType:    'TGVhZHM=',
     returnURL:     'null',
     zc_gad:        '',
@@ -27,10 +27,12 @@
     email:        'Email',
     phone:        'Phone',
     company:      'Company',
-    details:      'Description', // packs role + sector + textarea below
+    role:         'LEADCF10',    // Role
+    sector:       'LEADCF12',    // Sector
     stage:        'LEADCF9',     // Company Stage
     service:      'LEADCF7',     // Service Interest
     time:         'LEADCF8',     // Best Time
+    details:      'LEADCF11',    // Note (textarea)
     source_page:  'LEADCF1',     // Source Page
     utm_source:   'LEADCF2',     // UTM_Source
     utm_campaign: 'LEADCF3',     // UTM_Campaign
@@ -572,14 +574,6 @@
     let ok = false;
     try {
       if (ZOHO_ENDPOINT) {
-        // Pack role + sector + textarea into the Description field
-        // so all qualifier info reaches CRM via a single Zoho field.
-        const descParts = [];
-        if (data.role)    descParts.push('Role: ' + data.role);
-        if (data.sector)  descParts.push('Sector: ' + data.sector);
-        if (data.details) descParts.push('Notes:\n' + data.details);
-        if (descParts.length) data.details = descParts.join('\n\n');
-
         const body = new FormData();
         Object.entries(ZOHO_HIDDEN).forEach(([k, v]) => body.append(k, v));
         Object.entries(data).forEach(([k, v]) => {
