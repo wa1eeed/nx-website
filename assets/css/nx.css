@@ -607,7 +607,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
 .p-home .hero-mesh::before{top:-15%;right:-8%;width:60%;height:90%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.14),transparent 65%)}
 .p-home .hero-mesh::after{content:"";position:absolute;bottom:-25%;left:-12%;width:50%;height:75%;background:radial-gradient(circle at 50% 50%,rgba(32,82,149,.09),transparent 60%)}
 .p-home .hero-grid{grid-template-columns:1.08fr .92fr;gap:56px}
-.p-home .hero h1{font-size:clamp(2.4rem,5.4vw,4rem);line-height:1.03;letter-spacing:-.028em;margin:1.4rem 0 1.4rem}
+.p-home .hero h1{font-size:clamp(1.95rem,4vw,3.1rem);line-height:1.12;letter-spacing:-.02em;margin:1.4rem 0 1.4rem}
 .p-home .hero p.lede{margin-bottom:2.2rem}
 .p-home .hero-actions{margin-bottom:2.4rem}
 
@@ -706,6 +706,11 @@ html[dir="rtl"]{
 html[dir="rtl"] body{font-family:var(--sans)}
 html[dir="rtl"] .mono,html[dir="rtl"] .eyebrow,html[dir="rtl"] .crumb,html[dir="rtl"] .lang{font-family:var(--mono);letter-spacing:0}
 html[dir="rtl"] .hero h1,html[dir="rtl"] .sec-head h2,html[dir="rtl"] .phero h1,html[dir="rtl"] .cta h2{letter-spacing:0}
+/* Arabic script needs more vertical breathing room than the tight
+   Latin line-heights — relax multi-line hero/heading leading so the
+   stacked lines (with Tajawal's ascenders) don't crowd together. */
+html[dir="rtl"] .hero h1,html[dir="rtl"] .phero h1{line-height:1.3}
+html[dir="rtl"] .sec-head h2,html[dir="rtl"] .cta h2{line-height:1.3}
 
 /* eyebrow leading rule swaps side */
 html[dir="rtl"] .eyebrow::before{margin-left:0}
