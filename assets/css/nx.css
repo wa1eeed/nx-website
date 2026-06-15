@@ -49,6 +49,9 @@ nav.bar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:saturate(
 nav.bar.scrolled{background:rgba(255,255,255,.82);border-color:var(--line);box-shadow:var(--shadow-s)}
 .bar-in{display:flex;align-items:center;justify-content:space-between;height:68px}
 .logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+.logo-img{height:40px;width:auto;display:block}
+footer .logo-img{height:44px}
+@media(max-width:560px){.logo-img{height:34px}}
 .logo .mark{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.85rem;font-weight:800;box-shadow:0 4px 12px -2px rgba(44,116,179,.5)}
 .nav-links{display:flex;align-items:center;gap:2rem}
 .nav-links a{font-size:.88rem;font-weight:500;color:var(--ink-2);transition:.2s}

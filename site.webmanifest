@@ -1,0 +1,13 @@
+{
+  "name": "NX Solutions",
+  "short_name": "NX",
+  "description": "Saudi Arabia's digital transformation partner for enterprises and startups.",
+  "start_url": "/en/",
+  "display": "standalone",
+  "background_color": "#F6F7F9",
+  "theme_color": "#136B7E",
+  "icons": [
+    { "src": "/assets/images/favicon.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/images/apple-touch-icon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

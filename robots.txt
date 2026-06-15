@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /diag-zoho.html
+
+Sitemap: https://nx.sa/sitemap.xml
