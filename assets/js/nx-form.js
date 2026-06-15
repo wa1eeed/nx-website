@@ -7,36 +7,59 @@
 */
 
 (function () {
-  // ---------- Zoho wiring (replace with real values) ----------
-  const ZOHO_ENDPOINT = ''; // e.g. 'https://crm.zoho.com/crm/WebToLeadForm'
-  // The hidden fields Zoho gives you when you generate the web form.
-  // Open Setup → Channels → Web Forms → Source. The generated HTML has
-  // these names — copy them as-is.
+  // ---------- Zoho CRM Web-to-Lead wiring ----------
+  // Production-ready config from the form generated at
+  // Setup → Channels → Web Forms (NX Website Leads Form).
+  const ZOHO_ENDPOINT = 'https://crm.zoho.sa/crm/WebToLeadForm';
   const ZOHO_HIDDEN = {
-    // xnQsjsdp:  '',   // account encoded id
-    // xmIwtLD:   '',   // form id
-    // actionType:'TGVhZHM=',
-    // returnURL: location.origin + location.pathname + '?form=ok',
+    xnQsjsdp:      'a50bac98262581fd43315064ff31c3b730699b15efeeddd2f4c65aa4093d0ae1',
+    xmIwtLD:       '51bae8aef36fb0c8a046adfc70464d1ac09fb259d692ddc458ac7134db5d052a5f9ae15ff94871618ca59425f8c741a4',
+    actionType:    'TGVhZHM=',
+    returnURL:     'null',
+    zc_gad:        '',
+    // Zoho honeypot — bots fill it, we leave it empty
+    'aG9uZXlwb3Q': '',
   };
-  // Map our internal field names → Zoho lead field API names.
+  // Internal field name → Zoho lead-field API name from the generated form.
+  // (Note: Zoho uses spaces in some names, e.g. 'Last Name'.)
   const ZOHO_FIELD_MAP = {
-    name:     'Last_Name',
-    email:    'Email',
-    phone:    'Phone',
-    company:  'Company',
-    role:     'Designation',
-    sector:   'Industry',
-    stage:    'LEADCF1',      // custom field placeholder
-    service:  'LEADCF2',      // custom field placeholder
-    time:     'LEADCF3',      // custom field placeholder
-    details:  'Description',
-    source:   'Lead_Source',
-    utm_campaign: 'LEADCF4',
-    utm_medium:   'LEADCF5',
-    utm_source:   'LEADCF6',
-    source_page:  'LEADCF7',
-    referrer:     'LEADCF8',
-    language:     'LEADCF9',
+    name:         'Last Name',
+    email:        'Email',
+    phone:        'Phone',
+    company:      'Company',
+    details:      'Description', // packs role + sector + textarea below
+    stage:        'LEADCF9',     // Company Stage
+    service:      'LEADCF7',     // Service Interest
+    time:         'LEADCF8',     // Best Time
+    source_page:  'LEADCF1',     // Source Page
+    utm_source:   'LEADCF2',     // UTM_Source
+    utm_campaign: 'LEADCF3',     // UTM_Campaign
+    utm_medium:   'LEADCF4',     // UTM_Medium
+    referrer:     'LEADCF5',     // Referrer_URL
+    language:     'LEADCF6',     // Lang_Code
+  };
+  // Picklist value mapping: internal value → Zoho picklist label.
+  const ZOHO_VALUE_MAP = {
+    stage: {
+      pre:    'Pre-launch',
+      live:   'live-platform',
+      invest: 'Pre-investment',
+    },
+    service: {
+      launch:  'launch',
+      grow:    'grow',
+      auto:    'automation',
+      connect: 'connect',
+      scale:   'scale',
+      unsure:  'Not Sure',
+    },
+    time: {
+      morning:   'Morning',
+      noon:      'Noon',
+      afternoon: 'Afternoon',
+      evening:   'Evening',
+      any:       'Any Time',
+    },
   };
   // -----------------------------------------------------------
 
@@ -549,12 +572,23 @@
     let ok = false;
     try {
       if (ZOHO_ENDPOINT) {
-        // map to Zoho field names + append hidden constants
+        // Pack role + sector + textarea into the Description field
+        // so all qualifier info reaches CRM via a single Zoho field.
+        const descParts = [];
+        if (data.role)    descParts.push('Role: ' + data.role);
+        if (data.sector)  descParts.push('Sector: ' + data.sector);
+        if (data.details) descParts.push('Notes:\n' + data.details);
+        if (descParts.length) data.details = descParts.join('\n\n');
+
         const body = new FormData();
         Object.entries(ZOHO_HIDDEN).forEach(([k, v]) => body.append(k, v));
         Object.entries(data).forEach(([k, v]) => {
-          const zKey = ZOHO_FIELD_MAP[k] || k;
-          if (v != null && v !== '') body.append(zKey, v);
+          if (v == null || v === '') return;
+          const zKey = ZOHO_FIELD_MAP[k];
+          if (!zKey) return; // skip fields not in Zoho web form
+          const vm = ZOHO_VALUE_MAP[k];
+          const mapped = vm && vm[v] != null ? vm[v] : v;
+          body.append(zKey, mapped);
         });
         await fetch(ZOHO_ENDPOINT, { method: 'POST', body, mode: 'no-cors' });
         ok = true; // no-cors: assume success unless network failed
