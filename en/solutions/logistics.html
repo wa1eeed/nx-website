@@ -19,17 +19,20 @@
 <nav class="bar" id="bar">
   <div class="wrap bar-in">
     <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
-    <div class="nav-links">
-      <a href="/en/#services">Services</a>
-      <a href="/en/#sectors">Sectors</a>
-      <a href="/en/work/">Work</a>
-      <a href="/en/#why">Why NX</a>
-      <a href="/en/#contact">Contact</a>
+    <div class="nav-drawer">
+      <div class="nav-links">
+        <a href="/en/#services">Services</a>
+        <a href="/en/#sectors">Sectors</a>
+        <a href="/en/work/">Work</a>
+        <a href="/en/#why">Why NX</a>
+        <a href="/en/#contact">Contact</a>
+      </div>
+      <div class="nav-cta">
+        <span class="lang" onclick="location.href='/ar/solutions/logistics.html'">عربي</span>
+        <a href="#contact" class="btn btn-primary">Talk to logistics engineers</a>
+      </div>
     </div>
-    <div class="nav-cta">
-      <span class="lang" onclick="location.href='/ar/solutions/logistics.html'">عربي</span>
-      <a href="#contact" class="btn btn-primary">Talk to logistics engineers</a>
-    </div>
+    <button class="burger" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -199,19 +202,6 @@
   </div>
 </footer>
 
-<script>
-  const bar=document.getElementById('bar');
-  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
-  document.querySelectorAll('.faq .q').forEach(q=>{
-    const a=q.querySelector('.a');
-    q.addEventListener('click',()=>{
-      const open=q.classList.contains('open');
-      document.querySelectorAll('.faq .q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;});
-      if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
-    });
-  });
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
-  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-</script>
+<script src="/assets/js/nx.js" defer></script>
 </body>
 </html>

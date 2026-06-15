@@ -57,9 +57,44 @@ nav.bar.scrolled{background:rgba(255,255,255,.82);border-color:var(--line);box-s
 .nav-cta{display:flex;align-items:center;gap:.9rem}
 .lang{font-family:var(--mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:.35rem .6rem;cursor:pointer;transition:.2s}
 .lang:hover{border-color:var(--hi);color:var(--hi)}
-.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.burger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
-@media(max-width:860px){.nav-links{display:none}.burger{display:flex}}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:60;position:relative}
+.burger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:.35s cubic-bezier(.4,0,.2,1);transform-origin:center}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(.4)}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* nav drawer — transparent wrapper on desktop, side-panel on mobile */
+.nav-drawer{display:contents}
+.nav-backdrop{position:fixed;inset:0;background:rgba(10,26,47,.32);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:48}
+.nav-backdrop.open{opacity:1;pointer-events:auto}
+
+@media(max-width:860px){
+  /* drop backdrop-filter so it doesn't form a containing block —
+     otherwise position:fixed inside the nav is bounded by the 68px bar. */
+  nav.bar{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .burger{display:flex}
+  .nav-drawer{
+    display:flex;flex-direction:column;align-items:stretch;gap:0;
+    position:fixed;top:0;bottom:0;right:0;
+    width:min(340px,86%);
+    background:var(--surface);
+    padding:88px 28px 32px;
+    box-shadow:-24px 0 48px -16px rgba(10,26,47,.18);
+    transform:translateX(100%);
+    transition:transform .35s cubic-bezier(.4,0,.2,1);
+    z-index:49;
+    overflow-y:auto;
+  }
+  .nav-drawer.open{transform:translateX(0)}
+  .nav-drawer .nav-links{display:flex;flex-direction:column;align-items:stretch;gap:0}
+  .nav-drawer .nav-links a{font-size:1rem;font-weight:500;color:var(--ink);padding:1rem 0;border-bottom:1px solid var(--line)}
+  .nav-drawer .nav-links a:last-child{border-bottom:none}
+  .nav-drawer .nav-cta{margin-top:auto;padding-top:1.4rem;flex-direction:column;align-items:stretch;gap:.8rem}
+  .nav-drawer .nav-cta .lang{text-align:center;padding:.7rem 1rem;font-size:.82rem;order:2}
+  .nav-drawer .nav-cta .btn{justify-content:center;width:100%;padding:.95rem 1.4rem;font-size:.95rem;order:1}
+  /* prevent body scroll while drawer open */
+  body.drawer-open{overflow:hidden}
+}
 
 /* =================================================================
    HERO — services/sector default (.p-svc / .p-sect)
@@ -654,3 +689,95 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
 .sigdock .d:last-child{border-right:none}
 .sigdock .d b{font-family:var(--mono);font-size:.95rem;font-weight:600;color:var(--ink);display:block;line-height:1}
 .sigdock .d span{font-size:.66rem;color:var(--muted);display:block;margin-top:.3rem}
+
+/* =================================================================
+   RTL + Tajawal — applied via <html lang="ar" dir="rtl">
+   The base layout uses logical defaults; this block flips the
+   physical-axis properties used in the design system.
+   ================================================================= */
+html[dir="rtl"]{
+  --sans:'Tajawal','Plus Jakarta Sans',sans-serif;
+  --mono:'Tajawal','JetBrains Mono',monospace;
+}
+html[dir="rtl"] body{font-family:var(--sans)}
+html[dir="rtl"] .mono,html[dir="rtl"] .eyebrow,html[dir="rtl"] .crumb,html[dir="rtl"] .lang{font-family:var(--mono);letter-spacing:0}
+html[dir="rtl"] .hero h1,html[dir="rtl"] .sec-head h2,html[dir="rtl"] .phero h1,html[dir="rtl"] .cta h2{letter-spacing:0}
+
+/* eyebrow leading rule swaps side */
+html[dir="rtl"] .eyebrow::before{margin-left:0}
+
+/* swap any small-cap mono numerals back to readable Tajawal weight */
+html[dir="rtl"] .mn,html[dir="rtl"] .sub,html[dir="rtl"] .crumb,html[dir="rtl"] .case .body .sect,html[dir="rtl"] .case .chips span,html[dir="rtl"] .case .stats .st b,html[dir="rtl"] .band .m b,html[dir="rtl"] .roi .r b,html[dir="rtl"] .hero-trust .t b,html[dir="rtl"] .hero-stats .s b,html[dir="rtl"] .phero-stats .s b,html[dir="rtl"] .sigdock .d b,html[dir="rtl"] .seal b,html[dir="rtl"] .stamp b,html[dir="rtl"] .meter .mh .badge,html[dir="rtl"] .lane .node,html[dir="rtl"] .lane .tag,html[dir="rtl"] .cstack .c,html[dir="rtl"] .erow .ecode,html[dir="rtl"] .chip,html[dir="rtl"] .case .vis .pill,html[dir="rtl"] .case .vis .big b,html[dir="rtl"] .seals span,html[dir="rtl"] .copy .mono,html[dir="rtl"] .icol h4,html[dir="rtl"] .rmod .tt span,html[dir="rtl"] .spec .row .v,html[dir="rtl"] .tl .ph .w,html[dir="rtl"] .slab .t,html[dir="rtl"] .bp-tag,html[dir="rtl"] .badges .bg span,html[dir="rtl"] .sigcard .reg .rg span,html[dir="rtl"] .cell .num,html[dir="rtl"] .cell .tag{font-family:var(--mono);letter-spacing:.04em}
+
+/* arrow icons flip horizontally */
+html[dir="rtl"] .btn svg,
+html[dir="rtl"] .mod .arr svg,
+html[dir="rtl"] .sx .sa svg,
+html[dir="rtl"] .crumb svg,
+html[dir="rtl"] .show-head .btn svg,
+html[dir="rtl"] .hero-actions svg,
+html[dir="rtl"] .lane .arrow svg{transform:scaleX(-1)}
+html[dir="rtl"] .mod:hover .arr svg{transform:scaleX(-1) translateX(-4px)}
+html[dir="rtl"] .sx:hover .sa{transform:translateX(-3px)}
+html[dir="rtl"] .sx:hover .sa svg{transform:scaleX(-1)}
+
+/* avatars overlap from right */
+html[dir="rtl"] .hero-foot .av i{margin-left:-8px;margin-right:0}
+html[dir="rtl"] .hero-foot .av i:first-child{margin-left:0;margin-right:0}
+
+/* process / steps — border switches side */
+html[dir="rtl"] .proc .p{border-left:none;border-right:1px solid var(--line)}
+html[dir="rtl"] .proc .p:first-child{border-right:none}
+html[dir="rtl"] .steps .s{border-left:none;border-right:1px solid var(--line)}
+html[dir="rtl"] .steps .s:first-child{border-right:none}
+@media(max-width:460px){html[dir="rtl"] .proc .p,html[dir="rtl"] .steps .s{border-right:none}}
+
+/* launch timeline rail */
+html[dir="rtl"] .tl{border-left:none;border-right:2px solid var(--line);margin-left:0;margin-right:8px}
+html[dir="rtl"] .tl .ph{padding:0 36px 36px 0}
+html[dir="rtl"] .tl .ph::before{left:auto;right:-9px}
+
+/* guarantee + cert side bars */
+html[dir="rtl"] .gbox::before{left:auto;right:0}
+html[dir="rtl"] .cert::before{left:auto;right:0}
+
+/* lists with leading dot/check */
+html[dir="rtl"] .why li,html[dir="rtl"] .diff li{padding-left:0;padding-right:1.9rem}
+html[dir="rtl"] .why li .ti,html[dir="rtl"] .diff li .ti{left:auto;right:0}
+html[dir="rtl"] .icol li,html[dir="rtl"] .rmod li{padding-left:0;padding-right:1.5rem}
+html[dir="rtl"] .icol li::before,html[dir="rtl"] .rmod li::before{left:auto;right:0}
+html[dir="rtl"] .cell .tag::before{margin-left:.4rem}
+
+/* case visual: pill + big stat anchored on right */
+html[dir="rtl"] .case .vis .pill{left:auto;right:16px}
+html[dir="rtl"] .case .vis .big{left:auto;right:18px;text-align:right}
+html[dir="rtl"] .p-work .case .vis .big{right:20px}
+
+/* scale stamp + bp-tag swap side */
+html[dir="rtl"] .stamp{right:auto;left:-26px;transform:translateZ(110px) rotate(8deg)}
+html[dir="rtl"] .stack:hover .stamp{transform:translateZ(140px) rotate(0)}
+html[dir="rtl"] .bp-tag{left:auto;right:-30px}
+
+/* erow code label and engine grid */
+html[dir="rtl"] .erow .ecode{text-align:left}
+
+/* scale: connecting line between flow steps */
+html[dir="rtl"] .flow .step:not(:last-child)::after{left:calc(50% + 7px);right:auto;background:linear-gradient(-90deg,var(--hi),var(--line))}
+
+/* band radial position mirrors */
+html[dir="rtl"] .band::before{right:auto;left:-10%}
+html[dir="rtl"] .p-work .band::before{left:auto;right:-10%}
+
+/* hero-mesh radial mirrors so it sits in the visual corner */
+html[dir="rtl"] .hero-mesh::before{right:auto;left:-8%}
+html[dir="rtl"] .p-home .hero-mesh::before{right:auto;left:-8%}
+html[dir="rtl"] .p-home .hero-mesh::after{left:auto;right:-12%}
+html[dir="rtl"] .p-scale .hero-mesh::before{right:auto;left:-5%}
+html[dir="rtl"] .p-scale .hero-mesh::after{left:auto;right:-10%}
+html[dir="rtl"] .phero::before{right:auto;left:-5%}
+
+/* drawer slides in from LEFT in RTL */
+@media(max-width:860px){
+  html[dir="rtl"] .nav-drawer{right:auto;left:0;transform:translateX(-100%);box-shadow:24px 0 48px -16px rgba(10,26,47,.18)}
+  html[dir="rtl"] .nav-drawer.open{transform:translateX(0)}
+}

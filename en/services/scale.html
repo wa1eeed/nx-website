@@ -15,18 +15,21 @@
 <nav class="bar" id="bar">
   <div class="wrap bar-in">
     <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
-    <div class="nav-links">
-      <a href="/en/#services">Services</a>
-      <a href="/en/#sectors">Sectors</a>
-      <a href="/en/#why">Why NX</a>
-      <a href="/en/#contact">Contact</a>
+    <div class="nav-drawer">
+      <div class="nav-links">
+        <a href="/en/#services">Services</a>
+        <a href="/en/#sectors">Sectors</a>
+        <a href="/en/#why">Why NX</a>
+        <a href="/en/#contact">Contact</a>
+      </div>
+      <div class="nav-cta">
+        <span class="lang" onclick="location.href='/ar/services/scale.html'">عربي</span>
+        <a href="#contact" class="btn btn-primary">Get Started
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
     </div>
-    <div class="nav-cta">
-      <span class="lang" onclick="location.href='/ar/services/scale.html'">عربي</span>
-      <a href="#contact" class="btn btn-primary">Get Started
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-    </div>
+    <button class="burger" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -310,10 +313,7 @@
 </footer>
 
 <script>
-  const bar=document.getElementById('bar');
-  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
-
-  const stack=document.getElementById('stack');
+const stack=document.getElementById('stack');
   const stage=stack.closest('.stage');
   let raf;
   stage.addEventListener('mousemove',e=>{
@@ -332,18 +332,7 @@
     if(!stage.matches(':hover')){t+=.012;stack.style.transform=`rotateY(${Math.sin(t)*6}deg) rotateX(${Math.cos(t*.8)*3}deg)`;}
     requestAnimationFrame(float);
   })();
-
-  document.querySelectorAll('.faq .q').forEach(q=>{
-    const a=q.querySelector('.a');
-    q.addEventListener('click',()=>{
-      const open=q.classList.contains('open');
-      document.querySelectorAll('.faq .q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;});
-      if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
-    });
-  });
-
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
+<script src="/assets/js/nx.js" defer></script>
 </body>
 </html>
