@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zoho Web-to-Lead — Raw Diagnostic</title>
+<style>
+  body{font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 20px;color:#0A1A2F}
+  h1{font-size:1.4rem;margin-bottom:.6rem}
+  .note{background:#FFF8E1;border:1px solid #F0DCA3;padding:14px 18px;border-radius:8px;font-size:.92rem;line-height:1.6;margin:20px 0}
+  .note b{color:#7a5800}
+  hr{margin:30px 0;border:0;border-top:1px solid #ddd}
+  .ok{color:#1f9d5b}.err{color:#C0494C}
+</style>
+</head>
+<body>
+
+<h1>🧪 Zoho Web-to-Lead — Raw Diagnostic</h1>
+
+<div class="note">
+  <b>هدف هذه الصفحة:</b> اختبار النموذج الأصلي الذي ولّده Zoho بدون أي تعديل برمجي من جانبنا — لا fetch، لا iframe trickery، لا JavaScript على الإطلاق. مجرد <code>&lt;form action&gt;</code> عادي.
+  <br><br>
+  املأ الحقول المطلوبة (Last Name + Company)، اضغط Submit، وراقب:
+  <ol>
+    <li>هل ينتقل المتصفح إلى Zoho ويعرض صفحة "Thank You"؟</li>
+    <li>هل يظهر lead جديد في Zoho CRM → Leads باسم "<b>RAW Diag</b>"؟</li>
+  </ol>
+  <b>إذا الجواب "لا" لكليهما</b> → المشكلة في Zoho نفسه (الحساب، اشتراك Web Forms، DC mismatch، أو limits)، وليست في كودنا.
+</div>
+
+<hr>
+
+<!-- BELOW IS THE EXACT HTML ZOHO GENERATED FOR THIS FORM. NO MODIFICATIONS. -->
+
+<div id='crmWebToEntityForm' class='zcwf_lblLeft crmWebToEntityForm' style='background-color: white;color: black;max-width: 600px;'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<META HTTP-EQUIV='content-type' CONTENT='text/html;charset=UTF-8'>
+<form id='webform12543000000309422' action='https://crm.zoho.sa/crm/WebToLeadForm' name='WebToLeads12543000000309422' method='POST' accept-charset='UTF-8'>
+  <input type='text' style='display:none;' name='xnQsjsdp' value='36f4791acdeae3763cabf4060054bc5d64a461f3c2070ca9b0e586363277411f'>
+  <input type='hidden' name='zc_gad' id='zc_gad' value=''>
+  <input type='text' style='display:none;' name='xmIwtLD' value='57f9abfce5eb0339c8cb29cab7256fd07c9617d7bb7efc2911992a699b5ea084eae79b8c12ee8b80f7f5a7bce75ec1c4'>
+  <input type='text' style='display:none;' name='actionType' value='TGVhZHM='>
+  <input type='text' style='display:none;' name='returnURL' value='null'>
+
+  <div style='margin:14px 0'>
+    <label>Last Name <span style='color:red'>*</span></label><br>
+    <input type='text' name='Last Name' value='RAW Diag' required style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Company <span style='color:red'>*</span></label><br>
+    <input type='text' name='Company' value='Diag From Raw' required style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Email</label><br>
+    <input type='email' name='Email' value='raw@nx.sa' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Phone</label><br>
+    <input type='text' name='Phone' value='500000000' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Best Time</label><br>
+    <select name='LEADCF8' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+      <option value='Morning' selected>Morning</option>
+    </select>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Service Interest</label><br>
+    <select name='LEADCF7' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+      <option value='launch' selected>launch</option>
+    </select>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Company Stage</label><br>
+    <select name='LEADCF9' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+      <option value='Pre-launch' selected>Pre-launch</option>
+    </select>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Role</label><br>
+    <input type='text' name='LEADCF10' value='Diag Role' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Sector</label><br>
+    <input type='text' name='LEADCF12' value='diag-sector' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px'>
+  </div>
+
+  <div style='margin:14px 0'>
+    <label>Note</label><br>
+    <textarea name='LEADCF11' style='width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;min-height:60px'>This lead was submitted from the RAW diagnostic page — no JS layer involved. If you can see it in CRM, then Zoho config is fine and the issue was earlier in our integration.</textarea>
+  </div>
+
+  <input type='hidden' name='LEADCF1' value='/diag-zoho.html'>
+  <input type='hidden' name='LEADCF2' value='diag-raw'>
+  <input type='hidden' name='LEADCF6' value='en'>
+  <input type='text' style='display: none;' name='aG9uZXlwb3Q' value=''>
+
+  <div style='margin:20px 0'>
+    <button type='submit' style='background:#144272;color:#fff;border:0;padding:12px 28px;border-radius:6px;font-size:1rem;cursor:pointer'>Submit RAW lead to Zoho</button>
+  </div>
+</form>
+</div>
+
+<hr>
+
+<h2 style='font-size:1.1rem'>ماذا تتوقع أن يحدث؟</h2>
+<ol style='line-height:1.7'>
+  <li>ضغط Submit → المتصفح ينتقل إلى <code>https://crm.zoho.sa/crm/WebToLeadForm</code></li>
+  <li>Zoho يستقبل الـPOST ويُنشئ Lead باسم "<b>RAW Diag</b>"</li>
+  <li>المتصفح يعرض صفحة Zoho (نجاح أو خطأ — لكن المهم أن نرى ردّ Zoho نفسه)</li>
+  <li>تعود إلى Zoho CRM → Leads وترى الـlead جديد</li>
+</ol>
+
+<h2 style='font-size:1.1rem;margin-top:30px'>إذا الصفحة عرضت خطأ (Zoho error page)</h2>
+<p>اقرأ الرسالة بدقة وأرسلها لي — ستخبرنا بالضبط ما الذي يرفضه Zoho.</p>
+
+<h2 style='font-size:1.1rem;margin-top:30px'>إذا الصفحة انتقلت لـZoho بنجاح لكن lead لم يظهر</h2>
+<p>المشكلة في:</p>
+<ul>
+  <li><b>اشتراك Zoho:</b> ربما باقتك ما تدعم Web Forms (Free tier له حدود)</li>
+  <li><b>Data Center mismatch:</b> هل URL حسابك يبدأ بـ<code>crm.zoho.sa</code> أم <code>.com</code> أم <code>.eu</code>؟</li>
+  <li><b>Limit يومي:</b> هل وصلت لحد عدد الـleads اليومي؟</li>
+  <li><b>الـform غير منشور/Active:</b> راجع Setup → Web Forms → هل النموذج بحالة "Published"؟</li>
+</ul>
+
+</body>
+</html>
