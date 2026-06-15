@@ -574,7 +574,10 @@
     let ok = false;
     try {
       if (ZOHO_ENDPOINT) {
-        const body = new FormData();
+        // Zoho web-to-lead expects application/x-www-form-urlencoded
+        // (that's what its own HTML <form> submits). Using FormData
+        // would send multipart/form-data which Zoho silently rejects.
+        const body = new URLSearchParams();
         Object.entries(ZOHO_HIDDEN).forEach(([k, v]) => body.append(k, v));
         Object.entries(data).forEach(([k, v]) => {
           if (v == null || v === '') return;
@@ -584,6 +587,7 @@
           const mapped = vm && vm[v] != null ? vm[v] : v;
           body.append(zKey, mapped);
         });
+        console.log('[nx-form] → Zoho POST', Object.fromEntries(body));
         await fetch(ZOHO_ENDPOINT, { method: 'POST', body, mode: 'no-cors' });
         ok = true; // no-cors: assume success unless network failed
       } else {
