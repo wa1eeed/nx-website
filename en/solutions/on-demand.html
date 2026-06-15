@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On-Demand Platforms — Dispatch, Matching & Surge Pricing | NX Solutions</title>
+<meta name="description" content="Saudi on-demand engineering: real-time matching and dispatch, surge pricing, driver/provider apps, payment splits, ETA accuracy. Built for ride-hailing, delivery and on-site services at scale.">
+<meta name="keywords" content="on-demand platform Saudi Arabia, ride-hailing Riyadh, delivery dispatch engine, surge pricing Saudi, marketplace matching algorithm">
+<link rel="canonical" href="https://nx.sa/en/solutions/on-demand.html">
+<meta property="og:title" content="On-Demand Platforms — NX Solutions">
+<meta property="og:description" content="Real-time matching, dispatch and surge — engineered for Saudi geography and labour realities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/nx.css">
+</head>
+<body class="p-sect">
+
+<nav class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+    <div class="nav-links">
+      <a href="/en/#services">Services</a>
+      <a href="/en/#sectors">Sectors</a>
+      <a href="/en/work/">Work</a>
+      <a href="/en/#why">Why NX</a>
+      <a href="/en/#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <span class="lang" onclick="location.href='/ar/solutions/on-demand.html'">عربي</span>
+      <a href="#contact" class="btn btn-primary">Talk to on-demand engineers</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-mesh"></div>
+  <div class="wrap hero-grid">
+    <div class="rv in">
+      <div class="crumb"><a href="/en/">Home</a> / <a href="/en/#sectors">Sectors</a> / On-Demand</div>
+      <span class="eyebrow">Vertical · On-Demand Platforms</span>
+      <h1>Matching, dispatch,<br><span class="g">delivered to the second.</span></h1>
+      <p class="lede">Ride-hailing, food delivery, home services, on-site repair — every on-demand category lives or dies on real-time matching, ETA honesty and surge logic that customers tolerate. We engineer the dispatch engine, driver and provider apps, and the payment flows behind them to perform under Riyadh-traffic, payday-spike reality.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Scope your on-demand build
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#deliverables" class="btn btn-ghost">What we engineer</a>
+      </div>
+      <div class="hero-stats">
+        <div class="s"><b>&lt;200ms</b><span>Match decision latency p95</span></div>
+        <div class="s"><b>±2 min</b><span>ETA accuracy across categories</span></div>
+        <div class="s"><b>Nafath + Qiwa</b><span>Provider compliance native</span></div>
+      </div>
+    </div>
+
+    <div class="rv in">
+      <div class="sigcard">
+        <div class="sh"><b>On-demand regulator & infra stack</b><div class="dot"><i></i><i></i><i></i></div></div>
+        <div class="body">
+          <div class="reg">
+            <div class="rg"><div class="rh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span><span class="st"></span></div><b>TGA</b><span>Transport General Authority</span></div>
+            <div class="rg"><div class="rh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM4 21v-2a6 6 0 0112 0v2"/></svg></span><span class="st"></span></div><b>Nafath / Qiwa</b><span>Driver & provider onboarding</span></div>
+            <div class="rg"><div class="rh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h10l3 4v14H4V7zM9 13h6"/></svg></span><span class="st"></span></div><b>ZATCA</b><span>Per-trip e-invoicing</span></div>
+            <div class="rg"><div class="rh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span class="st"></span></div><b>PDPL</b><span>Location & trip data</span></div>
+          </div>
+        </div>
+        <div class="sigdock">
+          <div class="d"><b>&lt;200ms</b><span>match latency</span></div>
+          <div class="d"><b>±2 min</b><span>ETA accuracy</span></div>
+          <div class="d"><b>0</b><span>orphaned payouts</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Where on-demand platforms fail</span>
+      <h2>Six failure modes that quietly break the unit economics</h2>
+      <p>The architectural shortcuts that look fine in a pilot and become structural problems at city scale.</p>
+    </div>
+    <div class="rail rv">
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h4>Matching latency</h4><p>Match decisions take seconds during peak; riders cancel, drivers idle, both sides churn. Latency is the unit economic, not a UX detail.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div><h4>ETA dishonesty</h4><p>Optimistic ETAs drive the cancel rate. Honest ETAs powered by traffic, driver state and historical patterns drive retention.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM3 21v-2a6 6 0 0112 0v2"/></svg></div><h4>Provider compliance drift</h4><p>Driver/provider licences and Qiwa status expire silently. The platform discovers it when a regulator does.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div><h4>Surge mispricing</h4><p>Static surge multipliers anger users without serving real supply scarcity. Demand modelling is engineered, not heuristic.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h4>Payment splits</h4><p>Per-trip payouts to drivers, restaurants, partners, tax — split incorrectly once and the support cost compounds for months.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div><h4>Trust & safety blind spots</h4><p>No SOS, no journey monitoring, no reviewable evidence after an incident. One viral story is enough to stall growth.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="deliverables" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">What we engineer</span>
+      <h2>The on-demand core — every second accounted for</h2>
+      <p>Production modules across ride-hailing, delivery and home-services engagements.</p>
+    </div>
+    <div class="deli rv">
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div><h4>Matching & dispatch engine</h4><p>Sub-200ms matcher with geo-sharded supply pools, retry handling and explainable assignment for support and audit.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div><h4>Honest ETA service</h4><p>Live traffic, road-network state and historical demand feed an ETA model calibrated to the corridor, not the average.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 18l5-5 4 4 7-8M14 4h6v6"/></svg></div><h4>Surge & pricing model</h4><p>Demand-supply elasticity with transparent surge signalling, cooldowns and price-ceilings that protect customer trust.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM4 21v-2a6 6 0 0112 0v2M19 8v6M22 11h-6"/></svg></div><h4>Driver / provider app</h4><p>Battery-aware, low-data, offline-tolerant native app with Nafath onboarding, document expiry and earnings transparency.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h4>Payment splits & payouts</h4><p>Per-trip ledger postings, multi-party splits, ZATCA-compliant invoicing and reconciled payout flows for drivers and partners.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div><h4>Trust & safety stack</h4><p>SOS, journey sharing, anomaly detection on routes and timings, plus a case-management surface for the safety team.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="band">
+      <div class="band-grid">
+        <div class="m"><b>&lt;200<span class="u">ms</span></b><span>Match decision latency at p95</span></div>
+        <div class="m"><b>±2<span class="u">min</span></b><span>ETA accuracy in the served corridors</span></div>
+        <div class="m"><b>−34<span class="u">%</span></b><span>Cancel rate post-ETA & surge re-engineering</span></div>
+        <div class="m"><b>100<span class="u">%</span></b><span>ZATCA-compliant per-trip e-invoicing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Common questions</span><h2>Engineering Saudi on-demand, answered</h2></div>
+    <div class="faq rv">
+      <div class="q"><div class="q-head"><b>Do you build for ride-hailing, delivery or services?</b><span class="pm"></span></div><div class="a"><p>All three. The matching, dispatch, payments and safety modules are the same architecture — what changes is the supply-side onboarding, asset types and the trip lifecycle. Cross-category platforms benefit most from this.</p></div></div>
+      <div class="q"><div class="q-head"><b>Can the platform handle a city-wide event?</b><span class="pm"></span></div><div class="a"><p>Yes — we engineer for surge, not for steady state. Geo-sharded matchers, async pricing recompute and elastic infra mean the platform degrades gracefully rather than collapsing on the night that matters.</p></div></div>
+      <div class="q"><div class="q-head"><b>How do you handle TGA, Qiwa and Nafath?</b><span class="pm"></span></div><div class="a"><p>Provider onboarding is wired into Nafath identity and Qiwa employment status, with TGA category checks where required. Document expiry monitoring keeps the active fleet compliant, automatically.</p></div></div>
+      <div class="q"><div class="q-head"><b>What about per-trip e-invoicing?</b><span class="pm"></span></div><div class="a"><p>Each completed trip generates a ZATCA Phase 2-compliant e-invoice automatically, with credit notes for cancellations and refunds. No manual issuance, no end-of-month surprises.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contact" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="cta">
+      <h2>Engineer on-demand<br>that holds at city scale.</h2>
+      <p>Tell us where matching, pricing or payouts strain today. We'll map the engine that handles peak day without paging the founders.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">Scope your on-demand build
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="mailto:hello@nx.sa" class="btn btn-ghost">hello@nx.sa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:32px"><span class="eyebrow">Other sectors</span><h2 style="font-size:1.6rem">Adjacent verticals we engineer</h2></div>
+    <div class="rel rv">
+      <a href="/en/solutions/logistics.html"><span class="rn">07</span><b>Logistics</b><span>Route AI · WMS · IoT telemetry.</span></a>
+      <a href="/en/solutions/ecommerce.html"><span class="rn">04</span><b>E-Commerce</b><span>Headless commerce · ZATCA · surge-proof.</span></a>
+      <a href="/en/solutions/fintech.html"><span class="rn">01</span><b>FinTech</b><span>SAMA · PCI-DSS · Open Banking · ledgers.</span></a>
+      <a href="/en/solutions/healthtech.html"><span class="rn">03</span><b>HealthTech</b><span>MOH · Nafis · EHR · PDPL.</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="fb">
+        <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+        <p>Saudi Arabia's institutional-grade engineering partner. Built for compliance. Designed for scale.</p>
+        <div class="seals"><span>SAMA</span><span>ZATCA</span><span>NCA ECC 1.0</span><span>PDPL</span><span>PCI-DSS</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="fc"><b>Services</b>
+          <a href="/en/services/launch.html">NX Launch</a>
+          <a href="/en/services/grow.html">NX Grow</a>
+          <a href="/en/services/automation360.html">NX 360</a>
+          <a href="/en/services/connect.html">NX Connect</a>
+          <a href="/en/services/scale.html">NX Scale</a>
+        </div>
+        <div class="fc"><b>Sectors</b>
+          <a href="/en/solutions/fintech.html">FinTech</a>
+          <a href="/en/solutions/proptech.html">PropTech</a>
+          <a href="/en/solutions/healthtech.html">HealthTech</a>
+          <a href="/en/solutions/insurtech.html">InsurTech</a>
+          <a href="/en/solutions/ecommerce.html">E-Commerce</a>
+          <a href="/en/solutions/on-demand.html">On-Demand</a>
+          <a href="/en/solutions/logistics.html">Logistics</a>
+        </div>
+        <div class="fc"><b>Legal</b>
+          <a href="/en/legal/privacy.html">Privacy (PDPL)</a>
+          <a href="/en/legal/terms.html">Terms</a>
+          <a href="/en/legal/sla.html">SLA</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy"><span>© 2025 NX Solutions — Riyadh, Kingdom of Saudi Arabia.</span><span class="mono">CR No. XXXXXXXXXX</span></div>
+  </div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
+  document.querySelectorAll('.faq .q').forEach(q=>{
+    const a=q.querySelector('.a');
+    q.addEventListener('click',()=>{
+      const open=q.classList.contains('open');
+      document.querySelectorAll('.faq .q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;});
+      if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+    });
+  });
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
