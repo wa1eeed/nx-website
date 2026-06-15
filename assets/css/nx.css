@@ -880,6 +880,30 @@ html[dir="rtl"] .phero::before{right:auto;left:-5%}
 .nxf-state .nxf-meta{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted);margin-top:.3rem}
 .nxf-state .btn{margin-top:1.2rem}
 
+/* =================================================================
+   CONTACT PAGE (Zoho Desk widget + side info card)
+   ================================================================= */
+.contact-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:32px;align-items:start}
+.contact-info{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 32px;position:sticky;top:88px}
+.contact-info h3{font-size:1.05rem;font-weight:800;margin-bottom:1.2rem;letter-spacing:-.015em}
+.contact-info ul{list-style:none;display:flex;flex-direction:column;gap:1.1rem;margin-bottom:1.6rem}
+.contact-info li{display:flex;align-items:flex-start;gap:.8rem}
+.contact-info li .ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center;flex-shrink:0;color:var(--brand-2)}
+.contact-info li .ic svg{width:17px;height:17px}
+.contact-info li .tx b{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:500;margin-bottom:.25rem}
+.contact-info li .tx span{display:block;font-size:.92rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.4}
+.contact-info .contact-note{font-size:.82rem;color:var(--muted);line-height:1.6;padding-top:1.3rem;border-top:1px solid var(--line)}
+.contact-info .contact-note a{color:var(--brand-2);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+.contact-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 30px 60px -24px rgba(20,66,114,.18);min-height:600px}
+.contact-card iframe{display:block;width:100%;min-height:680px;border:0;background:transparent}
+
+@media(max-width:860px){
+  .contact-grid{grid-template-columns:1fr}
+  .contact-info{position:static}
+  .contact-card iframe{min-height:720px}
+}
+
 /* RTL adjustments */
 html[dir="rtl"] .nxf-opt{text-align:right}
 html[dir="rtl"] .nxf-nav .btn svg{transform:scaleX(-1)}
