@@ -1,0 +1,7 @@
+.git
+.gitignore
+.claude
+.DS_Store
+**/.DS_Store
+HANDOFF_README.md
+diag-zoho.html

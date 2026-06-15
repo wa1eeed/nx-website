@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NX Solutions</title>
+<meta name="description" content="NX Solutions — Saudi Arabia's digital transformation partner for enterprises and startups.">
+<link rel="canonical" href="https://nx.sa/en/">
+<!-- Send visitors to their language; default to English -->
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('nx_lang');
+      var lang = stored || (navigator.language || navigator.userLanguage || 'en');
+      var target = (lang && lang.toLowerCase().indexOf('ar') === 0) ? '/ar/' : '/en/';
+      location.replace(target);
+    } catch (e) {
+      location.replace('/en/');
+    }
+  })();
+</script>
+<meta http-equiv="refresh" content="0; url=/en/">
+</head>
+<body>
+  <noscript>
+    <p style="font-family:system-ui,sans-serif;text-align:center;margin-top:40px">
+      <a href="/en/">English</a> &nbsp;·&nbsp; <a href="/ar/">العربية</a>
+    </p>
+  </noscript>
+</body>
+</html>
