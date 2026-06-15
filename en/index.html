@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NX Solutions — Enterprise Engineering & Compliance Partner | Saudi Arabia</title>
+<meta name="description" content="NX Solutions engineers secure, compliant, investable digital assets for Saudi enterprises — beyond chaotic AI-generated code. SAMA, ZATCA, Nafath, NCA, PDPL ready.">
+<meta name="keywords" content="enterprise software Saudi Arabia, SAMA compliance engineering, ZATCA integration, fintech development Riyadh, institutional MVP, VC due diligence Saudi">
+<link rel="canonical" href="https://nx.sa/en/">
+<meta property="og:title" content="NX Solutions — Enterprise Engineering & Compliance Partner">
+<meta property="og:description" content="We don't write random code. We engineer resilient, compliant, investable digital assets for Saudi enterprises.">
+<meta property="og:image" content="https://nx.sa/assets/images/og-cover.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --canvas:#F6F7F9;--surface:#FFFFFF;
+    --ink:#0A1A2F;--ink-2:#3A4A60;--muted:#6B7888;--faint:#9AA6B6;
+    --line:#E7EBF0;--line-2:#EEF1F5;
+    --brand:#144272;--brand-2:#205295;--hi:#2C74B3;--sky:#5BA3DF;--gold:#B7902E;
+    --grad:linear-gradient(135deg,#144272 0%,#205295 50%,#2C74B3 100%);
+    --r:14px;--r-lg:22px;--r-sm:10px;
+    --shadow-s:0 1px 2px rgba(10,26,47,.04),0 1px 1px rgba(10,26,47,.03);
+    --shadow-m:0 4px 24px -8px rgba(10,26,47,.10),0 1px 2px rgba(10,26,47,.04);
+    --shadow-l:0 30px 60px -24px rgba(20,66,114,.28);
+    --mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--canvas);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--hi);display:inline-flex;align-items:center;gap:.6rem}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--hi);opacity:.5}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;padding:.8rem 1.4rem;border-radius:var(--r-sm);transition:.25s cubic-bezier(.4,0,.2,1);cursor:pointer;border:1px solid transparent;white-space:nowrap}
+  .btn-primary{background:var(--brand);color:#fff;box-shadow:0 1px 2px rgba(20,66,114,.3)}
+  .btn-primary:hover{background:var(--brand-2);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(20,66,114,.45)}
+  .btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--hi);color:var(--hi)}
+  .btn svg{width:16px;height:16px}
+
+  /* NAV */
+  nav.bar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:saturate(180%) blur(16px);background:rgba(246,247,249,.72);border-bottom:1px solid transparent;transition:.3s}
+  nav.bar.scrolled{background:rgba(255,255,255,.82);border-color:var(--line);box-shadow:var(--shadow-s)}
+  .bar-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.85rem;font-weight:800;box-shadow:0 4px 12px -2px rgba(44,116,179,.5)}
+  .nav-links{display:flex;align-items:center;gap:2rem}
+  .nav-links a{font-size:.88rem;font-weight:500;color:var(--ink-2);transition:.2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:.9rem}
+  .lang{font-family:var(--mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:.35rem .6rem;cursor:pointer;transition:.2s}
+  .lang:hover{border-color:var(--hi);color:var(--hi)}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+  .burger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+  @media(max-width:860px){.nav-links{display:none}.burger{display:flex}}
+
+  /* HERO */
+  .hero{position:relative;padding:150px 0 100px;overflow:hidden}
+  .hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .hero-mesh::before{content:"";position:absolute;top:-15%;right:-8%;width:60%;height:90%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.14),transparent 65%)}
+  .hero-mesh::after{content:"";position:absolute;bottom:-25%;left:-12%;width:50%;height:75%;background:radial-gradient(circle at 50% 50%,rgba(32,82,149,.09),transparent 60%)}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center;position:relative;z-index:1}
+  .hero h1{font-size:clamp(2.4rem,5.4vw,4rem);font-weight:800;line-height:1.03;letter-spacing:-.028em;margin:1.4rem 0 1.4rem}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.lede{font-size:1.12rem;color:var(--ink-2);max-width:32em;margin-bottom:2.2rem}
+  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.4rem}
+  .hero-foot{display:flex;align-items:center;gap:1rem;font-size:.82rem;color:var(--muted)}
+  .hero-foot .av{display:flex}
+  .hero-foot .av i{width:30px;height:30px;border-radius:50%;border:2px solid var(--canvas);background:linear-gradient(135deg,#cfe0f2,#9fc2e6);margin-left:-8px}
+  .hero-foot .av i:first-child{margin-left:0}
+
+  /* 3D BLUEPRINT signature */
+  .stage{perspective:1500px;display:grid;place-items:center;min-height:440px}
+  .bp{position:relative;width:330px;height:340px;transform-style:preserve-3d;transition:transform .25s ease-out}
+  .slab{position:absolute;left:50%;top:50%;width:240px;height:150px;margin:-75px 0 0 -120px;border-radius:14px;transform-style:preserve-3d;display:flex;flex-direction:column;justify-content:center;padding:0 22px;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.9);box-shadow:0 22px 44px -22px rgba(20,66,114,.5),inset 0 1px 0 rgba(255,255,255,.9)}
+  .slab .t{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--hi);margin-bottom:.35rem}
+  .slab .b{font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+  .slab .bar{margin-top:.7rem;height:5px;border-radius:3px;background:var(--line-2);overflow:hidden}
+  .slab .bar i{display:block;height:100%;background:var(--grad);border-radius:3px}
+  .s1{transform:translateZ(90px) translateY(-96px)}
+  .s2{transform:translateZ(30px) translateY(-32px)}
+  .s3{transform:translateZ(-30px) translateY(32px)}
+  .s4{transform:translateZ(-90px) translateY(96px)}
+  .bp:hover .s1{transform:translateZ(120px) translateY(-104px)}
+  .bp:hover .s4{transform:translateZ(-120px) translateY(104px)}
+  .bp-tag{position:absolute;left:-30px;top:-14px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;padding:.5rem .8rem;border-radius:8px;transform:translateZ(130px);box-shadow:var(--shadow-l)}
+  .bp-tag b{color:var(--sky)}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:48px}.stage{min-height:360px;order:-1}}
+
+  /* TRUST STRIP */
+  .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface)}
+  .trust-in{display:flex;align-items:center;gap:2.6rem;flex-wrap:wrap;justify-content:center;padding:26px 0}
+  .trust-in .lbl{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .trust-in .badge{font-weight:700;font-size:.92rem;color:var(--ink-2);letter-spacing:-.01em;opacity:.85}
+
+  /* SECTION */
+  section.sec{padding:96px 0;position:relative}
+  .sec-head{max-width:36em;margin-bottom:54px}
+  .sec-head.center{margin:0 auto 54px;text-align:center}
+  .sec-head.center .eyebrow{justify-content:center}
+  .sec-head h2{font-size:clamp(1.8rem,3.8vw,2.7rem);font-weight:800;letter-spacing:-.027em;line-height:1.08;margin:1rem 0 .9rem}
+  .sec-head p{font-size:1.05rem;color:var(--ink-2)}
+
+  /* MATRIX cards */
+  .matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mod{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px;transition:.35s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;display:block}
+  .mod::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:.4s}
+  .mod:hover{transform:translateY(-4px);box-shadow:var(--shadow-l);border-color:transparent}
+  .mod:hover::after{transform:scaleX(1)}
+  .mod .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+  .mod .eic{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center}
+  .mod .eic svg{width:22px;height:22px;stroke:var(--brand-2);fill:none;stroke-width:1.5}
+  .mod .mn{font-family:var(--mono);font-size:.72rem;color:var(--faint);letter-spacing:.1em}
+  .mod h3{font-size:1.18rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
+  .mod .sub{font-family:var(--mono);font-size:.7rem;color:var(--hi);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.8rem}
+  .mod p{font-size:.88rem;color:var(--muted);line-height:1.6}
+  .mod .arr{margin-top:1.3rem;display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--brand-2)}
+  .mod .arr svg{width:15px;height:15px;transition:.3s}
+  .mod:hover .arr svg{transform:translateX(4px)}
+  @media(max-width:860px){.matrix{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.matrix{grid-template-columns:1fr}}
+
+  /* WHY split */
+  .why{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--line)}
+  .why .col{background:var(--surface);padding:42px 40px}
+  .why .col.bad{background:linear-gradient(180deg,#FFF,#FCFAFA)}
+  .why .col h4{font-size:.78rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.6rem;display:flex;align-items:center;gap:.6rem}
+  .why .col.bad h4{color:#B4474B}
+  .why .col.good h4{color:var(--brand-2)}
+  .why ul{list-style:none;display:flex;flex-direction:column;gap:1.1rem}
+  .why li{font-size:.94rem;color:var(--ink-2);padding-left:1.9rem;position:relative;line-height:1.5}
+  .why li .ti{position:absolute;left:0;top:1px;width:18px;height:18px}
+  .why li .ti svg{width:18px;height:18px;stroke-width:2;fill:none}
+  .why .bad li .ti svg{stroke:#C56A6D}
+  .why .good li .ti svg{stroke:var(--brand-2)}
+  @media(max-width:760px){.why{grid-template-columns:1fr}}
+
+  /* SECTORS list */
+  .sectors{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .sx{background:var(--surface);padding:24px 28px;display:flex;align-items:center;gap:18px;transition:.3s}
+  .sx:hover{background:#FBFCFE}
+  .sx .si{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center;flex-shrink:0}
+  .sx .si svg{width:20px;height:20px;stroke:var(--brand-2);fill:none;stroke-width:1.5}
+  .sx .sxt b{font-size:1rem;font-weight:700;letter-spacing:-.01em;display:block}
+  .sx .sxt span{font-size:.8rem;color:var(--muted)}
+  .sx .sa{margin-left:auto;color:var(--faint);transition:.3s}
+  .sx:hover .sa{color:var(--hi);transform:translateX(3px)}
+  .sx .sa svg{width:16px;height:16px;stroke-width:2;fill:none}
+  @media(max-width:680px){.sectors{grid-template-columns:1fr}}
+
+  /* ───── SHOWCASE ───── */
+  .show-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:48px;flex-wrap:wrap}
+  .show-head .sec-head{margin-bottom:0}
+  .work{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+  .case:hover{transform:translateY(-5px);box-shadow:var(--shadow-l);border-color:transparent}
+  .case .vis{height:200px;position:relative;overflow:hidden;background:var(--ink)}
+  .case .vis .mesh{position:absolute;inset:0}
+  .case.c-fin .mesh{background:radial-gradient(circle at 30% 30%,rgba(44,116,179,.55),transparent 60%),linear-gradient(135deg,#0A1A2F,#102b4d)}
+  .case.c-prop .mesh{background:radial-gradient(circle at 70% 40%,rgba(91,163,223,.5),transparent 60%),linear-gradient(135deg,#0d2138,#16335a)}
+  .case.c-health .mesh{background:radial-gradient(circle at 40% 60%,rgba(32,82,149,.55),transparent 60%),linear-gradient(135deg,#0A1A2F,#123)}
+  .case.c-ecom .mesh{background:radial-gradient(circle at 60% 30%,rgba(44,116,179,.5),transparent 60%),linear-gradient(135deg,#0d2138,#1a3a66)}
+  .case .vis .grid-ov{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px}
+  .case .vis .pill{position:absolute;top:16px;left:16px;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:.3rem .7rem;border-radius:7px;backdrop-filter:blur(6px)}
+  .case .vis .big{position:absolute;bottom:16px;left:18px;color:#fff}
+  .case .vis .big b{font-family:var(--mono);font-size:1.9rem;font-weight:600;letter-spacing:-.02em;display:block;line-height:1}
+  .case .vis .big span{font-size:.74rem;color:rgba(255,255,255,.7)}
+  .case .body{padding:24px 26px;display:flex;flex-direction:column;flex:1}
+  .case .body .sect{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--hi);margin-bottom:.6rem}
+  .case .body h4{font-size:1.18rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
+  .case .body p{font-size:.88rem;color:var(--muted);line-height:1.6;margin-bottom:1.3rem}
+  .case .stats{display:flex;gap:1.6rem;margin-top:auto;padding-top:1.3rem;border-top:1px solid var(--line)}
+  .case .stats .st b{font-family:var(--mono);font-size:1.05rem;font-weight:600;color:var(--ink);display:block;letter-spacing:-.02em}
+  .case .stats .st span{font-size:.72rem;color:var(--muted)}
+  .case .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.3rem}
+  .case .chips span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);background:var(--line-2);border-radius:6px;padding:.25rem .55rem}
+  @media(max-width:760px){.work{grid-template-columns:1fr}}
+
+  /* METRICS BAND */
+  .band{background:var(--ink);border-radius:var(--r-lg);padding:60px 48px;position:relative;overflow:hidden}
+  .band::before{content:"";position:absolute;top:-40%;right:-10%;width:60%;height:160%;background:radial-gradient(circle,rgba(44,116,179,.25),transparent 60%)}
+  .band-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+  .band .m b{font-family:var(--mono);font-size:clamp(2rem,4vw,2.9rem);font-weight:600;color:#fff;letter-spacing:-.03em;line-height:1;display:block}
+  .band .m b .u{color:var(--sky)}
+  .band .m span{font-size:.82rem;color:rgba(255,255,255,.6);display:block;margin-top:.7rem;line-height:1.5}
+  @media(max-width:760px){.band-grid{grid-template-columns:1fr 1fr;gap:32px}.band{padding:44px 28px}}
+
+  /* PROCESS */
+  .proc{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .proc .p{padding:0 24px;border-left:1px solid var(--line);position:relative}
+  .proc .p:first-child{padding-left:0;border-left:none}
+  .proc .p .n{font-family:var(--mono);font-size:.78rem;color:var(--hi);letter-spacing:.1em;margin-bottom:1.1rem}
+  .proc .p h5{font-size:1.05rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.6rem}
+  .proc .p p{font-size:.85rem;color:var(--muted);line-height:1.6}
+  @media(max-width:760px){.proc{grid-template-columns:1fr 1fr;gap:32px 0}}
+  @media(max-width:460px){.proc{grid-template-columns:1fr}.proc .p{border-left:none;padding-left:0}}
+
+  /* CTA */
+  .cta{background:var(--grad);border-radius:var(--r-lg);padding:72px 48px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.18),transparent 55%)}
+  .cta>*{position:relative;z-index:1}
+  .cta h2{color:#fff;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:800;letter-spacing:-.025em;line-height:1.08;margin-bottom:1rem}
+  .cta p{color:rgba(255,255,255,.82);font-size:1.05rem;max-width:32em;margin:0 auto 2rem}
+  .cta .btn-primary{background:#fff;color:var(--brand)}
+  .cta .btn-primary:hover{background:#F2F6FB}
+  .cta .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}
+  .cta .btn-ghost:hover{border-color:#fff}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+  .foot .fb{max-width:24em}
+  .foot .fb p{font-size:.86rem;color:var(--muted);margin-top:1rem}
+  .foot .seals{display:flex;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
+  .foot .seals span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:.35rem .6rem}
+  .foot-cols{display:flex;gap:48px;flex-wrap:wrap}
+  .foot-cols .fc b{font-size:.74rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:1rem}
+  .foot-cols .fc a{display:block;font-size:.86rem;color:var(--ink-2);margin-bottom:.6rem;transition:.2s}
+  .foot-cols .fc a:hover{color:var(--hi)}
+  .copy{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:.78rem;color:var(--faint);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#sectors">Sectors</a>
+      <a href="#work">Work</a>
+      <a href="#why">Why NX</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <span class="lang" onclick="location.href='/ar/'">عربي</span>
+      <a href="#contact" class="btn btn-primary">Start a project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-mesh"></div>
+  <div class="wrap hero-grid">
+    <div class="rv in">
+      <span class="eyebrow">Enterprise engineering · Riyadh, KSA</span>
+      <h1>We engineer<br><span class="g">investable</span><br>digital assets.</h1>
+      <p class="lede">In the era of vibe coding, writing code is cheap. Engineering secure, compliant, investable architecture is the real challenge. NX Solutions builds resilient systems designed to withstand hyper-scale — and investor due diligence.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Start a project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#work" class="btn btn-ghost">See our work</a>
+      </div>
+      <div class="hero-foot">
+        <div class="av"><i></i><i></i><i></i><i></i></div>
+        <span>Trusted by 80+ Saudi enterprises & funded startups</span>
+      </div>
+    </div>
+
+    <!-- 3D blueprint -->
+    <div class="stage">
+      <div class="bp" id="bp">
+        <div class="bp-tag">architecture: <b>engineered</b></div>
+        <div class="slab s1"><div class="t">Layer 04</div><div class="b">Compliance & Audit</div><div class="bar"><i style="width:100%"></i></div></div>
+        <div class="slab s2"><div class="t">Layer 03</div><div class="b">Business Logic</div><div class="bar"><i style="width:92%"></i></div></div>
+        <div class="slab s3"><div class="t">Layer 02</div><div class="b">Data & Integration</div><div class="bar"><i style="width:88%"></i></div></div>
+        <div class="slab s4"><div class="t">Layer 01</div><div class="b">Cloud Infrastructure</div><div class="bar"><i style="width:96%"></i></div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap trust-in">
+    <span class="lbl">Compliant by design</span>
+    <span class="badge">SAMA</span>
+    <span class="badge">ZATCA</span>
+    <span class="badge">Nafath</span>
+    <span class="badge">NCA ECC 1.0</span>
+    <span class="badge">PDPL</span>
+    <span class="badge">PCI-DSS</span>
+  </div>
+</div>
+
+<!-- MATRIX -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">The NX Matrix</span>
+      <h2>Five engineering modules.<br>One resilient stack.</h2>
+      <p>Each module solves a distinct stage of the enterprise journey — from first line of code to investor data room.</p>
+    </div>
+    <div class="matrix rv">
+      <a class="mod" href="/en/services/launch.html">
+        <div class="top"><span class="eic"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 .8-4.5 4.3L18 20l-6-3.2L6 20l1.5-6.9L3 8.8 9 8z"/></svg></span><span class="mn">01</span></div>
+        <h3>NX Launch</h3><div class="sub">Institutional MVP</div>
+        <p>Engineering the baseline architecture from scratch — compliance and deployment-ready from day one.</p>
+        <span class="arr">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="mod" href="/en/services/grow.html">
+        <div class="top"><span class="eic"><svg viewBox="0 0 24 24"><path d="M4 18l5-5 4 4 7-8M14 4h6v6"/></svg></span><span class="mn">02</span></div>
+        <h3>NX Grow</h3><div class="sub">Tech-Debt Liquidation</div>
+        <p>Auditing legacy and AI-generated code, eliminating tech debt, and accelerating UX to withstand real scale.</p>
+        <span class="arr">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="mod" href="/en/services/automation360.html">
+        <div class="top"><span class="eic"><svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v3M12 19v3M2 12h3M19 12h3"/></svg></span><span class="mn">03</span></div>
+        <h3>NX 360</h3><div class="sub">Core Automation</div>
+        <p>Integrating internal ops, supply chain and CRM pathways through uninterrupted, resilient systems.</p>
+        <span class="arr">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="mod" href="/en/services/connect.html">
+        <div class="top"><span class="eic"><svg viewBox="0 0 24 24"><path d="M9 12h6M12 9v6M5 5l4 4M19 5l-4 4M5 19l4-4M19 19l-4-4"/></svg></span><span class="mn">04</span></div>
+        <h3>NX Connect</h3><div class="sub">Regulatory Integration</div>
+        <p>Direct API orchestration with national gateways: SAMA, ZATCA Phase 2, Nafath, NCA, REGA, MOH.</p>
+        <span class="arr">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="mod" href="/en/services/scale.html">
+        <div class="top"><span class="eic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span class="mn">05</span></div>
+        <h3>NX Scale</h3><div class="sub">VC Due-Diligence Engine</div>
+        <p>Hardening your stack to pass institutional technical audits, complete with scalability forecasting.</p>
+        <span class="arr">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="mod" href="#contact" style="background:linear-gradient(135deg,#102b4d,#1a3a66);border-color:transparent">
+        <div class="top"><span class="eic" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)"><svg viewBox="0 0 24 24" style="stroke:#fff"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        <h3 style="color:#fff">Not sure where to start?</h3>
+        <p style="color:rgba(255,255,255,.7)">Tell us where you are. We'll map the right module to your stage and goals.</p>
+        <span class="arr" style="color:#fff">Talk to an engineer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="sec" id="why" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Anti-vibe coding</span>
+      <h2>A robot can write a screen.<br>It can't engineer an asset.</h2>
+      <p>Automated code looks fine in a demo and collapses under real load, real audits, and real regulators. Here's the difference.</p>
+    </div>
+    <div class="why rv">
+      <div class="col bad">
+        <h4><span>✕</span> Vibe-coded software</h4>
+        <ul>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Looks polished, no security or encryption standards underneath</li>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Breaks under concurrency during national sale events</li>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>No audit trails, no compliance, no path to certification</li>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Fails technical due diligence the moment investors look</li>
+        </ul>
+      </div>
+      <div class="col good">
+        <h4><span>✓</span> NX-engineered architecture</h4>
+        <ul>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Security and encryption native, mapped to NCA ECC & PDPL</li>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Elastic microservices that scale with millions of users</li>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Immutable audit trails and regulator-ready compliance</li>
+          <li><span class="ti"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Built to pass institutional VC technical audits by design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section class="sec" id="sectors" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Industry verticals</span>
+      <h2>Domain depth, not generic templates</h2>
+      <p>Every vertical carries its own regulators, failure modes and terminology. We engineer for the specifics.</p>
+    </div>
+    <div class="sectors rv">
+      <a class="sx" href="/en/solutions/fintech.html"><span class="si"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span><span class="sxt"><b>FinTech & Open Banking</b><span>SAMA · PCI-DSS · wallets & ledgers</span></span><span class="sa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="sx" href="/en/solutions/proptech.html"><span class="si"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span><span class="sxt"><b>PropTech & Real Estate</b><span>REGA · Ejar · dynamic bidding</span></span><span class="sa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="sx" href="/en/solutions/healthtech.html"><span class="si"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg></span><span class="sxt"><b>HealthTech & Telemedicine</b><span>MOH · Nafis · EHR · PDPL</span></span><span class="sa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="sx" href="/en/solutions/insurtech.html"><span class="si"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span class="sxt"><b>InsurTech</b><span>CCHI · Najm · claims automation</span></span><span class="sa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="sx" href="/en/solutions/ecommerce.html"><span class="si"><svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12zM6 6L5 3H2M9 20a1 1 0 100 2 1 1 0 000-2zM18 20a1 1 0 100 2 1 1 0 000-2z"/></svg></span><span class="sxt"><b>Enterprise E-Commerce</b><span>multi-vendor · headless · edge-cached</span></span><span class="sa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="sx" href="/en/solutions/logistics.html"><span class="si"><svg viewBox="0 0 24 24"><path d="M1 7h13v9H1zM14 10h5l3 3v3h-8M5 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg></span><span class="sxt"><b>Logistics & Supply Chain</b><span>route AI · WMS · IoT telemetry</span></span><span class="sa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ───── SHOWCASE ───── -->
+<section class="sec" id="work" style="padding-top:0">
+  <div class="wrap">
+    <div class="show-head rv">
+      <div class="sec-head">
+        <span class="eyebrow">Selected work</span>
+        <h2>Assets we've engineered</h2>
+        <p>A look at platforms we've built, hardened and scaled across Saudi Arabia's most demanding sectors.</p>
+      </div>
+      <a href="/en/work/" class="btn btn-ghost">View all case studies
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="work rv">
+
+      <article class="case c-fin">
+        <div class="vis"><div class="mesh"></div><div class="grid-ov"></div><span class="pill">FINTECH · OPEN BANKING</span><div class="big"><b>4.2M</b><span>transactions / day at launch peak</span></div></div>
+        <div class="body">
+          <div class="sect">Neobank Core Platform</div>
+          <h4>SAMA-licensed digital banking core</h4>
+          <p>Engineered the ledger, KYC via Nafath, and two-factor authorization layer for a Saudi neobank — passing SAMA cybersecurity review on first submission.</p>
+          <div class="chips"><span>SAMA</span><span>Nafath</span><span>PCI-DSS</span><span>Microservices</span></div>
+          <div class="stats">
+            <div class="st"><b>0</b><span>critical findings</span></div>
+            <div class="st"><b>99.99%</b><span>uptime SLA</span></div>
+            <div class="st"><b>11 wks</b><span>to production</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case c-prop">
+        <div class="vis"><div class="mesh"></div><div class="grid-ov"></div><span class="pill">PROPTECH · REGA</span><div class="big"><b>0</b><span>double-bookings under live bidding</span></div></div>
+        <div class="body">
+          <div class="sect">Smart Brokerage Portal</div>
+          <h4>Real-time property bidding engine</h4>
+          <p>Built a concurrency-safe bidding and reservation system mapped to REGA and Ejar, eliminating the double-booking failures that plagued the legacy platform.</p>
+          <div class="chips"><span>REGA</span><span>Ejar</span><span>GIS</span><span>Event-sourcing</span></div>
+          <div class="stats">
+            <div class="st"><b>3.4×</b><span>listing throughput</span></div>
+            <div class="st"><b>−68%</b><span>support tickets</span></div>
+            <div class="st"><b>A+</b><span>DD score</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case c-ecom">
+        <div class="vis"><div class="mesh"></div><div class="grid-ov"></div><span class="pill">E-COMMERCE · HEADLESS</span><div class="big"><b>0.6s</b><span>page load at National Day peak</span></div></div>
+        <div class="body">
+          <div class="sect">Multi-Vendor Marketplace</div>
+          <h4>Headless commerce built for the surge</h4>
+          <p>Re-architected a marketplace that collapsed every National Day into an elastic, edge-cached microservices platform that scales automatically with traffic.</p>
+          <div class="chips"><span>Headless</span><span>Edge cache</span><span>Auto-scale</span><span>ZATCA</span></div>
+          <div class="stats">
+            <div class="st"><b>0 CLS</b><span>layout shift</span></div>
+            <div class="st"><b>12×</b><span>peak capacity</span></div>
+            <div class="st"><b>+41%</b><span>conversion</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case c-health">
+        <div class="vis"><div class="mesh"></div><div class="grid-ov"></div><span class="pill">HEALTHTECH · MOH</span><div class="big"><b>100%</b><span>PDPL data-handling compliance</span></div></div>
+        <div class="body">
+          <div class="sect">Telemedicine Architecture</div>
+          <h4>Virtual clinic & EHR integration</h4>
+          <p>Delivered a telemedicine platform with MOH and Nafis integration and end-to-end encrypted health records under the Saudi Personal Data Protection Law.</p>
+          <div class="chips"><span>MOH</span><span>Nafis</span><span>EHR</span><span>E2E encryption</span></div>
+          <div class="stats">
+            <div class="st"><b>40k+</b><span>consults / month</span></div>
+            <div class="st"><b>0</b><span>data incidents</span></div>
+            <div class="st"><b>4.8★</b><span>patient rating</span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="band">
+      <div class="band-grid">
+        <div class="m"><b>150<span class="u">+</span></b><span>Enterprise systems engineered & shipped</span></div>
+        <div class="m"><b>80<span class="u">+</span></b><span>Saudi clients and funded startups</span></div>
+        <div class="m"><b>100<span class="u">%</span></b><span>Regulatory compliance pass rate</span></div>
+        <div class="m"><b>0</b><span>Open critical findings at delivery</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">How we work</span>
+      <h2>From audit to asset, in four moves</h2>
+    </div>
+    <div class="proc rv">
+      <div class="p"><div class="n">/ 01</div><h5>Audit & map</h5><p>We assess your current estate against institutional and regulatory benchmarks, then map the gaps.</p></div>
+      <div class="p"><div class="n">/ 02</div><h5>Architect</h5><p>We design a compliant, scalable architecture with decision records investors and auditors can read.</p></div>
+      <div class="p"><div class="n">/ 03</div><h5>Engineer</h5><p>We build with tested, documented code — security and audit trails native, not bolted on.</p></div>
+      <div class="p"><div class="n">/ 04</div><h5>Certify & hand off</h5><p>We harden, document and certify the stack — ready for production, regulators and the data room.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec" id="contact" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="cta">
+      <h2>Let's engineer something<br>built to last.</h2>
+      <p>Tell us where you are — pre-launch, scaling, or preparing for a round. We'll map the right path and give you an honest assessment.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">Message us on WhatsApp
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="mailto:hello@nx.sa" class="btn btn-ghost">hello@nx.sa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="fb">
+        <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+        <p>Saudi Arabia's institutional-grade engineering partner. Built for compliance. Designed for scale.</p>
+        <div class="seals"><span>SAMA</span><span>ZATCA</span><span>NCA ECC 1.0</span><span>PDPL</span><span>PCI-DSS</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="fc"><b>Services</b>
+          <a href="/en/services/launch.html">NX Launch</a>
+          <a href="/en/services/grow.html">NX Grow</a>
+          <a href="/en/services/automation360.html">NX 360</a>
+          <a href="/en/services/connect.html">NX Connect</a>
+          <a href="/en/services/scale.html">NX Scale</a>
+        </div>
+        <div class="fc"><b>Company</b>
+          <a href="/en/work/">Our Work</a>
+          <a href="#sectors">Sectors</a>
+          <a href="#why">Why NX</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="fc"><b>Legal</b>
+          <a href="/en/legal/privacy.html">Privacy (PDPL)</a>
+          <a href="/en/legal/terms.html">Terms</a>
+          <a href="/en/legal/sla.html">SLA</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© 2025 NX Solutions — Riyadh, Kingdom of Saudi Arabia.</span>
+      <span class="mono">CR No. XXXXXXXXXX</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
+
+  const bp=document.getElementById('bp'), stage=bp.closest('.stage');
+  let raf;
+  stage.addEventListener('mousemove',e=>{
+    const r=stage.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{bp.style.transform=`rotateY(${x*18+20}deg) rotateX(${-y*14+8}deg)`;});
+  });
+  stage.addEventListener('mouseleave',()=>{bp.style.transform='rotateY(20deg) rotateX(8deg)';});
+  let t=0;(function f(){if(!stage.matches(':hover')){t+=.01;bp.style.transform=`rotateY(${20+Math.sin(t)*6}deg) rotateX(${8+Math.cos(t*.8)*3}deg)`;}requestAnimationFrame(f);})();
+
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

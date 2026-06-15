@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NX Grow — Tech-Debt Liquidation & Refactoring | NX Solutions</title>
+<meta name="description" content="Auditing AI-generated and legacy code, eliminating tech debt, and accelerating performance to withstand real scale. Zero-downtime migration guaranteed.">
+<meta name="keywords" content="tech debt Saudi Arabia, code refactoring Riyadh, legacy system modernization, performance optimization, zero downtime migration">
+<link rel="canonical" href="https://nx.sa/en/services/grow.html">
+<meta property="og:title" content="NX Grow — Tech-Debt Liquidation">
+<meta property="og:description" content="Auditing chaotic code, eliminating tech debt, and accelerating UX to withstand structural scale — with zero downtime.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --canvas:#F6F7F9;--surface:#FFFFFF;--ink:#0A1A2F;--ink-2:#3A4A60;--muted:#6B7888;--faint:#9AA6B6;
+    --line:#E7EBF0;--line-2:#EEF1F5;--brand:#144272;--brand-2:#205295;--hi:#2C74B3;--sky:#5BA3DF;--gold:#B7902E;
+    --grad:linear-gradient(135deg,#144272 0%,#205295 50%,#2C74B3 100%);
+    --r:14px;--r-lg:22px;--r-sm:10px;
+    --shadow-s:0 1px 2px rgba(10,26,47,.04);--shadow-m:0 4px 24px -8px rgba(10,26,47,.10);--shadow-l:0 30px 60px -24px rgba(20,66,114,.28);
+    --mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--canvas);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--hi);display:inline-flex;align-items:center;gap:.6rem}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--hi);opacity:.5}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;padding:.8rem 1.4rem;border-radius:var(--r-sm);transition:.25s;cursor:pointer;border:1px solid transparent;white-space:nowrap}
+  .btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-2);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(20,66,114,.45)}
+  .btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}.btn-ghost:hover{border-color:var(--hi);color:var(--hi)}
+  .btn svg{width:16px;height:16px}
+
+  nav.bar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:saturate(180%) blur(16px);background:rgba(246,247,249,.72);border-bottom:1px solid transparent;transition:.3s}
+  nav.bar.scrolled{background:rgba(255,255,255,.82);border-color:var(--line);box-shadow:var(--shadow-s)}
+  .bar-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.85rem;font-weight:800;box-shadow:0 4px 12px -2px rgba(44,116,179,.5)}
+  .nav-links{display:flex;align-items:center;gap:2rem}
+  .nav-links a{font-size:.88rem;font-weight:500;color:var(--ink-2);transition:.2s}.nav-links a:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:.9rem}
+  .lang{font-family:var(--mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:.35rem .6rem;cursor:pointer;transition:.2s}.lang:hover{border-color:var(--hi);color:var(--hi)}
+  @media(max-width:860px){.nav-links{display:none}}
+
+  .hero{position:relative;padding:150px 0 90px;overflow:hidden}
+  .hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .hero-mesh::before{content:"";position:absolute;top:-15%;right:-8%;width:60%;height:90%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.13),transparent 65%)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative;z-index:1}
+  .crumb{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-bottom:1.3rem}
+  .crumb a{color:var(--muted)}.crumb a:hover{color:var(--hi)}
+  .hero h1{font-size:clamp(2.3rem,5vw,3.7rem);font-weight:800;line-height:1.04;letter-spacing:-.028em;margin:1rem 0 1.3rem}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.lede{font-size:1.12rem;color:var(--ink-2);max-width:32em;margin-bottom:2.2rem}
+  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+
+  /* debt meter visual */
+  .meters{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow-m)}
+  .meters .mt{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:1.4rem}
+  .meter{margin-bottom:1.2rem}
+  .meter:last-child{margin-bottom:0}
+  .meter .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+  .meter .mh .l{font-size:.84rem;font-weight:600;color:var(--ink)}
+  .meter .mh .badge{font-family:var(--mono);font-size:.68rem;padding:.2rem .55rem;border-radius:5px}
+  .meter .mh .badge.before{background:#FBEAEA;color:#C0494C}
+  .meter .mh .badge.after{background:#E6F4EC;color:#1f9d5b}
+  .meter .track{height:8px;background:var(--line-2);border-radius:5px;position:relative;overflow:hidden}
+  .meter .track .fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+  .meter .track .fill.bad{background:linear-gradient(90deg,#d65a5d,#e88)}
+  .meter .track .fill.good{background:var(--grad)}
+
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+
+  section.sec{padding:90px 0;position:relative}
+  .sec-head{max-width:36em;margin-bottom:50px}
+  .sec-head h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800;letter-spacing:-.027em;line-height:1.1;margin:1rem 0 .9rem}
+  .sec-head p{font-size:1.05rem;color:var(--ink-2)}
+
+  /* symptoms */
+  .rail{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .rail .cell{background:var(--surface);padding:28px 26px}
+  .cell .ic{width:42px;height:42px;border-radius:11px;background:#FBEFEF;border:1px solid #F3DADA;display:grid;place-items:center;margin-bottom:1rem}
+  .cell .ic svg{width:20px;height:20px;stroke:#C56A6D;fill:none;stroke-width:1.6}
+  .cell h4{font-size:1rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.01em}
+  .cell p{font-size:.86rem;color:var(--muted);line-height:1.6}
+  @media(max-width:860px){.rail{grid-template-columns:1fr}}
+
+  /* approach steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .steps .s{padding:0 24px;border-left:1px solid var(--line)}
+  .steps .s:first-child{padding-left:0;border-left:none}
+  .steps .s .n{font-family:var(--mono);font-size:.78rem;color:var(--hi);letter-spacing:.1em;margin-bottom:1.1rem}
+  .steps .s h5{font-size:1.05rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.6rem}
+  .steps .s p{font-size:.85rem;color:var(--muted);line-height:1.6}
+  @media(max-width:760px){.steps{grid-template-columns:1fr 1fr;gap:32px 0}}
+  @media(max-width:460px){.steps{grid-template-columns:1fr}.steps .s{border-left:none;padding-left:0}}
+
+  /* metrics band */
+  .band{background:var(--ink);border-radius:var(--r-lg);padding:60px 48px;position:relative;overflow:hidden}
+  .band::before{content:"";position:absolute;top:-40%;right:-10%;width:60%;height:160%;background:radial-gradient(circle,rgba(44,116,179,.25),transparent 60%)}
+  .band-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+  .band .m b{font-family:var(--mono);font-size:clamp(2rem,4vw,2.8rem);font-weight:600;color:#fff;letter-spacing:-.03em;line-height:1;display:block}
+  .band .m b .u{color:var(--sky)}
+  .band .m span{font-size:.82rem;color:rgba(255,255,255,.6);display:block;margin-top:.7rem;line-height:1.5}
+  @media(max-width:760px){.band-grid{grid-template-columns:1fr 1fr;gap:32px}.band{padding:44px 28px}}
+
+  /* guarantee */
+  .gbox{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:40px 44px;position:relative;overflow:hidden}
+  .gbox::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad)}
+  .gbox .gi{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center;flex-shrink:0}
+  .gbox .gi svg{width:30px;height:30px;stroke:var(--brand-2);fill:none;stroke-width:1.5}
+  .gbox h3{font-size:1.3rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
+  .gbox p{font-size:.94rem;color:var(--ink-2);max-width:44em}
+  @media(max-width:560px){.gbox{grid-template-columns:1fr;text-align:center}.gbox .gi{margin:0 auto}}
+
+  /* faq */
+  .faq{border-top:1px solid var(--line);max-width:46em}
+  .faq .q{border-bottom:1px solid var(--line);padding:22px 0;cursor:pointer}
+  .faq .q-head{display:flex;justify-content:space-between;align-items:center;gap:20px}
+  .faq .q-head b{font-size:1rem;font-weight:600;letter-spacing:-.01em}
+  .faq .q-head .pm{width:22px;height:22px;flex-shrink:0;position:relative;transition:.3s}
+  .faq .q-head .pm::before,.faq .q-head .pm::after{content:"";position:absolute;background:var(--hi);border-radius:2px}
+  .faq .q-head .pm::before{top:50%;left:3px;right:3px;height:2px;transform:translateY(-50%)}
+  .faq .q-head .pm::after{left:50%;top:3px;bottom:3px;width:2px;transform:translateX(-50%);transition:.3s}
+  .faq .q.open .pm::after{transform:translateX(-50%) scaleY(0)}
+  .faq .a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .faq .a p{font-size:.92rem;color:var(--ink-2);line-height:1.7;padding-top:14px}
+
+  .cta{background:var(--grad);border-radius:var(--r-lg);padding:68px 48px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.18),transparent 55%)}
+  .cta>*{position:relative;z-index:1}
+  .cta h2{color:#fff;font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:800;letter-spacing:-.025em;margin-bottom:1rem}
+  .cta p{color:rgba(255,255,255,.82);font-size:1.02rem;max-width:30em;margin:0 auto 2rem}
+  .cta .btn-primary{background:#fff;color:var(--brand)}.cta .btn-primary:hover{background:#F2F6FB}
+  .cta .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}.cta .btn-ghost:hover{border-color:#fff}
+
+  .rel{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .rel a{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;transition:.3s}
+  .rel a:hover{border-color:var(--hi);transform:translateY(-3px);box-shadow:var(--shadow-m)}
+  .rel a .rn{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.1em}
+  .rel a b{display:block;font-size:1rem;font-weight:700;margin:.6rem 0 .35rem;letter-spacing:-.01em}
+  .rel a span{font-size:.82rem;color:var(--muted);line-height:1.5}
+  @media(max-width:760px){.rel{grid-template-columns:1fr 1fr}}
+
+  footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+  .foot .fb{max-width:24em}.foot .fb p{font-size:.86rem;color:var(--muted);margin-top:1rem}
+  .foot .seals{display:flex;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
+  .foot .seals span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:.35rem .6rem}
+  .foot-cols{display:flex;gap:48px;flex-wrap:wrap}
+  .foot-cols .fc b{font-size:.74rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:1rem}
+  .foot-cols .fc a{display:block;font-size:.86rem;color:var(--ink-2);margin-bottom:.6rem;transition:.2s}.foot-cols .fc a:hover{color:var(--hi)}
+  .copy{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:.78rem;color:var(--faint);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+    <div class="nav-links">
+      <a href="/en/#services">Services</a>
+      <a href="/en/#sectors">Sectors</a>
+      <a href="/en/work/">Work</a>
+      <a href="/en/#why">Why NX</a>
+      <a href="/en/#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <span class="lang" onclick="location.href='/ar/services/grow.html'">عربي</span>
+      <a href="#contact" class="btn btn-primary">Book an audit</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-mesh"></div>
+  <div class="wrap hero-grid">
+    <div class="rv in">
+      <div class="crumb"><a href="/en/">Home</a> / <a href="/en/#services">Services</a> / NX Grow</div>
+      <span class="eyebrow">Module 02 — NX Matrix</span>
+      <h1>Liquidate the debt.<br><span class="g">Unlock the scale.</span></h1>
+      <p class="lede">Vibe-coded and legacy systems carry invisible interest — every new feature gets slower and riskier to ship. NX Grow audits the chaos, eliminates the tech debt, and re-engineers your platform to handle multiples of today's load. With zero downtime.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Book a code audit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#metrics" class="btn btn-ghost">See the impact</a>
+      </div>
+    </div>
+    <div class="rv in">
+      <div class="meters" id="meters">
+        <div class="mt">Before → after NX Grow</div>
+        <div class="meter"><div class="mh"><span class="l">Deploy velocity</span><span class="badge after">3.8× faster</span></div><div class="track"><div class="fill good" data-w="92"></div></div></div>
+        <div class="meter"><div class="mh"><span class="l">Test coverage</span><span class="badge after">94%</span></div><div class="track"><div class="fill good" data-w="94"></div></div></div>
+        <div class="meter"><div class="mh"><span class="l">Production incidents</span><span class="badge after">−71%</span></div><div class="track"><div class="fill bad" data-w="29"></div></div></div>
+        <div class="meter"><div class="mh"><span class="l">Infra cost</span><span class="badge after">−43%</span></div><div class="track"><div class="fill bad" data-w="57"></div></div></div>
+        <div class="meter"><div class="mh"><span class="l">Compliance pass</span><span class="badge after">100%</span></div><div class="track"><div class="fill good" data-w="100"></div></div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SYMPTOMS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">The symptoms</span>
+      <h2>You already know if you have tech debt</h2>
+      <p>These are the signals we hear before every NX Grow engagement. If two or more sound familiar, the interest is already compounding.</p>
+    </div>
+    <div class="rail rv">
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h4>Shipping keeps slowing</h4><p>Features that used to take days now take weeks. Every change risks breaking something unrelated.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3.1l-8-14a2 2 0 00-3.4 0z"/></svg></div><h4>Fragile in production</h4><p>Recurring incidents, mystery bugs, and a deploy process the whole team holds its breath through.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div><h4>Buckles under load</h4><p>The platform slows or falls over during peak traffic — exactly when it matters most commercially.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div><h4>No tests, no safety net</h4><p>Little or no automated coverage, so every release is a leap of faith and every refactor is feared.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div><h4>Compliance gaps</h4><p>Security and regulatory requirements were never built in — and now they're blocking a deal or a license.</p></div>
+      <div class="cell"><div class="ic"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM3 21v-2a6 6 0 0112 0v2"/></svg></div><h4>Key-man risk</h4><p>One or two people understand the system, nothing is documented, and onboarding anyone new takes months.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">The approach</span>
+      <h2>Four phases. No big-bang rewrite.</h2>
+      <p>We don't stop your business to fix it. NX Grow modernizes incrementally, keeping you live the entire time.</p>
+    </div>
+    <div class="steps rv">
+      <div class="s"><div class="n">/ 01</div><h5>Audit</h5><p>A full technical assessment — code quality, architecture, security and the exact sources of your tech debt, scored and prioritized.</p></div>
+      <div class="s"><div class="n">/ 02</div><h5>Blueprint</h5><p>A remediation roadmap that sequences fixes by risk and impact, so the highest-leverage work happens first.</p></div>
+      <div class="s"><div class="n">/ 03</div><h5>Migration</h5><p>Incremental refactoring and re-architecture behind feature flags — shipped continuously, with zero downtime.</p></div>
+      <div class="s"><div class="n">/ 04</div><h5>Handoff</h5><p>Tests, documentation and runbooks so your team owns a clean, fast, well-understood platform going forward.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="sec" id="metrics" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="band">
+      <div class="band-grid">
+        <div class="m"><b>3.8<span class="u">×</span></b><span>Average deploy velocity increase after engagement</span></div>
+        <div class="m"><b>−71<span class="u">%</span></b><span>Reduction in production incidents</span></div>
+        <div class="m"><b>−43<span class="u">%</span></b><span>Average infrastructure cost reduction</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="gbox">
+      <div class="gi"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div>
+        <h3>Zero-downtime migration guarantee</h3>
+        <p>We modernize your platform while it stays live and serving customers. Every change ships behind feature flags with instant rollback — if a migration step risks downtime, we don't take it until it's safe. Your users never see the work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Common questions</span><h2>NX Grow, answered</h2></div>
+    <div class="faq rv">
+      <div class="q"><div class="q-head"><b>Will you have to rewrite everything from scratch?</b><span class="pm"></span></div><div class="a"><p>Almost never. Big-bang rewrites are high-risk and usually unnecessary. We modernize incrementally — refactoring and re-architecting the highest-impact areas first, behind feature flags, so the business keeps running throughout.</p></div></div>
+      <div class="q"><div class="q-head"><b>Our code was largely AI-generated. Is it salvageable?</b><span class="pm"></span></div><div class="a"><p>Usually yes. AI-generated code tends to work in the happy path but lacks tests, security hardening, and structural coherence. The audit tells us exactly what to keep, what to refactor, and what to replace — without throwing away working functionality.</p></div></div>
+      <div class="q"><div class="q-head"><b>How disruptive is this to our current team?</b><span class="pm"></span></div><div class="a"><p>Minimal. We work alongside your team, not over them — and a core goal is leaving them with documentation, tests and runbooks so they own a faster, cleaner platform afterward. Many clients report their own velocity improving during the engagement.</p></div></div>
+      <div class="q"><div class="q-head"><b>How long does an engagement take?</b><span class="pm"></span></div><div class="a"><p>It depends on the size and state of the codebase, which the audit determines precisely. Most engagements run 8–20 weeks, with value shipping continuously throughout rather than landing all at the end.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec" id="contact" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="cta">
+      <h2>Stop paying interest on bad code.</h2>
+      <p>Start with an audit. We'll show you exactly where the debt is, what it's costing you, and the fastest safe path out.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">Book a code audit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="mailto:hello@nx.sa" class="btn btn-ghost">hello@nx.sa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:32px"><span class="eyebrow">Complete the matrix</span><h2 style="font-size:1.6rem">Related services</h2></div>
+    <div class="rel rv">
+      <a href="/en/services/launch.html"><span class="rn">01</span><b>NX Launch</b><span>Institutional MVP, compliance-native from day one.</span></a>
+      <a href="/en/services/automation360.html"><span class="rn">03</span><b>NX 360</b><span>Core automation — ZATCA, approvals, ERP, KYC.</span></a>
+      <a href="/en/services/connect.html"><span class="rn">04</span><b>NX Connect</b><span>Saudi regulatory integration — SAMA, ZATCA, Nafath.</span></a>
+      <a href="/en/services/scale.html"><span class="rn">05</span><b>NX Scale</b><span>VC due-diligence engine — investor-ready in weeks.</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="fb">
+        <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+        <p>Saudi Arabia's institutional-grade engineering partner. Built for compliance. Designed for scale.</p>
+        <div class="seals"><span>SAMA</span><span>ZATCA</span><span>NCA ECC 1.0</span><span>PDPL</span><span>PCI-DSS</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="fc"><b>Services</b>
+          <a href="/en/services/launch.html">NX Launch</a>
+          <a href="/en/services/grow.html">NX Grow</a>
+          <a href="/en/services/automation360.html">NX 360</a>
+          <a href="/en/services/connect.html">NX Connect</a>
+          <a href="/en/services/scale.html">NX Scale</a>
+        </div>
+        <div class="fc"><b>Company</b>
+          <a href="/en/work/">Our Work</a>
+          <a href="/en/#sectors">Sectors</a>
+          <a href="/en/#why">Why NX</a>
+          <a href="/en/#contact">Contact</a>
+        </div>
+        <div class="fc"><b>Legal</b>
+          <a href="/en/legal/privacy.html">Privacy (PDPL)</a>
+          <a href="/en/legal/terms.html">Terms</a>
+          <a href="/en/legal/sla.html">SLA</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy"><span>© 2025 NX Solutions — Riyadh, Kingdom of Saudi Arabia.</span><span class="mono">CR No. XXXXXXXXXX</span></div>
+  </div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
+  document.querySelectorAll('.faq .q').forEach(q=>{
+    const a=q.querySelector('.a');
+    q.addEventListener('click',()=>{
+      const open=q.classList.contains('open');
+      document.querySelectorAll('.faq .q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;});
+      if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+    });
+  });
+  // animate meters when in view
+  const mio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.querySelectorAll('.fill').forEach(f=>{f.style.width=f.dataset.w+'%';});mio.unobserve(e.target);}
+  }),{threshold:.3});
+  const mt=document.getElementById('meters');if(mt)mio.observe(mt);
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

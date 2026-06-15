@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Work — Engineered Digital Assets | NX Solutions</title>
+<meta name="description" content="Case studies from NX Solutions: SAMA-licensed banking cores, REGA-mapped proptech, surge-proof marketplaces, MOH telemedicine and VC-ready platforms across Saudi Arabia.">
+<link rel="canonical" href="https://nx.sa/en/work/">
+<meta property="og:title" content="Our Work — NX Solutions">
+<meta property="og:description" content="Platforms we've engineered, hardened and scaled across Saudi Arabia's most demanding sectors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --canvas:#F6F7F9;--surface:#FFFFFF;--ink:#0A1A2F;--ink-2:#3A4A60;--muted:#6B7888;--faint:#9AA6B6;
+    --line:#E7EBF0;--line-2:#EEF1F5;--brand:#144272;--brand-2:#205295;--hi:#2C74B3;--sky:#5BA3DF;--gold:#B7902E;
+    --grad:linear-gradient(135deg,#144272 0%,#205295 50%,#2C74B3 100%);
+    --r:14px;--r-lg:22px;--r-sm:10px;
+    --shadow-s:0 1px 2px rgba(10,26,47,.04);--shadow-m:0 4px 24px -8px rgba(10,26,47,.10);
+    --shadow-l:0 30px 60px -24px rgba(20,66,114,.28);
+    --mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--canvas);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--hi);display:inline-flex;align-items:center;gap:.6rem}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--hi);opacity:.5}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;padding:.8rem 1.4rem;border-radius:var(--r-sm);transition:.25s;cursor:pointer;border:1px solid transparent;white-space:nowrap}
+  .btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-2);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(20,66,114,.45)}
+  .btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}.btn-ghost:hover{border-color:var(--hi);color:var(--hi)}
+  .btn svg{width:16px;height:16px}
+
+  nav.bar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:saturate(180%) blur(16px);background:rgba(246,247,249,.72);border-bottom:1px solid transparent;transition:.3s}
+  nav.bar.scrolled{background:rgba(255,255,255,.82);border-color:var(--line);box-shadow:var(--shadow-s)}
+  .bar-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.85rem;font-weight:800;box-shadow:0 4px 12px -2px rgba(44,116,179,.5)}
+  .nav-links{display:flex;align-items:center;gap:2rem}
+  .nav-links a{font-size:.88rem;font-weight:500;color:var(--ink-2);transition:.2s}.nav-links a:hover{color:var(--ink)}
+  .nav-links a.active{color:var(--ink);font-weight:600}
+  .nav-cta{display:flex;align-items:center;gap:.9rem}
+  .lang{font-family:var(--mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:.35rem .6rem;cursor:pointer;transition:.2s}.lang:hover{border-color:var(--hi);color:var(--hi)}
+  @media(max-width:860px){.nav-links{display:none}}
+
+  /* page hero */
+  .phero{padding:140px 0 50px;position:relative;overflow:hidden}
+  .phero::before{content:"";position:absolute;top:-20%;right:-5%;width:50%;height:90%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.12),transparent 65%);z-index:0}
+  .phero .wrap{position:relative;z-index:1}
+  .crumb{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-bottom:1.4rem}
+  .crumb a{color:var(--muted)}.crumb a:hover{color:var(--hi)}
+  .phero h1{font-size:clamp(2.3rem,5vw,3.6rem);font-weight:800;letter-spacing:-.028em;line-height:1.05;margin:1rem 0 1.2rem;max-width:14em}
+  .phero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .phero p{font-size:1.12rem;color:var(--ink-2);max-width:36em}
+  .phero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:2.6rem;padding-top:2rem;border-top:1px solid var(--line)}
+  .phero-stats .s b{font-family:var(--mono);font-size:1.7rem;font-weight:600;letter-spacing:-.02em;display:block}
+  .phero-stats .s span{font-size:.78rem;color:var(--muted)}
+
+  /* filter */
+  .filters{display:flex;gap:.6rem;flex-wrap:wrap;padding:30px 0 40px}
+  .chip{font-family:var(--mono);font-size:.76rem;font-weight:500;letter-spacing:.04em;padding:.55rem 1rem;border-radius:100px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;transition:.25s}
+  .chip:hover{border-color:var(--hi);color:var(--hi)}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;padding-bottom:40px}
+  .case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:.4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+  .case.hide{display:none}
+  .case:hover{transform:translateY(-5px);box-shadow:var(--shadow-l);border-color:transparent}
+  .case .vis{height:210px;position:relative;overflow:hidden;background:var(--ink)}
+  .case .vis .grid-ov{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px}
+  .v-fin{background:radial-gradient(circle at 30% 30%,rgba(44,116,179,.55),transparent 60%),linear-gradient(135deg,#0A1A2F,#102b4d)}
+  .v-prop{background:radial-gradient(circle at 70% 40%,rgba(91,163,223,.5),transparent 60%),linear-gradient(135deg,#0d2138,#16335a)}
+  .v-health{background:radial-gradient(circle at 40% 60%,rgba(32,82,149,.55),transparent 60%),linear-gradient(135deg,#0A1A2F,#0f2740)}
+  .v-ecom{background:radial-gradient(circle at 60% 30%,rgba(44,116,179,.5),transparent 60%),linear-gradient(135deg,#0d2138,#1a3a66)}
+  .v-insur{background:radial-gradient(circle at 50% 50%,rgba(91,163,223,.45),transparent 60%),linear-gradient(135deg,#0A1A2F,#13304f)}
+  .v-log{background:radial-gradient(circle at 35% 40%,rgba(44,116,179,.5),transparent 60%),linear-gradient(135deg,#0d2138,#14375f)}
+  .case .vis .pill{position:absolute;top:16px;left:16px;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:.3rem .7rem;border-radius:7px;backdrop-filter:blur(6px)}
+  .case .vis .big{position:absolute;bottom:18px;left:20px;color:#fff}
+  .case .vis .big b{font-family:var(--mono);font-size:2rem;font-weight:600;letter-spacing:-.02em;display:block;line-height:1}
+  .case .vis .big span{font-size:.74rem;color:rgba(255,255,255,.72)}
+  .case .body{padding:26px 28px;display:flex;flex-direction:column;flex:1}
+  .case .body .sect{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--hi);margin-bottom:.6rem}
+  .case .body h3{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.7rem}
+  .case .body p{font-size:.9rem;color:var(--muted);line-height:1.65;margin-bottom:1.4rem}
+  .case .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.4rem}
+  .case .chips span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);background:var(--line-2);border-radius:6px;padding:.25rem .55rem}
+  .case .stats{display:flex;gap:1.8rem;margin-top:auto;padding-top:1.4rem;border-top:1px solid var(--line)}
+  .case .stats .st b{font-family:var(--mono);font-size:1.1rem;font-weight:600;color:var(--ink);display:block;letter-spacing:-.02em}
+  .case .stats .st span{font-size:.72rem;color:var(--muted)}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}.phero-stats{gap:2rem}}
+
+  /* approach band */
+  .band{background:var(--ink);border-radius:var(--r-lg);padding:60px 48px;position:relative;overflow:hidden;margin:40px 0}
+  .band::before{content:"";position:absolute;top:-40%;left:-10%;width:55%;height:160%;background:radial-gradient(circle,rgba(44,116,179,.25),transparent 60%)}
+  .band-in{position:relative;z-index:1;max-width:34em}
+  .band-in .eyebrow{color:var(--sky)}.band-in .eyebrow::before{background:var(--sky)}
+  .band-in h2{color:#fff;font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:800;letter-spacing:-.025em;margin:1rem 0 1rem}
+  .band-in p{color:rgba(255,255,255,.72);font-size:1rem}
+  .nda{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.6rem;font-family:var(--mono);font-size:.74rem;color:rgba(255,255,255,.6)}
+  .nda svg{width:15px;height:15px;stroke:var(--sky);fill:none;stroke-width:1.6}
+
+  /* cta */
+  .cta{background:var(--grad);border-radius:var(--r-lg);padding:68px 48px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.18),transparent 55%)}
+  .cta>*{position:relative;z-index:1}
+  .cta h2{color:#fff;font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:800;letter-spacing:-.025em;margin-bottom:1rem}
+  .cta p{color:rgba(255,255,255,.82);font-size:1.02rem;max-width:30em;margin:0 auto 2rem}
+  .cta .btn-primary{background:#fff;color:var(--brand)}.cta .btn-primary:hover{background:#F2F6FB}
+
+  footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:60px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+  .foot .fb{max-width:24em}.foot .fb p{font-size:.86rem;color:var(--muted);margin-top:1rem}
+  .foot .seals{display:flex;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
+  .foot .seals span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:.35rem .6rem}
+  .foot-cols{display:flex;gap:48px;flex-wrap:wrap}
+  .foot-cols .fc b{font-size:.74rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:1rem}
+  .foot-cols .fc a{display:block;font-size:.86rem;color:var(--ink-2);margin-bottom:.6rem;transition:.2s}.foot-cols .fc a:hover{color:var(--hi)}
+  .copy{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:.78rem;color:var(--faint);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+    <div class="nav-links">
+      <a href="/en/#services">Services</a>
+      <a href="/en/#sectors">Sectors</a>
+      <a href="/en/work/" class="active">Work</a>
+      <a href="/en/#why">Why NX</a>
+      <a href="/en/#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <span class="lang" onclick="location.href='/ar/work/'">عربي</span>
+      <a href="/en/#contact" class="btn btn-primary">Start a project</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="phero">
+  <div class="wrap">
+    <div class="crumb rv in"><a href="/en/">Home</a> / Work</div>
+    <span class="eyebrow rv in">Selected work</span>
+    <h1 class="rv in">Platforms engineered to <span class="g">survive scrutiny</span> — and scale.</h1>
+    <p class="rv in">A selection of systems we've built, hardened and certified across Saudi Arabia's most regulated sectors. Each one passed the audit that automated code never could.</p>
+    <div class="phero-stats rv in">
+      <div class="s"><b>150+</b><span>Systems shipped</span></div>
+      <div class="s"><b>7</b><span>Regulated verticals</span></div>
+      <div class="s"><b>100%</b><span>Compliance pass rate</span></div>
+      <div class="s"><b>0</b><span>Critical findings at delivery</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- FILTERS + GRID -->
+<section style="padding-bottom:20px">
+  <div class="wrap">
+    <div class="filters rv">
+      <span class="chip on" data-f="all">All work</span>
+      <span class="chip" data-f="fintech">FinTech</span>
+      <span class="chip" data-f="proptech">PropTech</span>
+      <span class="chip" data-f="healthtech">HealthTech</span>
+      <span class="chip" data-f="ecommerce">E-Commerce</span>
+      <span class="chip" data-f="insurtech">InsurTech</span>
+      <span class="chip" data-f="logistics">Logistics</span>
+    </div>
+
+    <div class="grid rv" id="grid">
+
+      <article class="case" data-cat="fintech">
+        <div class="vis"><div class="v-fin" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">FINTECH · OPEN BANKING</span><div class="big"><b>4.2M</b><span>transactions / day at launch peak</span></div></div>
+        <div class="body">
+          <div class="sect">Neobank Core Platform</div>
+          <h3>SAMA-licensed digital banking core</h3>
+          <p>Engineered the transaction ledger, Nafath-based KYC, and two-factor authorization layer for a Saudi neobank — clearing SAMA cybersecurity review on the first submission with zero critical findings.</p>
+          <div class="chips"><span>SAMA</span><span>Nafath</span><span>PCI-DSS</span><span>Microservices</span><span>Event-sourcing</span></div>
+          <div class="stats"><div class="st"><b>0</b><span>critical findings</span></div><div class="st"><b>99.99%</b><span>uptime SLA</span></div><div class="st"><b>11 wks</b><span>to production</span></div></div>
+        </div>
+      </article>
+
+      <article class="case" data-cat="proptech">
+        <div class="vis"><div class="v-prop" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">PROPTECH · REGA</span><div class="big"><b>0</b><span>double-bookings under live bidding</span></div></div>
+        <div class="body">
+          <div class="sect">Smart Brokerage Portal</div>
+          <h3>Real-time property bidding engine</h3>
+          <p>Built a concurrency-safe bidding and reservation system mapped to REGA and Ejar, eliminating the double-booking and deed-conflict failures that crippled the legacy platform during peak demand.</p>
+          <div class="chips"><span>REGA</span><span>Ejar</span><span>GIS</span><span>Event-sourcing</span></div>
+          <div class="stats"><div class="st"><b>3.4×</b><span>listing throughput</span></div><div class="st"><b>−68%</b><span>support tickets</span></div><div class="st"><b>A+</b><span>DD score</span></div></div>
+        </div>
+      </article>
+
+      <article class="case" data-cat="ecommerce">
+        <div class="vis"><div class="v-ecom" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">E-COMMERCE · HEADLESS</span><div class="big"><b>0.6s</b><span>page load at National Day peak</span></div></div>
+        <div class="body">
+          <div class="sect">Multi-Vendor Marketplace</div>
+          <h3>Headless commerce built for the surge</h3>
+          <p>Re-architected a marketplace that collapsed every National Day into an elastic, edge-cached microservices platform with ZATCA e-invoicing — now scaling automatically with traffic spikes.</p>
+          <div class="chips"><span>Headless</span><span>Edge cache</span><span>Auto-scale</span><span>ZATCA</span></div>
+          <div class="stats"><div class="st"><b>0 CLS</b><span>layout shift</span></div><div class="st"><b>12×</b><span>peak capacity</span></div><div class="st"><b>+41%</b><span>conversion</span></div></div>
+        </div>
+      </article>
+
+      <article class="case" data-cat="healthtech">
+        <div class="vis"><div class="v-health" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">HEALTHTECH · MOH</span><div class="big"><b>100%</b><span>PDPL data-handling compliance</span></div></div>
+        <div class="body">
+          <div class="sect">Telemedicine Architecture</div>
+          <h3>Virtual clinic & EHR integration</h3>
+          <p>Delivered a telemedicine platform integrated with MOH and Nafis, with end-to-end encrypted electronic health records engineered under the Saudi Personal Data Protection Law from the first commit.</p>
+          <div class="chips"><span>MOH</span><span>Nafis</span><span>EHR</span><span>E2E encryption</span></div>
+          <div class="stats"><div class="st"><b>40k+</b><span>consults / month</span></div><div class="st"><b>0</b><span>data incidents</span></div><div class="st"><b>4.8★</b><span>patient rating</span></div></div>
+        </div>
+      </article>
+
+      <article class="case" data-cat="insurtech">
+        <div class="vis"><div class="v-insur" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">INSURTECH · CCHI</span><div class="big"><b>72%</b><span>of claims auto-adjudicated</span></div></div>
+        <div class="body">
+          <div class="sect">Claims Automation Engine</div>
+          <h3>Multi-party claims adjustment platform</h3>
+          <p>Engineered an automated claims adjudication and risk-scoring engine with CCHI interoperability and Najm API integration, cutting manual review queues by more than two-thirds.</p>
+          <div class="chips"><span>CCHI</span><span>Najm</span><span>Risk scoring</span><span>Rules engine</span></div>
+          <div class="stats"><div class="st"><b>72%</b><span>auto-adjudicated</span></div><div class="st"><b>−59%</b><span>processing time</span></div><div class="st"><b>0</b><span>compliance gaps</span></div></div>
+        </div>
+      </article>
+
+      <article class="case" data-cat="logistics">
+        <div class="vis"><div class="v-log" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">LOGISTICS · WMS</span><div class="big"><b>−31%</b><span>cost per delivery</span></div></div>
+        <div class="body">
+          <div class="sect">Supply Chain Platform</div>
+          <h3>AI route optimization & smart WMS</h3>
+          <p>Built a real-time route optimization engine and warehouse management system with IoT asset telemetry, feeding a unified courier API hub that cut cost-per-delivery by nearly a third.</p>
+          <div class="chips"><span>Route AI</span><span>WMS</span><span>IoT telemetry</span><span>Courier API</span></div>
+          <div class="stats"><div class="st"><b>−31%</b><span>cost / delivery</span></div><div class="st"><b>2.1×</b><span>fleet utilization</span></div><div class="st"><b>98.7%</b><span>on-time rate</span></div></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- NDA / APPROACH BAND -->
+<section style="padding:0 0 20px">
+  <div class="wrap rv">
+    <div class="band">
+      <div class="band-in">
+        <span class="eyebrow">A note on confidentiality</span>
+        <h2>The work above is representative.</h2>
+        <p>Many of our most significant engagements — including SAMA-sandbox fintechs and PIF-affiliated platforms — sit under strict NDAs. The metrics shown reflect real outcomes from comparable projects; specific client identities are shared only under mutual agreement.</p>
+        <div class="nda"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg> Client names available under NDA on request</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:40px 0 0">
+  <div class="wrap rv">
+    <div class="cta">
+      <h2>Your platform could be the next case study.</h2>
+      <p>Tell us what you're building or scaling. We'll show you exactly how we'd engineer it to pass the audit.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">Start a conversation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="fb">
+        <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+        <p>Saudi Arabia's institutional-grade engineering partner. Built for compliance. Designed for scale.</p>
+        <div class="seals"><span>SAMA</span><span>ZATCA</span><span>NCA ECC 1.0</span><span>PDPL</span><span>PCI-DSS</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="fc"><b>Services</b>
+          <a href="/en/services/launch.html">NX Launch</a>
+          <a href="/en/services/grow.html">NX Grow</a>
+          <a href="/en/services/automation360.html">NX 360</a>
+          <a href="/en/services/connect.html">NX Connect</a>
+          <a href="/en/services/scale.html">NX Scale</a>
+        </div>
+        <div class="fc"><b>Company</b>
+          <a href="/en/work/">Our Work</a>
+          <a href="/en/#sectors">Sectors</a>
+          <a href="/en/#why">Why NX</a>
+          <a href="/en/#contact">Contact</a>
+        </div>
+        <div class="fc"><b>Legal</b>
+          <a href="/en/legal/privacy.html">Privacy (PDPL)</a>
+          <a href="/en/legal/terms.html">Terms</a>
+          <a href="/en/legal/sla.html">SLA</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© 2025 NX Solutions — Riyadh, Kingdom of Saudi Arabia.</span>
+      <span class="mono">CR No. XXXXXXXXXX</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
+
+  // filter
+  const chips=document.querySelectorAll('.chip'), cases=document.querySelectorAll('.case');
+  chips.forEach(c=>c.addEventListener('click',()=>{
+    chips.forEach(x=>x.classList.remove('on'));c.classList.add('on');
+    const f=c.dataset.f;
+    cases.forEach(ca=>{
+      const show=f==='all'||ca.dataset.cat===f;
+      ca.classList.toggle('hide',!show);
+    });
+  }));
+
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

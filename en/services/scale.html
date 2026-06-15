@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NX Scale — VC Due-Diligence Engine | NX Solutions</title>
+<meta name="description" content="Investor-readiness engineering: technical due diligence preparation, audit trails, governance and documentation that pass Series A to IPO scrutiny.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --canvas:#F6F7F9; --surface:#FFFFFF; --raise:#FFFFFF;
+    --ink:#0A1A2F; --ink-2:#3A4A60; --muted:#6B7888; --faint:#9AA6B6;
+    --line:#E7EBF0; --line-2:#EEF1F5;
+    --brand:#144272; --brand-2:#205295; --hi:#2C74B3; --sky:#5BA3DF;
+    --gold:#B7902E;
+    --grad:linear-gradient(135deg,#144272 0%,#205295 50%,#2C74B3 100%);
+    --r:14px; --r-lg:22px; --r-sm:10px;
+    --shadow-s:0 1px 2px rgba(10,26,47,.04),0 1px 1px rgba(10,26,47,.03);
+    --shadow-m:0 4px 24px -8px rgba(10,26,47,.10),0 1px 2px rgba(10,26,47,.04);
+    --shadow-l:0 30px 60px -24px rgba(20,66,114,.28);
+    --mono:'JetBrains Mono',monospace; --sans:'Plus Jakarta Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--canvas);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono)}
+
+  /* eyebrow */
+  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--hi);display:inline-flex;align-items:center;gap:.6rem}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--hi);opacity:.5}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;padding:.8rem 1.4rem;border-radius:var(--r-sm);transition:.25s cubic-bezier(.4,0,.2,1);cursor:pointer;border:1px solid transparent;white-space:nowrap}
+  .btn-primary{background:var(--brand);color:#fff;box-shadow:0 1px 2px rgba(20,66,114,.3)}
+  .btn-primary:hover{background:var(--brand-2);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(20,66,114,.45)}
+  .btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--hi);color:var(--hi)}
+  .btn svg{width:16px;height:16px}
+
+  /* ───── NAV ───── */
+  nav.bar{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:saturate(180%) blur(16px);background:rgba(246,247,249,.72);border-bottom:1px solid transparent;transition:.3s}
+  nav.bar.scrolled{background:rgba(255,255,255,.82);border-color:var(--line);box-shadow:var(--shadow-s)}
+  .bar-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.85rem;font-weight:800;box-shadow:0 4px 12px -2px rgba(44,116,179,.5)}
+  .nav-links{display:flex;align-items:center;gap:2rem}
+  .nav-links a{font-size:.88rem;font-weight:500;color:var(--ink-2);transition:.2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:.9rem}
+  .lang{font-family:var(--mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:.35rem .6rem;cursor:pointer;transition:.2s}
+  .lang:hover{border-color:var(--hi);color:var(--hi)}
+  @media(max-width:860px){.nav-links{display:none}}
+
+  /* ───── HERO ───── */
+  .hero{position:relative;padding:160px 0 110px;overflow:hidden}
+  .hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .hero-mesh::before{content:"";position:absolute;top:-10%;right:-5%;width:55%;height:80%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.14),transparent 65%);filter:blur(10px)}
+  .hero-mesh::after{content:"";position:absolute;bottom:-20%;left:-10%;width:45%;height:70%;background:radial-gradient(circle at 50% 50%,rgba(32,82,149,.10),transparent 60%)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:1}
+  .hero h1{font-size:clamp(2.4rem,5.2vw,3.9rem);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin:1.5rem 0 1.4rem}
+  .hero h1 .ink-grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.lede{font-size:1.12rem;color:var(--ink-2);max-width:30em;margin-bottom:2.2rem}
+  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.6rem}
+  .hero-trust{display:flex;gap:1.8rem;flex-wrap:wrap;padding-top:1.6rem;border-top:1px solid var(--line)}
+  .hero-trust .t{display:flex;flex-direction:column;gap:.15rem}
+  .hero-trust .t b{font-family:var(--mono);font-size:1.35rem;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+  .hero-trust .t span{font-size:.74rem;color:var(--muted)}
+
+  /* ── 3D STACK SIGNATURE ── */
+  .stage{perspective:1400px;display:grid;place-items:center;min-height:440px}
+  .stack{position:relative;width:340px;height:380px;transform-style:preserve-3d;transition:transform .25s ease-out}
+  .layer{position:absolute;left:0;right:0;height:78px;border-radius:16px;background:rgba(255,255,255,.78);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.9);box-shadow:0 18px 40px -20px rgba(20,66,114,.45),inset 0 1px 0 rgba(255,255,255,.9);display:flex;align-items:center;gap:.95rem;padding:0 1.2rem;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s}
+  .layer .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,#EAF2FB,#D6E6F6);border:1px solid #CBDEF2}
+  .layer .ic svg{width:19px;height:19px;stroke:var(--brand-2);fill:none;stroke-width:1.6}
+  .layer .lx b{display:block;font-size:.84rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+  .layer .lx span{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+  .layer .chk{margin-left:auto;width:22px;height:22px;border-radius:50%;background:var(--grad);display:grid;place-items:center;flex-shrink:0;box-shadow:0 4px 10px -2px rgba(44,116,179,.5)}
+  .layer .chk svg{width:12px;height:12px;stroke:#fff;stroke-width:2.4;fill:none}
+  .l1{top:0;  transform:translateZ(60px)}
+  .l2{top:76px;transform:translateZ(30px)}
+  .l3{top:152px;transform:translateZ(0)}
+  .l4{top:228px;transform:translateZ(-30px)}
+  .l5{top:304px;transform:translateZ(-60px)}
+  .stack:hover .l1{transform:translateZ(90px) translateY(-4px)}
+  .stack:hover .l5{transform:translateZ(-90px)}
+  .stamp{position:absolute;right:-26px;bottom:-22px;width:104px;height:104px;border-radius:50%;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-l);display:grid;place-items:center;text-align:center;transform:translateZ(110px) rotate(-8deg);transition:.4s}
+  .stack:hover .stamp{transform:translateZ(140px) rotate(0)}
+  .stamp .ring{position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:50%;opacity:.5}
+  .stamp small{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;line-height:1.5;font-weight:600}
+  .stamp b{font-size:1.5rem;font-weight:800;color:var(--brand);letter-spacing:-.03em;line-height:1}
+
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:48px}
+    .stage{min-height:380px;order:-1}
+  }
+
+  /* ───── SECTION SHELL ───── */
+  section.sec{padding:96px 0;position:relative}
+  .sec-head{max-width:34em;margin-bottom:56px}
+  .sec-head h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin:1rem 0 .9rem}
+  .sec-head p{font-size:1.05rem;color:var(--ink-2)}
+
+  /* problem rail */
+  .rail{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .rail .cell{background:var(--surface);padding:30px 26px;transition:.3s}
+  .rail .cell:hover{background:#FCFDFE}
+  .cell .num{font-family:var(--mono);font-size:.72rem;color:var(--faint);letter-spacing:.1em}
+  .cell h4{font-size:1.02rem;font-weight:700;margin:1.1rem 0 .6rem;letter-spacing:-.01em}
+  .cell p{font-size:.88rem;color:var(--muted);line-height:1.6}
+  .cell .tag{margin-top:1.1rem;font-family:var(--mono);font-size:.7rem;color:var(--brand-2);display:inline-flex;align-items:center;gap:.4rem}
+  .cell .tag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
+  @media(max-width:860px){.rail{grid-template-columns:1fr}}
+
+  /* engine list — alternating rows */
+  .engine{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .erow{background:var(--surface);display:grid;grid-template-columns:64px 1fr auto;gap:24px;align-items:center;padding:26px 30px;transition:.3s;cursor:default}
+  .erow:hover{background:#FBFCFE}
+  .erow .eic{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center}
+  .erow .eic svg{width:22px;height:22px;stroke:var(--brand-2);fill:none;stroke-width:1.5}
+  .erow .etx b{font-size:1.05rem;font-weight:700;letter-spacing:-.015em;display:block;margin-bottom:.25rem}
+  .erow .etx span{font-size:.88rem;color:var(--muted)}
+  .erow .ecode{font-family:var(--mono);font-size:.72rem;color:var(--faint);text-align:right;white-space:nowrap}
+  @media(max-width:680px){.erow{grid-template-columns:48px 1fr;gap:18px}.erow .ecode{display:none}}
+
+  /* metrics band */
+  .band{background:var(--ink);border-radius:var(--r-lg);padding:64px 48px;position:relative;overflow:hidden}
+  .band::before{content:"";position:absolute;top:-40%;right:-10%;width:60%;height:160%;background:radial-gradient(circle,rgba(44,116,179,.25),transparent 60%)}
+  .band-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+  .band .m{text-align:left}
+  .band .m b{font-family:var(--mono);font-size:clamp(2rem,4vw,2.9rem);font-weight:600;color:#fff;letter-spacing:-.03em;line-height:1;display:block}
+  .band .m b .u{color:var(--sky)}
+  .band .m span{font-size:.82rem;color:rgba(255,255,255,.6);display:block;margin-top:.7rem;line-height:1.5}
+  @media(max-width:760px){.band-grid{grid-template-columns:1fr 1fr;gap:32px}.band{padding:44px 28px}}
+
+  /* stage timeline */
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:8px}
+  .flow .step{position:relative;padding:0 14px}
+  .flow .step .dot{width:14px;height:14px;border-radius:50%;background:var(--surface);border:2px solid var(--hi);position:relative;z-index:2;margin-bottom:20px}
+  .flow .step:not(:last-child)::after{content:"";position:absolute;top:6px;left:calc(50% + 7px);right:calc(-50% + 7px);height:2px;background:linear-gradient(90deg,var(--hi),var(--line))}
+  .flow .step.peak .dot{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 5px rgba(44,116,179,.15)}
+  .flow .step h5{font-size:.92rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.4rem}
+  .flow .step p{font-size:.78rem;color:var(--muted);line-height:1.5}
+  @media(max-width:760px){.flow{grid-template-columns:1fr;gap:24px}.flow .step:not(:last-child)::after{display:none}.flow .step{padding-left:0}}
+
+  /* certificate / guarantee */
+  .cert{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:48px;position:relative;overflow:hidden}
+  .cert::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold)}
+  .cert h3{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.8rem}
+  .cert p{font-size:.96rem;color:var(--ink-2);max-width:36em}
+  .cert .pts{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1.4rem}
+  .cert .pts span{font-family:var(--mono);font-size:.74rem;color:var(--ink-2);display:inline-flex;align-items:center;gap:.45rem}
+  .cert .pts span svg{width:14px;height:14px;stroke:var(--gold);stroke-width:2.2;fill:none}
+  .seal{width:130px;height:130px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;text-align:center;flex-shrink:0;position:relative;background:linear-gradient(135deg,#FFFDF6,#FFF8E8)}
+  .seal::before{content:"";position:absolute;inset:9px;border:1px dashed rgba(183,144,46,.4);border-radius:50%}
+  .seal b{font-size:1.7rem;font-weight:800;color:var(--brand);line-height:1}
+  .seal small{font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-top:.3rem}
+  @media(max-width:680px){.cert{grid-template-columns:1fr;text-align:center;padding:36px 26px}.cert .pts{justify-content:center}.seal{margin:0 auto}}
+
+  /* faq */
+  .faq{border-top:1px solid var(--line)}
+  .faq .q{border-bottom:1px solid var(--line);padding:24px 0;cursor:pointer}
+  .faq .q-head{display:flex;justify-content:space-between;align-items:center;gap:20px}
+  .faq .q-head b{font-size:1rem;font-weight:600;letter-spacing:-.01em}
+  .faq .q-head .pm{width:22px;height:22px;flex-shrink:0;position:relative;transition:.3s}
+  .faq .q-head .pm::before,.faq .q-head .pm::after{content:"";position:absolute;background:var(--hi);border-radius:2px}
+  .faq .q-head .pm::before{top:50%;left:3px;right:3px;height:2px;transform:translateY(-50%)}
+  .faq .q-head .pm::after{left:50%;top:3px;bottom:3px;width:2px;transform:translateX(-50%);transition:.3s}
+  .faq .q.open .pm::after{transform:translateX(-50%) scaleY(0)}
+  .faq .a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .faq .a p{font-size:.92rem;color:var(--ink-2);line-height:1.7;padding-top:14px}
+
+  /* cta */
+  .cta{background:var(--grad);border-radius:var(--r-lg);padding:72px 48px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.18),transparent 55%)}
+  .cta>*{position:relative;z-index:1}
+  .cta h2{color:#fff;font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-bottom:1rem}
+  .cta p{color:rgba(255,255,255,.82);font-size:1.05rem;max-width:30em;margin:0 auto 2rem}
+  .cta .btn-primary{background:#fff;color:var(--brand)}
+  .cta .btn-primary:hover{background:#F2F6FB;transform:translateY(-1px)}
+  .cta .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}
+  .cta .btn-ghost:hover{border-color:#fff}
+
+  /* related */
+  .rel{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+  .rel a{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;transition:.3s}
+  .rel a:hover{border-color:var(--hi);transform:translateY(-3px);box-shadow:var(--shadow-m)}
+  .rel a .rn{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.1em}
+  .rel a b{display:block;font-size:1rem;font-weight:700;margin:.6rem 0 .35rem;letter-spacing:-.01em}
+  .rel a span{font-size:.82rem;color:var(--muted);line-height:1.5}
+  @media(max-width:760px){.rel{grid-template-columns:1fr 1fr}}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+  .foot .fb{max-width:24em}
+  .foot .fb p{font-size:.86rem;color:var(--muted);margin-top:1rem}
+  .foot .seals{display:flex;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
+  .foot .seals span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:.35rem .6rem}
+  .foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+  .foot-cols .fc b{font-size:.74rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:1rem}
+  .foot-cols .fc a{display:block;font-size:.86rem;color:var(--ink-2);margin-bottom:.6rem;transition:.2s}
+  .foot-cols .fc a:hover{color:var(--hi)}
+  .copy{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:.78rem;color:var(--faint);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .rv.in{opacity:1;transform:none}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+    <div class="nav-links">
+      <a href="/en/#services">Services</a>
+      <a href="/en/#sectors">Sectors</a>
+      <a href="/en/#why">Why NX</a>
+      <a href="/en/#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <span class="lang" onclick="location.href='/ar/services/scale.html'">عربي</span>
+      <a href="#contact" class="btn btn-primary">Get Started
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ───── HERO ───── -->
+<header class="hero">
+  <div class="hero-mesh"></div>
+  <div class="wrap hero-grid">
+    <div class="rv in">
+      <span class="eyebrow">Module 05 — NX Matrix</span>
+      <h1>Pass technical<br>due diligence<br><span class="ink-grad">by design.</span></h1>
+      <p class="lede">Most startups don't fail diligence because the product is weak — they fail because the codebase, audit trails, governance and documentation were never built to institutional standards. NX Scale closes that gap before the term sheet arrives.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Request DD assessment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#engine" class="btn btn-ghost">What we engineer</a>
+      </div>
+      <div class="hero-trust">
+        <div class="t"><b>100%</b><span>Pass technical DD on first review</span></div>
+        <div class="t"><b>6&nbsp;wks</b><span>Average to data-room ready</span></div>
+        <div class="t"><b>0</b><span>Open critical findings at close</span></div>
+      </div>
+    </div>
+
+    <!-- 3D signature -->
+    <div class="stage">
+      <div class="stack" id="stack">
+        <div class="layer l1">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg></span>
+          <span class="lx"><b>Code & Coverage</b><span>92% verified</span></span>
+          <span class="chk"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        </div>
+        <div class="layer l2">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span>
+          <span class="lx"><b>Security — NCA ECC</b><span>0 criticals</span></span>
+          <span class="chk"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        </div>
+        <div class="layer l3">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+          <span class="lx"><b>Audit Trails</b><span>Immutable ledger</span></span>
+          <span class="chk"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        </div>
+        <div class="layer l4">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
+          <span class="lx"><b>Governance</b><span>RBAC + DR tested</span></span>
+          <span class="chk"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        </div>
+        <div class="layer l5">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h10l3 4v14H4V7zM4 7h16M9 13h6M9 17h4"/></svg></span>
+          <span class="lx"><b>Investor Docs</b><span>EN + AR ready</span></span>
+          <span class="chk"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        </div>
+        <div class="stamp">
+          <div class="ring"></div>
+          <div>
+            <small>DD&nbsp;Score</small>
+            <b>A+</b>
+            <small>Certified</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ───── PROBLEM ───── -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">The hidden deal-killer</span>
+      <h2>Why deals die in the data room</h2>
+      <p>Technical diligence ends more rounds than financial diligence. The same six failure modes appear again and again — each one with a measurable cost to your valuation.</p>
+    </div>
+    <div class="rail rv">
+      <div class="cell">
+        <div class="num">01</div>
+        <h4>No audit trails</h4>
+        <p>Transactions and user actions with no immutable log. Investors and regulators both require complete traceability from day one.</p>
+        <div class="tag">−20–35% valuation</div>
+      </div>
+      <div class="cell">
+        <div class="num">02</div>
+        <h4>Security findings</h4>
+        <p>Critical or high vulnerabilities, NCA ECC gaps, PDPL data-handling failures — any one can pause a round indefinitely.</p>
+        <div class="tag">round paused</div>
+      </div>
+      <div class="cell">
+        <div class="num">03</div>
+        <h4>Architecture ceiling</h4>
+        <p>A stack that can't support the growth model in your deck. Investors run the math — if it doesn't hold, neither does the deal.</p>
+        <div class="tag">remediation escrow</div>
+      </div>
+      <div class="cell">
+        <div class="num">04</div>
+        <h4>Missing documentation</h4>
+        <p>No decision records, no runbooks. DD teams read absent docs as absent knowledge — and price the key-man risk accordingly.</p>
+        <div class="tag">key-man discount</div>
+      </div>
+      <div class="cell">
+        <div class="num">05</div>
+        <h4>No test coverage</h4>
+        <p>Below 60% signals institutional risk. A codebase that can't be verified can't be valued with confidence.</p>
+        <div class="tag">lower valuation</div>
+      </div>
+      <div class="cell">
+        <div class="num">06</div>
+        <h4>Governance gaps</h4>
+        <p>No change management, no access control, no vendor-risk framework. Capital at scale requires governance evidence.</p>
+        <div class="tag">post-close clause</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ENGINE ───── -->
+<section class="sec" id="engine" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">The NX Scale engine</span>
+      <h2>Six workstreams. One investor-ready stack.</h2>
+      <p>Not a report — a systematic engineering intervention that closes every gap across code, infrastructure, governance and documentation.</p>
+    </div>
+    <div class="engine rv">
+      <div class="erow">
+        <span class="eic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>
+        <span class="etx"><b>Technical audit & gap analysis</b><span>A DD-readiness baseline scored against the exact criteria VC technical teams use.</span></span>
+        <span class="ecode">→ NX DD Scorecard</span>
+      </div>
+      <div class="erow">
+        <span class="eic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+        <span class="etx"><b>Audit-trail engineering</b><span>Immutable, signed event logging across transactions, user actions and system state.</span></span>
+        <span class="ecode">→ Live ledger</span>
+      </div>
+      <div class="erow">
+        <span class="eic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span>
+        <span class="etx"><b>Security hardening pack</b><span>Full remediation to pass institutional pentests — NCA ECC 1.0 and PDPL controls.</span></span>
+        <span class="ecode">→ Security dossier</span>
+      </div>
+      <div class="erow">
+        <span class="eic"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
+        <span class="etx"><b>Governance framework</b><span>Change management, RBAC, vendor risk and tested disaster recovery — operational, not just policy.</span></span>
+        <span class="ecode">→ Governance pack</span>
+      </div>
+      <div class="erow">
+        <span class="eic"><svg viewBox="0 0 24 24"><path d="M4 18l5-5 4 4 7-8M14 4h6v6"/></svg></span>
+        <span class="etx"><b>Architecture scalability uplift</b><span>Load-tested capacity aligned to the growth numbers in your investor deck.</span></span>
+        <span class="ecode">→ 10× headroom</span>
+      </div>
+      <div class="erow">
+        <span class="eic"><svg viewBox="0 0 24 24"><path d="M7 3h10l3 4v14H4V7zM4 7h16M9 13h6M9 17h4"/></svg></span>
+        <span class="etx"><b>Investor documentation package</b><span>Data-room-ready architecture, IP register and certification — produced in English and Arabic.</span></span>
+        <span class="ecode">→ EN + AR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── METRICS ───── -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="band">
+      <div class="band-grid">
+        <div class="m"><b>100<span class="u">%</span></b><span>Clients passing VC technical DD on first review</span></div>
+        <div class="m"><b>6<span class="u">w</span></b><span>Average from engagement to data-room ready</span></div>
+        <div class="m"><b>2.8<span class="u">M+</span></b><span>SAR average valuation uplift from clean DD</span></div>
+        <div class="m"><b>92<span class="u">%</span></b><span>Average test coverage achieved post-engagement</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── STAGE FLOW ───── -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Investment-stage coverage</span>
+      <h2>Calibrated to the scrutiny you'll face</h2>
+      <p>From your first institutional round to the technical disclosure requirements of a Tadawul listing — scope scales with the stage.</p>
+    </div>
+    <div class="flow rv">
+      <div class="step"><div class="dot"></div><h5>Pre-Seed / Seed</h5><p>Architecture foundation and security baseline before first institutional money.</p></div>
+      <div class="step peak"><div class="dot"></div><h5>Series A</h5><p>Full DD prep — audit trails, governance, scalability, documentation.</p></div>
+      <div class="step"><div class="dot"></div><h5>Series B / C</h5><p>Enterprise controls, cross-border compliance, board-level reporting.</p></div>
+      <div class="step"><div class="dot"></div><h5>Growth / PE</h5><p>Buy-side integration readiness and M&A data-room engineering.</p></div>
+      <div class="step"><div class="dot"></div><h5>Pre-IPO</h5><p>Tadawul Main Market disclosure and SOX-equivalent controls.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── GUARANTEE ───── -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="cert">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">NX Scale guarantee</span>
+        <h3 style="margin-top:1rem">If diligence surfaces a finding we missed, we fix it free.</h3>
+        <p>Every engagement carries a 90-day post-delivery guarantee. If a technical DD process surfaces an in-scope critical finding after we certify your stack, we remediate it at zero cost.</p>
+        <div class="pts">
+          <span><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>90-day window</span>
+          <span><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>All in-scope findings</span>
+          <span><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Written certification</span>
+        </div>
+      </div>
+      <div class="seal"><b>A+</b><small>Certified</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── FAQ ───── -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Common questions</span><h2>NX Scale, answered</h2></div>
+    <div class="faq rv">
+      <div class="q"><div class="q-head"><b>How early should we engage before a round?</b><span class="pm"></span></div><div class="a"><p>Ideally 3–6 months before your anticipated close. That allows time to audit, remediate and document without compressing your fundraising timeline. Engagements with 8+ weeks of lead time consistently outperform crisis-mode work started after the term sheet lands.</p></div></div>
+      <div class="q"><div class="q-head"><b>Our codebase is in poor shape — is this still viable?</b><span class="pm"></span></div><div class="a"><p>That's exactly who NX Scale is for. The scorecard surfaces every gap and we scope remediation accordingly. Severely distressed codebases typically reach investor-ready status in 10–16 weeks; we give you an honest timeline up front.</p></div></div>
+      <div class="q"><div class="q-head"><b>Do Saudi VCs really run rigorous technical DD?</b><span class="pm"></span></div><div class="a"><p>Increasingly yes — and international co-investors always do. Regional funds have built structured technical DD capabilities, and any round with a US, UK or EU co-investor brings institutional standards. The era of soft technical DD is ending.</p></div></div>
+      <div class="q"><div class="q-head"><b>What if a VC's team finds something you didn't?</b><span class="pm"></span></div><div class="a"><p>Our 90-day guarantee covers exactly that — in-scope findings are remediated at no cost. We make the commitment contractually binding rather than simply stating confidence.</p></div></div>
+      <div class="q"><div class="q-head"><b>Can you support M&A diligence, not just fundraising?</b><span class="pm"></span></div><div class="a"><p>Yes — both buy-side and sell-side. For acquisitions we also offer technical integration readiness assessments evaluating how two stacks merge with minimum disruption.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── CTA ───── -->
+<section class="sec" id="contact" style="padding-top:0">
+  <div class="wrap rv">
+    <div class="cta">
+      <h2>Is your stack investor-ready?</h2>
+      <p>Request a complimentary preliminary assessment. We'll review your codebase overview and return an honest baseline DD score — no obligation.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">Request free assessment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="mailto:hello@nx.sa" class="btn btn-ghost">Email the team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── RELATED ───── -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:32px"><span class="eyebrow">Complete the matrix</span><h2 style="font-size:1.6rem">Related services</h2></div>
+    <div class="rel rv">
+      <a href="/en/services/launch.html"><span class="rn">01</span><b>NX Launch</b><span>Institutional MVP, compliance-native from day one.</span></a>
+      <a href="/en/services/grow.html"><span class="rn">02</span><b>NX Grow</b><span>Tech-debt liquidation — the fast path to a clean audit.</span></a>
+      <a href="/en/services/automation360.html"><span class="rn">03</span><b>NX 360</b><span>Core automation — ZATCA, approvals, ERP, KYC.</span></a>
+      <a href="/en/services/connect.html"><span class="rn">04</span><b>NX Connect</b><span>Saudi regulatory integration — SAMA, ZATCA, Nafath.</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="fb">
+        <a href="/en/" class="logo"><span class="mark">NX</span> NX&nbsp;Solutions</a>
+        <p>Saudi Arabia's institutional-grade engineering partner. Built for compliance. Designed for scale.</p>
+        <div class="seals"><span>SAMA</span><span>ZATCA</span><span>NCA ECC 1.0</span><span>PDPL</span><span>PCI-DSS</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="fc"><b>NX Matrix</b>
+          <a href="/en/services/launch.html">NX Launch</a>
+          <a href="/en/services/grow.html">NX Grow</a>
+          <a href="/en/services/automation360.html">NX 360</a>
+          <a href="/en/services/connect.html">NX Connect</a>
+          <a href="/en/services/scale.html">NX Scale</a>
+        </div>
+        <div class="fc"><b>Company</b>
+          <a href="/en/#why">Why NX</a>
+          <a href="/en/#contact">Contact</a>
+          <a href="/en/legal/privacy.html">Privacy (PDPL)</a>
+          <a href="/en/legal/terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© 2025 NX Solutions — Riyadh, Kingdom of Saudi Arabia.</span>
+      <span class="mono">CR No. XXXXXXXXXX</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav shadow on scroll
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>12));
+
+  // 3D stack parallax on mouse
+  const stack=document.getElementById('stack');
+  const stage=stack.closest('.stage');
+  let raf;
+  stage.addEventListener('mousemove',e=>{
+    const r=stage.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{
+      stack.style.transform=`rotateY(${x*16}deg) rotateX(${-y*14}deg)`;
+    });
+  });
+  stage.addEventListener('mouseleave',()=>{stack.style.transform='rotateY(0) rotateX(0)';});
+
+  // idle float
+  let t=0;
+  (function float(){
+    if(!stage.matches(':hover')){t+=.012;stack.style.transform=`rotateY(${Math.sin(t)*6}deg) rotateX(${Math.cos(t*.8)*3}deg)`;}
+    requestAnimationFrame(float);
+  })();
+
+  // faq
+  document.querySelectorAll('.faq .q').forEach(q=>{
+    const a=q.querySelector('.a');
+    q.addEventListener('click',()=>{
+      const open=q.classList.contains('open');
+      document.querySelectorAll('.faq .q').forEach(o=>{o.classList.remove('open');o.querySelector('.a').style.maxHeight=null;});
+      if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+    });
+  });
+
+  // reveal
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
