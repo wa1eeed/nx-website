@@ -441,7 +441,7 @@ section.sec{padding:90px 0;position:relative}
 .bp:hover .s4{transform:translateZ(-120px) translateY(104px)}
 .bp-tag{position:absolute;left:-30px;top:-14px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;padding:.5rem .8rem;border-radius:8px;transform:translateZ(130px);box-shadow:var(--shadow-l)}
 .bp-tag b{color:var(--sky)}
-@media(max-width:860px){.p-home .stage{min-height:360px;order:-1}}
+@media(max-width:860px){.p-home .stage{min-height:360px}}
 
 /* =================================================================
    NX SCALE — 3D DD scorecard stack / engine list / stage flow / cert seal
