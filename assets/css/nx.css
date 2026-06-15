@@ -881,6 +881,66 @@ html[dir="rtl"] .phero::before{right:auto;left:-5%}
 .nxf-state .btn{margin-top:1.2rem}
 
 /* =================================================================
+   PROJECTS PAGE (alternating rows · laptop+phone device mockups)
+   ================================================================= */
+.project-row{padding:96px 0;border-bottom:1px solid var(--line)}
+.project-row:last-of-type{border-bottom:none}
+.project-row:nth-of-type(odd){background:linear-gradient(180deg,#FBFCFE,var(--canvas))}
+.project-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:64px;align-items:center}
+.project-row:nth-of-type(even) .project-grid{direction:rtl}
+.project-row:nth-of-type(even) .project-grid > *{direction:ltr}
+html[dir="rtl"] .project-row:nth-of-type(even) .project-grid{direction:ltr}
+html[dir="rtl"] .project-row:nth-of-type(even) .project-grid > *{direction:rtl}
+
+.project-text .tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hi);display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.2rem}
+.project-text .tag::before{content:"";width:20px;height:1px;background:var(--hi);opacity:.5}
+.project-text h2{font-size:clamp(2rem,3.6vw,2.8rem);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-bottom:.4rem;color:var(--ink)}
+.project-text h2 .name{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.project-text .tagline{font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.04em;margin-bottom:1.4rem}
+.project-text > p{font-size:1.02rem;color:var(--ink-2);line-height:1.7;margin-bottom:1.6rem;max-width:34em}
+.project-features{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem}
+.project-features li{display:flex;align-items:flex-start;gap:.7rem;font-size:.92rem;color:var(--ink-2);line-height:1.5}
+.project-features li::before{content:"";flex-shrink:0;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#E1ECF8,#D5E4F4);position:relative;margin-top:.2rem}
+.project-features li{position:relative}
+.project-features li::after{content:"";position:absolute;inset-inline-start:5px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--brand-2)}
+.project-stats{display:flex;gap:2.2rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid var(--line)}
+.project-stats .ps b{font-family:var(--mono);font-size:1.3rem;font-weight:600;color:var(--ink);letter-spacing:-.02em;display:block}
+.project-stats .ps span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono)}
+
+/* Device mockups */
+.project-visual{position:relative;display:flex;align-items:center;justify-content:center;padding:24px 12px 40px}
+.device-laptop{position:relative;width:100%;max-width:560px;aspect-ratio:16/10;padding:14px 14px 0;background:linear-gradient(180deg,#1f2937,#0f172a);border-radius:14px 14px 5px 5px;box-shadow:0 30px 60px -16px rgba(10,26,47,.35),0 6px 20px -6px rgba(10,26,47,.25)}
+.device-laptop::before{content:"";position:absolute;top:5px;left:50%;transform:translateX(-50%);width:60px;height:5px;background:#0a0f1a;border-radius:0 0 5px 5px;border:1px solid #1a2433}
+.device-laptop::after{content:"";position:absolute;left:-6%;right:-6%;bottom:-12px;height:14px;background:linear-gradient(180deg,#374151 0%,#1f2937 60%,#111827 100%);border-radius:0 0 18px 18px;box-shadow:0 8px 18px -6px rgba(10,26,47,.4)}
+.device-laptop .screen{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#144272,#205295,#2C74B3);background-size:200% 200%;border-radius:3px;overflow:hidden;animation:nxShimmer 8s ease-in-out infinite}
+.device-laptop .screen .placeholder-label{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.7);font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:24px}
+.device-laptop .screen .placeholder-label b{display:block;font-size:1rem;font-weight:700;color:#fff;letter-spacing:.04em;margin-bottom:.4rem;text-transform:none}
+.device-laptop .screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;position:relative;z-index:1}
+
+@keyframes nxShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.device-phone{position:absolute;bottom:0;width:120px;aspect-ratio:9/19;padding:8px 4px;background:#0f172a;border-radius:16px;box-shadow:0 16px 32px -8px rgba(10,26,47,.4),0 2px 6px -2px rgba(10,26,47,.3)}
+.device-phone::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:36%;height:5px;background:#000;border-radius:0 0 6px 6px}
+.device-phone .screen{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#205295,#2C74B3);border-radius:8px;overflow:hidden}
+.device-phone .screen .placeholder-label{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.6);font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-align:center;padding:8px}
+.device-phone .screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;position:relative;z-index:1}
+
+/* Laptop on left, phone overlapping bottom-right */
+.project-row:nth-of-type(odd) .device-phone{right:8%;bottom:-12px}
+.project-row:nth-of-type(even) .device-phone{left:8%;bottom:-12px}
+html[dir="rtl"] .project-row:nth-of-type(odd) .device-phone{right:auto;left:8%}
+html[dir="rtl"] .project-row:nth-of-type(even) .device-phone{left:auto;right:8%}
+
+@media(max-width:860px){
+  .project-row{padding:60px 0}
+  .project-grid{grid-template-columns:1fr;gap:48px}
+  .project-row:nth-of-type(even) .project-grid{direction:inherit}
+  .project-visual{padding:16px 8px 56px}
+  .device-laptop{max-width:420px}
+  .device-phone{width:96px}
+}
+
+/* =================================================================
    CONTACT PAGE (Zoho Desk widget + side info card)
    ================================================================= */
 .contact-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:32px;align-items:start}
