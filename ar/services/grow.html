@@ -135,15 +135,13 @@
 
 <section class="sec" id="contact" style="padding-top:0">
   <div class="wrap rv">
-    <div class="cta">
-      <h2>دع منصتك تنمو معك.</h2>
-      <p>ابدأ بتقييم — سنريك أين المشكلات بالضبط، ما تكلّفك فعلياً، وأسرع طريقة آمنة لتطويرها.</p>
-      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">احجز تقييماً مجانياً
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="mailto:hello@nx.sa" class="btn btn-ghost">hello@nx.sa</a>
+    <div class="form-cta">
+      <div class="form-intro">
+        <h2>دع منصتك تنمو معك.</h2>
+        <p>ابدأ بتقييم — سنريك أين المشكلات بالضبط، ما تكلّفك فعلياً، وأسرع طريقة آمنة لتطويرها.</p>
+        <span class="hint"><svg viewBox="0 0 24 24"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>نرد عادةً خلال يوم عمل واحد</span>
       </div>
+      <div class="form-host" data-nx-form></div>
     </div>
   </div>
 </section>
@@ -200,5 +198,6 @@ const mio=new IntersectionObserver(es=>es.forEach(e=>{
   const mt=document.getElementById('meters');if(mt)mio.observe(mt);
 </script>
 <script src="/assets/js/nx.js" defer></script>
+<script src="/assets/js/nx-form.js" defer></script>
 </body>
 </html>

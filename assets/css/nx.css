@@ -24,7 +24,7 @@
   --mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;
 }
 
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{font-family:var(--sans);background:var(--canvas);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
@@ -787,3 +787,100 @@ html[dir="rtl"] .phero::before{right:auto;left:-5%}
   html[dir="rtl"] .nav-drawer{left:auto;right:0;transform:translateX(100%);box-shadow:-24px 0 48px -16px rgba(10,26,47,.18)}
   html[dir="rtl"] .nav-drawer.open{transform:translateX(0)}
 }
+
+/* =================================================================
+   ONBOARDING CONTACT FORM (nx-form.js)
+   Section wrapper: .form-cta on gradient background, white card inside
+   ================================================================= */
+.form-cta{background:var(--grad);border-radius:var(--r-lg);padding:60px 48px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center}
+.form-cta::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(255,255,255,.18),transparent 55%);pointer-events:none}
+.form-cta>*{position:relative;z-index:1}
+.form-intro .eyebrow{color:rgba(255,255,255,.85)}
+.form-intro .eyebrow::before{background:rgba(255,255,255,.6)}
+.form-intro h2{color:#fff;font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin:1rem 0 1rem}
+.form-intro p{color:rgba(255,255,255,.82);font-size:1.02rem;max-width:30em}
+.form-intro .hint{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.4rem;font-family:var(--mono);font-size:.74rem;color:rgba(255,255,255,.6);letter-spacing:.04em}
+.form-intro .hint svg{width:14px;height:14px;stroke:var(--sky);fill:none;stroke-width:2}
+.form-host{background:var(--surface);border-radius:var(--r-lg);padding:32px;box-shadow:0 30px 60px -24px rgba(20,66,114,.4);min-height:400px}
+@media(max-width:860px){
+  .form-cta{grid-template-columns:1fr;padding:36px 24px;gap:28px}
+  .form-host{padding:24px}
+}
+
+/* ── form internals ── */
+.nxf{font-family:var(--sans)}
+/* `display:flex` on .nxf-state would otherwise win over [hidden]'s
+   default `display:none`. Re-assert it. Same for steps + track. */
+.nxf-step[hidden],.nxf-state[hidden],.nxf-track[hidden],.nxf-progress[hidden]{display:none}
+.nxf-progress{margin-bottom:1.6rem}
+.nxf-progress-text{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hi);display:block;margin-bottom:.55rem}
+.nxf-progress-bar{height:4px;background:var(--line-2);border-radius:3px;overflow:hidden}
+.nxf-progress-fill{height:100%;background:var(--grad);border-radius:3px;width:0%;transition:width .35s cubic-bezier(.4,0,.2,1)}
+
+.nxf-step{animation:nxfStepIn .35s cubic-bezier(.22,1,.36,1)}
+@keyframes nxfStepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.nxf-step-head{margin-bottom:1.4rem}
+.nxf-step-head h3{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-bottom:.4rem}
+.nxf-step-head p{font-size:.92rem;color:var(--muted)}
+
+.nxf-field{margin-bottom:1.1rem}
+.nxf-field>label{display:flex;align-items:center;gap:.5rem;font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.nxf-opt-tag{font-family:var(--mono);font-size:.62rem;color:var(--faint);background:var(--line-2);padding:.15rem .45rem;border-radius:5px;font-weight:500;letter-spacing:.04em}
+.nxf-field input[type=text],.nxf-field input[type=email],.nxf-field input[type=tel],.nxf-field textarea{width:100%;padding:.75rem .9rem;border:1px solid var(--line);border-radius:var(--r-sm);font-family:inherit;font-size:.95rem;color:var(--ink);background:var(--surface);transition:.2s;outline:none}
+.nxf-field input::placeholder,.nxf-field textarea::placeholder{color:var(--faint)}
+.nxf-field input:focus,.nxf-field textarea:focus{border-color:var(--hi);box-shadow:0 0 0 3px rgba(44,116,179,.12)}
+.nxf-field textarea{resize:vertical;min-height:80px;font-family:inherit}
+.nxf-field.err input,.nxf-field.err textarea{border-color:#D45A5E;box-shadow:0 0 0 3px rgba(212,90,94,.12)}
+.nxf-field.err .nxf-options{outline:2px solid #D45A5E;outline-offset:2px;border-radius:var(--r-sm)}
+.nxf-error{font-size:.78rem;color:#C0494C;margin-top:.4rem;min-height:1em}
+
+.nxf-input-group{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;transition:.2s}
+.nxf-input-group:focus-within{border-color:var(--hi);box-shadow:0 0 0 3px rgba(44,116,179,.12)}
+.nxf-input-group .nxf-prefix{padding:.75rem .9rem;font-family:var(--mono);font-size:.85rem;color:var(--muted);background:var(--line-2);border-inline-end:1px solid var(--line)}
+.nxf-input-group input{border:none!important;box-shadow:none!important;flex:1}
+
+/* visual option cards */
+.nxf-options{display:grid;gap:8px}
+.nxf-options-grid{grid-template-columns:repeat(4,1fr)}
+.nxf-options-grid-tight{grid-template-columns:repeat(5,1fr)}
+.nxf-options-stack{grid-template-columns:1fr 1fr 1fr}
+.nxf-opt{display:flex;align-items:center;gap:.6rem;padding:.7rem .8rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);cursor:pointer;transition:.2s;text-align:start;font-family:inherit}
+.nxf-opt:hover{border-color:var(--hi);transform:translateY(-1px)}
+.nxf-opt.on{border-color:var(--brand-2);background:#EEF4FB;box-shadow:0 0 0 3px rgba(44,116,179,.1)}
+.nxf-opt .nxf-opt-ic{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center;flex-shrink:0;color:var(--brand-2);transition:.2s}
+.nxf-opt .nxf-opt-ic svg{width:16px;height:16px}
+.nxf-opt.on .nxf-opt-ic{background:var(--grad);border-color:transparent;color:#fff}
+.nxf-opt .nxf-opt-tx{display:flex;flex-direction:column;min-width:0}
+.nxf-opt .nxf-opt-tx b{font-size:.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
+.nxf-opt .nxf-opt-tx span{font-size:.7rem;color:var(--muted);margin-top:.1rem;line-height:1.3}
+.nxf-options-grid .nxf-opt{padding:.6rem .7rem}
+.nxf-options-grid .nxf-opt-tx b{font-size:.78rem}
+@media(max-width:680px){
+  .nxf-options-grid{grid-template-columns:repeat(2,1fr)}
+  .nxf-options-grid-tight{grid-template-columns:repeat(2,1fr)}
+  .nxf-options-stack{grid-template-columns:1fr}
+}
+
+/* nav buttons */
+.nxf-nav{display:flex;gap:.6rem;margin-top:1.6rem;justify-content:space-between}
+.nxf-nav .btn{flex:1;justify-content:center;max-width:none}
+.nxf-nav .btn[data-go="next"],.nxf-nav .btn[data-submit]{flex:2}
+
+/* success / fail states */
+.nxf-state{text-align:center;padding:32px 16px;display:flex;flex-direction:column;align-items:center;gap:.6rem;animation:nxfStepIn .4s ease-out}
+.nxf-check{width:80px;height:80px;color:#1f9d5b;margin-bottom:.6rem}
+.nxf-check svg{width:100%;height:100%}
+.nxf-check circle{stroke-dasharray:152;stroke-dashoffset:152;animation:nxfDraw .55s ease-out forwards}
+.nxf-check path{stroke-dasharray:60;stroke-dashoffset:60;animation:nxfDraw .45s .35s ease-out forwards}
+.nxf-x{width:80px;height:80px;color:#C0494C;margin-bottom:.6rem}
+.nxf-x svg{width:100%;height:100%}
+@keyframes nxfDraw{to{stroke-dashoffset:0}}
+.nxf-state h3{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.nxf-state p{font-size:.95rem;color:var(--ink-2);max-width:34em;line-height:1.6}
+.nxf-state .nxf-meta{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted);margin-top:.3rem}
+.nxf-state .btn{margin-top:1.2rem}
+
+/* RTL adjustments */
+html[dir="rtl"] .nxf-opt{text-align:right}
+html[dir="rtl"] .nxf-nav .btn svg{transform:scaleX(-1)}
+html[dir="rtl"] .nxf-input-group .nxf-prefix{border-inline-end:none;border-inline-start:1px solid var(--line)}

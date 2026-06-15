@@ -246,15 +246,13 @@
 
 <section class="sec" id="contact" style="padding-top:0">
   <div class="wrap rv">
-    <div class="cta">
-      <h2>هل منظومتك جاهزة للمستثمر؟</h2>
-      <p>اطلب تقييماً مبدئياً مجانياً. سنراجع ملخص الكود ونعيد إليك بطاقة DD أساسية صريحة — بدون أي التزام.</p>
-      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-        <a href="https://wa.me/966XXXXXXXXX" class="btn btn-primary" target="_blank" rel="noopener">اطلب تقييماً مجانياً
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="mailto:hello@nx.sa" class="btn btn-ghost">راسل الفريق</a>
+    <div class="form-cta">
+      <div class="form-intro">
+        <h2>هل منظومتك جاهزة للمستثمر؟</h2>
+        <p>اطلب تقييماً مبدئياً مجانياً. سنراجع ملخص الكود ونعيد إليك بطاقة DD أساسية صريحة — بدون أي التزام.</p>
+        <span class="hint"><svg viewBox="0 0 24 24"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>نرد عادةً خلال يوم عمل واحد</span>
       </div>
+      <div class="form-host" data-nx-form></div>
     </div>
   </div>
 </section>
@@ -324,5 +322,6 @@ const stack=document.getElementById('stack');
   })();
 </script>
 <script src="/assets/js/nx.js" defer></script>
+<script src="/assets/js/nx-form.js" defer></script>
 </body>
 </html>
