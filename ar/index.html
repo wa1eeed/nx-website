@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=2">
+<link rel="stylesheet" href="/assets/css/nx.css?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
@@ -79,14 +79,42 @@
       </div>
     </div>
 
-    <!-- 3D blueprint -->
+    <!-- NX cloud network -->
     <div class="stage">
-      <div class="bp" id="bp">
-        <div class="bp-tag">منصة <b>مبنية للنمو</b></div>
-        <div class="slab s1"><div class="t">المرحلة 04</div><div class="b">الامتثال والتدقيق</div><div class="bar"><i style="width:100%"></i></div></div>
-        <div class="slab s2"><div class="t">المرحلة 03</div><div class="b">منطق الأعمال</div><div class="bar"><i style="width:92%"></i></div></div>
-        <div class="slab s3"><div class="t">المرحلة 02</div><div class="b">البيانات والتكاملات</div><div class="bar"><i style="width:88%"></i></div></div>
-        <div class="slab s4"><div class="t">المرحلة 01</div><div class="b">البنية التحتية السحابية</div><div class="bar"><i style="width:96%"></i></div></div>
+      <div class="netviz" role="img" aria-label="سحابة واحدة، كل القطاعات">
+        <svg viewBox="0 0 460 430" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <defs>
+            <linearGradient id="nvLine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#205295"/><stop offset="1" stop-color="#5BA3DF"/></linearGradient>
+            <radialGradient id="nvCore" cx="50%" cy="40%" r="62%"><stop offset="0" stop-color="#2C74B3"/><stop offset="1" stop-color="#144272"/></radialGradient>
+            <filter id="nvSh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#144272" flood-opacity="0.16"/></filter>
+          </defs>
+          <g class="nv-links" stroke="url(#nvLine)" stroke-width="1.5" stroke-linecap="round">
+            <path id="nvp1" d="M230 204 L230 72"/>
+            <path id="nvp2" d="M230 204 L382 168"/>
+            <path id="nvp3" d="M230 204 L318 348"/>
+            <path id="nvp4" d="M230 204 L142 348"/>
+            <path id="nvp5" d="M230 204 L78 168"/>
+          </g>
+          <g class="nv-packets" fill="#5BA3DF">
+            <circle r="2.6"><animateMotion dur="2.6s" begin="0.0s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#nvp1"/></animateMotion></circle>
+            <circle r="2.6"><animateMotion dur="2.6s" begin="0.5s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#nvp2"/></animateMotion></circle>
+            <circle r="2.6"><animateMotion dur="2.6s" begin="1.0s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#nvp3"/></animateMotion></circle>
+            <circle r="2.6"><animateMotion dur="2.6s" begin="1.5s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#nvp4"/></animateMotion></circle>
+            <circle r="2.6"><animateMotion dur="2.6s" begin="2.0s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#nvp5"/></animateMotion></circle>
+          </g>
+          <g class="nv-node" style="--d:0.0s"><circle cx="230" cy="72" r="33" fill="#fff" stroke="#DCE7F2" stroke-width="1.3" filter="url(#nvSh)"/><g transform="translate(218 60)" stroke="#205295" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M12 21s6-5.7 6-10a6 6 0 10-12 0c0 4.3 6 10 6 10z"/><circle cx="12" cy="11" r="2.4"/></g><text x="230" y="27" text-anchor="middle" class="nv-lab">لوجستيات</text></g>
+          <g class="nv-node" style="--d:0.6s"><circle cx="382" cy="168" r="33" fill="#fff" stroke="#DCE7F2" stroke-width="1.3" filter="url(#nvSh)"/><g transform="translate(370 156)" stroke="#205295" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M6.5 14.5h4"/></g><text x="382" y="221" text-anchor="middle" class="nv-lab">تقنية مالية</text></g>
+          <g class="nv-node" style="--d:1.2s"><circle cx="318" cy="348" r="33" fill="#fff" stroke="#DCE7F2" stroke-width="1.3" filter="url(#nvSh)"/><g transform="translate(306 336)" stroke="#205295" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M4 21h16M6 21V7l6-3 6 3v14"/><path d="M10 21v-5h4v5M9.5 10h1M13.5 10h1M9.5 13h1M13.5 13h1"/></g><text x="318" y="401" text-anchor="middle" class="nv-lab">تقنية عقارية</text></g>
+          <g class="nv-node" style="--d:1.8s"><circle cx="142" cy="348" r="33" fill="#fff" stroke="#DCE7F2" stroke-width="1.3" filter="url(#nvSh)"/><g transform="translate(130 336)" stroke="#205295" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M3 5h2l1.7 9.3a1 1 0 001 .8h8.2a1 1 0 001-.8L19 8H6.2"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></g><text x="142" y="401" text-anchor="middle" class="nv-lab">تجارة إلكترونية</text></g>
+          <g class="nv-node" style="--d:2.4s"><circle cx="78" cy="168" r="33" fill="#fff" stroke="#DCE7F2" stroke-width="1.3" filter="url(#nvSh)"/><g transform="translate(66 156)" stroke="#205295" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 3L3 10.5l6.5 2.5M21 3l-7 18-4.5-7.5M21 3L9.5 13"/></g><text x="78" y="221" text-anchor="middle" class="nv-lab">منصات الطلب</text></g>
+          <g class="nv-core">
+            <circle class="nv-ring" cx="230" cy="204" r="50"/>
+            <circle class="nv-ring nv-ring2" cx="230" cy="204" r="50"/>
+            <circle cx="230" cy="204" r="46" fill="url(#nvCore)" filter="url(#nvSh)"/>
+            <g transform="translate(216 190) scale(1.17)" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M7 18.5A4.5 4.5 0 016 9.6 6 6 0 0117.6 8.4 4 4 0 0117.5 18.5z"/><circle cx="9.5" cy="14" r="1"/><circle cx="13" cy="14.6" r="1"/><circle cx="11.2" cy="11.6" r="1"/></g>
+          </g>
+        </svg>
+        <span class="netviz-cap">سحابة واحدة، كل القطاعات</span>
       </div>
     </div>
   </div>
@@ -364,20 +392,8 @@
   </div>
 </footer>
 
-<script>
-  const bp=document.getElementById('bp'), stage=bp.closest('.stage');
-  let raf;
-  stage.addEventListener('mousemove',e=>{
-    const r=stage.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-    cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(()=>{bp.style.transform=`rotateY(${x*18+20}deg) rotateX(${-y*14+8}deg)`;});
-  });
-  stage.addEventListener('mouseleave',()=>{bp.style.transform='rotateY(20deg) rotateX(8deg)';});
-  let t=0;(function f(){if(!stage.matches(':hover')){t+=.01;bp.style.transform=`rotateY(${20+Math.sin(t)*6}deg) rotateX(${8+Math.cos(t*.8)*3}deg)`;}requestAnimationFrame(f);})();
-</script>
-<script src="/assets/js/nx.js?v=2" defer></script>
-<script src="/assets/js/nx-form.js?v=2" defer></script>
-<script src="/assets/js/nx-zoho.js?v=2" defer></script>
+<script src="/assets/js/nx.js?v=3" defer></script>
+<script src="/assets/js/nx-form.js?v=3" defer></script>
+<script src="/assets/js/nx-zoho.js?v=3" defer></script>
 </body>
 </html>

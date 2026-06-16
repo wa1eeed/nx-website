@@ -444,6 +444,29 @@ section.sec{padding:90px 0;position:relative}
 @media(max-width:860px){.p-home .stage{min-height:360px}}
 
 /* =================================================================
+   HOME — NX cloud network hero (interactive SVG constellation)
+   ================================================================= */
+.p-home .stage{perspective:none;min-height:0;display:block}
+.netviz{position:relative;width:100%;max-width:480px;margin-inline:auto}
+.netviz svg{width:100%;height:auto;display:block;overflow:visible}
+.nv-lab{font-family:var(--sans);font-size:13px;font-weight:600;fill:var(--ink-2);letter-spacing:-.01em}
+/* connection links: animated dashed energy flow */
+.nv-links path{stroke-dasharray:5 7;opacity:.55;animation:nvFlow 1.1s linear infinite}
+@keyframes nvFlow{to{stroke-dashoffset:-24}}
+/* pulsing core rings */
+.nv-ring{fill:none;stroke:var(--hi);stroke-width:1.4;transform-box:fill-box;transform-origin:center;animation:nvPulse 3s ease-out infinite}
+.nv-ring2{animation-delay:1.5s}
+@keyframes nvPulse{0%{transform:scale(.65);opacity:.5}70%{opacity:0}100%{transform:scale(1.5);opacity:0}}
+/* nodes drift gently in, then float */
+.nv-node{transform-box:fill-box;transform-origin:center;animation:nvFloat 6s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes nvFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.netviz-cap{display:block;text-align:center;margin-top:1rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+html[dir="rtl"] .netviz-cap{letter-spacing:.06em}
+html[dir="rtl"] .nv-lab{font-family:'Tajawal',var(--sans)}
+@media(prefers-reduced-motion:reduce){.nv-links path,.nv-ring,.nv-node,.nv-packets circle{animation:none!important}.nv-packets{display:none}}
+@media(max-width:860px){.netviz{max-width:380px}.p-home .stage{min-height:0}}
+
+/* =================================================================
    NX SCALE — 3D DD scorecard stack / engine list / stage flow / cert seal
    ================================================================= */
 .p-scale .stage{perspective:1400px;display:grid;place-items:center;min-height:440px}
@@ -608,8 +631,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
 .p-home .sec-head{margin-bottom:54px}
 .p-home .sec-head h2{font-size:clamp(1.8rem,3.8vw,2.7rem);letter-spacing:-.027em}
 .p-home .hero{padding:150px 0 100px}
-.p-home .hero-mesh::before{top:-15%;right:-8%;width:60%;height:90%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.14),transparent 65%)}
-.p-home .hero-mesh::after{content:"";position:absolute;bottom:-25%;left:-12%;width:50%;height:75%;background:radial-gradient(circle at 50% 50%,rgba(32,82,149,.09),transparent 60%)}
+.p-home .hero-mesh::before,.p-home .hero-mesh::after{display:none}
 .p-home .hero-grid{grid-template-columns:1.08fr .92fr;gap:56px}
 .p-home .hero h1{font-size:clamp(1.95rem,4vw,3.1rem);line-height:1.12;letter-spacing:-.02em;margin:1.4rem 0 1.4rem}
 .p-home .hero p.lede{margin-bottom:2.2rem}
@@ -641,6 +663,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
 .p-scale .cta p{font-size:1.05rem}
 .p-scale .foot-cols{gap:56px}
 @media(max-width:860px){.p-scale .hero-grid{grid-template-columns:1fr;gap:48px}}
+@media(max-width:860px){.p-home .hero-grid{grid-template-columns:1fr;gap:40px}}
 
 /* ─── WORK INDEX (.p-work) ─── */
 .p-work .case .vis{height:210px}
