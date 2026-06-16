@@ -5,6 +5,28 @@ Last updated: 2026-06-16.
 
 ---
 
+## 🖼️ Pending images (drop-in, no code change needed)
+
+Files go in `assets/images/work/brokerage/` with these EXACT names.
+Missing ones fall back to a clean gradient placeholder.
+
+**Real Estate Brokerage case study**
+- [x] `integration-1.png` — full-width hero (mapping / National Address) ✅ added
+- [ ] `integration-2.png` — REGA  ⚠️ *not received yet*
+- [ ] `integration-3.png` — Ejar  ⚠️ *not received yet*
+- [ ] `integration-4.png` — spatial analytics  ⚠️ *not received yet*
+- [x] `integration-5.png` — 3D city view ✅ added
+- [ ] `laptop-1.png`, `laptop-2.png`, `laptop-3.png` — homepage work-card laptop carousel
+- [ ] `phone-1.png`, `phone-2.png` — homepage work-card phone carousel
+- [ ] `dashboard-1.png` (Listings), `dashboard-2.png` (Live bidding),
+      `dashboard-3.png` (Contracts/Ejar), `dashboard-4.png` (Map & GIS) — detail-page laptop frames
+
+> See `assets/images/work/brokerage/_PLACEHOLDER_README.txt` for sizes.
+> Also: optimise `integration-*.png` for web (currently ~1.2–1.4 MB each;
+> resize to ≤1280px and/or compress) before heavy traffic.
+
+---
+
 ## 🔴 P0 — Blockers / must-do before go-live confidence
 
 - [ ] **Redeploy on Coolify** and hard-refresh to confirm the latest hero
@@ -72,7 +94,13 @@ Last updated: 2026-06-16.
 - [x] Legal pages (Privacy/PDPL, Terms, SLA) in EN + AR + sitemap.
 - [x] Footer "Policies & Compliance" rename + tagline matched to SEO.
 - [x] Removed phone/WhatsApp from contact; fixed form step-3 overflow.
-- [x] Root `/` share meta + favicon cache-bust (?v=5).
+- [x] Root `/` share meta + favicon cache-bust.
+- [x] Google Analytics 4 (gtag) + Google Tag Manager (GTM-W6KJDFJJ).
+- [x] Fixed Arabic hero labels (SVG→HTML overlay) + reworded hero/trust copy.
+- [x] Replaced text compliance badges with real regulator logos (7 authorities).
+- [x] IBP screenshots now fit the laptop frame (matched aspect ratio).
+- [x] Real Estate Brokerage case study: device-mockup work card + full
+      detail page (EN + AR) + integration grid + CTA → form (images pending above).
 
 ---
 

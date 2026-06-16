@@ -92,18 +92,25 @@ orders). Pure SVG + CSS/SMIL — **zero JS, no library**, respects
 
 ---
 
-## 4. Integrations (Zoho)
+## 4. Integrations (Zoho + Google)
 
 | Tool | Purpose | Where | Notes |
 |------|---------|-------|-------|
-| **CRM Web-to-Lead** | Capture onboarding-form leads | `assets/js/nx-form.js` | Posts via a hidden iframe (native form POST, `x-www-form-urlencoded`). Endpoint `crm.zoho.sa`. Fields: Name, Email, Phone, Company, Role, Sector, Note. |
-| **Desk feedback widget** | Contact-page support form | `en|ar/contact.html` | Embedded iframe (`desk.zoho.sa`). |
-| **SalesIQ** | Live chat + visitor tracking | `assets/js/nx-zoho.js` | `salesiq.zohopublic.sa`. |
-| **PageSense** | Heatmaps / recordings | `assets/js/nx-zoho.js` | Loaded **async** (non-blocking) to protect page speed. The anti-flicker head snippet is intentionally NOT used (no visual A/B test running). |
+| **Zoho CRM Web-to-Lead** | Capture onboarding-form leads | `assets/js/nx-form.js` | Posts via a hidden iframe (native form POST, `x-www-form-urlencoded`). Endpoint `crm.zoho.sa`. Fields: Name, Email, Phone, Company, Role, Sector, Note. |
+| **Zoho Desk feedback widget** | Contact-page support form | `en|ar/contact.html` | Embedded iframe (`desk.zoho.sa`). |
+| **Zoho SalesIQ** | Live chat + visitor tracking | `assets/js/nx-zoho.js` | `salesiq.zohopublic.sa`. |
+| **Zoho PageSense** | Heatmaps / recordings | `assets/js/nx-zoho.js` | Loaded **async** (non-blocking) to protect page speed. The anti-flicker head snippet is intentionally NOT used (no visual A/B test running). |
+| **Google Analytics 4** | Measurement | `assets/js/nx-zoho.js` (block 4) | gtag.js, property `G-PH5BPW7MM2`. |
+| **Google Tag Manager** | Tag container | inline in every page `<head>` + `<body>` noscript | `GTM-W6KJDFJJ`. NOT in `nx-zoho.js` — a tag manager must load early in `<head>`. Marked with `<!-- Google Tag Manager -->` comments. |
 
-**All third-party scripts live in one file — [`nx-zoho.js`](../assets/js/nx-zoho.js)** —
+**All Zoho + GA scripts live in one file — [`nx-zoho.js`](../assets/js/nx-zoho.js)** —
 loaded `defer` and injected after the page is interactive, so they never block
 first paint / LCP. To update a widget, change only its URL/token in that file.
+(GTM is the exception — see the table note.)
+
+> ⚠️ GA4 (gtag) and GTM both write to `window.dataLayer` and coexist. If GTM is
+> later set to fire the same GA4 property, remove the standalone gtag block in
+> `nx-zoho.js` to avoid double-counting.
 
 > ⚠️ The "Zoho Marketing Automation (ZMA)" snippet supplied earlier was a
 > duplicate of the PageSense URL, so it was **not** added (would double-load
@@ -139,6 +146,7 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
 | services/connect | live regulatory badge grid |
 | work | filterable case-study grid |
 | projects | 4 platforms with laptop/phone device frames + IBP carousel |
+| work/real-estate-brokerage | case-study detail page: device-mockup hero card on home → 4 dashboard sections, regulator strip, integration image grid, CTA → form |
 
 ---
 
@@ -148,10 +156,10 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
   304s); fonts + images = 30-day cache; HTML = `no-cache`.
 - Every `nx.css` / `nx.js` / `nx-form.js` / `nx-zoho.js` reference carries a
   `?v=N` query. **Bump `N` on every CSS/JS change** so already-cached browsers
-  fetch the new file immediately. Currently at **`v=4`**.
+  fetch the new file immediately. Currently at **`v=10`**.
   ```bash
-  # bump from v=4 to v=5 across all pages:
-  grep -rl '?v=4' en/ ar/ | xargs sed -i '' 's/?v=4/?v=5/g'
+  # bump the version across all pages (replace 10→11 etc.):
+  grep -rl '?v=10' en/ ar/ index.html | xargs sed -i '' 's/?v=10/?v=11/g'
   ```
 
 ---
