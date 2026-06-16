@@ -257,4 +257,52 @@
     <lastmod>2026-06-15</lastmod>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://nx.sa/en/legal/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/legal/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/legal/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/legal/privacy.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/legal/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/legal/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/legal/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/legal/privacy.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/en/legal/terms.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/legal/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/legal/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/legal/terms.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/legal/terms.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/legal/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/legal/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/legal/terms.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/en/legal/sla.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/legal/sla.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/legal/sla.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/legal/sla.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/legal/sla.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/legal/sla.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/legal/sla.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/legal/sla.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.3</priority>
+  </url>
 </urlset>

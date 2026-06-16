@@ -878,11 +878,27 @@ html[dir="rtl"] .phero::before{right:auto;left:-5%}
 .nxf-input-group input{border:none!important;box-shadow:none!important;flex:1}
 
 /* visual option cards */
+/* legal / policy pages */
+.legal-content{max-width:840px}
+.legal-content h2{font-size:1.32rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:2.4rem 0 .7rem}
+.legal-content h2:first-child{margin-top:0}
+.legal-content h3{font-size:1.02rem;font-weight:700;color:var(--ink);margin:1.5rem 0 .4rem}
+.legal-content p,.legal-content li{color:var(--ink-2);font-size:.98rem;line-height:1.85}
+.legal-content p{margin:0 0 1rem}
+.legal-content ul{margin:.4rem 0 1.2rem;padding-inline-start:1.25rem;display:flex;flex-direction:column;gap:.45rem}
+.legal-content li::marker{color:var(--hi)}
+.legal-content strong{color:var(--ink);font-weight:700}
+.legal-content a{color:var(--brand-2);text-decoration:underline}
+.legal-updated{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--muted);background:var(--canvas);border:1px solid var(--line);border-radius:8px;padding:.4rem .7rem;margin-bottom:1.6rem}
+.legal-toc{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem;padding:0;list-style:none}
+.legal-toc a{font-size:.8rem;font-weight:600;color:var(--brand-2);background:#EEF4FB;border:1px solid #D5E4F4;border-radius:8px;padding:.4rem .75rem;text-decoration:none}
+.legal-toc a:hover{background:var(--brand);color:#fff}
+
 .nxf-options{display:grid;gap:8px}
-.nxf-options-grid{grid-template-columns:repeat(4,1fr)}
-.nxf-options-grid-tight{grid-template-columns:repeat(5,1fr)}
+.nxf-options-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.nxf-options-grid-tight{grid-template-columns:repeat(auto-fit,minmax(104px,1fr))}
 .nxf-options-stack{grid-template-columns:1fr 1fr 1fr}
-.nxf-opt{display:flex;align-items:center;gap:.6rem;padding:.7rem .8rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);cursor:pointer;transition:.2s;text-align:start;font-family:inherit}
+.nxf-opt{display:flex;align-items:center;gap:.6rem;min-width:0;padding:.7rem .8rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);cursor:pointer;transition:.2s;text-align:start;font-family:inherit}
 .nxf-opt:hover{border-color:var(--hi);transform:translateY(-1px)}
 .nxf-opt.on{border-color:var(--brand-2);background:#EEF4FB;box-shadow:0 0 0 3px rgba(44,116,179,.1)}
 .nxf-opt .nxf-opt-ic{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center;flex-shrink:0;color:var(--brand-2);transition:.2s}

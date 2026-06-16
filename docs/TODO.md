@@ -69,6 +69,10 @@ Last updated: 2026-06-16.
 - [x] SEO repositioning (AR "الشريك التقني..."; EN global, no "Saudi").
 - [x] Brand favicon (NX monogram) + apple-touch-icon + OG social image.
 - [x] Project + deploy documentation (`docs/`).
+- [x] Legal pages (Privacy/PDPL, Terms, SLA) in EN + AR + sitemap.
+- [x] Footer "Policies & Compliance" rename + tagline matched to SEO.
+- [x] Removed phone/WhatsApp from contact; fixed form step-3 overflow.
+- [x] Root `/` share meta + favicon cache-bust (?v=5).
 
 ---
 
