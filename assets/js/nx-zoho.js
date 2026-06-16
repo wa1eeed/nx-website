@@ -47,6 +47,24 @@
        URL above (a copy/paste duplicate), so it is intentionally
        NOT loaded a second time. When the real ZMA / Zoho Campaigns
        tracking code is available, add its block here. */
+
+    /* ---- 4) Google Analytics 4 — gtag.js (G-PH5BPW7MM2) ----
+       Loaded async (non-blocking). dataLayer + gtag are defined
+       before the library so the initial config/page_view is queued
+       and flushed once gtag.js arrives. To change the property,
+       edit GA_ID only. To disable, comment out this block. */
+    var GA_ID = 'G-PH5BPW7MM2';
+    if (!document.getElementById('ga4script')) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_ID);
+      var ga = document.createElement('script');
+      ga.id = 'ga4script';
+      ga.async = true;
+      ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      head.appendChild(ga);
+    }
   }
 
   if (document.readyState === 'complete') {
