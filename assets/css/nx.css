@@ -234,14 +234,20 @@ html[dir="rtl"] .trust-in .lbl{font-family:'Tajawal',var(--sans);font-size:.92re
 @media(max-width:760px){.work{grid-template-columns:1fr}}
 /* work card with live device mockups (laptop + phone) in the dark header */
 a.case{text-decoration:none;color:inherit}
-.case.has-devices .vis{height:248px}
-.case .dev-duo{position:absolute;left:0;right:0;bottom:-12px;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;padding:0 8px}
-.case .dev-duo .device-laptop{max-width:212px;margin:0}
-.case .dev-duo .device-phone{position:relative;left:auto;right:auto;bottom:auto;width:58px;margin-inline-start:-30px;margin-bottom:10px;z-index:4}
-.case .vis .case-more{position:absolute;top:16px;right:16px;z-index:5;font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:.3rem .55rem;border-radius:7px;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap}
-.case .vis .case-more svg{width:13px;height:13px}
-html[dir="rtl"] .case .vis .case-more{right:auto;left:16px}
-a.case:hover .case-more{background:var(--brand);border-color:var(--brand)}
+/* device mockups sit FULLY inside the dark header (centred, not clipped) */
+.case.has-devices .vis{height:262px}
+.case .dev-duo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:34px 12px 16px}
+.case .dev-duo .device-laptop{max-width:206px;margin:0}
+.case .dev-duo .device-phone{position:relative;left:auto;right:auto;bottom:auto;width:54px;margin-inline-start:-28px;margin-bottom:12px;z-index:4}
+/* footer "view case study" button (replaces the stat row) */
+.case .case-cta{margin-top:auto;padding-top:1.3rem;border-top:1px solid var(--line);display:flex}
+.case .case-cta .btn{width:100%;justify-content:center}
+a.case:hover .case-cta .btn-primary{background:var(--brand-2)}
+/* animated API chip */
+.case .chips .api{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.66rem;color:#fff;background:var(--grad);border-radius:6px;padding:.25rem .55rem;letter-spacing:.04em}
+.case .chips .api i{width:5px;height:5px;border-radius:50%;background:#fff;animation:apiPulse 1.3s ease-in-out infinite}
+@keyframes apiPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,.7)}50%{opacity:.45;box-shadow:0 0 0 5px rgba(255,255,255,0)}}
+@media(prefers-reduced-motion:reduce){.case .chips .api i{animation:none}}
 /* detail page: regulatory / map integration image grid */
 .integration-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:1.8rem}
 .integration-grid figure{margin:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:linear-gradient(135deg,#0d2138,#16335a);transition:.3s}

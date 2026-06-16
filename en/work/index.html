@@ -20,10 +20,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=11">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=11">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png?v=11">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=11">
+<link rel="stylesheet" href="/assets/css/nx.css?v=13">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=13">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png?v=13">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=13">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#136B7E">
 <link rel="alternate" hreflang="en" href="https://nx.sa/en/work/">
@@ -104,21 +104,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sect">Neobank Core Platform</div>
           <h3>SAMA-licensed digital banking core</h3>
           <p>Engineered the transaction ledger, Nafath-based KYC, and two-factor authorization layer for a Saudi neobank, clearing SAMA cybersecurity review on the first submission with zero critical findings.</p>
-          <div class="chips"><span>SAMA</span><span>Nafath</span><span>PCI-DSS</span><span>Microservices</span><span>Event-sourcing</span></div>
+          <div class="chips"><span>SAMA</span><span>Nafath</span><span>PCI-DSS</span><span>Microservices</span><span>Event-sourcing</span><span class="api">API <i></i></span></div>
           <div class="stats"><div class="st"><b>0</b><span>critical findings</span></div><div class="st"><b>99.99%</b><span>uptime SLA</span></div><div class="st"><b>11 wks</b><span>to production</span></div></div>
         </div>
       </article>
 
-      <article class="case" data-cat="proptech">
-        <div class="vis"><div class="v-prop" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">PROPTECH · REGA</span><div class="big"><b>0</b><span>double-bookings under live bidding</span></div></div>
+      <a class="case c-prop has-devices" data-cat="proptech" href="/en/work/real-estate-brokerage.html">
+        <div class="vis"><div class="mesh"></div><div class="grid-ov"></div><span class="pill">PROPTECH · REGA</span><div class="dev-duo"><div class="device-laptop"><div class="screen"><div class="carousel" data-carousel data-interval="2600"><div class="slide active"><div class="placeholder-gradient"><b>Brokerage</b>Listings</div><img src="/assets/images/work/brokerage/laptop-1.png" alt="Brokerage Listings" loading="lazy" onerror="this.style.display='none'"></div><div class="slide"><div class="placeholder-gradient"><b>Brokerage</b>Live auction</div><img src="/assets/images/work/brokerage/laptop-2.png" alt="Brokerage Live auction" loading="lazy" onerror="this.style.display='none'"></div><div class="slide"><div class="placeholder-gradient"><b>Brokerage</b>Map & GIS</div><img src="/assets/images/work/brokerage/laptop-3.png" alt="Brokerage Map & GIS" loading="lazy" onerror="this.style.display='none'"></div></div></div></div><div class="device-phone"><div class="screen"><div class="carousel" data-carousel data-interval="3000"><div class="slide active"><div class="placeholder-gradient"></div><img src="/assets/images/work/brokerage/phone-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></div><div class="slide"><div class="placeholder-gradient"></div><img src="/assets/images/work/brokerage/phone-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></div></div></div></div></div></div>
         <div class="body">
           <div class="sect">Smart Brokerage Portal</div>
           <h3>Real-time property bidding engine</h3>
           <p>Built a concurrency-safe bidding and reservation system mapped to REGA and Ejar, eliminating the double-booking and deed-conflict failures that crippled the legacy platform during peak demand.</p>
-          <div class="chips"><span>REGA</span><span>Ejar</span><span>GIS</span><span>Event-sourcing</span></div>
-          <div class="stats"><div class="st"><b>3.4×</b><span>listing throughput</span></div><div class="st"><b>−68%</b><span>support tickets</span></div><div class="st"><b>A+</b><span>DD score</span></div></div>
+          <div class="chips"><span>REGA</span><span>Ejar</span><span>GIS</span><span>Event-sourcing</span><span class="api">API <i></i></span></div>
+          <div class="case-cta"><span class="btn btn-primary">View case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
-      </article>
+      </a>
 
       <article class="case" data-cat="ecommerce">
         <div class="vis"><div class="v-ecom" style="position:absolute;inset:0"></div><div class="grid-ov"></div><span class="pill">E-COMMERCE · HEADLESS</span><div class="big"><b>0.6s</b><span>page load at National Day peak</span></div></div>
@@ -126,7 +126,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sect">Multi-Vendor Marketplace</div>
           <h3>Headless commerce built for the surge</h3>
           <p>Re-architected a marketplace that collapsed every National Day into an elastic, edge-cached microservices platform with ZATCA e-invoicing, now scaling automatically with traffic spikes.</p>
-          <div class="chips"><span>Headless</span><span>Edge cache</span><span>Auto-scale</span><span>ZATCA</span></div>
+          <div class="chips"><span>Headless</span><span>Edge cache</span><span>Auto-scale</span><span>ZATCA</span><span class="api">API <i></i></span></div>
           <div class="stats"><div class="st"><b>0 CLS</b><span>layout shift</span></div><div class="st"><b>12×</b><span>peak capacity</span></div><div class="st"><b>+41%</b><span>conversion</span></div></div>
         </div>
       </article>
@@ -137,7 +137,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sect">Telemedicine Architecture</div>
           <h3>Virtual clinic & EHR integration</h3>
           <p>Delivered a telemedicine platform integrated with MOH and Nafis, with end-to-end encrypted electronic health records engineered under the Saudi Personal Data Protection Law from the first commit.</p>
-          <div class="chips"><span>MOH</span><span>Nafis</span><span>EHR</span><span>E2E encryption</span></div>
+          <div class="chips"><span>MOH</span><span>Nafis</span><span>EHR</span><span>E2E encryption</span><span class="api">API <i></i></span></div>
           <div class="stats"><div class="st"><b>40k+</b><span>consults / month</span></div><div class="st"><b>0</b><span>data incidents</span></div><div class="st"><b>4.8★</b><span>patient rating</span></div></div>
         </div>
       </article>
@@ -148,7 +148,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sect">Claims Automation Engine</div>
           <h3>Multi-party claims adjustment platform</h3>
           <p>Engineered an automated claims adjudication and risk-scoring engine with CCHI interoperability and Najm API integration, cutting manual review queues by more than two-thirds.</p>
-          <div class="chips"><span>CCHI</span><span>Najm</span><span>Risk scoring</span><span>Rules engine</span></div>
+          <div class="chips"><span>CCHI</span><span>Najm</span><span>Risk scoring</span><span>Rules engine</span><span class="api">API <i></i></span></div>
           <div class="stats"><div class="st"><b>72%</b><span>auto-adjudicated</span></div><div class="st"><b>−59%</b><span>processing time</span></div><div class="st"><b>0</b><span>compliance gaps</span></div></div>
         </div>
       </article>
@@ -159,7 +159,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sect">Supply Chain Platform</div>
           <h3>AI route optimization & smart WMS</h3>
           <p>Built a real-time route optimization engine and warehouse management system with IoT asset telemetry, feeding a unified courier API hub that cut cost-per-delivery by nearly a third.</p>
-          <div class="chips"><span>Route AI</span><span>WMS</span><span>IoT telemetry</span><span>Courier API</span></div>
+          <div class="chips"><span>Route AI</span><span>WMS</span><span>IoT telemetry</span><span>Courier API</span><span class="api">API <i></i></span></div>
           <div class="stats"><div class="st"><b>−31%</b><span>cost / delivery</span></div><div class="st"><b>2.1×</b><span>fleet utilization</span></div><div class="st"><b>98.7%</b><span>on-time rate</span></div></div>
         </div>
       </article>
@@ -245,8 +245,8 @@ const chips=document.querySelectorAll('.chip'), cases=document.querySelectorAll(
   }));
 
 </script>
-<script src="/assets/js/nx.js?v=11" defer></script>
-<script src="/assets/js/nx-form.js?v=11" defer></script>
-<script src="/assets/js/nx-zoho.js?v=11" defer></script>
+<script src="/assets/js/nx.js?v=13" defer></script>
+<script src="/assets/js/nx-form.js?v=13" defer></script>
+<script src="/assets/js/nx-zoho.js?v=13" defer></script>
 </body>
 </html>

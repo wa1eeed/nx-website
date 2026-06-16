@@ -148,6 +148,16 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
 | projects | 4 platforms with laptop/phone device frames + IBP carousel |
 | work/real-estate-brokerage | case-study detail page: device-mockup hero card on home → 4 dashboard sections, regulator strip, integration image grid, CTA → form |
 
+### Work-card sync rule (IMPORTANT)
+The "Selected work" cards on the homepage (`#work` in `en|ar/index.html`) and the
+cards on the Work index (`en|ar/work/index.html`) must stay **in sync**. Whenever a
+work is added or changed, update **both** places. Card template (a work that has a
+detail page): `<a class="case c-<sector> has-devices" [data-cat on /work/]>` with a
+laptop+phone device cluster in the dark `.vis`, chips (incl. the animated `.api`
+chip), and a footer `.case-cta` "View case study" button → the detail page. Works
+without a detail page yet keep their stat header/footer + the `.api` chip until one
+is built (then flip them to the full template in both places).
+
 ---
 
 ## 7. Caching & cache-busting

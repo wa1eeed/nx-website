@@ -50,6 +50,19 @@ Missing ones fall back to a clean gradient placeholder.
 - [ ] **Verify Arabic typography** of the new hero labels (Tajawal) and the
       SEO titles render correctly across browsers.
 
+## 🟠 P1 — Selected-work cards
+
+- [x] Brokerage card: full template (devices fully visible in dark header,
+      footer "View case study" button replacing stats, animated API chip) on
+      **both** homepage `#work` and `/work/` index.
+- [x] Added the animated `.api` chip to all work cards (home + `/work/`).
+- [ ] **Build detail pages for the other works** (fintech/neobank, e-commerce,
+      healthtech, insurtech, logistics) so each card can flip to the full
+      device + footer-button template. Needs content + screenshots per work.
+      Until then those cards keep their stat header/footer.
+- [ ] Keep homepage `#work` and `/work/` index **in sync** on every work change
+      (see PROJECT.md "Work-card sync rule").
+
 ## 🟡 P2 — Medium priority
 
 - [ ] **Content review of all 7 sector pages** (EN + AR) for accuracy and tone.
