@@ -974,10 +974,10 @@ html[dir="rtl"] .project-row:nth-of-type(even) .project-grid > *{direction:rtl}
 
 /* Device mockups */
 .project-visual{position:relative;display:flex;align-items:center;justify-content:center;padding:24px 12px 40px}
-.device-laptop{position:relative;width:100%;max-width:560px;aspect-ratio:16/10;padding:14px 14px 0;background:linear-gradient(180deg,#1f2937,#0f172a);border-radius:14px 14px 5px 5px;box-shadow:0 30px 60px -16px rgba(10,26,47,.35),0 6px 20px -6px rgba(10,26,47,.25)}
+.device-laptop{position:relative;width:100%;max-width:560px;padding:14px 14px 0;background:linear-gradient(180deg,#1f2937,#0f172a);border-radius:14px 14px 5px 5px;box-shadow:0 30px 60px -16px rgba(10,26,47,.35),0 6px 20px -6px rgba(10,26,47,.25)}
 .device-laptop::before{content:"";position:absolute;top:5px;left:50%;transform:translateX(-50%);width:60px;height:5px;background:#0a0f1a;border-radius:0 0 5px 5px;border:1px solid #1a2433}
 .device-laptop::after{content:"";position:absolute;left:-6%;right:-6%;bottom:-12px;height:14px;background:linear-gradient(180deg,#374151 0%,#1f2937 60%,#111827 100%);border-radius:0 0 18px 18px;box-shadow:0 8px 18px -6px rgba(10,26,47,.4)}
-.device-laptop .screen{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#144272,#205295,#2C74B3);background-size:200% 200%;border-radius:3px;overflow:hidden;animation:nxShimmer 8s ease-in-out infinite}
+.device-laptop .screen{position:relative;width:100%;aspect-ratio:2880/1480;background:linear-gradient(135deg,#144272,#205295,#2C74B3);background-size:200% 200%;border-radius:3px;overflow:hidden;animation:nxShimmer 8s ease-in-out infinite}
 .device-laptop .screen .placeholder-label{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.7);font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:24px}
 .device-laptop .screen .placeholder-label b{display:block;font-size:1rem;font-weight:700;color:#fff;letter-spacing:.04em;margin-bottom:.4rem;text-transform:none}
 .device-laptop .screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;position:relative;z-index:1}
