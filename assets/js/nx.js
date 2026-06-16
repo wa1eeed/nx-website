@@ -36,6 +36,35 @@
     backdrop.addEventListener('click', close);
     drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
     addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    // sliding white active-indicator behind the drawer links
+    const navLinks = drawer.querySelector('.nav-links');
+    const links = navLinks ? Array.from(navLinks.querySelectorAll('a')) : [];
+    if (navLinks && links.length) {
+      const ind = document.createElement('span');
+      ind.className = 'nav-ind';
+      navLinks.prepend(ind);
+      const place = (a, animate) => {
+        if (!a) return;
+        ind.classList.toggle('no-anim', !animate);
+        ind.style.transform = 'translateY(' + a.offsetTop + 'px)';
+        ind.style.height = a.offsetHeight + 'px';
+        links.forEach(l => l.classList.toggle('on', l === a));
+        if (!animate) requestAnimationFrame(() => ind.classList.remove('no-anim'));
+      };
+      const current = () => links.find(l => l.classList.contains('active')) || links[0];
+      // rest on the current page's item (no slide on first paint)
+      place(current(), false);
+      // re-measure when the drawer opens (layout/fonts settled)
+      burger.addEventListener('click', () => {
+        if (drawer.classList.contains('open')) requestAnimationFrame(() => place(current(), false));
+      });
+      // slide to the tapped item before navigating
+      links.forEach(a => {
+        a.addEventListener('pointerdown', () => place(a, true));
+        a.addEventListener('focus', () => place(a, true));
+      });
+    }
   }
 
   // scroll-reveal
