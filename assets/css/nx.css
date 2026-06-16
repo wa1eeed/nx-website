@@ -232,6 +232,25 @@ html[dir="rtl"] .trust-in .lbl{font-family:'Tajawal',var(--sans);font-size:.92re
 .case .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.3rem}
 .case .chips span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);background:var(--line-2);border-radius:6px;padding:.25rem .55rem}
 @media(max-width:760px){.work{grid-template-columns:1fr}}
+/* work card with live device mockups (laptop + phone) in the dark header */
+a.case{text-decoration:none;color:inherit}
+.case.has-devices .vis{height:248px}
+.case .dev-duo{position:absolute;left:0;right:0;bottom:-12px;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;padding:0 8px}
+.case .dev-duo .device-laptop{max-width:212px;margin:0}
+.case .dev-duo .device-phone{position:relative;left:auto;right:auto;bottom:auto;width:58px;margin-inline-start:-30px;margin-bottom:10px;z-index:4}
+.case .vis .case-more{position:absolute;top:16px;right:16px;z-index:5;font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:.3rem .55rem;border-radius:7px;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap}
+.case .vis .case-more svg{width:13px;height:13px}
+html[dir="rtl"] .case .vis .case-more{right:auto;left:16px}
+a.case:hover .case-more{background:var(--brand);border-color:var(--brand)}
+/* detail page: regulatory / map integration image grid */
+.integration-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:1.8rem}
+.integration-grid figure{margin:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:linear-gradient(135deg,#0d2138,#16335a);transition:.3s}
+.integration-grid figure:hover{box-shadow:var(--shadow-m);transform:translateY(-3px)}
+.integration-grid img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:linear-gradient(135deg,#0d2138,#16335a)}
+.integration-grid figcaption{padding:.85rem 1.1rem;font-size:.86rem;color:var(--ink-2);line-height:1.5}
+.integration-grid figure:first-child{grid-column:1 / -1}
+.integration-grid figure:first-child img{aspect-ratio:21/9}
+@media(max-width:760px){.integration-grid{grid-template-columns:1fr}.integration-grid figure:first-child img{aspect-ratio:16/10}}
 
 /* mesh helper classes used inline on work index */
 .v-fin{background:radial-gradient(circle at 30% 30%,rgba(44,116,179,.55),transparent 60%),linear-gradient(135deg,#0A1A2F,#102b4d)}
