@@ -48,11 +48,15 @@
        NOT loaded a second time. When the real ZMA / Zoho Campaigns
        tracking code is available, add its block here. */
 
-    /* ---- 4) Google Analytics 4 — gtag.js (G-PH5BPW7MM2) ----
-       Loaded async (non-blocking). dataLayer + gtag are defined
-       before the library so the initial config/page_view is queued
-       and flushed once gtag.js arrives. To change the property,
-       edit GA_ID only. To disable, comment out this block. */
+    /* ---- 4) Google Analytics 4 (gtag.js) — property G-PH5BPW7MM2 ----
+       This is Google ANALYTICS (measurement), not Google Tag Manager.
+       Google Tag Manager (GTM-W6KJDFJJ) is added separately, high in
+       the <head> of each page, because a tag manager must load early
+       to manage other tags (see the "Google Tag Manager" markers in
+       the HTML). Loaded async (non-blocking). dataLayer + gtag are
+       defined before the library so the initial config/page_view is
+       queued and flushed once gtag.js arrives. To change the
+       property, edit GA_ID only. To disable, comment out this block. */
     var GA_ID = 'G-PH5BPW7MM2';
     if (!document.getElementById('ga4script')) {
       window.dataLayer = window.dataLayer || [];
