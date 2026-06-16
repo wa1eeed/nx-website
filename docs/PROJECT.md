@@ -166,10 +166,10 @@ is built (then flip them to the full template in both places).
   304s); fonts + images = 30-day cache; HTML = `no-cache`.
 - Every `nx.css` / `nx.js` / `nx-form.js` / `nx-zoho.js` reference carries a
   `?v=N` query. **Bump `N` on every CSS/JS change** so already-cached browsers
-  fetch the new file immediately. Currently at **`v=10`**.
+  fetch the new file immediately. Currently at **`v=13`**.
   ```bash
-  # bump the version across all pages (replace 10→11 etc.):
-  grep -rl '?v=10' en/ ar/ index.html | xargs sed -i '' 's/?v=10/?v=11/g'
+  # bump the version across all pages (replace 13→14 etc.):
+  grep -rl '?v=13' en/ ar/ index.html | xargs sed -i '' 's/?v=13/?v=14/g'
   ```
 
 ---
