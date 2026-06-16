@@ -87,11 +87,11 @@ footer .logo-img{height:52px}
     display:flex;flex-direction:column;align-items:stretch;gap:0;
     position:fixed;top:14px;bottom:14px;left:14px;right:auto;
     width:min(300px,82%);
-    background:linear-gradient(168deg,#15514f 0%,#0e3344 42%,#0A1A2F 100%);
-    border:1px solid rgba(255,255,255,.10);
+    background:linear-gradient(180deg,#FFFFFF 0%,#F3F7FC 100%);
+    border:1px solid var(--line);
     border-radius:30px;
     padding:74px 14px 16px;
-    box-shadow:0 32px 64px -20px rgba(10,26,47,.6);
+    box-shadow:0 32px 64px -20px rgba(10,26,47,.30);
     transform:translateX(calc(-100% - 22px));
     transition:transform .42s cubic-bezier(.4,0,.2,1);
     z-index:49;
@@ -100,24 +100,24 @@ footer .logo-img{height:52px}
   /* brand monogram chip at the top of the drawer */
   .nav-drawer::before{
     content:"";position:absolute;top:18px;left:20px;width:40px;height:40px;border-radius:50%;
-    background:#fff url("/assets/images/favicon.png") center/62% no-repeat;
-    box-shadow:0 4px 14px -4px rgba(0,0,0,.5);
+    background:#EEF4FB url("/assets/images/favicon.png") center/60% no-repeat;
+    border:1px solid #D5E4F4;box-shadow:0 3px 10px -3px rgba(20,66,114,.25);
   }
   .nav-drawer.open{transform:translateX(0)}
   .nav-drawer .nav-links{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:4px}
-  /* sliding white active indicator */
-  .nav-ind{position:absolute;left:0;right:0;top:0;height:0;background:#fff;border-radius:16px;
-    box-shadow:0 8px 20px -6px rgba(0,0,0,.45);transform:translateY(0);z-index:0;
+  /* sliding brand-gradient active indicator */
+  .nav-ind{position:absolute;left:0;right:0;top:0;height:0;background:var(--grad);border-radius:16px;
+    box-shadow:0 12px 24px -8px rgba(20,66,114,.55);transform:translateY(0);z-index:0;
     transition:transform .42s cubic-bezier(.34,1.4,.5,1),height .42s cubic-bezier(.34,1.4,.5,1)}
   .nav-ind.no-anim{transition:none}
   .nav-drawer .nav-links a{position:relative;z-index:1;display:flex;align-items:center;gap:12px;
-    padding:11px 13px;border:none;border-radius:16px;color:rgba(255,255,255,.84);
+    padding:11px 13px;border:none;border-radius:16px;color:var(--ink-2);
     font-size:1rem;font-weight:600;transition:color .3s}
   .nav-drawer .nav-links a .ni{display:flex;align-items:center;justify-content:center;flex-shrink:0;
-    width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.13);color:#fff;transition:.3s}
+    width:30px;height:30px;border-radius:50%;background:#EEF4FB;color:var(--brand-2);transition:.3s}
   .nav-drawer .nav-links a .ni svg{width:16px;height:16px}
-  .nav-drawer .nav-links a.on{color:var(--ink)}
-  .nav-drawer .nav-links a.on .ni{background:linear-gradient(135deg,#15514f,#2C74B3);color:#fff}
+  .nav-drawer .nav-links a.on{color:#fff}
+  .nav-drawer .nav-links a.on .ni{background:rgba(255,255,255,.22);color:#fff}
   /* staggered entrance */
   .nav-drawer.open .nav-links a{animation:navItemIn .5s both}
   .nav-drawer.open .nav-links a:nth-child(2){animation-delay:.04s}
@@ -130,8 +130,8 @@ footer .logo-img{height:52px}
   @media(prefers-reduced-motion:reduce){.nav-drawer.open .nav-links a{animation:none}.nav-ind{transition:none}}
   .nav-drawer .nav-cta{margin-top:auto;padding-top:1.2rem;flex-direction:column;align-items:stretch;gap:.7rem}
   .nav-drawer .nav-cta .lang{justify-content:center;text-align:center;padding:.7rem 1rem;font-size:.82rem;order:2;
-    background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.18)}
-  .nav-drawer .nav-cta .lang:hover{background:#fff;color:var(--brand)}
+    background:#EEF4FB;color:var(--brand);border-color:#D5E4F4}
+  .nav-drawer .nav-cta .lang:hover{background:var(--brand);color:#fff}
   .nav-drawer .nav-cta .btn{justify-content:center;width:100%;padding:.9rem 1.4rem;font-size:.95rem;order:1}
   /* prevent body scroll while drawer open */
   body.drawer-open{overflow:hidden}
