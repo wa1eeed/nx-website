@@ -1,0 +1,180 @@
+# NX Solutions — Project Documentation
+
+Bilingual (EN/AR) static marketing website for **NX Solutions** (nx.sa) — the
+technology partner for the digital transformation of enterprises and companies.
+Positioning: institutional-grade engineering with deep Saudi regulatory
+compliance (SAMA, ZATCA, Nafath, NCA ECC, PDPL, PCI-DSS).
+
+- **Live domain:** https://nx.sa
+- **Repo:** https://github.com/wa1eeed/nx-website
+- **Hosting:** self-hosted via Coolify → Docker (nginx)
+- **Stack:** hand-written static HTML + one CSS file + vanilla JS. **No build
+  step, no framework, no bundler.** Edit files directly.
+
+---
+
+## 1. Repository layout
+
+```
+/
+├── index.html              # root — JS redirect to /en/ or /ar/ by browser lang
+├── en/                     # English site (LTR)
+│   ├── index.html          # homepage
+│   ├── projects.html       # 4 NX platforms showcase (device frames)
+│   ├── contact.html        # contact page + Zoho Desk widget
+│   ├── services/           # launch, grow, automation360, connect, scale
+│   ├── solutions/          # fintech, proptech, insurtech, healthtech,
+│   │                       #   logistics, ecommerce, on-demand (7 sectors)
+│   └── work/index.html     # filterable case-study grid
+├── ar/                     # Arabic site (RTL) — exact mirror of /en/
+├── assets/
+│   ├── css/nx.css          # the ENTIRE design system (single source of truth)
+│   ├── js/
+│   │   ├── nx.js           # nav drawer, scroll-reveal, FAQ, carousels, meters
+│   │   ├── nx-form.js      # 3-step onboarding form → Zoho CRM Web-to-Lead
+│   │   └── nx-zoho.js      # all 3rd-party scripts (SalesIQ, PageSense)
+│   └── images/
+│       ├── logo.png        # master NX SOLUTIONS logo (1408×768, teal)
+│       ├── favicon.png     # NX monogram only (256²) — generated from logo
+│       ├── apple-touch-icon.png  # NX on white (180²) — generated from logo
+│       ├── og-cover.png    # full logo on canvas (1200×630) — social share
+│       └── projects/       # IBP platform screenshots (carousel)
+├── robots.txt              # allows all + sitemap pointer
+├── sitemap.xml             # 32 URLs with hreflang alternates
+├── site.webmanifest        # PWA manifest (theme #136B7E)
+├── nginx.conf              # cache headers + try_files routing
+├── Dockerfile              # nginx:1.27-alpine image for Coolify
+└── docs/                   # ← you are here (PROJECT.md, TODO.md, DEPLOY.md)
+```
+
+Total: **32 HTML pages** (16 EN + 16 AR, perfect mirror).
+
+---
+
+## 2. Design system (LOCKED — do not redesign)
+
+Defined entirely in [`assets/css/nx.css`](../assets/css/nx.css) via CSS custom
+properties at `:root`.
+
+- **Palette:** canvas `#F6F7F9`, surface `#FFF`, ink `#0A1A2F`, brand `#144272`,
+  brand-2 `#205295`, highlight `#2C74B3`, sky `#5BA3DF`, gold `#B7902E`.
+  Gradient: `135deg, #144272 → #205295 → #2C74B3`. Logo teal: `#136B7E`.
+- **Type:** Plus Jakarta Sans (display/body) + JetBrains Mono (labels, numbers,
+  eyebrows) + **Tajawal** (Arabic, and the language-toggle button).
+- **Components:** mono eyebrow with leading rule; pill buttons; glass nav with
+  scroll shadow; SVG line icons only (no emoji); hairline-divided rails;
+  dark metrics band; per-page hero "signature" visual; `.rv` scroll-reveal;
+  FAQ accordion.
+- **Responsive:** `clamp()` typography; mobile breakpoint at `max-width:860px`;
+  mobile nav is an off-canvas side drawer with the burger on the reading-start
+  side (right in RTL, left in LTR).
+
+### Home hero signature (current)
+An **interactive SVG "cloud constellation"**: a central NX cloud node links out
+to five hexagonal sector cells. Each hexagon has a **laser-traced border** and a
+**live animated mini-scene** inside (logistics map+tracking, fintech wallets+
+transfer+bars, proptech skyline+pin, e-commerce basket+items, on-demand phone+
+orders). Pure SVG + CSS/SMIL — **zero JS, no library**, respects
+`prefers-reduced-motion`. Other pages keep their own signatures (see §6).
+
+---
+
+## 3. Bilingual / RTL rules
+
+- `/en/**` is `dir="ltr"`, `/ar/**` is `dir="rtl"`. Pages are 1:1 mirrors.
+- Every page cross-links its translation via the nav language toggle and
+  `<link rel="alternate" hreflang>` (en / ar / x-default).
+- **Phone/WhatsApp numbers** in RTL use `dir="ltr"` + `unicode-bidi:plaintext`
+  + `display:inline-block` so the digits don't reorder. Number:
+  `+966 57 000 9449` → `tel:+966570009449`, `wa.me/966570009449`.
+- No em/en dashes ("—") anywhere in content (an AI-writing tell); use commas.
+- Arabic copy avoids the "نهندس/هندسة" framing per client preference.
+
+---
+
+## 4. Integrations (Zoho)
+
+| Tool | Purpose | Where | Notes |
+|------|---------|-------|-------|
+| **CRM Web-to-Lead** | Capture onboarding-form leads | `assets/js/nx-form.js` | Posts via a hidden iframe (native form POST, `x-www-form-urlencoded`). Endpoint `crm.zoho.sa`. Fields: Name, Email, Phone, Company, Role, Sector, Note. |
+| **Desk feedback widget** | Contact-page support form | `en|ar/contact.html` | Embedded iframe (`desk.zoho.sa`). |
+| **SalesIQ** | Live chat + visitor tracking | `assets/js/nx-zoho.js` | `salesiq.zohopublic.sa`. |
+| **PageSense** | Heatmaps / recordings | `assets/js/nx-zoho.js` | Loaded **async** (non-blocking) to protect page speed. The anti-flicker head snippet is intentionally NOT used (no visual A/B test running). |
+
+**All third-party scripts live in one file — [`nx-zoho.js`](../assets/js/nx-zoho.js)** —
+loaded `defer` and injected after the page is interactive, so they never block
+first paint / LCP. To update a widget, change only its URL/token in that file.
+
+> ⚠️ The "Zoho Marketing Automation (ZMA)" snippet supplied earlier was a
+> duplicate of the PageSense URL, so it was **not** added (would double-load
+> PageSense). A real ZMA/Campaigns code (different domain) can be dropped into
+> `nx-zoho.js` when available.
+
+---
+
+## 5. SEO
+
+- Per-page `<title>`, meta description, keywords, canonical.
+- Open Graph + Twitter card on every page; social image = `og-cover.png` (logo).
+- `hreflang` alternates (en/ar/x-default), JSON-LD (Organization / WebSite /
+  Service), `sitemap.xml` (32 URLs), `robots.txt`, `site.webmanifest`.
+- **Home title positioning:**
+  - AR: «NX Solutions، الشريك التقني للتحول الرقمي للمنشآت والشركات السعودية».
+  - EN: "NX Solutions, The Technology Partner for Digital Transformation of
+    Enterprises & Companies" — deliberately **without "Saudi"** to target
+    global companies.
+- **Favicon = NX monogram only** (the "SOLUTIONS" wordmark is cropped off).
+
+---
+
+## 6. Per-page hero signatures
+
+| Page | Signature visual |
+|------|------------------|
+| home | interactive cloud → 5 hexagon sector cells (animated) |
+| services/scale | 3D due-diligence scorecard stack |
+| services/launch | spec / terminal card |
+| services/grow | animated before/after meters |
+| services/automation360 | manual-vs-automated flow lanes |
+| services/connect | live regulatory badge grid |
+| work | filterable case-study grid |
+| projects | 4 platforms with laptop/phone device frames + IBP carousel |
+
+---
+
+## 7. Caching & cache-busting
+
+- `nginx.conf`: **CSS/JS = `no-cache, must-revalidate`** (always fresh, cheap
+  304s); fonts + images = 30-day cache; HTML = `no-cache`.
+- Every `nx.css` / `nx.js` / `nx-form.js` / `nx-zoho.js` reference carries a
+  `?v=N` query. **Bump `N` on every CSS/JS change** so already-cached browsers
+  fetch the new file immediately. Currently at **`v=4`**.
+  ```bash
+  # bump from v=4 to v=5 across all pages:
+  grep -rl '?v=4' en/ ar/ | xargs sed -i '' 's/?v=4/?v=5/g'
+  ```
+
+---
+
+## 8. Local preview
+
+No build. Serve the folder statically:
+
+```bash
+cd ~/nx-website
+python3 -m http.server 8765
+# open http://localhost:8765/en/  or  /ar/
+```
+
+---
+
+## 9. Conventions for future edits
+
+- **One CSS file.** Add styles to `nx.css`; reuse tokens/components.
+- **Mirror every change in both languages** (EN + AR) and keep `sitemap.xml`
+  in sync if you add/remove pages.
+- **SVG icons only**, no emoji in UI.
+- **No "—" dashes** in copy.
+- After any CSS/JS change: **bump `?v=N`** (see §7).
+- Regenerate icons from the logo with the CoreGraphics script used in
+  `git log` (content-aware crop of the NX block); see DEPLOY.md.

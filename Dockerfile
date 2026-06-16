@@ -16,6 +16,8 @@ RUN rm -rf /usr/share/nginx/html/.git \
            /usr/share/nginx/html/.dockerignore \
            /usr/share/nginx/html/HANDOFF_README.md \
            /usr/share/nginx/html/diag-zoho.html \
+           /usr/share/nginx/html/docs \
+           /usr/share/nginx/html/README.md \
            /usr/share/nginx/html/.DS_Store
 
 EXPOSE 80

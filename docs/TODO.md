@@ -1,0 +1,78 @@
+# NX Solutions — TODO / Roadmap
+
+Prioritized backlog. `[ ]` open · `[~]` in progress · `[x]` done.
+Last updated: 2026-06-16.
+
+---
+
+## 🔴 P0 — Blockers / must-do before go-live confidence
+
+- [ ] **Redeploy on Coolify** and hard-refresh to confirm the latest hero
+      (animated hexagon cells), favicon, and OG image are live on nx.sa.
+- [ ] **Validate the lead pipeline end-to-end on production**: submit the
+      onboarding form on the live domain and confirm the lead lands in Zoho CRM
+      (this was flaky before — verify it once more from nx.sa, not localhost).
+- [ ] **Re-scrape social cards** after deploy: run the live URL through the
+      [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/),
+      [Twitter Card Validator], and LinkedIn Post Inspector so the new
+      `og-cover.png` replaces any cached preview.
+
+## 🟠 P1 — High priority
+
+- [ ] **Real ZMA / Zoho Campaigns code**: obtain the correct snippet (different
+      domain than PageSense) and add it to `assets/js/nx-zoho.js`.
+- [ ] **Replace placeholder project screenshots**: add real screens for Nitaq,
+      Nqlah, IBP Insure, iWork on `projects.html` (currently IBP has a carousel;
+      others may use placeholders).
+- [ ] **Accessibility pass**: keyboard nav for the mobile drawer + FAQ, focus
+      states, `aria-*` on the carousel, color-contrast audit on the gold accent.
+- [ ] **Performance check**: run Lighthouse on the live home page; confirm the
+      animated SVG hero doesn't regress LCP/CLS on mid-range mobile.
+- [ ] **Verify Arabic typography** of the new hero labels (Tajawal) and the
+      SEO titles render correctly across browsers.
+
+## 🟡 P2 — Medium priority
+
+- [ ] **Content review of all 7 sector pages** (EN + AR) for accuracy and tone.
+- [ ] **404 page** (branded) + nginx wiring.
+- [ ] **Analytics**: decide on GA4 / Plausible and add to `nx-zoho.js`.
+- [ ] **Cookie / privacy notice** (PDPL) if any tracking sets cookies.
+- [ ] **Per-page OG images** (optional) instead of the single shared logo card,
+      for richer link previews on key pages (services, projects).
+- [ ] **Sitemap lastmod** dates + submit to Google Search Console & Bing.
+
+## 🟢 P3 — Nice to have / later
+
+- [ ] Blog / insights section (SEO long-tail).
+- [ ] Case-study detail pages behind the `work` grid.
+- [ ] Dark mode.
+- [ ] Subtle page-transition / view-transition polish.
+- [ ] Automate icon regeneration + `?v=` bump in a small `make` script.
+
+---
+
+## ✅ Done (high-level log)
+
+- [x] Full design system in one CSS file; 7 core pages + 7 sector pages.
+- [x] Mobile off-canvas nav drawer (burger on reading-start side).
+- [x] Full Arabic (RTL) mirror — 32 pages — with Tajawal + bidi fixes.
+- [x] 3-step onboarding form wired to Zoho CRM Web-to-Lead (iframe POST).
+- [x] Dedicated contact pages + Zoho Desk widget; unified nav CTA.
+- [x] `/projects` page with 4 platforms + device frames + IBP carousel.
+- [x] Image logo across nav + footer; removed text logo.
+- [x] SEO: hreflang, canonical, OG/Twitter, JSON-LD, sitemap, robots, manifest.
+- [x] Fixed reversed RTL phone/WhatsApp numbers; removed em-dashes.
+- [x] Docker + nginx deploy config for Coolify.
+- [x] Cache-busting strategy (`?v=N` + nginx no-cache for CSS/JS).
+- [x] Zoho SalesIQ + PageSense centralized in `nx-zoho.js` (speed-safe).
+- [x] Interactive cloud-network hero → animated hexagon sector cells.
+- [x] SEO repositioning (AR "الشريك التقني..."; EN global, no "Saudi").
+- [x] Brand favicon (NX monogram) + apple-touch-icon + OG social image.
+- [x] Project + deploy documentation (`docs/`).
+
+---
+
+## 🔮 Next session
+
+> A new task to be discussed — placeholder. Capture the goal, scope, and
+> priority here once defined.
