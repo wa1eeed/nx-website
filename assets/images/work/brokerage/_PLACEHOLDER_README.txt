@@ -13,9 +13,5 @@ Detail-page dashboard frames (one per section, laptop):
   dashboard-3.png  Contracts & Ejar
   dashboard-4.png  Map & GIS
 
-Integration / regulatory imagery (the 5 city/map renders):
-  integration-1.png  (full-width hero — mapping / National Address)
-  integration-2.png  (REGA)
-  integration-3.png  (Ejar)
-  integration-4.png  (spatial analytics)
-  integration-5.png  (3D city view)
+Integration hero (single, frameless, background-removed):
+  integration-1.png  (already added & background-removed)

@@ -251,6 +251,9 @@ a.case:hover .case-more{background:var(--brand);border-color:var(--brand)}
 .integration-grid figure:first-child{grid-column:1 / -1}
 .integration-grid figure:first-child img{aspect-ratio:21/9}
 @media(max-width:760px){.integration-grid{grid-template-columns:1fr}.integration-grid figure:first-child img{aspect-ratio:16/10}}
+/* single, frameless, background-removed integration image */
+.integration-solo{margin-top:1.6rem;text-align:center}
+.integration-solo img{display:block;margin-inline:auto;width:100%;max-width:540px;height:auto}
 
 /* mesh helper classes used inline on work index */
 .v-fin{background:radial-gradient(circle at 30% 30%,rgba(44,116,179,.55),transparent 60%),linear-gradient(135deg,#0A1A2F,#102b4d)}

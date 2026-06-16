@@ -11,19 +11,16 @@ Files go in `assets/images/work/brokerage/` with these EXACT names.
 Missing ones fall back to a clean gradient placeholder.
 
 **Real Estate Brokerage case study**
-- [x] `integration-1.png` — full-width hero (mapping / National Address) ✅ added
-- [ ] `integration-2.png` — REGA  ⚠️ *not received yet*
-- [ ] `integration-3.png` — Ejar  ⚠️ *not received yet*
-- [ ] `integration-4.png` — spatial analytics  ⚠️ *not received yet*
-- [x] `integration-5.png` — 3D city view ✅ added
+- [x] `integration-1.png` — single frameless, background-removed hero image (DONE)
 - [ ] `laptop-1.png`, `laptop-2.png`, `laptop-3.png` — homepage work-card laptop carousel
 - [ ] `phone-1.png`, `phone-2.png` — homepage work-card phone carousel
 - [ ] `dashboard-1.png` (Listings), `dashboard-2.png` (Live bidding),
       `dashboard-3.png` (Contracts/Ejar), `dashboard-4.png` (Map & GIS) — detail-page laptop frames
 
 > See `assets/images/work/brokerage/_PLACEHOLDER_README.txt` for sizes.
-> Also: optimise `integration-*.png` for web (currently ~1.2–1.4 MB each;
-> resize to ≤1280px and/or compress) before heavy traffic.
+> The integration grid (REGA / Ejar / spatial-analytics / 3D-city images) was
+> dropped per client request — only the single hero image remains.
+> Note: `integration-1.png` is ~1.2 MB; optimise for web before heavy traffic.
 
 ---
 
