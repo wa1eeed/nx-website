@@ -26,18 +26,21 @@ Files excluded from the served image (in the Dockerfile `rm` step and
    instantly thanks to `no-cache` + the `?v=N` query; images/fonts are cached
    30 days (new image filenames bypass that).
 
-## Clean URLs (no `.html`)
+## Clean URLs — directory-style (host-independent)
 
-nginx serves extensionless URLs and canonicalises to them:
-- **Routing:** `try_files $uri $uri.html $uri/` — `/en/contact` serves
-  `en/contact.html`, `/en/work/` serves `en/work/index.html`.
-- **301 redirect:** any `*.html` request redirects to the clean path
-  (`/en/contact.html` → `/en/contact`, `/en/index.html` → `/en/`).
-- All internal links, `canonical`, `hreflang`, `og:url` and `sitemap.xml`
-  use the clean form. **Keep new links extensionless.**
+Pages are stored as **`<name>/index.html`** (e.g. `en/contact/index.html`,
+`en/work/ibp/index.html`), so the clean URL `/en/contact/` resolves on **any**
+static server — nginx, the `python3 -m http.server` preview, Coolify's static
+buildpack, GitHub Pages, etc. (No reliance on `try_files` rewrites.)
 
-> Local note: the `python3 -m http.server` preview does NOT do `try_files`,
-> so extensionless URLs 404 there — test clean URLs against nginx/production.
+- The only top-level `index.html` files are the section homes: `/`, `/en/`,
+  `/ar/`, `/en/work/`, `/ar/work/`.
+- Internal links, `canonical`, `hreflang`, `og:url` and `sitemap.xml` all use
+  the **trailing-slash** form (`/en/contact/`).
+- **Adding a new page:** create `en/<name>/index.html` (+ the `/ar/` mirror)
+  and link to `/en/<name>/`.
+- nginx still 301s any legacy `*.html` to the clean path and `try_files $uri/`
+  serves the directory index — old bookmarks keep working.
 
 ## Security headers
 
