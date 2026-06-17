@@ -209,6 +209,29 @@
     addEventListener('keydown', e => { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
   }
 
+  // stepped-story hero (auto-cycling visual + caption + dots)
+  document.querySelectorAll('[data-story]').forEach(story => {
+    const frames = Array.from(story.querySelectorAll('.hs-frame'));
+    const steps  = Array.from(story.querySelectorAll('.hs-step'));
+    const dots   = Array.from(story.querySelectorAll('.hs-dots i'));
+    if (frames.length < 2) return;
+    let idx = 0, timer = null;
+    const DELAY = parseInt(story.dataset.story, 10) || 3200;
+    const show = (i) => {
+      idx = i;
+      frames.forEach((f, k) => f.classList.toggle('active', k === i));
+      steps.forEach((s, k) => s.classList.toggle('active', k === i));
+      dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    };
+    const run = () => { stop(); timer = setInterval(() => show((idx + 1) % frames.length), DELAY); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    dots.forEach((d, k) => d.addEventListener('click', () => { show(k); run(); }));
+    story.addEventListener('mouseenter', stop);
+    story.addEventListener('mouseleave', run);
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : run(); });
+    show(0); run();
+  });
+
   // hero NX-cloud network: auto-cycle the active cell + tap/hover focus
   const viz = document.querySelector('.netviz');
   if (viz) {
