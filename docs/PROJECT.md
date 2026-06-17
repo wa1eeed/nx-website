@@ -155,6 +155,8 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
 | Page | Signature visual |
 |------|------------------|
 | home | interactive cloud core → 6 hexagon sector cells with live mini-scenes; auto-cycles the active cell, two-way data packets, radar/glow core, a "your business" CTA cell, a live ops counter, and tap-to-focus |
+| solutions/* (sectors) | distinct animated SVG scene per sector (`.hviz`): fintech=payment-flow+bars, proptech=skyline+map-ping, insurtech=shield+radar-sweep, healthtech=ECG monitor, logistics=route+moving-truck, ecommerce=cart+dropping-items, on-demand=phone+radiating-pings. SMIL-animated, no JS. Clean hero bg (no gradient split). |
+| platforms/* (solutions) | animated orbit hero (`.sol-orbit`); index = `.plat-card` grid with top-accent + arrow-shift hover |
 | services/scale | 3D due-diligence scorecard stack |
 | services/launch | spec / terminal card |
 | services/grow | animated before/after meters |
