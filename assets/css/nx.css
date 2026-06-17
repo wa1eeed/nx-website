@@ -276,10 +276,13 @@ a.case{text-decoration:none;color:inherit}
 .case .dev-duo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:34px 12px 16px}
 .case .dev-duo .device-laptop{max-width:206px;margin:0}
 .case .dev-duo .device-phone{position:relative;left:auto;right:auto;bottom:auto;width:54px;margin-inline-start:-28px;margin-bottom:12px;z-index:4}
-/* footer "view case study" button (replaces the stat row) */
-.case .case-cta{margin-top:auto;padding-top:1.3rem;border-top:1px solid var(--line);display:flex}
-.case .case-cta .btn{width:100%;justify-content:center}
-a.case:hover .case-cta .btn-primary{background:var(--brand-2)}
+/* simple corner arrow (replaces the stat row / button), like service cards */
+.case .case-foot{margin-top:auto;padding-top:1.1rem;display:flex;justify-content:flex-end}
+.case .case-arrow{width:38px;height:38px;border-radius:50%;background:#EEF4FB;border:1px solid #D5E4F4;display:grid;place-items:center;color:var(--brand-2);transition:.3s}
+.case .case-arrow svg{width:17px;height:17px;stroke-width:2;fill:none}
+a.case:hover .case-arrow{background:var(--brand);color:#fff;border-color:var(--brand);transform:translateX(4px)}
+html[dir="rtl"] .case .case-arrow svg{transform:scaleX(-1)}
+html[dir="rtl"] a.case:hover .case-arrow{transform:translateX(-4px)}
 /* animated API chip */
 .case .chips .api{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.66rem;color:#fff;background:var(--grad);border-radius:6px;padding:.25rem .55rem;letter-spacing:.04em}
 .case .chips .api i{width:5px;height:5px;border-radius:50%;background:#fff;animation:apiPulse 1.3s ease-in-out infinite}
