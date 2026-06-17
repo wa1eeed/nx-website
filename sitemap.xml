@@ -321,4 +321,68 @@
     <lastmod>2026-06-16</lastmod>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://nx.sa/en/work/ibp.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/ibp.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/ibp.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/ibp.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/work/ibp.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/ibp.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/ibp.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/ibp.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/en/work/nqlah.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/nqlah.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/nqlah.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/nqlah.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/work/nqlah.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/nqlah.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/nqlah.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/nqlah.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/en/work/nitaq.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/nitaq.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/nitaq.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/nitaq.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/work/nitaq.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/nitaq.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/nitaq.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/nitaq.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/en/work/iwork.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/iwork.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/iwork.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/iwork.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/work/iwork.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/work/iwork.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/work/iwork.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/work/iwork.html"/>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
+  </url>
 </urlset>
