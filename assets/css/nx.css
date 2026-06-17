@@ -1,12 +1,12 @@
 /* =================================================================
    NX Solutions — design system
-   Pages: /en/, /en/work/, /en/services/*, /en/solutions/*
+   Pages: /en/, /en/work/, /en/services/*, /en/sectors/*
    Body classes pick page-specific variants:
      .p-home    homepage
      .p-svc     services pages (launch / grow / 360 / connect)
      .p-scale   NX Scale (richer signature)
      .p-work    Showcase / case-studies listing
-     .p-sect    /en/solutions/* sector pages (same metrics as .p-svc)
+     .p-sect    /en/sectors/* sector pages (same metrics as .p-svc)
    ================================================================= */
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -1228,7 +1228,7 @@ html[dir="rtl"] .nxf-nav .btn svg{transform:scaleX(-1)}
 html[dir="rtl"] .nxf-input-group .nxf-prefix{border-inline-end:none;border-inline-start:1px solid var(--line)}
 
 /* ===================================================================
-   SOLUTIONS (platform-type) pages — /platforms/
+   SOLUTIONS (platform-type) pages — /solutions/
    =================================================================== */
 .sol-hero{position:relative;overflow:hidden;padding:130px 0 56px;background:linear-gradient(180deg,#FFFFFF 0%,#F4F7FB 100%)}
 .sol-hero .wrap{position:relative;z-index:1}

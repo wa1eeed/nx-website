@@ -23,10 +23,10 @@ compliance (SAMA, ZATCA, Nafath, NCA ECC, PDPL, PCI-DSS).
 │   ├── projects.html       # 4 NX platforms showcase (device frames)
 │   ├── contact.html        # contact page + Zoho Desk widget
 │   ├── services/           # launch, grow, automation360, connect, scale
-│   ├── solutions/          # INDUSTRIES (who we serve): fintech, proptech,
+│   ├── sectors/            # SECTORS / القطاعات (who we serve): fintech, proptech,
 │   │                       #   insurtech, healthtech, logistics, ecommerce,
-│   │                       #   on-demand (7 sectors). UI label "Industries/القطاعات".
-│   ├── platforms/          # SOLUTIONS (platform types we build). UI label
+│   │                       #   on-demand (7 sectors). UI label "Sectors/القطاعات".
+│   ├── solutions/          # SOLUTIONS / الحلول (platform types we build). UI label
 │   │                       #   "Solutions/الحلول". index + business-systems (ERP)
 │   │                       #   + booking. Animated orbit hero, "who it serves"
 │   │                       #   bridge, platform models, Saudi-regulatory FAQ.
@@ -59,9 +59,8 @@ Total HTML pages keep growing (EN + AR perfect mirror); latest additions are the
 
 ### Information architecture (3 axes — don't conflate)
 - **Services** (what we do): launch, grow, automation360, connect, scale.
-- **Industries / القطاعات** (who we serve): the 7 sectors under `/solutions/`
-  (the directory name stays `solutions` for URL stability; the UI says "Industries").
-- **Solutions / الحلول** (platform *types* we build): under `/platforms/` —
+- **Sectors / القطاعات** (who we serve): the 7 sectors under `/sectors/`.
+- **Solutions / الحلول** (platform *types* we build): under `/solutions/` —
   Business Operating Systems (ERP), Booking & Reservations, plus index cards that
   cross-link to On-Demand, Marketplaces, Government Integration and Custom Platforms.
 
@@ -155,9 +154,9 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
 | Page | Signature visual |
 |------|------------------|
 | home | interactive cloud core → 6 hexagon sector cells with live mini-scenes; auto-cycles the active cell, two-way data packets, radar/glow core, a "your business" CTA cell, a live ops counter, and tap-to-focus |
-| solutions/* (sectors) + services launch/grow/automation360/connect | **stepped-story hero** (`.hstory` + `[data-story]` JS): a 3-step auto-cycling flow (visual frame + caption + clickable dots) that tells the service/sector's real workflow. Frame primitives: `fk-card` (info/spec list + animated progress bars), `fk-ok` (verified check w/ rings), `fk-map` (street map + animated pin + address card), `fk-gauge` (animated ring score), `fk-metrics` (before/after bars), `fk-flow` (numbered node pipeline, sequential reveal), `fk-grid` (regulator connection grid), `fk-svgwrap` (ECG / route+truck / phone-pings SMIL scenes). Per-page stories: fintech=KYC(capture→address→registered), proptech=listing→location→deal, insurtech=risk→underwrite(gauge)→issue, healthtech=book→consult(ECG)→record, logistics=order→track(route)→deliver, ecommerce=cart→checkout→confirmed, on-demand=request→match(phone)→complete, launch=architect→build(metrics)→ship, grow=audit→re-engineer(metrics)→scale, connect=gateways(grid)→sandbox(flow)→live, 360=manual(flow)→automated(flow)→always-on. Clean hero bg (no gradient split). |
+| sectors/* + services launch/grow/automation360/connect | **stepped-story hero** (`.hstory` + `[data-story]` JS): a 3-step auto-cycling flow (visual frame + caption + clickable dots) that tells the service/sector's real workflow. Frame primitives: `fk-card` (info/spec list + animated progress bars), `fk-ok` (verified check w/ rings), `fk-map` (street map + animated pin + address card), `fk-gauge` (animated ring score), `fk-metrics` (before/after bars), `fk-flow` (numbered node pipeline, sequential reveal), `fk-grid` (regulator connection grid), `fk-svgwrap` (ECG / route+truck / phone-pings SMIL scenes). Per-page stories: fintech=KYC(capture→address→registered), proptech=listing→location→deal, insurtech=risk→underwrite(gauge)→issue, healthtech=book→consult(ECG)→record, logistics=order→track(route)→deliver, ecommerce=cart→checkout→confirmed, on-demand=request→match(phone)→complete, launch=architect→build(metrics)→ship, grow=audit→re-engineer(metrics)→scale, connect=gateways(grid)→sandbox(flow)→live, 360=manual(flow)→automated(flow)→always-on. Clean hero bg (no gradient split). |
 | services/scale | original 3D due-diligence scorecard stack (kept as-is, the design reference) |
-| platforms/* (solutions) | animated orbit hero (`.sol-orbit`); index = `.plat-card` grid with top-accent + arrow-shift hover |
+| solutions/* (platform types) | animated orbit hero (`.sol-orbit`); index = `.plat-card` grid with top-accent + arrow-shift hover |
 | services/scale | 3D due-diligence scorecard stack |
 | services/launch | spec / terminal card |
 | services/grow | animated before/after meters |

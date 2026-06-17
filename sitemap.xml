@@ -130,114 +130,114 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/ecommerce/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/ecommerce/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/ecommerce/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/ecommerce/"/>
+    <loc>https://nx.sa/en/sectors/ecommerce/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/ecommerce/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/ecommerce/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/ecommerce/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/ecommerce/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/ecommerce/"/>
+    <loc>https://nx.sa/ar/sectors/ecommerce/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/ecommerce/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/fintech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/fintech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/fintech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/fintech/"/>
+    <loc>https://nx.sa/en/sectors/fintech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/fintech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/fintech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/fintech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/fintech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/fintech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/fintech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/fintech/"/>
+    <loc>https://nx.sa/ar/sectors/fintech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/fintech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/fintech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/fintech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/healthtech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/healthtech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/healthtech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/healthtech/"/>
+    <loc>https://nx.sa/en/sectors/healthtech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/healthtech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/healthtech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/healthtech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/healthtech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/healthtech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/healthtech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/healthtech/"/>
+    <loc>https://nx.sa/ar/sectors/healthtech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/healthtech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/healthtech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/healthtech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/insurtech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/insurtech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/insurtech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/insurtech/"/>
+    <loc>https://nx.sa/en/sectors/insurtech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/insurtech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/insurtech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/insurtech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/insurtech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/insurtech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/insurtech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/insurtech/"/>
+    <loc>https://nx.sa/ar/sectors/insurtech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/insurtech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/insurtech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/insurtech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/logistics/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/logistics/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/logistics/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/logistics/"/>
+    <loc>https://nx.sa/en/sectors/logistics/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/logistics/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/logistics/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/logistics/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/logistics/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/logistics/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/logistics/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/logistics/"/>
+    <loc>https://nx.sa/ar/sectors/logistics/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/logistics/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/logistics/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/logistics/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/on-demand/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/on-demand/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/on-demand/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/on-demand/"/>
+    <loc>https://nx.sa/en/sectors/on-demand/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/on-demand/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/on-demand/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/on-demand/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/on-demand/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/on-demand/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/on-demand/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/on-demand/"/>
+    <loc>https://nx.sa/ar/sectors/on-demand/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/on-demand/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/on-demand/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/on-demand/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/proptech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/proptech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/proptech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/proptech/"/>
+    <loc>https://nx.sa/en/sectors/proptech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/proptech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/proptech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/proptech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/proptech/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/proptech/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/proptech/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/proptech/"/>
+    <loc>https://nx.sa/ar/sectors/proptech/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/proptech/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/proptech/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/proptech/"/>
     <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
   </url>
@@ -386,50 +386,50 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/platforms/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/platforms/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/platforms/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/platforms/"/>
+    <loc>https://nx.sa/en/solutions/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/platforms/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/platforms/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/platforms/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/platforms/"/>
+    <loc>https://nx.sa/ar/solutions/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/platforms/business-systems/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/platforms/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/platforms/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/platforms/business-systems/"/>
+    <loc>https://nx.sa/en/solutions/business-systems/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/business-systems/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/platforms/business-systems/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/platforms/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/platforms/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/platforms/business-systems/"/>
+    <loc>https://nx.sa/ar/solutions/business-systems/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/business-systems/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/platforms/booking/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/platforms/booking/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/platforms/booking/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/platforms/booking/"/>
+    <loc>https://nx.sa/en/solutions/booking/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/booking/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/booking/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/booking/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/platforms/booking/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/platforms/booking/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/platforms/booking/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/platforms/booking/"/>
+    <loc>https://nx.sa/ar/solutions/booking/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/booking/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/booking/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/booking/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
