@@ -46,6 +46,18 @@ The work cards now show the real projects (IBP, Nqlah, Nitaq, iWork).
       [Twitter Card Validator], and LinkedIn Post Inspector so the new
       `og-cover.png` replaces any cached preview.
 
+## 🛠️ Professional hardening (done this batch)
+
+- [x] **Clean URLs** — extensionless routing + 301 from `.html`; all links,
+      canonical/hreflang/og + sitemap updated.
+- [x] **Security headers** in nginx (X-Frame-Options, nosniff, Referrer-Policy,
+      Permissions-Policy, HSTS) → securityheaders.com ~A.
+- [x] `humans.txt`, `.well-known/security.txt`, head signature comment, console message.
+- [ ] **Content-Security-Policy** — deferred; needs nonces + real-traffic tuning
+      so it doesn't break inline scripts / Zoho / Google. Add as report-only first.
+- [ ] **Minify** CSS/JS/HTML for production — needs a build step (gzip already
+      compresses transfer); revisit with the Astro move.
+
 ## 🟠 P1 — High priority
 
 - [ ] **Real ZMA / Zoho Campaigns code**: obtain the correct snippet (different

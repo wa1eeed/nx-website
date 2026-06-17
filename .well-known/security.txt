@@ -1,0 +1,5 @@
+# NX Solutions security contact (RFC 9116)
+Contact: mailto:hello@nx.sa
+Expires: 2027-06-17T00:00:00.000Z
+Preferred-Languages: ar, en
+Canonical: https://nx.sa/.well-known/security.txt

@@ -1,0 +1,14 @@
+/* TEAM */
+  NX Solutions — the technology partner for digital transformation
+  Riyadh, Kingdom of Saudi Arabia
+  Contact: hello@nx.sa
+  Site:    https://nx.sa
+
+/* BUILT WITH */
+  Hand-written HTML5, CSS3, vanilla JavaScript
+  Bilingual (AR/EN, RTL) · static · served by nginx
+  No tracking beyond GA4 + GTM · privacy-first
+
+/* JOIN US */
+  Engineers who care about compliant, investable architecture:
+  hello@nx.sa

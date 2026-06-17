@@ -39,10 +39,12 @@ compliance (SAMA, ZATCA, Nafath, NCA ECC, PDPL, PCI-DSS).
 │       ├── apple-touch-icon.png  # NX on white (180²) — generated from logo
 │       ├── og-cover.png    # full logo on canvas (1200×630) — social share
 │       └── projects/       # IBP platform screenshots (carousel)
+├── humans.txt              # team/credits (tech-company touch)
+├── .well-known/security.txt # security contact (RFC 9116)
 ├── robots.txt              # allows all + sitemap pointer
 ├── sitemap.xml             # 32 URLs with hreflang alternates
 ├── site.webmanifest        # PWA manifest (theme #136B7E)
-├── nginx.conf              # cache headers + try_files routing
+├── nginx.conf              # clean-URL routing + .html→clean 301 + security headers + cache
 ├── Dockerfile              # nginx:1.27-alpine image for Coolify
 └── docs/                   # ← you are here (PROJECT.md, TODO.md, DEPLOY.md)
 ```

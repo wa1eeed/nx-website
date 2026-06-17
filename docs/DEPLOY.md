@@ -26,6 +26,33 @@ Files excluded from the served image (in the Dockerfile `rm` step and
    instantly thanks to `no-cache` + the `?v=N` query; images/fonts are cached
    30 days (new image filenames bypass that).
 
+## Clean URLs (no `.html`)
+
+nginx serves extensionless URLs and canonicalises to them:
+- **Routing:** `try_files $uri $uri.html $uri/` — `/en/contact` serves
+  `en/contact.html`, `/en/work/` serves `en/work/index.html`.
+- **301 redirect:** any `*.html` request redirects to the clean path
+  (`/en/contact.html` → `/en/contact`, `/en/index.html` → `/en/`).
+- All internal links, `canonical`, `hreflang`, `og:url` and `sitemap.xml`
+  use the clean form. **Keep new links extensionless.**
+
+> Local note: the `python3 -m http.server` preview does NOT do `try_files`,
+> so extensionless URLs 404 there — test clean URLs against nginx/production.
+
+## Security headers
+
+Set in `nginx.conf` (re-declared per `location` — nginx `add_header` does not
+merge across blocks): `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options:
+nosniff`, `Referrer-Policy`, `Permissions-Policy`, and `Strict-Transport-Security`
+(HSTS, 1y + includeSubDomains — site is HTTPS via Coolify). Good for an A on
+securityheaders.com. **CSP is intentionally deferred** (the site has many inline
+scripts/handlers + Zoho/Google third parties; a strict CSP needs nonces and
+real-traffic tuning to avoid breaking chat/forms/analytics).
+
+## Standard files
+- `humans.txt`, `.well-known/security.txt` (RFC 9116) — served from root.
+- A signature HTML comment in every page `<head>` + a console message in `nx.js`.
+
 ## Caching (why "nothing changed" used to happen)
 
 Browsers were caching the old `nx.css` for days. Fixed two ways:
