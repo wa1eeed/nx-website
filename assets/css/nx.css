@@ -721,7 +721,9 @@ html[dir="rtl"] .nv-lab{font-family:'Tajawal',var(--sans);font-size:12.5px}
 /* =================================================================
    FAQ accordion
    ================================================================= */
-.faq{border-top:1px solid var(--line);max-width:46em}
+.faq{border-top:1px solid var(--line);max-width:48em;margin-inline:auto}
+.faq .a p{margin:0;padding:0 0 22px;color:var(--ink-2);line-height:1.75;font-size:.95rem}
+.faq .q.open .q-head b{color:var(--brand)}
 .faq .q{border-bottom:1px solid var(--line);padding:22px 0;cursor:pointer}
 .faq .q-head{display:flex;justify-content:space-between;align-items:center;gap:20px}
 .faq .q-head b{font-size:1rem;font-weight:600;letter-spacing:-.01em}
@@ -777,7 +779,32 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
    ================================================================= */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
 .rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
+/* optional staggered children when a group reveals (JS sets --i) */
+.rv-stagger>*{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);transition-delay:calc(var(--i,0)*70ms)}
+.rv-stagger.in>*{opacity:1;transform:none}
+
+/* ===== interaction / micro-animation layer ===== */
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* buttons: subtle lift + sliding sheen on hover */
+.btn{position:relative;overflow:hidden}
+.btn-primary::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);transition:left .6s ease}
+.btn-primary:hover::after{left:140%}
+.btn-ghost{transition:transform .25s,box-shadow .25s,border-color .25s,background .25s}
+.btn-ghost:hover{transform:translateY(-1px);box-shadow:var(--shadow-m)}
+/* desktop nav links: animated underline */
+@media(min-width:861px){
+  .nav-links a{position:relative}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--grad);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.22,1,.36,1)}
+  html[dir="rtl"] .nav-links a::after{transform-origin:right}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+}
+/* metrics band numbers: gradient ink for punch */
+.band .m b{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+/* service rail cells + sector links: gentle hover lift */
+.rail .cell{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
+.rail .cell:hover{transform:translateY(-4px);box-shadow:var(--shadow-m);border-color:#D5E4F4}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv,.rv-stagger>*{opacity:1;transform:none}.btn-primary::after{display:none}}
 
 /* =================================================================
    PAGE-SCOPED OVERRIDES

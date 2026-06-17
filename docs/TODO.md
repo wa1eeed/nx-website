@@ -1,26 +1,36 @@
 # NX Solutions — TODO / Roadmap
 
 Prioritized backlog. `[ ]` open · `[~]` in progress · `[x]` done.
-Last updated: 2026-06-16.
+Last updated: 2026-06-17.
 
 ---
 
-## 🖼️ Pending images (drop-in, no code change needed)
+## 🖼️ Pending media (drop-in, no code change needed)
 
-Files go in `assets/images/work/brokerage/` with these EXACT names.
-Missing ones fall back to a clean gradient placeholder.
+The work cards now show the real projects (IBP, Nqlah, Nitaq, iWork).
 
-**Real Estate Brokerage case study**
-- [x] `integration-1.png` — single frameless, background-removed hero image (DONE)
-- [ ] `laptop-1.png`, `laptop-2.png`, `laptop-3.png` — homepage work-card laptop carousel
-- [ ] `phone-1.png`, `phone-2.png` — homepage work-card phone carousel
-- [ ] `dashboard-1.png` (Listings), `dashboard-2.png` (Live bidding),
-      `dashboard-3.png` (Contracts/Ejar), `dashboard-4.png` (Map & GIS) — detail-page laptop frames
+**Project screenshots** → `assets/images/projects/` (IBP already done)
+- [ ] `nqlah-desktop.png`, `nqlah-mobile.png`
+- [ ] `nitaq-desktop.png`, `nitaq-mobile.png`
+- [ ] `iwork-desktop.png`, `iwork-mobile.png`
 
-> See `assets/images/work/brokerage/_PLACEHOLDER_README.txt` for sizes.
-> The integration grid (REGA / Ejar / spatial-analytics / 3D-city images) was
-> dropped per client request — only the single hero image remains.
-> Note: `integration-1.png` is ~1.2 MB; optimise for web before heavy traffic.
+**"Quick look" story videos** → `assets/videos/work/` (9:16, ≤10s MP4)
+- [ ] `ibp.mp4`, `nqlah.mp4`, `nitaq.mp4`, `iwork.mp4`
+- (until added, the story popup shows the screenshot as a 10s poster)
+
+> Manifests: `assets/images/work/_WORK_CARD_SCREENSHOTS.txt`,
+> `assets/videos/work/_STORY_VIDEOS.txt`.
+
+## 📣 Conversion content (next batch — partly done)
+
+- [x] Buying-FAQ accordion on the homepage (pricing/timeline/IP/compliance/post-launch).
+- [x] Animation layer: count-up stats, scroll-reveal stagger, smooth scroll, micro-interactions.
+- [x] Image optimisation pass (logo 552→108 KB, IBP shots & integration-1 resized; ~1.3 MB saved).
+- [ ] **Testimonials / social proof** section with REAL client quotes (names, logos) — placeholder structure not yet added; needs real data.
+- [ ] **About / "عن NX"** page (team, story, trust).
+- [ ] **Pricing / packages** page (even "from …") to cut friction.
+- [ ] Stronger CTA framing ("Book a free 15-min consultation").
+- [ ] Optional heavier motion (Lenis smooth-scroll lib / GSAP ScrollTrigger / view transitions) — deferred; current layer is dependency-free.
 
 ---
 

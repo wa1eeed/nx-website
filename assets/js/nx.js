@@ -67,13 +67,18 @@
     }
   }
 
-  // scroll-reveal
-  const rvEls = document.querySelectorAll('.rv');
+  // scroll-reveal (+ optional staggered children for .rv-stagger groups)
+  const rvEls = document.querySelectorAll('.rv, .rv-stagger');
   if (rvEls.length) {
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }), { threshold: 0.1 });
-    rvEls.forEach(el => io.observe(el));
+    rvEls.forEach(el => {
+      if (el.classList.contains('rv-stagger')) {
+        Array.from(el.children).forEach((c, i) => c.style.setProperty('--i', i));
+      }
+      io.observe(el);
+    });
   }
 
   // auto-rotating carousels ([data-carousel] with .slide children)
@@ -118,6 +123,36 @@
       }
     });
   });
+
+  // animated count-up for stat numbers (band + page-hero stats + project stats)
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const numEls = document.querySelectorAll('.band .m b, .phero-stats .s b, .project-stats .ps b, .hero-trust .t b');
+  if (numEls.length && !reduceMotion) {
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    const runCount = (el) => {
+      // find the text node that carries the digits (keeps any unit <span>)
+      let node = null;
+      el.childNodes.forEach(n => { if (n.nodeType === 3 && /\d/.test(n.nodeValue)) node = n; });
+      if (!node) return;
+      const m = node.nodeValue.match(/^(\D*)([\d,]+(?:\.\d+)?)(\D*)$/);
+      if (!m) return;
+      const pre = m[1], raw = m[2].replace(/,/g, ''), suf = m[3];
+      const target = parseFloat(raw);
+      const decimals = (raw.split('.')[1] || '').length;
+      const dur = 1400, t0 = performance.now();
+      const fmt = v => (decimals ? v.toFixed(decimals) : Math.round(v).toLocaleString('en-US'));
+      const step = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        node.nodeValue = pre + fmt(target * easeOut(p)) + suf;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { runCount(e.target); io.unobserve(e.target); }
+    }), { threshold: 0.5 });
+    numEls.forEach(el => io.observe(el));
+  }
 
   // work-card "quick look" video stories
   const storyBtns = document.querySelectorAll('.story');

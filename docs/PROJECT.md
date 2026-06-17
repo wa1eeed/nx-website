@@ -138,25 +138,38 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
 
 | Page | Signature visual |
 |------|------------------|
-| home | interactive cloud → 5 hexagon sector cells (animated) |
+| home | interactive cloud core → 6 hexagon sector cells with live mini-scenes; auto-cycles the active cell, two-way data packets, radar/glow core, a "your business" CTA cell, a live ops counter, and tap-to-focus |
 | services/scale | 3D due-diligence scorecard stack |
 | services/launch | spec / terminal card |
 | services/grow | animated before/after meters |
 | services/automation360 | manual-vs-automated flow lanes |
 | services/connect | live regulatory badge grid |
-| work | filterable case-study grid |
-| projects | 4 platforms with laptop/phone device frames + IBP carousel |
-| work/real-estate-brokerage | case-study detail page: device-mockup hero card on home → 4 dashboard sections, regulator strip, integration image grid, CTA → form |
+| work | "wallet" project cards (see below) |
+| projects | 4 platforms with laptop/phone device frames + IBP carousel (to be redesigned) |
+| work/{ibp,nqlah,nitaq,iwork} | per-project case-study pages: hero+stats, regulator strip, capabilities grid, screenshot showcase, CTA → form |
 
-### Work-card sync rule (IMPORTANT)
-The "Selected work" cards on the homepage (`#work` in `en|ar/index.html`) and the
-cards on the Work index (`en|ar/work/index.html`) must stay **in sync**. Whenever a
-work is added or changed, update **both** places. Card template (a work that has a
-detail page): `<a class="case c-<sector> has-devices" [data-cat on /work/]>` with a
-laptop+phone device cluster in the dark `.vis`, chips (incl. the animated `.api`
-chip), and a footer `.case-cta` "View case study" button → the detail page. Works
-without a detail page yet keep their stat header/footer + the `.api` chip until one
-is built (then flip them to the full template in both places).
+### Work cards (homepage `#work` + `/work/`) — KEEP IN SYNC
+Both places show the same 4 real projects (IBP, Nqlah, Nitaq, iWork) and **must be
+updated together**. Card = `<article class="case wallet-case work-card" data-project="<id>">`:
+- a **peek** card that emerges from the top, carrying a **rotating screenshot carousel**
+  (`/assets/images/projects/<id>-*.png`, 2s) over a placeholder; a colored top tab
+  (blue / violet alternating).
+- a body meta row: the sector tag on the reading-start side, and a **"Quick look" story
+  circle** on the far side (gradient ring + blinking live dot) that opens a **video-story
+  popup** (`/assets/videos/work/<id>.mp4`, 9:16, 10s progress bar, close, auto-close;
+  story JS in nx.js).
+- chips (incl. the animated `.api` chip) + a centered **"Learn more / اعرف أكثر"** link → the
+  project's detail page.
+- grid: `repeat(auto-fit, minmax(250px, 1fr))` — narrow cards, 3–4 per laptop row.
+The homepage also has a centered **"View all work"** button below the cards → `/work/`.
+
+### Animation / interaction layer (`nx.js` + CSS)
+- **Count-up** stat numbers (`.band .m b`, `.phero-stats .s b`, `.project-stats .ps b`)
+  animate from 0 on scroll-in (IntersectionObserver; rAF — only runs while visible).
+- **Scroll-reveal** `.rv` (+ `.rv-stagger` groups: children stagger via `--i`).
+- **Smooth scroll** (`html{scroll-behavior:smooth}`), button sheen, nav underline,
+  card/cell hover lifts. All gated by `prefers-reduced-motion`.
+- A **buying-FAQ** accordion section on the homepage (`.faq`, toggled in nx.js).
 
 ---
 
@@ -166,11 +179,13 @@ is built (then flip them to the full template in both places).
   304s); fonts + images = 30-day cache; HTML = `no-cache`.
 - Every `nx.css` / `nx.js` / `nx-form.js` / `nx-zoho.js` reference carries a
   `?v=N` query. **Bump `N` on every CSS/JS change** so already-cached browsers
-  fetch the new file immediately. Currently at **`v=13`**.
+  fetch the new file immediately. Currently at **`v=27`**.
   ```bash
-  # bump the version across all pages (replace 13→14 etc.):
-  grep -rl '?v=13' en/ ar/ index.html | xargs sed -i '' 's/?v=13/?v=14/g'
+  # bump the version across all pages (replace 27→28 etc.):
+  grep -rl '?v=27' en/ ar/ index.html | xargs sed -i '' 's/?v=27/?v=28/g'
   ```
+  > Images keep their path when re-optimised, so they ride the 30-day cache; only
+  > CSS/JS use the `?v=` query.
 
 ---
 
