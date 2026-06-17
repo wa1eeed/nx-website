@@ -523,7 +523,29 @@ a.case:hover .case-cta .btn-primary{background:var(--brand-2)}
 .netviz svg{width:100%;height:auto;display:block;overflow:visible}
 /* labels rendered as HTML (not SVG <text>) so Arabic shapes/joins correctly */
 .netviz-labels{position:absolute;inset:0;pointer-events:none}
-.nv-lab{position:absolute;transform:translate(-50%,-50%);font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap;text-align:center;line-height:1}
+.nv-lab{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap;text-align:center;line-height:1.05;transition:color .3s}
+.nv-lab .nv-val{font-size:10px;font-weight:600;color:var(--hi);opacity:0;max-height:0;margin-top:0;overflow:hidden;transition:opacity .35s,max-height .35s,margin-top .35s}
+.nv-lab.on .nv-lt{color:var(--brand)}
+.nv-lab.on .nv-val{opacity:1;max-height:18px;margin-top:3px}
+html[dir="rtl"] .nv-lab .nv-val{letter-spacing:0}
+/* interactive: active cell pops, others dim; active link + radar glow */
+.hexcell{transition:opacity .4s}
+.netviz.focusing .hexcell:not(.active){opacity:.38}
+.hexcell.active .hex-fill{filter:url(#nvSh) drop-shadow(0 6px 16px rgba(20,66,114,.28))}
+.hexcell.active .hex-laser{stroke-width:3;opacity:1;animation-duration:1.5s}
+.hexcell--cta{cursor:pointer}
+.nv-links path{transition:stroke-width .35s,opacity .35s}
+.nv-links path.glow{opacity:1;stroke-width:3;filter:url(#laserGlow)}
+/* upgraded core: pulsing glow + radar sweep */
+.nv-glow{transform-box:fill-box;transform-origin:center;filter:blur(7px);opacity:.28;animation:coreGlow 3.2s ease-in-out infinite}
+@keyframes coreGlow{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.5;transform:scale(1.16)}}
+/* live "operations now" badge */
+.nv-live{display:inline-flex;align-items:center;gap:.5rem;margin:1rem auto 0;padding:.42rem .85rem;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:.74rem;color:var(--muted);box-shadow:var(--shadow-s)}
+.nv-live .dot{width:7px;height:7px;border-radius:50%;background:#1FA463;animation:liveDot 1.7s ease-out infinite}
+@keyframes liveDot{0%{box-shadow:0 0 0 0 rgba(31,164,99,.5)}100%{box-shadow:0 0 0 7px rgba(31,164,99,0)}}
+.nv-live b{font-family:var(--mono);color:var(--ink);font-weight:600}
+.netviz{text-align:center}
+@media(prefers-reduced-motion:reduce){.nv-glow,.nv-radar,.nv-live .dot{animation:none}.nv-radar{display:none}}
 /* connection links: animated dashed energy flow */
 .nv-links path{stroke-dasharray:5 7;opacity:.55;animation:nvFlow 1.1s linear infinite}
 @keyframes nvFlow{to{stroke-dashoffset:-24}}

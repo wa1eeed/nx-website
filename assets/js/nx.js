@@ -118,4 +118,47 @@
       }
     });
   });
+
+  // hero NX-cloud network: auto-cycle the active cell + tap/hover focus
+  const viz = document.querySelector('.netviz');
+  if (viz) {
+    const cells  = Array.from(viz.querySelectorAll('.hexcell'));
+    const links  = Array.from(viz.querySelectorAll('.nv-links > path'));
+    const labels = Array.from(viz.querySelectorAll('.nv-lab'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (cells.length) {
+      let idx = 0, timer = null, resumeT = null;
+      const activate = (i) => {
+        idx = i;
+        cells.forEach((c, k) => c.classList.toggle('active', k === i));
+        links.forEach((l, k) => l.classList.toggle('glow', k === i));
+        labels.forEach((l, k) => l.classList.toggle('on', k === i));
+        viz.classList.add('focusing');
+      };
+      const run = () => { if (timer) clearInterval(timer); timer = setInterval(() => activate((idx + 1) % cells.length), 2800); };
+      const pause = () => {
+        if (timer) { clearInterval(timer); timer = null; }
+        clearTimeout(resumeT);
+        if (!reduce) resumeT = setTimeout(() => { run(); activate((idx + 1) % cells.length); }, 6000);
+      };
+      cells.forEach((c, i) => {
+        c.addEventListener('pointerenter', () => { pause(); activate(i); });
+        c.addEventListener('click', () => {
+          pause(); activate(i);
+          if (c.dataset.cta === 'contact') {
+            const t = document.querySelector('#contact');
+            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+      if (!reduce) { activate(0); run(); document.addEventListener('visibilitychange', () => { document.hidden ? (timer && clearInterval(timer), timer = null) : run(); }); }
+
+      // live "operations now" counter
+      const live = viz.querySelector('[data-count]');
+      if (live) {
+        let n = parseInt(live.textContent.replace(/\D/g, ''), 10) || 128540;
+        setInterval(() => { n += 3 + Math.floor(Math.random() * 9); live.textContent = n.toLocaleString('en-US'); }, 1700);
+      }
+    }
+  }
 })();
