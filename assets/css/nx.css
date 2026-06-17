@@ -179,11 +179,11 @@ section.sec{padding:90px 0;position:relative}
 .trust-in .lbl{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);max-width:52ch}
 /* Arabic label: drop tracking + uppercase (they break letter-joining) */
 html[dir="rtl"] .trust-in .lbl{font-family:'Tajawal',var(--sans);font-size:.92rem;font-weight:500;letter-spacing:normal;text-transform:none;color:var(--ink-2)}
-.reg-logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.7rem}
-.reg{display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line-2);border-radius:10px;padding:.4rem .7rem;height:46px;transition:.2s}
+.reg-logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.9rem}
+.reg{display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:.5rem 1rem;height:72px;transition:.2s}
 .reg:hover{border-color:#D5E4F4;box-shadow:var(--shadow-s)}
-.reg img{height:26px;width:auto;display:block;object-fit:contain}
-@media(max-width:560px){.reg{height:42px;padding:.35rem .55rem}.reg img{height:22px}}
+.reg img{height:46px;width:auto;max-width:150px;display:block;object-fit:contain}
+@media(max-width:560px){.reg{height:60px;padding:.45rem .7rem}.reg img{height:38px;max-width:120px}}
 
 /* =================================================================
    MATRIX cards (home)
