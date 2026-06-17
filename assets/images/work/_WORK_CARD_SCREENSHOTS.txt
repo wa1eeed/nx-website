@@ -1,0 +1,11 @@
+Work-card "wallet" screenshots
+==============================
+Each work card shows a single (rotating) screenshot on the media card
+that emerges from the pocket. Drop screenshots here; missing files
+fall back to a clean placeholder.
+
+assets/images/work/<folder>/screen-1.png   (primary)
+assets/images/work/<folder>/screen-2.png   (optional, rotates)
+
+Folders: brokerage, fintech, ecommerce, healthtech, insurtech, logistics
+Recommended: landscape app screenshot, ~1600x1000 (16:10).
