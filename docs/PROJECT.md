@@ -23,8 +23,13 @@ compliance (SAMA, ZATCA, Nafath, NCA ECC, PDPL, PCI-DSS).
 │   ├── projects.html       # 4 NX platforms showcase (device frames)
 │   ├── contact.html        # contact page + Zoho Desk widget
 │   ├── services/           # launch, grow, automation360, connect, scale
-│   ├── solutions/          # fintech, proptech, insurtech, healthtech,
-│   │                       #   logistics, ecommerce, on-demand (7 sectors)
+│   ├── solutions/          # INDUSTRIES (who we serve): fintech, proptech,
+│   │                       #   insurtech, healthtech, logistics, ecommerce,
+│   │                       #   on-demand (7 sectors). UI label "Industries/القطاعات".
+│   ├── platforms/          # SOLUTIONS (platform types we build). UI label
+│   │                       #   "Solutions/الحلول". index + business-systems (ERP)
+│   │                       #   + booking. Animated orbit hero, "who it serves"
+│   │                       #   bridge, platform models, Saudi-regulatory FAQ.
 │   └── work/index.html     # filterable case-study grid
 ├── ar/                     # Arabic site (RTL) — exact mirror of /en/
 ├── assets/
@@ -49,7 +54,16 @@ compliance (SAMA, ZATCA, Nafath, NCA ECC, PDPL, PCI-DSS).
 └── docs/                   # ← you are here (PROJECT.md, TODO.md, DEPLOY.md)
 ```
 
-Total: **32 HTML pages** (16 EN + 16 AR, perfect mirror).
+Total HTML pages keep growing (EN + AR perfect mirror); latest additions are the
+3 Solutions pages per language under `platforms/`.
+
+### Information architecture (3 axes — don't conflate)
+- **Services** (what we do): launch, grow, automation360, connect, scale.
+- **Industries / القطاعات** (who we serve): the 7 sectors under `/solutions/`
+  (the directory name stays `solutions` for URL stability; the UI says "Industries").
+- **Solutions / الحلول** (platform *types* we build): under `/platforms/` —
+  Business Operating Systems (ERP), Booking & Reservations, plus index cards that
+  cross-link to On-Demand, Marketplaces, Government Integration and Custom Platforms.
 
 ---
 
@@ -181,10 +195,10 @@ The homepage also has a centered **"View all work"** button below the cards → 
   304s); fonts + images = 30-day cache; HTML = `no-cache`.
 - Every `nx.css` / `nx.js` / `nx-form.js` / `nx-zoho.js` reference carries a
   `?v=N` query. **Bump `N` on every CSS/JS change** so already-cached browsers
-  fetch the new file immediately. Currently at **`v=27`**.
+  fetch the new file immediately. Currently at **`v=29`**.
   ```bash
-  # bump the version across all pages (replace 27→28 etc.):
-  grep -rl '?v=27' en/ ar/ index.html | xargs sed -i '' 's/?v=27/?v=28/g'
+  # bump the version across all pages (replace 29→30 etc.):
+  grep -rl '?v=29' en/ ar/ index.html | xargs sed -i '' 's/?v=29/?v=30/g'
   ```
   > Images keep their path when re-optimised, so they ride the 30-day cache; only
   > CSS/JS use the `?v=` query.

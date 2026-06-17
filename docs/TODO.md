@@ -34,6 +34,20 @@ The work cards now show the real projects (IBP, Nqlah, Nitaq, iWork).
 
 ---
 
+## 🧩 Solutions / Industries IA expansion (in progress)
+
+- [x] **Solutions section** at `/platforms/` (UI label "Solutions/الحلول"):
+      index + **Business Operating Systems (ERP)** + **Booking & Reservations**,
+      EN + AR. Animated orbit hero (no gradient split), "who it serves" bridge,
+      platform models, Saudi-regulatory FAQ (ZATCA/SAMA/Mada/PDPL/GOSI), CTA.
+      Nav item added site-wide; sitemap + v=29 updated.
+- [ ] **New Industry pages** (full): EdTech, FoodTech, GovTech, Tourism &
+      Hospitality — mirror the existing 7 sector pages.
+- [ ] **Roll the new pattern onto existing sector/service pages**: animated hero
+      (remove the gradient split), a "platform types" section, and a
+      regulatory FAQ.
+- [ ] Optional: surface Solutions on the homepage (a section/teaser) + footer column.
+
 ## 🔴 P0 — Blockers / must-do before go-live confidence
 
 - [ ] **Redeploy on Coolify** and hard-refresh to confirm the latest hero
