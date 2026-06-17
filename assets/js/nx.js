@@ -119,6 +119,56 @@
     });
   });
 
+  // work-card "quick look" video stories
+  const storyBtns = document.querySelectorAll('.story');
+  if (storyBtns.length) {
+    const ov = document.createElement('div');
+    ov.className = 'story-overlay';
+    ov.innerHTML =
+      '<div class="story-player">' +
+        '<div class="story-bar"><i></i></div>' +
+        '<button class="story-x" type="button" aria-label="Close">&times;</button>' +
+        '<video class="story-vid" playsinline preload="metadata"></video>' +
+        '<div class="story-title"></div>' +
+      '</div>';
+    document.body.appendChild(ov);
+    const player = ov.querySelector('.story-player');
+    const bar = ov.querySelector('.story-bar');
+    const vid = ov.querySelector('.story-vid');
+    const titleEl = ov.querySelector('.story-title');
+    let autoT;
+    const DUR = 10000;
+    const close = () => {
+      ov.classList.remove('open');
+      document.body.classList.remove('story-open');
+      clearTimeout(autoT);
+      try { vid.pause(); } catch (e) {}
+      bar.classList.remove('run');
+    };
+    const open = (btn) => {
+      const src = btn.dataset.video, poster = btn.dataset.poster || '';
+      player.style.backgroundImage = poster ? "url('" + poster + "')" : 'none';
+      titleEl.textContent = btn.dataset.title || '';
+      vid.src = src || '';
+      vid.currentTime = 0;
+      ov.classList.add('open');
+      document.body.classList.add('story-open');
+      // reset + run the 10s progress bar (reflow-based, not rAF, so it
+      // works even when the tab was backgrounded)
+      bar.classList.remove('run');
+      void bar.offsetWidth;
+      bar.classList.add('run');
+      if (src) { vid.play().catch(() => {}); }
+      clearTimeout(autoT);
+      autoT = setTimeout(close, DUR);          // auto-close at 10s
+    };
+    storyBtns.forEach(b => b.addEventListener('click', e => { e.preventDefault(); open(b); }));
+    ov.querySelector('.story-x').addEventListener('click', close);
+    ov.addEventListener('click', e => { if (e.target === ov) close(); });
+    vid.addEventListener('ended', close);
+    addEventListener('keydown', e => { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+  }
+
   // hero NX-cloud network: auto-cycle the active cell + tap/hover focus
   const viz = document.querySelector('.netviz');
   if (viz) {

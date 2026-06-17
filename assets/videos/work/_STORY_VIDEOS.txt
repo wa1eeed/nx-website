@@ -1,0 +1,12 @@
+Work-card "Quick look" story videos
+===================================
+Each work card's story circle opens a 10s Instagram/Snapchat-style
+popup. Drop a vertical (9:16) MP4 here named by project id:
+
+  assets/videos/work/ibp.mp4
+  assets/videos/work/nqlah.mp4
+  assets/videos/work/nitaq.mp4
+  assets/videos/work/iwork.mp4
+
+Until a video exists the popup shows the project screenshot (poster)
+for 10s. Recommended: ~1080x1920, <10s, H.264 MP4.

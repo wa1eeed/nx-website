@@ -1,11 +1,12 @@
-Work-card "wallet" screenshots
-==============================
-Each work card shows a single (rotating) screenshot on the media card
-that emerges from the pocket. Drop screenshots here; missing files
-fall back to a clean placeholder.
+Work-card "peek" screenshots (now the real projects)
+====================================================
+The peek card shows each project's screenshot. IBP already has real
+shots; the others fall back to a placeholder until added.
 
-assets/images/work/<folder>/screen-1.png   (primary)
-assets/images/work/<folder>/screen-2.png   (optional, rotates)
+Used by the cards (from assets/images/projects/):
+  ibp     -> ibp-dashboard.png        (EXISTS)
+  nqlah   -> nqlah-desktop.png        (add)
+  nitaq   -> nitaq-desktop.png        (add)
+  iwork   -> iwork-desktop.png        (add)
 
-Folders: brokerage, fintech, ecommerce, healthtech, insurtech, logistics
-Recommended: landscape app screenshot, ~1600x1000 (16:10).
+Recommended: landscape app screenshot, ~1600x1000.
