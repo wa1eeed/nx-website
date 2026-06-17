@@ -244,7 +244,7 @@ html[dir="rtl"] .trust-in .lbl{font-family:'Tajawal',var(--sans);font-size:.92re
    ================================================================= */
 .show-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:48px;flex-wrap:wrap}
 .show-head .sec-head{margin-bottom:0}
-.work{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.work{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
 .case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
 .case:hover{transform:translateY(-5px);box-shadow:var(--shadow-l);border-color:transparent}
 .case.hide{display:none}
@@ -268,7 +268,7 @@ html[dir="rtl"] .trust-in .lbl{font-family:'Tajawal',var(--sans);font-size:.92re
 .case .stats .st span{font-size:.72rem;color:var(--muted)}
 .case .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.3rem}
 .case .chips span{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);background:var(--line-2);border-radius:6px;padding:.25rem .55rem}
-@media(max-width:760px){.work{grid-template-columns:1fr}}
+@media(max-width:560px){.work{grid-template-columns:1fr}}
 /* work card with live device mockups (laptop + phone) in the dark header */
 a.case{text-decoration:none;color:inherit}
 /* device mockups sit FULLY inside the dark header (centred, not clipped) */
@@ -711,8 +711,9 @@ html[dir="rtl"] .nv-lab{font-family:'Tajawal',var(--sans);font-size:12.5px}
 .chip:hover{border-color:var(--hi);color:var(--hi)}
 .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
 
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;padding-bottom:40px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.phero-stats{gap:2rem}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;padding-bottom:40px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+@media(max-width:760px){.phero-stats{gap:2rem}}
 
 .nda{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.6rem;font-family:var(--mono);font-size:.74rem;color:rgba(255,255,255,.6)}
 .nda svg{width:15px;height:15px;stroke:var(--sky);fill:none;stroke-width:1.6}
