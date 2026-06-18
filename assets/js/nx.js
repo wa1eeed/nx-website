@@ -223,6 +223,52 @@
     });
   }
 
+  // swipeable card deck ([data-deck]: stacked cards + drag/swipe + auto + dots)
+  document.querySelectorAll('[data-deck]').forEach(deck => {
+    const cards = Array.from(deck.querySelectorAll('.deck-card'));
+    const dots  = Array.from(deck.querySelectorAll('.deck-dots i'));
+    const n = cards.length;
+    if (n < 2) return;
+    const DELAY = parseInt(deck.dataset.deck, 10) || 4000;
+    let active = 0, dx = 0, drag = false, sx = 0, timer = null;
+    const render = () => {
+      cards.forEach((c, i) => {
+        const off = (i - active + n) % n;
+        let x = 0, y = 0, sc = 1, op = 1, z = n - off, rot = 0;
+        if (off === 0) { x = dx; rot = dx * 0.025; }
+        else if (off === 1) { y = 16; sc = .93; op = .55; }
+        else if (off === 2) { y = 30; sc = .86; op = .28; }
+        else { y = 40; sc = .82; op = 0; }
+        c.style.zIndex = z;
+        c.style.opacity = op;
+        c.style.transform = `translate(${x}px,${y}px) scale(${sc}) rotate(${rot}deg)`;
+      });
+      dots.forEach((d, i) => d.classList.toggle('on', i === active));
+    };
+    const go = (k) => { active = (k + n) % n; dx = 0; render(); };
+    const run = () => { stop(); timer = setInterval(() => go(active + 1), DELAY); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    dots.forEach((d, i) => d.addEventListener('click', () => { go(i); run(); }));
+    const front = () => cards[active];
+    deck.addEventListener('pointerdown', e => {
+      drag = true; sx = e.clientX; dx = 0; stop();
+      front().classList.add('dragging');
+    });
+    addEventListener('pointermove', e => { if (drag) { dx = e.clientX - sx; render(); } });
+    addEventListener('pointerup', () => {
+      if (!drag) return;
+      drag = false; front().classList.remove('dragging');
+      if (dx < -55) go(active + 1);
+      else if (dx > 55) go(active - 1);
+      else { dx = 0; render(); }
+      run();
+    });
+    deck.addEventListener('mouseenter', stop);
+    deck.addEventListener('mouseleave', run);
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : run(); });
+    render(); run();
+  });
+
   // generic auto-cycler ([data-cycle]: cross-fade .cyc-frame + highlight .cyc-tab)
   document.querySelectorAll('[data-cycle]').forEach(c => {
     const frames = Array.from(c.querySelectorAll('.cyc-frame'));

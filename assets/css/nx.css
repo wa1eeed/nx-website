@@ -1811,6 +1811,26 @@ html[dir="rtl"] .lmap-lbl{font-family:'Tajawal',var(--sans)}
 .lz-chip{font-family:var(--mono);font-size:.58rem;color:#cfe0f2;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 11px}
 .lz-frame .dash-kpis{margin-bottom:12px}.lz-mh{font-size:.8rem;font-weight:800;color:#fff;margin-bottom:.8rem}
 @media(max-width:560px){.site-cards{grid-template-columns:1fr}.lz-flow{gap:8px}.lzf-conn{display:none}.lz-tab span{display:none}}
+/* ── swipeable card deck (sector hero) ── */
+.deck{position:relative;width:100%;max-width:420px;margin-inline:auto;-webkit-user-select:none;user-select:none;touch-action:pan-y}
+.deck-stage{position:relative;height:438px;perspective:1300px}
+.deck-card{position:absolute;inset:0;background:linear-gradient(180deg,#FFFFFF,#EEF4FA);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow-l);overflow:hidden;display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.34,1.2,.5,1),opacity .45s;will-change:transform,opacity;cursor:grab}
+.deck-card.dragging{transition:none;cursor:grabbing}
+.deck-card .dk-vis{flex:1;display:grid;place-items:center;padding:22px 20px 4px;min-height:0;overflow:hidden}
+.deck-card .dk-cap{padding:0 22px 20px}
+.dk-n{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hi)}
+html[dir="rtl"] .dk-n{font-family:'Tajawal',var(--sans);letter-spacing:0;font-weight:700}
+.dk-cap b{display:block;font-size:1.12rem;font-weight:800;letter-spacing:-.015em;margin:.3rem 0 .35rem}
+.dk-cap p{font-size:.88rem;color:var(--muted);line-height:1.55}
+.deck-dots{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px}
+.deck-dots i{height:5px;width:24px;border-radius:3px;background:var(--line);cursor:pointer;transition:.3s}
+.deck-dots i.on{background:var(--grad);width:38px}
+.deck-hint{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:11px;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+html[dir="rtl"] .deck-hint{font-family:'Tajawal',var(--sans);letter-spacing:0}
+.deck-hint svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;animation:deckSwipe 1.8s ease-in-out infinite}
+@keyframes deckSwipe{0%,100%{transform:translateX(-3px)}50%{transform:translateX(4px)}}
+@media(max-width:860px){.deck-stage{height:420px}}
+@media(prefers-reduced-motion:reduce){.deck-hint svg{animation:none}.deck-card{transition:opacity .4s}}
 /* platform-variant rail (direct / booking / hybrid / custom) */
 .variants{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:1.6rem}
 .variant{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:.3s}
