@@ -131,7 +131,7 @@
 
   // animated count-up for stat numbers (band + page-hero stats + project stats)
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const numEls = document.querySelectorAll('.band .m b, .phero-stats .s b, .project-stats .ps b, .hero-trust .t b, .dash-kpi b, .dvc-gauge .gtx b, .dvc-port b, .stak-stamp b, .erpw-kpi b');
+  const numEls = document.querySelectorAll('.band .m b, .phero-stats .s b, .project-stats .ps b, .hero-trust .t b, .dash-kpi b, .dvc-gauge .gtx b, .dvc-port b, .stak-stamp b, .erpw-kpi b, .wk-result b');
   if (numEls.length && !reduceMotion) {
     const easeOut = t => 1 - Math.pow(1 - t, 3);
     const runCount = (el) => {
@@ -221,6 +221,24 @@
       });
       stage.addEventListener('pointerleave', () => { el.style.transform = ''; });
     });
+  }
+
+  // work cards: sector filter + expand-story toggle
+  const wkGrid = document.querySelector('.wk-grid');
+  if (wkGrid) {
+    const cards = Array.from(wkGrid.querySelectorAll('.wk-card'));
+    document.querySelectorAll('.wk-fbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.wkfilter;
+        document.querySelectorAll('.wk-fbtn').forEach(b => b.classList.toggle('on', b === btn));
+        wkGrid.classList.toggle('flat', f !== 'all');
+        cards.forEach(c => c.classList.toggle('hide', f !== 'all' && c.dataset.filter !== f));
+      });
+    });
+    wkGrid.querySelectorAll('.wk-flip').forEach(b => b.addEventListener('click', e => {
+      e.preventDefault(); b.closest('.wk-card').classList.add('open');
+    }));
+    wkGrid.querySelectorAll('.wk-close').forEach(b => b.addEventListener('click', () => b.closest('.wk-card').classList.remove('open')));
   }
 
   // swipeable card deck ([data-deck]: stacked cards + drag/swipe + auto + dots)
