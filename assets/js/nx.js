@@ -223,6 +223,27 @@
     });
   }
 
+  // generic auto-cycler ([data-cycle]: cross-fade .cyc-frame + highlight .cyc-tab)
+  document.querySelectorAll('[data-cycle]').forEach(c => {
+    const frames = Array.from(c.querySelectorAll('.cyc-frame'));
+    const tabs   = Array.from(c.querySelectorAll('.cyc-tab'));
+    if (frames.length < 2) return;
+    let i = 0, t = null;
+    const D = parseInt(c.dataset.cycle, 10) || 3000;
+    const show = (k) => {
+      i = k;
+      frames.forEach((f, x) => f.classList.toggle('on', x === k));
+      tabs.forEach((f, x) => f.classList.toggle('on', x === k));
+    };
+    const run = () => { stop(); t = setInterval(() => show((i + 1) % frames.length), D); };
+    const stop = () => { if (t) { clearInterval(t); t = null; } };
+    tabs.forEach((tb, k) => tb.addEventListener('click', () => { show(k); run(); }));
+    c.addEventListener('mouseenter', stop);
+    c.addEventListener('mouseleave', run);
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : run(); });
+    show(0); run();
+  });
+
   // stepped-story hero (auto-cycling visual + caption + dots)
   document.querySelectorAll('[data-story]').forEach(story => {
     const frames = Array.from(story.querySelectorAll('.hs-frame'));

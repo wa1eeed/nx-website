@@ -1688,6 +1688,53 @@ html[dir="rtl"] .lmap-lbl{font-family:'Tajawal',var(--sans)}
 .lmap.in .lmap-prog i{animation:lmapProg 2.4s cubic-bezier(.4,0,.2,1) .4s forwards}
 @keyframes lmapProg{to{width:68%}}
 @media(prefers-reduced-motion:reduce){.lmap.in .lmap-glow{animation:none;stroke-dashoffset:0}.lmap-flow{animation:none}.lmap.in .lmap-prog i{animation:none;width:68%}}
+/* booking → vertical-adaptive booking (one engine, every business) */
+.bkx{display:grid;grid-template-columns:238px 1fr;gap:30px;max-width:760px;margin:2.4rem auto 0;align-items:center}
+@media(max-width:680px){.bkx{grid-template-columns:1fr;gap:20px}}
+.bk-rail{display:flex;flex-direction:column;gap:10px}
+@media(max-width:680px){.bk-rail{flex-direction:row;flex-wrap:wrap;justify-content:center}.bk-tab span{display:none}}
+.bk-tab{display:flex;align-items:center;gap:.65rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:11px 13px;cursor:pointer;transition:.3s}
+.bk-tab .ic{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:#9fc0e0;flex-shrink:0;transition:.3s}
+.bk-tab .ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7}
+.bk-tab b{color:#fff;font-size:.78rem;display:block}.bk-tab span{font-size:.56rem;color:#8fb0d6;font-family:var(--mono)}
+.bk-tab.on{background:color-mix(in srgb,var(--accent,#C9A24B) 20%,transparent);border-color:color-mix(in srgb,var(--accent,#C9A24B) 55%,transparent)}
+.bk-tab.on .ic{background:linear-gradient(135deg,#2C74B3,#3ad0b0);color:#fff}
+.bk-stage{display:flex;justify-content:center}
+.bk-phone{width:232px;height:436px;border-radius:42px;background:linear-gradient(160deg,#26384f,#0b1626);padding:9px;box-shadow:0 44px 84px -24px rgba(0,0,0,.72)}
+.bk-scr{position:relative;width:100%;height:100%;border-radius:34px;background:linear-gradient(180deg,#0f2034,#0a1525);overflow:hidden}
+.bk-scr .isl{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:74px;height:22px;background:#000;border-radius:12px;z-index:3}
+.cyc-frame{position:absolute;inset:0;padding:38px 16px 16px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s;pointer-events:none}
+.cyc-frame.on{opacity:1;transform:none}
+.bk-vh{color:#fff;font-size:.92rem;font-weight:800}
+.bk-vsub{font-size:.58rem;color:#8fb0d6;font-family:var(--mono);margin:.15rem 0 .9rem}
+.bk-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:11px 12px;margin-bottom:9px}
+.bk-card .r{display:flex;justify-content:space-between;font-size:.64rem;color:#9fc0e0;padding:.22rem 0}.bk-card .r b{color:#fff;font-weight:600}
+.bk-slots{display:flex;gap:6px;flex-wrap:wrap;margin:.5rem 0 .2rem}
+.bk-slot{font-family:var(--mono);font-size:.56rem;color:#9fc0e0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:4px 8px}
+.bk-slot.sel{background:linear-gradient(135deg,#2C74B3,#3ad0b0);color:#fff;border-color:transparent}
+.bk-confirm{display:flex;align-items:center;gap:.5rem;background:rgba(58,208,176,.14);border:1px solid rgba(58,208,176,.3);border-radius:11px;padding:9px 11px;font-size:.66rem;color:#fff;margin-top:.5rem}
+.bk-confirm .ck{width:19px;height:19px;border-radius:50%;background:#22b07a;display:grid;place-items:center;flex-shrink:0}.bk-confirm .ck svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3}
+/* booking hero → light booking widget */
+.bkw{position:relative;width:100%;max-width:380px;margin-inline:auto}
+.bkw-cal{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-l);padding:20px 22px}
+.bkw-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.bkw-top b{font-weight:800;color:var(--ink);font-size:1rem}.bkw-top .mono{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.bkw-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:5px}
+.bkw-dow span{text-align:center;font-family:var(--mono);font-size:.54rem;color:var(--muted)}
+.bkw-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.bkw-grid span{aspect-ratio:1;display:grid;place-items:center;font-size:.66rem;color:var(--ink-2);border-radius:9px;background:#F6F8FB}
+.bkw-grid span.dim{opacity:.35}
+.bkw-grid span.sel{background:var(--grad);color:#fff;font-weight:700;animation:bkwPulse 2.6s ease-in-out infinite}
+@keyframes bkwPulse{0%,100%{box-shadow:0 0 0 0 rgba(44,116,179,.45)}50%{box-shadow:0 0 0 7px rgba(44,116,179,0)}}
+.bkw-slot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;background:#F6F8FB;border:1px solid var(--line);border-radius:13px;padding:11px 14px}
+.bkw-slot .t b{display:block;font-size:.86rem;color:var(--ink)}.bkw-slot .t span{font-size:.66rem;color:var(--muted)}
+.bkw-slot .bk{background:var(--grad);color:#fff;border-radius:999px;padding:.42rem .95rem;font-size:.74rem;font-weight:700;display:inline-flex;align-items:center;gap:.4rem}
+.bkw-slot .bk svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.6}
+.bkw-chip{position:absolute;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow-m);padding:.42rem .75rem;font-size:.7rem;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:.4rem;animation:nvFloat 5s ease-in-out infinite}
+.bkw-chip svg{width:14px;height:14px;stroke:var(--brand-2);fill:none;stroke-width:1.8}
+.bkw-c1{top:-16px;inset-inline-end:-8px}
+.bkw-c2{bottom:24px;inset-inline-start:-18px;animation-delay:1.6s}
+@media(prefers-reduced-motion:reduce){.cyc-frame,.bkw-grid span.sel,.bkw-chip{animation:none}}
 /* platform-variant rail (direct / booking / hybrid / custom) */
 .variants{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:1.6rem}
 .variant{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:.3s}
