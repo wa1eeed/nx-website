@@ -223,6 +223,46 @@
     });
   }
 
+  // work project switcher ([data-wks]: selectable list + cross-fading stage + auto)
+  document.querySelectorAll('[data-wks]').forEach(w => {
+    const tabs   = Array.from(w.querySelectorAll('.wks-tab'));
+    const shots  = Array.from(w.querySelectorAll('.wks-shot'));
+    const panels = Array.from(w.querySelectorAll('.wks-panel'));
+    const urlEl  = w.querySelector('.wks-topbar .u');
+    const n = tabs.length;
+    if (!n) return;
+    let active = 0, timer = null;
+    const DUR = 5000;
+    const show = (k) => {
+      active = k;
+      tabs.forEach((t, i) => t.classList.toggle('on', i === k));
+      shots.forEach((s, i) => s.classList.toggle('on', i === k));
+      panels.forEach((p, i) => p.classList.toggle('on', i === k));
+      if (urlEl && tabs[k].dataset.url) urlEl.textContent = tabs[k].dataset.url;
+      const pb = w.querySelector('.wks-play'); if (pb) { pb.dataset.video = tabs[k].dataset.video; pb.dataset.poster = tabs[k].dataset.poster; pb.dataset.title = tabs[k].dataset.title; }
+      w.classList.remove('play'); void w.offsetWidth; w.classList.add('play');
+    };
+    const run = () => { stop(); timer = setInterval(() => show((active + 1) % n), DUR); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { show(i); run(); });
+      t.addEventListener('mouseenter', () => { stop(); show(i); });
+    });
+    w.addEventListener('mouseleave', run);
+    // swipe the stage on touch
+    const stage = w.querySelector('.wks-stage');
+    let sx = 0, sw = false;
+    stage.addEventListener('pointerdown', e => { sw = true; sx = e.clientX; });
+    stage.addEventListener('pointerup', e => {
+      if (!sw) return; sw = false;
+      const dx = e.clientX - sx;
+      if (dx < -45) { show((active + 1) % n); run(); }
+      else if (dx > 45) { show((active - 1 + n) % n); run(); }
+    });
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : run(); });
+    show(0); run();
+  });
+
   // work cards: sector filter + expand-story toggle
   const wkGrid = document.querySelector('.wk-grid');
   if (wkGrid) {
