@@ -1500,7 +1500,19 @@ html[dir="rtl"] .connect-cta .btn-light svg{transform:scaleX(-1)}
 /* transaction-flow svg */
 .dvc-tf svg{width:100%;height:120px;display:block}
 @media(max-width:980px){.dvc{height:auto;display:flex;flex-direction:column;align-items:center;gap:18px}.dvc-phone,.dvc-card{position:static;transform:none;inset:auto;width:min(300px,86vw)}.dvc-phone{order:-1}}
-@media(prefers-reduced-motion:reduce){.dvc-phone,.dvc-card,.dvc-face::after,.dvc-prog i,.dvc-conn{animation:none}}
+.dvc-gauge{position:relative;width:104px;height:104px;margin:.2rem auto .1rem}
+.dvc-gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dvc-gauge .gtrk{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10}
+.dvc-gauge .gfg{fill:none;stroke:#3ad0b0;stroke-width:10;stroke-linecap:round;stroke-dasharray:276;stroke-dashoffset:276}
+.dvc.in .dvc-gauge .gfg{animation:dvcGauge 1.4s ease .3s forwards}
+@keyframes dvcGauge{to{stroke-dashoffset:var(--o)}}
+.dvc-gauge .gtx{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dvc-gauge .gtx b{font-size:1.5rem;font-weight:800;color:#fff;line-height:1}
+.dvc-gauge .gtx span{font-size:.54rem;color:#8fb0d6;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.dvc-svg{width:100%;height:auto;display:block;margin-top:.2rem;border-radius:9px}
+.dvc-line{font-size:.6rem;color:#9fc0e0;text-align:center;margin-top:.5rem}
+.dvc-line b{color:#fff}
+@media(prefers-reduced-motion:reduce){.dvc-phone,.dvc-card,.dvc-face::after,.dvc-prog i,.dvc-conn,.dvc-gauge .gfg{animation:none}}
 .fx-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:2rem;position:relative;z-index:1}
 .fx-chips span{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);font-size:.74rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.4rem .8rem;color:#EAF2FB}
 html[dir="rtl"] .fx-chips span{font-family:'Tajawal',var(--sans)}
