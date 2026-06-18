@@ -1498,7 +1498,7 @@ html[dir="rtl"] .connect-cta .btn-light svg{transform:scaleX(-1)}
 .dvc-vfd{text-align:center;font-size:.62rem;color:#3ad0b0;font-weight:700;margin-top:.4rem}
 .dvc-conn{stroke:rgba(127,178,230,.5);stroke-width:1.5;fill:none;stroke-dasharray:3 5;animation:jlFlow 1.3s linear infinite}
 /* transaction-flow svg */
-.dvc-tf svg{width:100%;height:120px;display:block}
+.dvc-tf > svg:not(.dvc-svg){width:100%;height:120px;display:block}
 @media(max-width:980px){.dvc{height:auto;display:flex;flex-direction:column;align-items:center;gap:18px}.dvc-phone,.dvc-card{position:static;transform:none;inset:auto;width:min(300px,86vw)}.dvc-phone{order:-1}}
 .dvc-gauge{position:relative;width:104px;height:104px;margin:.2rem auto .1rem}
 .dvc-gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
