@@ -168,8 +168,8 @@ section.sec{padding:90px 0;position:relative}
 .sec-head{max-width:36em;margin-bottom:50px}
 .sec-head.center{margin:0 auto 54px;text-align:center}
 .sec-head.center .eyebrow{justify-content:center}
-.sec-head h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800;letter-spacing:-.027em;line-height:1.1;margin:1rem 0 .9rem}
-.sec-head p{font-size:1.05rem;color:var(--ink-2)}
+.sec-head h2{font-size:clamp(1.95rem,4vw,2.9rem);font-weight:800;letter-spacing:-.027em;line-height:1.12;margin:.9rem 0 .9rem}
+.sec-head p{font-size:1.12rem;line-height:1.6;color:var(--ink-2)}
 
 /* =================================================================
    TRUST STRIP (home)
