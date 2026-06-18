@@ -1831,6 +1831,20 @@ html[dir="rtl"] .deck-hint{font-family:'Tajawal',var(--sans);letter-spacing:0}
 @keyframes deckSwipe{0%,100%{transform:translateX(-3px)}50%{transform:translateX(4px)}}
 @media(max-width:860px){.deck-stage{height:420px}}
 @media(prefers-reduced-motion:reduce){.deck-hint svg{animation:none}.deck-card{transition:opacity .4s}}
+/* blockchain hero → on-chain ledger (light) */
+.chainviz{position:relative;width:100%;max-width:400px;margin-inline:auto;display:flex;flex-direction:column;gap:17px}
+.cv-block{position:relative;display:flex;align-items:center;gap:.8rem;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-m);padding:13px 15px;animation:cvPulse 3.4s ease-in-out infinite;animation-delay:var(--d,0s)}
+.cv-block::after{content:"";position:absolute;bottom:-18px;inset-inline-start:34px;width:2px;height:18px;background:linear-gradient(var(--brand-2),rgba(44,116,179,.15))}
+.cv-block:last-child::after{display:none}
+.cv-block .cube{width:40px;height:40px;border-radius:11px;background:var(--grad);display:grid;place-items:center;color:#fff;flex-shrink:0}
+.cv-block .cube svg{width:21px;height:21px;stroke:#fff;fill:none;stroke-width:1.7}
+.cv-block .cvx{flex:1;min-width:0}
+.cv-block .cvx b{display:block;font-size:.86rem;font-weight:700;letter-spacing:-.01em}
+.cv-block .cvx span{font-family:var(--mono);font-size:.6rem;color:var(--muted)}
+.cv-block .cvk{width:22px;height:22px;border-radius:50%;background:#E8F7F0;display:grid;place-items:center;flex-shrink:0}
+.cv-block .cvk svg{width:12px;height:12px;stroke:#1f9d5b;fill:none;stroke-width:3}
+@keyframes cvPulse{0%,100%{box-shadow:var(--shadow-m)}50%{box-shadow:0 10px 26px -6px rgba(44,116,179,.45);border-color:#CFE0F2}}
+@media(prefers-reduced-motion:reduce){.cv-block{animation:none}}
 /* platform-variant rail (direct / booking / hybrid / custom) */
 .variants{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:1.6rem}
 .variant{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:.3s}

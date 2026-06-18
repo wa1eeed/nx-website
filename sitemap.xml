@@ -433,4 +433,20 @@
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://nx.sa/en/solutions/blockchain/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/blockchain/"/>
+    <lastmod>2026-06-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/ar/solutions/blockchain/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/blockchain/"/>
+    <lastmod>2026-06-18</lastmod>
+    <priority>0.8</priority>
+  </url>
 </urlset>
