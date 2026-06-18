@@ -1423,9 +1423,10 @@ html[dir="rtl"] .connect-cta .btn-light svg{transform:scaleX(-1)}
 .fxshow{position:relative;overflow:hidden;background:linear-gradient(180deg,#0B2545 0%,#103A6B 100%);color:#fff}
 .fxshow .sec-head h2,.fxshow .sec-head p{color:#fff}
 .fxshow .sec-head p{color:#C9DCF1}
-.fxshow .eyebrow{color:#7FB2E6}
-.fxshow .eyebrow::before{background:#7FB2E6}
-.fx-aura{position:absolute;top:38%;left:50%;width:80%;max-width:900px;aspect-ratio:2/1;transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,rgba(45,124,196,.55),rgba(45,124,196,0) 65%);filter:blur(20px);animation:fxAura 7s ease-in-out infinite;pointer-events:none}
+.fxshow{--accent:#2D7CC4}
+.fxshow .eyebrow{color:color-mix(in srgb,var(--accent) 72%,#fff)}
+.fxshow .eyebrow::before{background:var(--accent)}
+.fx-aura{position:absolute;top:38%;left:50%;width:80%;max-width:900px;aspect-ratio:2/1;transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,color-mix(in srgb,var(--accent) 60%,transparent),transparent 64%);filter:blur(20px);animation:fxAura 7s ease-in-out infinite;pointer-events:none}
 @keyframes fxAura{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
 .fx-stage{position:relative;z-index:1;max-width:1080px;margin:2.4rem auto 0;perspective:1700px}
 /* ── coded device + floating fintech panels (image replacement) ── */
@@ -1516,7 +1517,7 @@ html[dir="rtl"] .connect-cta .btn-light svg{transform:scaleX(-1)}
 .fx-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:2rem;position:relative;z-index:1}
 .fx-chips span{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);font-size:.74rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.4rem .8rem;color:#EAF2FB}
 html[dir="rtl"] .fx-chips span{font-family:'Tajawal',var(--sans)}
-.fx-chips span i{width:7px;height:7px;border-radius:50%;background:#27C2A4;box-shadow:0 0 0 3px rgba(39,194,164,.2);animation:hvBlink 1.5s ease-in-out infinite}
+.fx-chips span i{width:7px;height:7px;border-radius:50%;background:var(--accent,#27C2A4);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent,#27C2A4) 22%,transparent);animation:hvBlink 1.5s ease-in-out infinite}
 .fx-chips span:nth-child(2) i{animation-delay:.3s}.fx-chips span:nth-child(3) i{animation-delay:.6s}.fx-chips span:nth-child(4) i{animation-delay:.9s}.fx-chips span:nth-child(5) i{animation-delay:1.2s}
 @media(prefers-reduced-motion:reduce){.fx-aura,.fx-tilt,.fx-stage::after,.fx-chips span i{animation:none}}
 /* ════ alt showcase archetypes (variety across pages) ════ */

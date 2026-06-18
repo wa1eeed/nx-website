@@ -131,7 +131,7 @@
 
   // animated count-up for stat numbers (band + page-hero stats + project stats)
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const numEls = document.querySelectorAll('.band .m b, .phero-stats .s b, .project-stats .ps b, .hero-trust .t b');
+  const numEls = document.querySelectorAll('.band .m b, .phero-stats .s b, .project-stats .ps b, .hero-trust .t b, .dash-kpi b, .dvc-gauge .gtx b, .dvc-port b, .stak-stamp b');
   if (numEls.length && !reduceMotion) {
     const easeOut = t => 1 - Math.pow(1 - t, 3);
     const runCount = (el) => {
