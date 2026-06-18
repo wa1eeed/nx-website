@@ -209,6 +209,20 @@
     addEventListener('keydown', e => { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
   }
 
+  // pointer-tilt parallax ([data-tilt] wrapper, e.g. fintech app showcase)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(pointer:fine)').matches) {
+    document.querySelectorAll('[data-tilt]').forEach(el => {
+      const stage = el.closest('.fx-stage') || el.parentElement;
+      stage.addEventListener('pointermove', e => {
+        const r = stage.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'rotateY(' + (x * 7).toFixed(2) + 'deg) rotateX(' + (-y * 7).toFixed(2) + 'deg)';
+      });
+      stage.addEventListener('pointerleave', () => { el.style.transform = ''; });
+    });
+  }
+
   // stepped-story hero (auto-cycling visual + caption + dots)
   document.querySelectorAll('[data-story]').forEach(story => {
     const frames = Array.from(story.querySelectorAll('.hs-frame'));
