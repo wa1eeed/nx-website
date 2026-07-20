@@ -126,6 +126,8 @@ first paint / LCP. To update a widget, change only its URL/token in that file.
 > ⚠️ GA4 (gtag) and GTM both write to `window.dataLayer` and coexist. If GTM is
 > later set to fire the same GA4 property, remove the standalone gtag block in
 > `nx-zoho.js` to avoid double-counting.
+> **Verified 2026-07-20:** GTM does *not* currently fire GA4 — one `config` call
+> and one `page_view` per load, no duplication. (See DEPLOY.md "Analytics & tracking".)
 
 > ⚠️ The "Zoho Marketing Automation (ZMA)" snippet supplied earlier was a
 > duplicate of the PageSense URL, so it was **not** added (would double-load

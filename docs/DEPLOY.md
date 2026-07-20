@@ -62,10 +62,10 @@ Browsers were caching the old `nx.css` for days. Fixed two ways:
 
 1. **nginx**: CSS/JS = `no-cache, must-revalidate`; HTML = `no-cache`;
    fonts/images = 30-day cache.
-2. **Cache-bust query**: every CSS/JS link has `?v=N`. **Bump `N` on every
-   CSS/JS change.** Currently `v=4`.
+2. **Cache-bust query**: every CSS/JS link has `?v=N`. **Bump `N` site-wide on
+   every CSS/JS change** (content-only HTML edits don't need it). Currently **`v=59`**.
    ```bash
-   grep -rl '?v=4' en/ ar/ | xargs sed -i '' 's/?v=4/?v=5/g'
+   grep -rl '?v=59' --include='*.html' . | xargs sed -i '' 's/?v=59/?v=60/g'
    ```
 
 ## Regenerating brand icons from the logo
@@ -87,11 +87,82 @@ swift /tmp/mkicons.swift   # writes the 3 PNGs into assets/images/
 If the logo changes, update `assets/images/logo.png` and re-run, then bump
 `?v=` if you also reference them with a version.
 
-## DNS / domain
+## DNS / domains & TLS
 
-- Primary domain: **nx.sa** (canonical host used in all `<link rel="canonical">`,
-  `hreflang`, OG URLs, and `sitemap.xml`).
-- Root `index.html` redirects to `/en/` or `/ar/` by browser language.
+- **Server IP:** `187.124.218.110`. Both `nx.sa` and `www.nx.sa` A-records point
+  here. Other projects share the same Coolify host under their own subdomains
+  (e.g. `lam.nx.sa`) or independent domains (e.g. `bznss.one`).
+- **Primary/canonical host:** **nx.sa** (apex) — used in every `canonical`,
+  `hreflang`, `og:url`, and `sitemap.xml`. Root `index.html` redirects to `/en/`
+  or `/ar/` by browser language.
+- **TLS:** Coolify's built-in proxy (**Traefik**) terminates TLS and issues
+  **Let's Encrypt** certs (HTTP-01, port 80). nginx listens on plain 80 behind it.
+
+### Adding a domain / subdomain (e.g. www, a new app)
+
+A hostname works only if it is added to the app's **Domains (FQDN)** field in
+Coolify — that is what makes Traefik both **route** it to the container and
+**issue** its TLS cert. DNS pointing at the IP is **not** enough on its own.
+
+- **Gotcha we hit (2026-07-20):** `www.nx.sa` resolved but was **not** in
+  Coolify's Domains list → Traefik served its default self-signed cert (browser:
+  *"not secure"*) on HTTPS and a bare **404** on HTTP. HSTS `includeSubDomains`
+  (sent by the apex) then *forced* browsers onto the broken HTTPS for www.
+- **Fix:** Coolify → the nx.sa app → **Configuration → General → Domains**, set
+  `https://nx.sa,https://www.nx.sa` (both with `https://` so each gets a cert),
+  Save + Redeploy. Traefik issues the www cert automatically.
+- **Canonical redirect:** `nginx.conf` 301s `www.nx.sa` → apex
+  (`if ($host = www.nx.sa) { return 301 https://nx.sa$request_uri; }`). Only
+  fires once Coolify routes www to the container.
+- **Verify:**
+  ```bash
+  curl -sSI https://www.nx.sa            # 301 → https://nx.sa/ , valid cert
+  curl -sSL -o/dev/null -w '%{http_code} ssl=%{ssl_verify_result}\n' https://www.nx.sa  # 200 ssl=0
+  ```
+  End state: `http://www.nx.sa → 307 (Traefik) → https://www.nx.sa → 301 (nginx) → https://nx.sa/ → 200`.
+
+## Analytics & tracking (managed in one file)
+
+All third-party tracking is injected from a **single managed file**,
+`assets/js/nx-zoho.js` (`?v=` bumped on change), loaded on every page. One named
+place = snippets are easy to find, swap, and can't be dropped by accident during
+page edits (each block has a named id).
+
+- **Google Tag Manager** — container `GTM-W6KJDFJJ`, inline in every page
+  `<head>` (+ `<noscript>` after `<body>`).
+- **Google Analytics 4** — id `G-PH5BPW7MM2`, via `gtag` from `nx-zoho.js`.
+  Fires **exactly one** `page_view` per load — verified there is **no duplicate
+  GA4 tag inside the GTM container**. ⚠️ Do **not** add a GA4 Configuration tag
+  for this id in the GTM dashboard, or every visit double-counts.
+- **Zoho PageSense** — heatmaps/session analytics (`id="pagesenseCode"`, hash `8246671c…`).
+- **Zoho SalesIQ** — live chat (`id="zsiqscript"`, widget `e073f31…`), ships the
+  `zcookiebar` PDPL cookie banner.
+- **Zoho CRM Web-to-Lead** — onboarding form posts to `crm.zoho.sa/crm/WebToLeadForm`
+  (wired in `nx-zoho.js` / `nx-form.js`).
+- The **Privacy policy** (`*/legal/privacy/`) already discloses SalesIQ + PageSense.
+
+## Cloudflare CDN — DEFERRED (planned production task)
+
+Decision **2026-07-20: defer**; do it as a separate careful step, not alongside
+other infra changes. Tracked in `docs/TODO.md`.
+
+- **Free plan is fine at scale** — unmetered bandwidth + unmetered DDoS,
+  independent of visitor count. Caveats: heavy **video/large-file** serving is
+  paid-only (Cloudflare ToS 2.8); WAF custom rules / rate-limiting / image
+  optimisation are paid; the **origin (this Coolify server) still bears all
+  dynamic traffic** — Cloudflare only offloads cacheable/static assets.
+- **Per-DNS-record, per-zone:** adding the `nx.sa` zone does **not** auto-proxy
+  subdomains. Proxy each record (orange cloud) or add a proxied wildcard
+  `*.nx.sa` (Free supports 1 level; Universal SSL covers `nx.sa` + `*.nx.sa`, so
+  `lam.nx.sa` is covered). `bznss.one` is a **separate zone**.
+- **Coolify interop (critical):** SSL/TLS mode must be **Full (strict)**
+  (Flexible → redirect loop, because the origin forces HTTPS/HSTS). Let's Encrypt
+  HTTP-01 can fail behind the orange cloud → use **either** a **Cloudflare Origin
+  Certificate** (15-yr, covers `nx.sa` + `*.nx.sa`) on the origin **or** a
+  **DNS-01** challenge (Cloudflare API token). Recommended: **Origin Cert +
+  Full (strict)**, one zone at a time, off-peak, `nx.sa` first then `bznss.one`.
+- Optional hardening: firewall the origin to accept 80/443 from Cloudflare IP
+  ranges only, so the origin IP can't be bypassed.
 
 ## Post-deploy checklist
 

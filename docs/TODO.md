@@ -1,22 +1,41 @@
 # NX Solutions — TODO / Roadmap
 
 Prioritized backlog. `[ ]` open · `[~]` in progress · `[x]` done.
-Last updated: 2026-06-17.
+Last updated: 2026-07-20.
 
 ---
 
+## 🗓️ Scheduled / deferred — production infra
+
+- [ ] **Cloudflare CDN rollout** — deferred **2026-07-20** by decision (run it as
+      a standalone, off-peak change, not bundled with other infra work). Full
+      runbook: `docs/DEPLOY.md` → "Cloudflare CDN — DEFERRED". Summary:
+      1. Zone `nx.sa` first, then `bznss.one` (separate zone). `lam.nx.sa` + other
+         subdomains via a proxied wildcard `*.nx.sa`.
+      2. SSL/TLS **Full (strict)**; install a **Cloudflare Origin Certificate**
+         (or DNS-01) so Let's Encrypt renewal survives behind the proxy.
+      3. Orange-cloud the records, verify no redirect loop, then firewall the
+         origin to Cloudflare IPs only.
+      - Free plan stays free at any traffic volume (unmetered); only heavy
+        video/large-file hosting would need a paid product.
+
 ## 🖼️ Pending media (drop-in, no code change needed)
 
-The work cards now show the real projects (IBP, Nqlah, Nitaq, iWork).
+The work cards show the real projects (IBP, Nqlah, Nitaq, iWork).
 
-**Project screenshots** → `assets/images/projects/` (IBP already done)
-- [ ] `nqlah-desktop.png`, `nqlah-mobile.png`
-- [ ] `nitaq-desktop.png`, `nitaq-mobile.png`
-- [ ] `iwork-desktop.png`, `iwork-mobile.png`
+> **2026-07-20:** 1×1 transparent placeholder PNGs are committed at every missing
+> path below, so pages no longer 404 (they fall back to the branded
+> gradient+label). Drop the **real** file at the same path to replace it — no
+> markup change. The story-video MP4s are still missing (the "Quick look" button
+> opens a broken video until they're added).
 
-**"Quick look" story videos** → `assets/videos/work/` (9:16, ≤10s MP4)
+**Project screenshots** → `assets/images/projects/` (IBP real; others placeholder)
+- [ ] `nqlah-desktop.png`, `nqlah-mobile.png`  *(placeholder in place)*
+- [ ] `nitaq-desktop.png`, `nitaq-mobile.png`  *(placeholder in place)*
+- [ ] `iwork-desktop.png`, `iwork-mobile.png`  *(placeholder in place)*
+
+**"Quick look" story videos** → `assets/videos/work/` (9:16, ≤10s MP4) — **missing**
 - [ ] `ibp.mp4`, `nqlah.mp4`, `nitaq.mp4`, `iwork.mp4`
-- (until added, the story popup shows the screenshot as a 10s poster)
 
 > Manifests: `assets/images/work/_WORK_CARD_SCREENSHOTS.txt`,
 > `assets/videos/work/_STORY_VIDEOS.txt`.
@@ -103,8 +122,11 @@ The work cards now show the real projects (IBP, Nqlah, Nitaq, iWork).
 
 - [ ] **Content review of all 7 sector pages** (EN + AR) for accuracy and tone.
 - [ ] **404 page** (branded) + nginx wiring.
-- [ ] **Analytics**: decide on GA4 / Plausible and add to `nx-zoho.js`.
-- [ ] **Cookie / privacy notice** (PDPL) if any tracking sets cookies.
+- [x] **Analytics**: GA4 (`G-PH5BPW7MM2`) + GTM + Zoho PageSense + SalesIQ, all
+      managed in `nx-zoho.js` (see DEPLOY.md "Analytics & tracking"; GA4 fires
+      once — no duplicate tag in GTM).
+- [x] **Cookie / privacy notice** (PDPL): Zoho `zcookiebar` banner live; Privacy
+      policy discloses SalesIQ + PageSense.
 - [ ] **Per-page OG images** (optional) instead of the single shared logo card,
       for richer link previews on key pages (services, projects).
 - [ ] **Sitemap lastmod** dates + submit to Google Search Console & Bing.
@@ -147,6 +169,18 @@ The work cards now show the real projects (IBP, Nqlah, Nitaq, iWork).
 - [x] IBP screenshots now fit the laptop frame (matched aspect ratio).
 - [x] Real Estate Brokerage case study: device-mockup work card + full
       detail page (EN + AR) + integration grid + CTA → form (images pending above).
+- [x] **2026-07** — Full content rewrite pass: relatable AR + de-jargoned EN,
+      correct regulators (InsurTech → Insurance Authority, not SAMA), buyer-voiced
+      FAQs, and rewritten SEO/social meta across sectors/services/solutions.
+- [x] **2026-07** — FinTech page rebuilt as a full **Tech-Enabler** narrative
+      (brochure-grade, EN+AR): build + integrate open banking/payments via
+      SAMA-licensed partners = capability without the licence. Positioning
+      propagated to the homepage + related-sector links site-wide. Added CSS
+      components `.ob/.te-flow/.caplist/.bankgrid/.mth/.rolecol/.tiers`.
+- [x] **2026-07-20** — Fixed `www.nx.sa` "not secure": add `www` to the app's
+      Domains in Coolify (Traefik issues the cert) + nginx `www → apex` 301.
+      See DEPLOY.md "DNS / domains & TLS".
+- [x] **2026-07-20** — Transparent placeholder PNGs kill the project-image 404s.
 
 ---
 
