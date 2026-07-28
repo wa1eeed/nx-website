@@ -148,7 +148,7 @@ footer .logo-img{height:52px}
 .hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none}
 .hero-mesh::before{content:"";position:absolute;top:-15%;right:-8%;width:60%;height:90%;background:radial-gradient(circle at 60% 40%,rgba(44,116,179,.13),transparent 65%)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative;z-index:1}
-.crumb{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-bottom:1.3rem}
+.crumb{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-bottom:2.3rem}
 .crumb a{color:var(--muted)}
 .crumb a:hover{color:var(--hi)}
 .hero h1{font-size:clamp(2.3rem,5vw,3.7rem);font-weight:800;line-height:1.04;letter-spacing:-.028em;margin:1rem 0 1.3rem}
