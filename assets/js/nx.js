@@ -111,6 +111,38 @@
     });
   });
 
+  // homepage work carousel — auto-advance every 3s + scroll-progress indicator
+  const workCar = document.querySelector('#work .work');
+  if (workCar && workCar.children.length > 1) {
+    const wt = document.querySelector('#work .work-track i');
+    const wcards = Array.from(workCar.children);
+    let wPaused = false, wIdx = 0;
+    const wPause = () => { wPaused = true; };
+    const wResume = () => { wPaused = false; };
+    workCar.addEventListener('pointerenter', wPause);
+    workCar.addEventListener('pointerleave', wResume);
+    workCar.addEventListener('pointerdown', wPause);
+    workCar.addEventListener('touchstart', wPause, { passive: true });
+    const wTrack = () => {
+      if (!wt) return;
+      const max = workCar.scrollWidth - workCar.clientWidth;
+      const p = max > 0 ? Math.min(1, Math.abs(workCar.scrollLeft) / max) : 0;
+      wt.style.width = (22 + p * 78) + '%';
+    };
+    workCar.addEventListener('scroll', wTrack, { passive: true });
+    wTrack();
+    const rtl = getComputedStyle(workCar).direction === 'rtl';
+    setInterval(() => {
+      if (wPaused || document.hidden) return;
+      wIdx = (wIdx + 1) % wcards.length;
+      const cR = workCar.getBoundingClientRect(), tR = wcards[wIdx].getBoundingClientRect();
+      // align the card to the container's inline-start edge (RTL uses the right edge);
+      // scrollBy on the element scrolls the carousel only, never the page
+      const d = rtl ? (tR.right - cR.right) : (tR.left - cR.left);
+      workCar.scrollBy({ left: d, behavior: 'smooth' });
+    }, 3000);
+  }
+
   // FAQ accordion
   document.querySelectorAll('.faq .q').forEach(q => {
     const a = q.querySelector('.a');
@@ -267,7 +299,7 @@
     };
     const openRich = (proj) => {
       const T = proj[lang];
-      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=80" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=81" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       const cta = proj.visitUrl
         ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'

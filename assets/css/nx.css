@@ -1955,15 +1955,16 @@ html[dir="rtl"] .wks-tags span{font-family:'Tajawal',var(--sans)}
 @media(max-width:860px){.wks{grid-template-columns:1fr;gap:20px}.wks-stage{order:-1}.wks-list{flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:6px}.wks-tab{flex:0 0 auto;min-width:172px}.wks-tab .wt-go{display:none}.wks-info{min-height:188px}}
 @media(prefers-reduced-motion:reduce){.wks.play .wks-tab.on .wt-prog i{animation:none}.wks-shot{transition:opacity .3s}}
 /* ════ work — clean card grid (simple, mobile-first) ════ */
-.wkg{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:8px}
-@media(max-width:760px){.wkg{grid-template-columns:1fr;gap:20px}}
+.wkg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:8px}
+@media(max-width:1000px){.wkg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.wkg{grid-template-columns:1fr;gap:20px}}
 .wkc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s,border-color .3s}
 .wkc:hover{transform:translateY(-5px);box-shadow:var(--shadow-l);border-color:#CFE0F2}
-.wkc-shot{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#0c1d31}
+.wkc-shot{position:relative;display:block;aspect-ratio:39/20;overflow:hidden;background:#0c1d31}
 .wkc-shot .carousel{position:absolute;inset:0;z-index:1}
 .wkc-shot .slide{position:absolute;inset:0;opacity:0;transition:opacity .6s}
 .wkc-shot .slide.active{opacity:1}
-.wkc-shot img{width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .5s;background:#e9eef1}
+.wkc-shot img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .5s;background:#e9eef1}
 .wkc-cover{position:absolute;inset:0;z-index:2}
 .wkc:hover .wkc-shot img{transform:scale(1.04)}
 .wkc-sector{position:absolute;top:14px;inset-inline-start:14px;z-index:3;font-family:var(--mono);font-size:.62rem;color:#fff;background:rgba(13,31,53,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.3rem .72rem}
@@ -2237,3 +2238,34 @@ html[dir="rtl"] .wkc-more svg{transform:scaleX(-1)}
 /* ═══ Work-page hero title — smaller, platform name on its own line ═══ */
 .p-work .phero h1{font-size:clamp(1.95rem,3.4vw,2.8rem);max-width:16em}
 .p-work .phero h1 .g{display:block;margin-top:.08em}
+
+/* ═══ Homepage work — one-row auto carousel + scroll indicator ═══ */
+#work .work{display:flex;gap:22px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:48px 4px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#work .work::-webkit-scrollbar{display:none}
+#work .work>.work-card{flex:0 0 clamp(270px,31%,350px);scroll-snap-align:start}
+.p-home #work .work{margin-top:20px}
+@media(max-width:900px){#work .work>.work-card{flex-basis:clamp(255px,74%,310px)}}
+.work-nav{display:flex;flex-direction:column;align-items:center;gap:13px;margin-top:6px}
+.work-nav .hint{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted)}
+.work-nav .hint svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;animation:wkSwipe 1.6s ease-in-out infinite}
+html[dir="rtl"] .work-nav .hint svg{animation:wkSwipeR 1.6s ease-in-out infinite}
+@keyframes wkSwipe{0%,100%{transform:translateX(0);opacity:.7}50%{transform:translateX(5px);opacity:1}}
+@keyframes wkSwipeR{0%,100%{transform:scaleX(-1) translateX(0);opacity:.7}50%{transform:scaleX(-1) translateX(5px);opacity:1}}
+.work-track{width:min(240px,58%);height:4px;border-radius:4px;background:var(--line)}
+.work-track i{display:block;height:100%;min-width:22%;border-radius:4px;background:var(--grad);transform-origin:left;transition:transform .25s ease,width .25s ease}
+@media(prefers-reduced-motion:reduce){.work-nav .hint svg{animation:none}}
+
+/* ═══ Hero deck — per-work feature animation overlay ═══ */
+.sdeck .deck-fx{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden;border-radius:16px}
+.dfx-toast{position:absolute;top:15px;inset-inline-end:13px;display:flex;align-items:center;gap:9px;max-width:76%;background:rgba(255,255,255,.97);border:1px solid rgba(10,26,47,.08);box-shadow:0 14px 30px -12px rgba(10,26,47,.45);border-radius:12px;padding:8px 12px;opacity:0;animation:dfxToast 6s cubic-bezier(.4,.1,.2,1) infinite;animation-delay:calc(var(--i,0)*3s)}
+.dfx-toast.t2{top:auto;bottom:42px;inset-inline-end:auto;inset-inline-start:13px}
+.dfx-toast .ic{flex-shrink:0;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:color-mix(in srgb,var(--fx,#2C74B3) 15%,#fff);color:var(--fx,#2C74B3)}
+.dfx-toast .ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.dfx-toast b{display:block;font-size:.75rem;color:#0A1A2F;font-weight:700;line-height:1.25;white-space:nowrap}
+.dfx-toast span{font-size:.66rem;color:#6B7888;white-space:nowrap}
+.dfx-pulse{position:absolute;bottom:13px;inset-inline-end:13px;display:inline-flex;align-items:center;gap:6px;background:rgba(12,31,49,.92);color:#eaf3ff;border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:.62rem;letter-spacing:.03em}
+.dfx-pulse i{width:7px;height:7px;border-radius:50%;background:var(--fx,#3ad0b0);box-shadow:0 0 0 0 var(--fx,#3ad0b0);animation:dfxPulse 1.8s ease-out infinite}
+@keyframes dfxToast{0%{opacity:0;transform:translateY(-12px) scale(.95)}6%,40%{opacity:1;transform:translateY(0) scale(1)}48%,100%{opacity:0;transform:translateY(-12px) scale(.95)}}
+@keyframes dfxPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--fx,#3ad0b0) 55%,transparent)}70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media(prefers-reduced-motion:reduce){.dfx-toast{animation:none;opacity:1}.dfx-pulse i{animation:none}}
+@media(max-width:560px){.dfx-toast span{display:none}.dfx-toast b{font-size:.7rem}.dfx-toast .ic{width:26px;height:26px}}
