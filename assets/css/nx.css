@@ -2031,7 +2031,7 @@ html[dir="rtl"] .wkc-more svg{transform:scaleX(-1)}
 @media(max-width:860px){.bankgrid{grid-template-columns:repeat(2,1fr)}}
 
 /* methodology 6-step */
-.mth{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:2.6rem}
+.mth{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:2.6rem}
 .mstep{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px;box-shadow:var(--shadow-s)}
 .mstep .mn{font-family:var(--mono);font-size:1.15rem;font-weight:800;color:var(--hi)}
 .mstep h5{font-size:.92rem;margin:.35rem 0 .4rem}

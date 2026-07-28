@@ -210,7 +210,7 @@
     };
     const SHOTS = ['dashboard','clients','requests','claims'];
     const openRich = () => {
-      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=68" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=69" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       rich.innerHTML =
         '<div class="st-screen"><div class="st-bar"><i></i><i></i><i></i><span class="st-live"><b></b>' + T.live + '</span><span class="st-url">ibp.payone.one</span></div>' +
