@@ -198,7 +198,7 @@
         ['تكامل حكومي', ['نفاذ','واثق','يقين','زاتكا','العنوان الوطني']],
         ['الأمان والامتثال', ['PDPL','NCA','AML/CFT','عزل تام','داخل المملكة']],
         ['النموذج', ['سحابي متعدد الاشتراكات','تملّك كأصل رقمي']]
-      ], visit: 'زيارة المنصة الحيّة', full: 'دراسة الحالة الكاملة', casePath: '/ar/work/ibp/'
+      ], visit: 'زيارة ومشاهدة المشروع', full: 'دراسة الحالة الكاملة', casePath: '/ar/work/ibp/'
     } : {
       title: 'IBP · Insurance Broker Platform', live: 'Live', head: 'Everything the platform does',
       groups: [
@@ -206,11 +206,11 @@
         ['Government', ['Nafath','Wathiq','Yaqeen','ZATCA','National Address']],
         ['Security', ['PDPL','NCA','AML/CFT','Tenant isolation','In-Kingdom']],
         ['Model', ['Cloud, multi-subscription','Own it as an asset']]
-      ], visit: 'Visit the live platform', full: 'Full case study', casePath: '/en/work/ibp/'
+      ], visit: 'Visit & explore the project', full: 'Full case study', casePath: '/en/work/ibp/'
     };
     const SHOTS = ['dashboard','clients','requests','claims'];
     const openRich = () => {
-      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=70" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=71" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       rich.innerHTML =
         '<div class="st-screen"><div class="st-bar"><i></i><i></i><i></i><span class="st-live"><b></b>' + T.live + '</span><span class="st-url">ibp.payone.one</span></div>' +
