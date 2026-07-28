@@ -1,7 +1,7 @@
 # NX Solutions — TODO / Roadmap
 
 Prioritized backlog. `[ ]` open · `[~]` in progress · `[x]` done.
-Last updated: 2026-07-20.
+Last updated: 2026-07-28.
 
 ---
 
@@ -26,16 +26,22 @@ The work cards show the real projects (IBP, Nqlah, Nitaq, iWork).
 > **2026-07-20:** 1×1 transparent placeholder PNGs are committed at every missing
 > path below, so pages no longer 404 (they fall back to the branded
 > gradient+label). Drop the **real** file at the same path to replace it — no
-> markup change. The story-video MP4s are still missing (the "Quick look" button
-> opens a broken video until they're added).
+> markup change.
+>
+> **2026-07-28:** the "Quick look" button no longer plays a video — it opens a
+> rich in-page **story** (animated screen + 2-column spec sheet) built from the
+> real screenshots, so the story-video MP4s are **no longer needed** (IBP/Nqlah).
 
-**Project screenshots** → `assets/images/projects/` (IBP real; others placeholder)
-- [ ] `nqlah-desktop.png`, `nqlah-mobile.png`  *(placeholder in place)*
-- [ ] `nitaq-desktop.png`, `nitaq-mobile.png`  *(placeholder in place)*
-- [ ] `iwork-desktop.png`, `iwork-mobile.png`  *(placeholder in place)*
-
-**"Quick look" story videos** → `assets/videos/work/` (9:16, ≤10s MP4) — **missing**
-- [ ] `ibp.mp4`, `nqlah.mp4`, `nitaq.mp4`, `iwork.mp4`
+**Project screenshots** → `assets/images/projects/`
+- [x] **IBP** — real AR + EN screens (`ibp-*-{ar,en}.png`).
+- [~] **Nqlah — needs real ENGLISH screens.** Real **Arabic** screens are in place
+      (`nqlah-{fleet,tracking,escrow,promotions,wallet}-ar.png`, 1600px). The five
+      **`nqlah-*-en.png` files are COPIES of the Arabic ones** (temporary, added
+      2026-07-28) because only Arabic captures were available. **Replace each
+      `-en.png` with a real English capture** when ready — same filenames, no
+      markup change. Arabic source originals: `~/Downloads/NQLAH-Shots/`.
+- [ ] **Nitaq** — real screens, AR + EN  *(placeholder in place)*
+- [ ] **iWork** — real screens, AR + EN  *(placeholder in place)*
 
 > Manifests: `assets/images/work/_WORK_CARD_SCREENSHOTS.txt`,
 > `assets/videos/work/_STORY_VIDEOS.txt`.
