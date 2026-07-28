@@ -2068,3 +2068,24 @@ html[dir="rtl"] .wkc-more svg{transform:scaleX(-1)}
 .tier p{font-size:.9rem;color:var(--muted)}
 .tier .flag{position:absolute;top:-11px;inset-inline-start:24px;background:var(--brand);color:#fff;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;padding:.32rem .7rem;border-radius:999px}
 @media(max-width:860px){.tiers{grid-template-columns:1fr}}
+
+
+/* ═══ Case-study (IBP) — fact bar + screenshot gallery ═══ */
+.factbar{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);margin:0 auto;max-width:1000px;box-shadow:var(--shadow-s)}
+.factbar .f{padding:16px 18px;border-inline-start:1px solid var(--line)}
+.factbar .f:first-child{border-inline-start:none}
+.factbar .f .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.factbar .f b{display:block;font-size:.9rem;margin-top:.35rem;color:var(--ink);font-weight:700}
+.factbar .f a{color:var(--hi)}
+@media(max-width:820px){.factbar{grid-template-columns:1fr 1fr}.factbar .f{border-top:1px solid var(--line)}.factbar .f:nth-child(-n+2){border-top:none}}
+@media(max-width:420px){.factbar{grid-template-columns:1fr}.factbar .f{border-inline-start:none;border-top:1px solid var(--line)}.factbar .f:first-child{border-top:none}}
+
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:2.4rem}
+.shot{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0b3b3b;box-shadow:var(--shadow-m);transition:.25s}
+.shot:hover{transform:translateY(-3px);box-shadow:var(--shadow-l)}
+.shot .fr{aspect-ratio:16/10;overflow:hidden;display:block;background:linear-gradient(135deg,#0b3b3b,#0f5a54)}
+.shot .fr img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.shot .cap{padding:12px 15px;font-size:.84rem;font-weight:700;background:var(--surface);border-top:1px solid var(--line)}
+.shot .cap span{display:block;font-weight:400;color:var(--muted);font-size:.75rem;margin-top:.2rem}
+@media(max-width:820px){.shots{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.shots{grid-template-columns:1fr}}
