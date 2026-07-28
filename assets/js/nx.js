@@ -245,11 +245,29 @@
             ['Compliance', ['NPHIES','Ministry of Health','CBAHI','PDPL/NCA','In-Kingdom']],
             ['Model', ['Multi-branch','Multi-specialty']]
           ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/nx-health/' }
+      },
+      nxlogistic: {
+        prefix: 'lam', shots: ['dashboard','tracking','orgchart','billing'], url: 'lam.nx.sa',
+        visitUrl: null, isLive: false,
+        ar: { title: 'NX Logistic · إدارة الأساطيل', live: 'lam.nx.sa', head: 'كل ما تقدّمه المنصة',
+          groups: [
+            ['الأصول', ['السجل','الاستحواذ','العُهدة','التخريد']],
+            ['العمليات', ['الصيانة','العقود والتأجير','السائقون','الامتثال']],
+            ['التتبّع', ['خريطة مباشرة','سياجات','أجهزة','تنبيهات']],
+            ['المنصّة', ['SaaS بالمقاعد','متعدد المستأجرين','TGA','PDPL']]
+          ], visit: '', full: 'دراسة الحالة الكاملة', start: 'ابدأ مشروعاً مماثلاً', casePath: '/ar/work/nx-logistic/' },
+        en: { title: 'NX Logistic · Fleet ops', live: 'lam.nx.sa', head: 'Everything the platform does',
+          groups: [
+            ['Assets', ['Registry','Acquisition','Custody','Disposal']],
+            ['Operations', ['Maintenance','Contracts & rental','Drivers','Compliance']],
+            ['Tracking', ['Live map','Geofences','Devices','Alerts']],
+            ['Platform', ['Seat-based SaaS','Multi-tenant','TGA','PDPL']]
+          ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/nx-logistic/' }
       }
     };
     const openRich = (proj) => {
       const T = proj[lang];
-      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=79" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=80" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       const cta = proj.visitUrl
         ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'

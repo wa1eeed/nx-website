@@ -47,6 +47,12 @@ The work cards show the real projects (IBP, Nqlah, Nitaq, iWork).
       (temporary, 2026-07-28). Replace each with a real English capture — same
       filenames, no markup change. Sources: `~/Downloads/Clinic-Refine/` (web),
       `~/Downloads/Clinic-Refine-APP/` (app).
+- [~] **NX Logistic — needs real ARABIC screens for tracking + billing.** Real
+      captures in place for dashboard / org / orgchart (both AR + EN). The
+      **tracking** and **billing** screens were provided in English only, so
+      `lam-tracking-ar.png` and `lam-billing-ar.png` are temporary copies of the
+      English captures (2026-07-29). Replace with real Arabic captures — same
+      filenames. Source: `~/Downloads/NX-LAM/`.
 - [ ] **Nitaq** — real screens, AR + EN  *(placeholder in place)*
 - [ ] **iWork** — real screens, AR + EN  *(placeholder in place)*
 
