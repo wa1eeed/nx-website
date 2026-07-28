@@ -227,11 +227,29 @@
             ['Payment & compliance', ['Escrow','ZATCA invoices','TGA','Audit trail','In-Kingdom']],
             ['Model', ['Marketplace','Commission per transaction']]
           ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/nqlah/' }
+      },
+      nxhealth: {
+        prefix: 'health', shots: ['command','dashboard','patient','telemed'], url: 'NX Health',
+        visitUrl: null, isLive: false,
+        ar: { title: 'NX Health · نظام العيادات', live: 'NX Health', head: 'كل ما يقدّمه النظام',
+          groups: [
+            ['الوحدات', ['المواعيد','الملف الطبي','الطب الاتصالي','الصيدلية','المختبر','الأشعة','الفواتير','الفروع']],
+            ['المنصّات', ['ويب','تطبيق مريض','مركز قيادة']],
+            ['الامتثال', ['نفيس NPHIES','وزارة الصحة','CBAHI','PDPL/NCA','داخل المملكة']],
+            ['النموذج', ['متعدد الفروع','متعدد التخصصات']]
+          ], visit: '', full: 'دراسة الحالة الكاملة', start: 'ابدأ مشروعاً مماثلاً', casePath: '/ar/work/nx-health/' },
+        en: { title: 'NX Health · Clinic system', live: 'NX Health', head: 'Everything the system does',
+          groups: [
+            ['Modules', ['Appointments','Records','Telemedicine','Pharmacy','Lab','Radiology','Billing','Branches']],
+            ['Platforms', ['Web','Patient app','Command center']],
+            ['Compliance', ['NPHIES','Ministry of Health','CBAHI','PDPL/NCA','In-Kingdom']],
+            ['Model', ['Multi-branch','Multi-specialty']]
+          ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/nx-health/' }
       }
     };
     const openRich = (proj) => {
       const T = proj[lang];
-      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=73" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=74" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       const cta = proj.visitUrl
         ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'

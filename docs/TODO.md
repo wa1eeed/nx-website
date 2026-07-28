@@ -40,6 +40,13 @@ The work cards show the real projects (IBP, Nqlah, Nitaq, iWork).
       2026-07-28) because only Arabic captures were available. **Replace each
       `-en.png` with a real English capture** when ready — same filenames, no
       markup change. Arabic source originals: `~/Downloads/NQLAH-Shots/`.
+- [~] **NX Health — needs real ENGLISH screens.** Real **Arabic** web + app
+      screens in place (`health-{command,dashboard,patient,telemed,appointments,
+      pharmacy,lab,billing}-ar.png` + `health-app-{home,booking,video,results,
+      card}-ar.png`). The matching **`-en.png` files are COPIES of the Arabic**
+      (temporary, 2026-07-28). Replace each with a real English capture — same
+      filenames, no markup change. Sources: `~/Downloads/Clinic-Refine/` (web),
+      `~/Downloads/Clinic-Refine-APP/` (app).
 - [ ] **Nitaq** — real screens, AR + EN  *(placeholder in place)*
 - [ ] **iWork** — real screens, AR + EN  *(placeholder in place)*
 

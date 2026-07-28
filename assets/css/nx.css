@@ -2203,3 +2203,20 @@ html[dir="rtl"] .wkc-more svg{transform:scaleX(-1)}
 @keyframes deckProg{from{width:0}to{width:100%}}
 @media(max-width:560px){.sdeck .deck-stage{height:248px}}
 @media(prefers-reduced-motion:reduce){.deck-prog i{width:100%!important;animation:none!important}}
+
+/* ═══ NX Health — patient-app showcase (phone frame + features) ═══ */
+.appshow-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:46px;align-items:center;margin-top:2.4rem}
+.aphone{position:relative;width:288px;aspect-ratio:614/1326;margin-inline:auto;background:#0c2f2f;border-radius:46px;padding:11px;box-shadow:0 46px 90px -34px rgba(10,26,47,.62),inset 0 0 0 2px rgba(255,255,255,.07)}
+.aphone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:32%;height:24px;background:#05100f;border-radius:14px;z-index:4}
+.aphone-screen{position:relative;width:100%;height:100%;border-radius:36px;overflow:hidden;background:#e9eef1}
+.aphone-screen .carousel,.aphone-screen .carousel .slide{position:absolute;inset:0}
+.aphone-screen .carousel .slide{opacity:0;transition:opacity .7s ease}
+.aphone-screen .carousel .slide.active{opacity:1}
+.aphone-screen .carousel .slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.appshow-feat{display:grid;gap:18px}
+.appshow-feat .af{display:flex;gap:14px;align-items:flex-start}
+.appshow-feat .af .ic{flex-shrink:0;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 10%,#fff);color:var(--brand)}
+.appshow-feat .af .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
+.appshow-feat .af b{display:block;font-size:1.02rem;color:var(--ink);margin-bottom:2px}
+.appshow-feat .af p{font-size:.9rem;color:var(--muted);line-height:1.55}
+@media(max-width:860px){.appshow-grid{grid-template-columns:1fr;gap:34px;justify-items:center}.appshow-feat{max-width:520px}}
