@@ -190,35 +190,58 @@
       bar.classList.remove('run');
       player.classList.remove('rich'); rich.innerHTML = '';
     };
-    // rich in-page "story" (IBP): the hero's animated screen + a 2-column spec sheet
-    const T = isAR ? {
-      title: 'IBP · منصة وساطة التأمين', live: 'مباشر', head: 'كل مواصفات المنصة',
-      groups: [
-        ['الوحدات', ['العملاء','الإنتاج','الاكتتاب','الوثائق','المطالبات','العمولات','المالية','الامتثال','خدمة العملاء','التقارير']],
-        ['تكامل حكومي', ['نفاذ','واثق','يقين','زاتكا','العنوان الوطني']],
-        ['الأمان والامتثال', ['PDPL','NCA','AML/CFT','عزل تام','داخل المملكة']],
-        ['النموذج', ['سحابي متعدد الاشتراكات','تملّك كأصل رقمي']]
-      ], visit: 'زيارة ومشاهدة المشروع', full: 'دراسة الحالة الكاملة', casePath: '/ar/work/ibp/'
-    } : {
-      title: 'IBP · Insurance Broker Platform', live: 'Live', head: 'Everything the platform does',
-      groups: [
-        ['Modules', ['Clients','Production','Underwriting','Policies','Claims','Commissions','Finance','Compliance','Service','Reports']],
-        ['Government', ['Nafath','Wathiq','Yaqeen','ZATCA','National Address']],
-        ['Security', ['PDPL','NCA','AML/CFT','Tenant isolation','In-Kingdom']],
-        ['Model', ['Cloud, multi-subscription','Own it as an asset']]
-      ], visit: 'Visit & explore the project', full: 'Full case study', casePath: '/en/work/ibp/'
+    // rich in-page "story": a project's animated screen + a 2-column spec sheet
+    const PROJECTS = {
+      ibp: {
+        prefix: 'ibp', shots: ['dashboard','clients','requests','claims'], url: 'ibp.payone.one',
+        visitUrl: 'https://ibp.payone.one/', isLive: true,
+        ar: { title: 'IBP · منصة وساطة التأمين', live: 'مباشر', head: 'كل مواصفات المنصة',
+          groups: [
+            ['الوحدات', ['العملاء','الإنتاج','الاكتتاب','الوثائق','المطالبات','العمولات','المالية','الامتثال','خدمة العملاء','التقارير']],
+            ['تكامل حكومي', ['نفاذ','واثق','يقين','زاتكا','العنوان الوطني']],
+            ['الأمان والامتثال', ['PDPL','NCA','AML/CFT','عزل تام','داخل المملكة']],
+            ['النموذج', ['سحابي متعدد الاشتراكات','تملّك كأصل رقمي']]
+          ], visit: 'زيارة ومشاهدة المشروع', full: 'دراسة الحالة الكاملة', start: 'ابدأ مشروعاً مماثلاً', casePath: '/ar/work/ibp/' },
+        en: { title: 'IBP · Insurance Broker Platform', live: 'Live', head: 'Everything the platform does',
+          groups: [
+            ['Modules', ['Clients','Production','Underwriting','Policies','Claims','Commissions','Finance','Compliance','Service','Reports']],
+            ['Government', ['Nafath','Wathiq','Yaqeen','ZATCA','National Address']],
+            ['Security', ['PDPL','NCA','AML/CFT','Tenant isolation','In-Kingdom']],
+            ['Model', ['Cloud, multi-subscription','Own it as an asset']]
+          ], visit: 'Visit & explore the project', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/ibp/' }
+      },
+      nqlah: {
+        prefix: 'nqlah', shots: ['fleet','tracking','escrow','wallet'], url: 'nqlah.nx.sa',
+        visitUrl: null, isLive: false,
+        ar: { title: 'نقلة · منصة اللوجستيات', live: 'نقلة', head: 'كل ما تقدّمه المنصة',
+          groups: [
+            ['الوحدات', ['الأسطول','السائقون','الطلبات','التتبّع','Escrow','المحافظ','العمولات','النزاعات','الترويج','التقارير']],
+            ['الأدوار', ['ناقل','عميل','سائق','إدارة']],
+            ['الدفع والامتثال', ['Escrow','فواتير زاتكا','هيئة النقل','سجل تدقيق','داخل المملكة']],
+            ['النموذج', ['منصة سوق','عمولة على كل معاملة']]
+          ], visit: '', full: 'دراسة الحالة الكاملة', start: 'ابدأ مشروعاً مماثلاً', casePath: '/ar/work/nqlah/' },
+        en: { title: 'Nqlah · Logistics platform', live: 'Nqlah', head: 'Everything the platform does',
+          groups: [
+            ['Modules', ['Fleet','Drivers','Orders','Tracking','Escrow','Wallets','Commissions','Disputes','Promotions','Reports']],
+            ['Roles', ['Carrier','Client','Driver','Admin']],
+            ['Payment & compliance', ['Escrow','ZATCA invoices','TGA','Audit trail','In-Kingdom']],
+            ['Model', ['Marketplace','Commission per transaction']]
+          ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/nqlah/' }
+      }
     };
-    const SHOTS = ['dashboard','clients','requests','claims'];
-    const openRich = () => {
-      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=71" alt="' + s + '" loading="lazy"></div>').join('');
+    const openRich = (proj) => {
+      const T = proj[lang];
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=72" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
+      const cta = proj.visitUrl
+        ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'
+        : '<a class="btn btn-primary" href="' + T.casePath + '">' + T.full + '</a><a class="btn btn-ghost" href="/' + lang + '/#contact">' + T.start + '</a>';
       rich.innerHTML =
-        '<div class="st-screen"><div class="st-bar"><i></i><i></i><i></i><span class="st-live"><b></b>' + T.live + '</span><span class="st-url">ibp.payone.one</span></div>' +
+        '<div class="st-screen"><div class="st-bar"><i></i><i></i><i></i><span class="st-live">' + (proj.isLive ? '<b></b>' : '') + T.live + '</span><span class="st-url">' + proj.url + '</span></div>' +
           '<div class="st-shot"><div class="carousel">' + slides + '</div></div></div>' +
         '<div class="st-body"><div class="st-h">' + T.title + '</div><div class="st-sub">' + T.head + '</div>' +
           '<div class="st-grid">' + groups + '</div>' +
-          '<div class="st-cta"><a class="btn btn-primary" href="https://ibp.payone.one/" target="_blank" rel="noopener">' + T.visit + '</a>' +
-          '<a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a></div></div>';
+          '<div class="st-cta">' + cta + '</div></div>';
       player.classList.add('rich');
       ov.classList.add('open'); document.body.classList.add('story-open');
       const sl = rich.querySelectorAll('.carousel .slide'); let ci = 0;
@@ -226,7 +249,7 @@
       richT = setInterval(() => { sl[ci].classList.remove('active'); ci = (ci + 1) % sl.length; sl[ci].classList.add('active'); }, 2400);
     };
     const open = (btn) => {
-      if (btn.dataset.story === 'ibp') { player.scrollTop = 0; return openRich(); }
+      if (PROJECTS[btn.dataset.story]) { player.scrollTop = 0; return openRich(PROJECTS[btn.dataset.story]); }
       const src = btn.dataset.video, poster = btn.dataset.poster || '';
       player.style.backgroundImage = poster ? "url('" + poster + "')" : 'none';
       titleEl.textContent = btn.dataset.title || '';
