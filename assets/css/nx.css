@@ -2206,9 +2206,8 @@ html[dir="rtl"] .wkc-more svg{transform:scaleX(-1)}
 
 /* ═══ NX Health — patient-app showcase (phone frame + features) ═══ */
 .appshow-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:46px;align-items:center;margin-top:2.4rem}
-.aphone{position:relative;width:288px;aspect-ratio:614/1326;margin-inline:auto;background:#0c2f2f;border-radius:46px;padding:11px;box-shadow:0 46px 90px -34px rgba(10,26,47,.62),inset 0 0 0 2px rgba(255,255,255,.07)}
-.aphone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:32%;height:24px;background:#05100f;border-radius:14px;z-index:4}
-.aphone-screen{position:relative;width:100%;height:100%;border-radius:36px;overflow:hidden;background:#e9eef1}
+.aphone{position:relative;width:286px;margin-inline:auto;background:#0c2f2f;border-radius:44px;padding:10px;box-shadow:0 46px 90px -34px rgba(10,26,47,.62),inset 0 0 0 2px rgba(255,255,255,.07)}
+.aphone-screen{position:relative;width:100%;aspect-ratio:416/900;border-radius:34px;overflow:hidden;background:#0c2f2f}
 .aphone-screen .carousel,.aphone-screen .carousel .slide{position:absolute;inset:0}
 .aphone-screen .carousel .slide{opacity:0;transition:opacity .7s ease}
 .aphone-screen .carousel .slide.active{opacity:1}
@@ -2220,3 +2219,17 @@ html[dir="rtl"] .wkc-more svg{transform:scaleX(-1)}
 .appshow-feat .af b{display:block;font-size:1.02rem;color:var(--ink);margin-bottom:2px}
 .appshow-feat .af p{font-size:.9rem;color:var(--muted);line-height:1.55}
 @media(max-width:860px){.appshow-grid{grid-template-columns:1fr;gap:34px;justify-items:center}.appshow-feat{max-width:520px}}
+
+/* ═══ Work-card screenshots fill their frame (no letterbox gaps) ═══ */
+.peek .carousel .slide img,.wkc .carousel .slide img{object-fit:cover}
+
+/* ═══ Related-work rail — separated darker band + circular project avatar ═══ */
+.sec.relband{background:linear-gradient(180deg,#EEF1F6,#E7ECF2);border-top:1px solid var(--line);padding-top:56px!important;margin-top:10px}
+.relband .rel a{position:relative;padding:22px 20px 20px;padding-top:82px}
+.rel-ava{position:absolute;top:18px;inset-inline-start:18px;width:48px;height:48px;border-radius:50%;overflow:hidden;background:#0c2f2f;border:2px solid #fff;box-shadow:0 6px 15px -5px rgba(10,26,47,.4),0 0 0 1px var(--line)}
+.rel-ava img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.rel-ava.all,.rel-ava.ic{display:grid;place-items:center;background:var(--brand);border-color:#fff}
+.rel-ava.all svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.rel-ava.ic svg{width:24px;height:24px;fill:#fff}
+.relband .rel a .rn{position:absolute;top:24px;inset-inline-end:20px;margin:0}
+.relband .rel a b{margin-top:0}

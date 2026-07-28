@@ -249,7 +249,7 @@
     };
     const openRich = (proj) => {
       const T = proj[lang];
-      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=74" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=75" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       const cta = proj.visitUrl
         ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'
