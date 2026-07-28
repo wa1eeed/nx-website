@@ -210,7 +210,7 @@
     };
     const SHOTS = ['dashboard','clients','requests','claims'];
     const openRich = () => {
-      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=69" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=70" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       rich.innerHTML =
         '<div class="st-screen"><div class="st-bar"><i></i><i></i><i></i><span class="st-live"><b></b>' + T.live + '</span><span class="st-url">ibp.payone.one</span></div>' +
@@ -326,6 +326,7 @@
   document.querySelectorAll('[data-deck]').forEach(deck => {
     const cards = Array.from(deck.querySelectorAll('.deck-card'));
     const dots  = Array.from(deck.querySelectorAll('.deck-dots i'));
+    const prog  = deck.querySelector('.deck-prog i');
     const n = cards.length;
     if (n < 2) return;
     const DELAY = parseInt(deck.dataset.deck, 10) || 4000;
@@ -344,9 +345,11 @@
       });
       dots.forEach((d, i) => d.classList.toggle('on', i === active));
     };
-    const go = (k) => { active = (k + n) % n; dx = 0; render(); };
-    const run = () => { stop(); timer = setInterval(() => go(active + 1), DELAY); };
-    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const bar = (play) => { if (!prog) return; prog.style.animation = 'none'; void prog.offsetWidth;
+      if (play) prog.style.animation = 'deckProg ' + DELAY + 'ms linear'; };
+    const go = (k) => { active = (k + n) % n; dx = 0; render(); bar(true); };
+    const run = () => { stop(); bar(true); timer = setInterval(() => go(active + 1), DELAY); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } if (prog) prog.style.animationPlayState = 'paused'; };
     dots.forEach((d, i) => d.addEventListener('click', () => { go(i); run(); }));
     const front = () => cards[active];
     deck.addEventListener('pointerdown', e => {
