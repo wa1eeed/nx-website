@@ -176,16 +176,57 @@
     const bar = ov.querySelector('.story-bar');
     const vid = ov.querySelector('.story-vid');
     const titleEl = ov.querySelector('.story-title');
-    let autoT;
+    const rich = document.createElement('div'); rich.className = 'story-rich';
+    player.appendChild(rich);
+    let autoT, richT;
     const DUR = 10000;
+    const isAR = (document.documentElement.lang || '').indexOf('ar') === 0;
+    const lang = isAR ? 'ar' : 'en';
     const close = () => {
       ov.classList.remove('open');
       document.body.classList.remove('story-open');
-      clearTimeout(autoT);
+      clearTimeout(autoT); clearInterval(richT);
       try { vid.pause(); } catch (e) {}
       bar.classList.remove('run');
+      player.classList.remove('rich'); rich.innerHTML = '';
+    };
+    // rich in-page "story" (IBP): the hero's animated screen + a 2-column spec sheet
+    const T = isAR ? {
+      title: 'IBP · منصة وساطة التأمين', live: 'مباشر', head: 'كل مواصفات المنصة',
+      groups: [
+        ['الوحدات', ['العملاء','الإنتاج','الاكتتاب','الوثائق','المطالبات','العمولات','المالية','الامتثال','خدمة العملاء','التقارير']],
+        ['تكامل حكومي', ['نفاذ','واثق','يقين','زاتكا','العنوان الوطني']],
+        ['الأمان والامتثال', ['PDPL','NCA','AML/CFT','عزل تام','داخل المملكة']],
+        ['النموذج', ['سحابي متعدد الاشتراكات','تملّك كأصل رقمي']]
+      ], visit: 'زيارة المنصة الحيّة', full: 'دراسة الحالة الكاملة', casePath: '/ar/work/ibp/'
+    } : {
+      title: 'IBP · Insurance Broker Platform', live: 'Live', head: 'Everything the platform does',
+      groups: [
+        ['Modules', ['Clients','Production','Underwriting','Policies','Claims','Commissions','Finance','Compliance','Service','Reports']],
+        ['Government', ['Nafath','Wathiq','Yaqeen','ZATCA','National Address']],
+        ['Security', ['PDPL','NCA','AML/CFT','Tenant isolation','In-Kingdom']],
+        ['Model', ['Cloud, multi-subscription','Own it as an asset']]
+      ], visit: 'Visit the live platform', full: 'Full case study', casePath: '/en/work/ibp/'
+    };
+    const SHOTS = ['dashboard','clients','requests','claims'];
+    const openRich = () => {
+      const slides = SHOTS.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/ibp-' + s + '-' + lang + '.png?v=68" alt="' + s + '" loading="lazy"></div>').join('');
+      const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
+      rich.innerHTML =
+        '<div class="st-screen"><div class="st-bar"><i></i><i></i><i></i><span class="st-live"><b></b>' + T.live + '</span><span class="st-url">ibp.payone.one</span></div>' +
+          '<div class="st-shot"><div class="carousel">' + slides + '</div></div></div>' +
+        '<div class="st-body"><div class="st-h">' + T.title + '</div><div class="st-sub">' + T.head + '</div>' +
+          '<div class="st-grid">' + groups + '</div>' +
+          '<div class="st-cta"><a class="btn btn-primary" href="https://ibp.payone.one/" target="_blank" rel="noopener">' + T.visit + '</a>' +
+          '<a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a></div></div>';
+      player.classList.add('rich');
+      ov.classList.add('open'); document.body.classList.add('story-open');
+      const sl = rich.querySelectorAll('.carousel .slide'); let ci = 0;
+      clearInterval(richT);
+      richT = setInterval(() => { sl[ci].classList.remove('active'); ci = (ci + 1) % sl.length; sl[ci].classList.add('active'); }, 2400);
     };
     const open = (btn) => {
+      if (btn.dataset.story === 'ibp') { player.scrollTop = 0; return openRich(); }
       const src = btn.dataset.video, poster = btn.dataset.poster || '';
       player.style.backgroundImage = poster ? "url('" + poster + "')" : 'none';
       titleEl.textContent = btn.dataset.title || '';
