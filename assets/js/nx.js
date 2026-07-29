@@ -295,11 +295,29 @@
             ['Tracking', ['Live map','Geofences','Devices','Alerts']],
             ['Platform', ['Seat-based SaaS','Multi-tenant','TGA','PDPL']]
           ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/nx-logistic/' }
+      },
+      iwork: {
+        prefix: 'iwork', shots: ['overview','agent','landing','platform'], url: 'bznss.one',
+        visitUrl: null, isLive: false,
+        ar: { title: 'iWork · موظفو ذكاء', live: 'bznss.one', head: 'كل ما تقدّمه المنصة',
+          groups: [
+            ['الفريق', ['وكلاء ذكاء','أقسام','مهارات','معرفة']],
+            ['التشغيل', ['CRM','حجوزات','طلبات','متجر']],
+            ['القنوات', ['واتساب','تيليجرام','موقعك']],
+            ['الحوكمة', ['موافقات','صلاحيات','سقف توكنز','PDPL']]
+          ], visit: '', full: 'دراسة الحالة الكاملة', start: 'ابدأ مشروعاً مماثلاً', casePath: '/ar/work/iwork/' },
+        en: { title: 'iWork · AI workforce', live: 'bznss.one', head: 'Everything the platform does',
+          groups: [
+            ['Team', ['AI agents','Departments','Skills','Knowledge']],
+            ['Operations', ['CRM','Bookings','Orders','Store']],
+            ['Channels', ['WhatsApp','Telegram','Your site']],
+            ['Governance', ['Approvals','Permissions','Token caps','PDPL']]
+          ], visit: '', full: 'Full case study', start: 'Start a similar project', casePath: '/en/work/iwork/' }
       }
     };
     const openRich = (proj) => {
       const T = proj[lang];
-      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=82" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=83" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       const cta = proj.visitUrl
         ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'

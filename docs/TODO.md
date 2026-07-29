@@ -54,7 +54,12 @@ The work cards show the real projects (IBP, Nqlah, Nitaq, iWork).
       English captures (2026-07-29). Replace with real Arabic captures — same
       filenames. Source: `~/Downloads/NX-LAM/`.
 - [ ] **Nitaq** — real screens, AR + EN  *(placeholder in place)*
-- [ ] **iWork** — real screens, AR + EN  *(placeholder in place)*
+- [~] **iWork — needs real cross-language screens for 2 of 4.** Real captures in
+      place for **overview** and **agent** (both AR + EN). The **landing hero**
+      was provided AR-only and the **"The platform" features** board EN-only, so
+      `iwork-landing-en.png` (=AR copy) and `iwork-platform-ar.png` (=EN copy)
+      are temporary placeholders (2026-07-29). Replace with real captures —
+      same filenames. Source: `~/Downloads/iWork/`.
 
 > Manifests: `assets/images/work/_WORK_CARD_SCREENSHOTS.txt`,
 > `assets/videos/work/_STORY_VIDEOS.txt`.
