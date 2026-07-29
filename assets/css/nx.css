@@ -2454,3 +2454,11 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 .fuse .ul{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
 .fuse .chips{display:flex;flex-wrap:wrap;gap:7px}
 .fuse .chips span{font-size:.73rem;color:var(--brand);background:color-mix(in srgb,var(--brand) 7%,#fff);border:1px solid color-mix(in srgb,var(--brand) 17%,#fff);border-radius:999px;padding:5px 12px;line-height:1.45}
+
+/* ═══ Image loading shimmer — covers each image while it loads, fades out when ready ═══ */
+@keyframes nxShimmer{0%{background-position:150% 0}100%{background-position:-150% 0}}
+.nx-loading::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(100deg,#e7edf4 18%,#f4f8fc 38%,#e7edf4 58%);background-size:200% 100%;
+  animation:nxShimmer 1.35s linear infinite;opacity:1;transition:opacity .55s ease}
+.nx-loading.nx-ready::after{opacity:0}
+@media(prefers-reduced-motion:reduce){.nx-loading::after{animation:none}}

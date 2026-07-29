@@ -111,6 +111,25 @@
     });
   });
 
+  // image loading shimmer — a placeholder that covers each image while it loads,
+  // then fades out. Non-destructive: the image is never hidden, so if this never
+  // runs the images still show normally.
+  document.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+    var c = img.parentElement;
+    if (!c || (img.complete && img.naturalWidth > 0)) return; // already loaded → no shimmer
+    if (getComputedStyle(c).position === 'static') c.style.position = 'relative';
+    c.classList.add('nx-loading');
+    var done = function () {
+      c.classList.add('nx-ready');
+      setTimeout(function () {
+        c.classList.remove('nx-loading', 'nx-ready');
+        if (c.style.position === 'relative') c.style.position = '';
+      }, 580);
+    };
+    img.addEventListener('load', done, { once: true });
+    img.addEventListener('error', done, { once: true });
+  });
+
   // homepage work carousel — auto-advance every 3s + scroll-progress indicator
   const workCar = document.querySelector('#work .work');
   if (workCar && workCar.children.length > 1) {
@@ -317,7 +336,7 @@
     };
     const openRich = (proj) => {
       const T = proj[lang];
-      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=90" alt="' + s + '" loading="lazy"></div>').join('');
+      const slides = proj.shots.map((s, i) => '<div class="slide' + (i === 0 ? ' active' : '') + '"><img src="/assets/images/projects/' + proj.prefix + '-' + s + '-' + lang + '.png?v=91" alt="' + s + '" loading="lazy"></div>').join('');
       const groups = T.groups.map(g => '<div class="stg"><b>' + g[0] + '</b><div class="stg-chips">' + g[1].map(x => '<span>' + x + '</span>').join('') + '</div></div>').join('');
       const cta = proj.visitUrl
         ? '<a class="btn btn-primary" href="' + proj.visitUrl + '" target="_blank" rel="noopener">' + T.visit + '</a><a class="btn btn-ghost" href="' + T.casePath + '">' + T.full + '</a>'
