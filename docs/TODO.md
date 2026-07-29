@@ -63,7 +63,21 @@ Last updated: 2026-07-29.
       self-referral block); conversions confirmed server-side before the ledger
       credits; append-only commission ledger; PDPL-compliant retention. No PII in
       URLs; HTTPS + HSTS.
-- [ ] **NEXT PHASE — Phase 2b: build the real backend** — decided stack
+- [x] **2026-07-29 — Phase 2b: real backend built + dev-verified** in `backend/`
+      (Node + Express + PostgreSQL, bcryptjs, helmet, rate-limit; DB-backed
+      sessions). Auth (register→pending→admin-approve→login), tracking (`GET /r`
+      click+signed cookie; `POST /track/conversion` webhook — attributes by ref
+      OR coupon, attribution window, self-referral block, idempotent), append-only
+      commission ledger (approve=credit / reverse=debit / payout paid=debit —
+      **never moves money**), partner API (shapes match the portal demo `DATA`) +
+      admin API. Dockerfile + docker-compose for Coolify. Verified end-to-end vs
+      local Postgres 16. Not yet deployed or wired to the front-end.
+- [ ] **Phase 2c — go live:** deploy `backend/` on Coolify (real secrets +
+      Postgres + PUBLIC_ORIGIN + COOKIE_DOMAIN=.nx.sa); wire the portal/landing
+      (`nx-portal.js` demo `DATA` → `fetch()`; Register/Login → `/api/auth/*`;
+      referral links → `/r`); insert the real program figures; keep the static
+      nginx image from serving `/backend`.
+- [ ] ~~Phase 2b: build the real backend~~ — decided stack
       **Node.js + PostgreSQL, self-hosted on Coolify/Docker** (data stays in-domain
       for PDPL). Implement: partner accounts + auth (email+password + sessions,
       admin-approval activation), unique referral links, click/conversion tracking
