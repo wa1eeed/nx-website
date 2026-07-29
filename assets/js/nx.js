@@ -595,4 +595,178 @@
       }
     }
   }
+
+  // ---------- Affiliate / NX Partners landing (scoped to .p-affiliate) ----------
+  if (document.body.classList.contains('p-affiliate')) {
+    const ar = document.documentElement.lang === 'ar';
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fmt = n => Math.round(n).toLocaleString('en-US');
+
+    // toast helper
+    let toastEl;
+    const toast = msg => {
+      if (!toastEl) {
+        toastEl = document.createElement('div');
+        toastEl.className = 'aff-toast';
+        document.body.appendChild(toastEl);
+      }
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastEl._t);
+      toastEl._t = setTimeout(() => toastEl.classList.remove('show'), 2200);
+    };
+
+    // hero earnings count-up (illustrative preview, animates once on view)
+    const earn = document.querySelector('[data-aff-earn]');
+    if (earn) {
+      const target = parseInt(earn.dataset.affEarn, 10) || 12480;
+      let done = false;
+      const runCount = () => {
+        if (done) return;
+        done = true;
+        if (reduce) { earn.textContent = fmt(target); return; }
+        const start = performance.now(), dur = 1400;
+        const tick = now => {
+          const p = Math.min(1, (now - start) / dur);
+          earn.textContent = fmt(target * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const maybe = () => {
+        if (done) return;
+        const r = earn.getBoundingClientRect();
+        if (r.top < innerHeight * 0.92 && r.bottom > 0) { runCount(); window.removeEventListener('scroll', maybe); }
+      };
+      maybe();
+      window.addEventListener('scroll', maybe, { passive: true });
+    }
+
+    // copy referral link
+    document.querySelectorAll('[data-aff-copy]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const txt = btn.dataset.affCopy || '';
+        const ok = () => toast(ar ? 'تم نسخ الرابط' : 'Link copied');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(ok).catch(ok);
+        } else ok();
+      });
+    });
+
+    // earnings calculator
+    const calc = document.querySelector('[data-aff-calc]');
+    if (calc) {
+      const refs = calc.querySelector('[data-refs]');
+      const deal = calc.querySelector('[data-deal]');
+      const rate = calc.querySelector('[data-rate]');
+      const refsV = calc.querySelector('[data-refs-v]');
+      const dealV = calc.querySelector('[data-deal-v]');
+      const rateV = calc.querySelector('[data-rate-v]');
+      const outM = calc.querySelector('[data-out-m]');
+      const outY = calc.querySelector('[data-out-y]');
+      const upd = () => {
+        const r = +refs.value, d = +deal.value, p = +rate.value;
+        refsV.textContent = ar ? (r === 1 ? 'عميل واحد' : r + ' عملاء') : r + (r === 1 ? ' client' : ' clients');
+        dealV.textContent = fmt(d) + (ar ? ' ﷼' : ' SAR');
+        rateV.textContent = p + '%';
+        const monthly = r * d * (p / 100);
+        outM.textContent = fmt(monthly);
+        outY.textContent = fmt(monthly * 12);
+      };
+      [refs, deal, rate].forEach(el => el && el.addEventListener('input', upd));
+      upd();
+    }
+
+    // portal tabs
+    const tabs = document.querySelectorAll('[data-aff-tab]');
+    const panels = document.querySelectorAll('[data-aff-panel]');
+    const showTab = key => {
+      tabs.forEach(t => t.classList.toggle('on', t.dataset.affTab === key));
+      panels.forEach(p => p.classList.toggle('on', p.dataset.affPanel === key));
+    };
+    tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.affTab)));
+    document.querySelectorAll('[data-aff-goto]').forEach(el => {
+      el.addEventListener('click', e => {
+        const key = el.dataset.affGoto;
+        if (key) { showTab(key); }
+        const portal = document.querySelector('#portal');
+        if (portal && !el.getAttribute('href')) { e.preventDefault(); portal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+
+    // ----- registration → Zoho Web-to-Lead (real capture, iframe POST) -----
+    const ZOHO_ENDPOINT = 'https://crm.zoho.sa/crm/WebToLeadForm';
+    const ZOHO_HIDDEN = {
+      xnQsjsdp: '36f4791acdeae3763cabf4060054bc5d64a461f3c2070ca9b0e586363277411f',
+      xmIwtLD: '57f9abfce5eb0339c8cb29cab7256fd07c9617d7bb7efc2911992a699b5ea084eae79b8c12ee8b80f7f5a7bce75ec1c4',
+      actionType: 'TGVhZHM=', returnURL: 'null', zc_gad: '', 'aG9uZXlwb3Q': ''
+    };
+    const zohoPost = data => new Promise(resolve => {
+      const frameName = 'aff-frame-' + Math.random().toString(36).slice(2);
+      const iframe = document.createElement('iframe');
+      iframe.name = frameName;
+      iframe.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:0;height:0;border:0';
+      document.body.appendChild(iframe);
+      const form = document.createElement('form');
+      form.action = ZOHO_ENDPOINT; form.method = 'POST'; form.target = frameName;
+      form.acceptCharset = 'UTF-8'; form.style.display = 'none';
+      const add = (n, v) => { const i = document.createElement('input'); i.type = 'hidden'; i.name = n; i.value = v == null ? '' : String(v); form.appendChild(i); };
+      Object.entries(ZOHO_HIDDEN).forEach(([k, v]) => add(k, v));
+      Object.entries(data).forEach(([k, v]) => { if (v != null && v !== '') add(k, v); });
+      document.body.appendChild(form);
+      let resolved = false;
+      const fin = () => { if (resolved) return; resolved = true; setTimeout(() => { form.remove(); iframe.remove(); }, 1500); resolve(true); };
+      iframe.addEventListener('load', fin, { once: true });
+      setTimeout(fin, 5000);
+      form.submit();
+    });
+
+    const regForm = document.querySelector('[data-aff-register]');
+    if (regForm) {
+      regForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = regForm.querySelector('button[type=submit]');
+        const msg = regForm.querySelector('[data-aff-msg]');
+        const g = n => (regForm.querySelector('[name=' + n + ']') || {}).value || '';
+        if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الإرسال…' : 'Sending…'; }
+        const note = '[NX Partners / برنامج التسويق بالعمولة]'
+          + ' | Channel: ' + g('channel')
+          + ' | Audience: ' + g('audience')
+          + ' | Note: ' + g('note');
+        await zohoPost({
+          'Last Name': g('name') || 'Affiliate applicant',
+          'Email': g('email'),
+          'Phone': g('phone'),
+          'Company': g('company'),
+          'LEADCF11': note,
+          'LEADCF1': location.pathname,
+          'LEADCF6': ar ? 'ar' : 'en'
+        });
+        regForm.reset();
+        if (btn) { btn.disabled = false; btn.textContent = btn.dataset.orig; }
+        if (msg) {
+          msg.className = 'aff-msg ok';
+          msg.textContent = ar
+            ? 'تم استلام طلبك بنجاح. سيتواصل معك فريق الشراكات، وسنُفعّل حسابك ونُشعرك فور جاهزية بوابة الشركاء.'
+            : 'Your application was received. Our partnerships team will reach out, and we’ll activate your account and notify you once the partner portal is ready.';
+          msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
+
+    // login (portal not live yet — honest placeholder)
+    const loginForm = document.querySelector('[data-aff-login]');
+    if (loginForm) {
+      loginForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const msg = loginForm.querySelector('[data-aff-msg]');
+        if (msg) {
+          msg.className = 'aff-msg info';
+          msg.textContent = ar
+            ? 'بوابة الشركاء قيد الإطلاق. أنشئ حساباً الآن وسنُشعرك فور تفعيله.'
+            : 'The partner portal is launching soon. Create an account now and we’ll notify you the moment it goes live.';
+        }
+      });
+    }
+  }
 })();

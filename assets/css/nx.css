@@ -2473,3 +2473,107 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 @keyframes nxPing{0%{transform:scale(.9);opacity:.55}80%,100%{transform:scale(2.25);opacity:0}}
 @keyframes nxBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.nx-badge-core{animation:none}.nx-badge-ring{display:none}}
+
+/* ============ Affiliate / NX Partners landing (p-affiliate) ============ */
+.p-affiliate .phero{padding:126px 0 26px}
+.aff-hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:54px;align-items:center}
+.aff-badge{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:rgba(183,144,46,.08);border:1px solid rgba(183,144,46,.32);padding:.42rem .85rem;border-radius:100px}
+.aff-badge i{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:affPulse 2.4s ease-out infinite}
+@keyframes affPulse{0%{box-shadow:0 0 0 0 rgba(183,144,46,.5)}70%{box-shadow:0 0 0 9px rgba(183,144,46,0)}100%{box-shadow:0 0 0 0 rgba(183,144,46,0)}}
+.aff-hero h1{font-size:clamp(2.05rem,4.4vw,3.25rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:1.15rem 0}
+.aff-hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.aff-hero .lede{font-size:1.1rem;line-height:1.7;color:var(--ink-2);max-width:35em}
+.aff-cta{display:flex;gap:.85rem;flex-wrap:wrap;margin-top:1.6rem}
+.aff-cta .btn{padding:.9rem 1.6rem}
+.aff-trust{display:flex;gap:1.1rem 1.6rem;flex-wrap:wrap;margin-top:1.8rem}
+.aff-trust span{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted)}
+.aff-trust svg{width:15px;height:15px;stroke:var(--hi);fill:none;stroke-width:2;flex-shrink:0}
+.aff-dash{background:#0B1B30;border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow-l);position:relative;overflow:hidden;color:#fff}
+.aff-dash::before{content:"";position:absolute;inset:0;background:radial-gradient(130% 90% at 100% 0,rgba(44,116,179,.35),transparent 55%);pointer-events:none}
+.aff-dash>*{position:relative;z-index:1}
+.aff-dash-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.aff-dash-hd b{font-size:.82rem;color:#eaf3fb;font-weight:600}
+.aff-dash-hd .prev{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#8fb6dd;background:rgba(143,182,221,.12);border:1px solid rgba(143,182,221,.25);border-radius:100px;padding:.25rem .6rem}
+.aff-earn .lbl{font-size:.72rem;color:#9fc0e0}
+.aff-earn .val{font-family:var(--mono);font-size:2.25rem;font-weight:600;letter-spacing:-.02em;line-height:1.15;display:flex;align-items:baseline;gap:.35rem;color:#fff}
+.aff-earn .val .cur{font-size:.95rem;color:#8fe3d6}
+.aff-earn .val .up{font-size:.66rem;color:#39d98a;margin-inline-start:.2rem}
+.aff-spark{display:flex;align-items:flex-end;gap:5px;height:46px;margin:14px 0 16px}
+.aff-spark i{flex:1;background:linear-gradient(180deg,#5BA3DF,#215a9a);border-radius:3px 3px 0 0;opacity:.8}
+.aff-spark i:last-child{background:linear-gradient(180deg,#E0B84A,#B7902E);opacity:1}
+.aff-linkrow{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:10px;padding:.5rem .6rem}
+.aff-linkrow code{font-family:var(--mono);font-size:.72rem;color:#dbe9f7;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1;direction:ltr;text-align:left}
+.aff-copy{display:inline-flex;align-items:center;gap:.35rem;background:rgba(143,227,214,.14);border:1px solid rgba(143,227,214,.3);color:#a9f0e2;font-size:.7rem;font-weight:600;padding:.4rem .7rem;border-radius:8px;cursor:pointer;transition:.2s;white-space:nowrap}
+.aff-copy:hover{background:rgba(143,227,214,.24)}
+.aff-copy svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.aff-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.aff-mini .c{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:.55rem .6rem;text-align:center}
+.aff-mini .c b{display:block;font-family:var(--mono);font-size:1.02rem;color:#fff;line-height:1.2}
+.aff-mini .c span{font-size:.6rem;color:#9fc0e0}
+.aff-cap{font-size:.61rem;color:#7f9dbf;margin-top:12px;text-align:center;font-family:var(--mono);letter-spacing:.03em}
+.aff-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.aff-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;transition:.28s}
+.aff-card:hover{border-color:#cdd8e6;box-shadow:var(--shadow-m);transform:translateY(-3px)}
+.aff-ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(20,66,114,.1),rgba(44,116,179,.12));margin-bottom:16px}
+.aff-ic svg{width:22px;height:22px;stroke:var(--brand-2);fill:none;stroke-width:1.8}
+.aff-card h3{font-size:1.06rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.5rem}
+.aff-card p{font-size:.9rem;line-height:1.65;color:var(--ink-2)}
+.aff-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.aff-step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px}
+.aff-step .n{font-family:var(--mono);font-size:.82rem;font-weight:600;color:#fff;background:var(--brand);width:32px;height:32px;border-radius:9px;display:grid;place-items:center;margin-bottom:15px}
+.aff-step h3{font-size:1.02rem;font-weight:700;margin-bottom:.45rem}
+.aff-step p{font-size:.88rem;line-height:1.6;color:var(--ink-2)}
+.aff-prom{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.aff-pcol{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px}
+.aff-pcol h3{font-size:1.05rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.55rem}
+.aff-pcol h3 svg{width:20px;height:20px;stroke:var(--hi);fill:none;stroke-width:1.8}
+.aff-pcol a{display:flex;align-items:center;justify-content:space-between;font-size:.9rem;color:var(--ink-2);padding:.6rem 0;border-top:1px solid var(--line-2);transition:.2s}
+.aff-pcol a:first-of-type{border-top:0}
+.aff-pcol a:hover{color:var(--hi)}
+.aff-pcol a::after{content:"→";color:var(--faint);font-size:.85rem}
+.p-affiliate[dir] .aff-pcol a::after,html[dir=rtl] .aff-pcol a::after{content:"←"}
+.aff-calc{background:#0B1B30;border-radius:var(--r-lg);padding:clamp(28px,4vw,44px);color:#fff;position:relative;overflow:hidden}
+.aff-calc::before{content:"";position:absolute;top:-30%;inset-inline-end:-10%;width:55%;height:160%;background:radial-gradient(circle,rgba(183,144,46,.18),transparent 60%)}
+.aff-calc-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative;z-index:1}
+.aff-ctrl{margin-bottom:22px}
+.aff-ctrl label{display:flex;justify-content:space-between;font-size:.86rem;color:#cfe0f2;margin-bottom:.6rem}
+.aff-ctrl label b{font-family:var(--mono);color:#fff;font-weight:600}
+.aff-ctrl input[type=range]{width:100%;accent-color:#E0B84A;height:5px;cursor:pointer}
+.aff-result{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:28px;text-align:center}
+.aff-result .rl{font-size:.8rem;color:#9fc0e0}
+.aff-result .rv{font-family:var(--mono);font-size:clamp(2rem,5vw,2.9rem);font-weight:600;color:#E0B84A;letter-spacing:-.02em;line-height:1.1;margin:.35rem 0;display:flex;align-items:baseline;justify-content:center;gap:.3rem}
+.aff-result .rv .cur{font-size:1rem;color:#cfe0f2}
+.aff-result .ry{font-size:.82rem;color:#cfe0f2;margin-top:.6rem}
+.aff-result .ry b{color:#fff;font-family:var(--mono)}
+.aff-disc{font-size:.68rem;color:#8fb6dd;margin-top:18px;text-align:center;position:relative;z-index:1}
+.aff-who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.aff-who-c{display:flex;align-items:center;gap:.85rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-weight:600;font-size:.94rem}
+.aff-who-c svg{width:22px;height:22px;stroke:var(--brand-2);fill:none;stroke-width:1.7;flex-shrink:0}
+.aff-portal-card{max-width:600px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-l);overflow:hidden}
+.aff-tabs{display:grid;grid-template-columns:1fr 1fr}
+.aff-tabs button{padding:1rem;font-weight:600;font-size:.92rem;color:var(--muted);background:var(--canvas);border-bottom:2px solid transparent;cursor:pointer;transition:.2s}
+.aff-tabs button.on{color:var(--brand);background:var(--surface);border-bottom-color:var(--brand)}
+.aff-panel{padding:30px;display:none}
+.aff-panel.on{display:block}
+.aff-field{margin-bottom:16px}
+.aff-field label{display:block;font-size:.82rem;font-weight:600;color:var(--ink-2);margin-bottom:.4rem}
+.aff-field label .req{color:#c0392b}
+.aff-field input,.aff-field select,.aff-field textarea{width:100%;font:inherit;font-size:.92rem;padding:.7rem .85rem;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);transition:.2s}
+.aff-field input:focus,.aff-field select:focus,.aff-field textarea:focus{outline:none;border-color:var(--hi);box-shadow:0 0 0 3px rgba(44,116,179,.12)}
+.aff-field textarea{resize:vertical;min-height:74px}
+.aff-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.aff-check{display:flex;align-items:flex-start;gap:.6rem;font-size:.82rem;color:var(--ink-2);line-height:1.5;margin-bottom:18px}
+.aff-check input{width:16px;height:16px;margin-top:.15rem;accent-color:var(--brand);flex-shrink:0}
+.aff-check a{color:var(--hi);text-decoration:underline}
+.aff-submit{width:100%;justify-content:center;padding:.95rem}
+.aff-alt{text-align:center;font-size:.84rem;color:var(--muted);margin-top:14px}
+.aff-alt a{color:var(--hi);font-weight:600;cursor:pointer}
+.aff-note{display:flex;gap:.6rem;align-items:flex-start;background:rgba(183,144,46,.07);border:1px solid rgba(183,144,46,.25);border-radius:12px;padding:14px 16px;font-size:.85rem;line-height:1.6;color:var(--ink-2);max-width:600px;margin:0 auto 26px}
+.aff-note svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.8;flex-shrink:0;margin-top:.1rem}
+.aff-msg{border-radius:12px;padding:16px 18px;font-size:.9rem;line-height:1.6;display:none;margin-bottom:6px}
+.aff-msg.ok{display:block;background:rgba(15,159,110,.09);border:1px solid rgba(15,159,110,.3);color:#0b7a54}
+.aff-msg.info{display:block;background:rgba(44,116,179,.08);border:1px solid rgba(44,116,179,.28);color:var(--brand)}
+.aff-toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:.86rem;font-weight:600;padding:.7rem 1.3rem;border-radius:100px;box-shadow:var(--shadow-l);opacity:0;pointer-events:none;transition:.3s;z-index:120}
+.aff-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:920px){.aff-hero-grid{grid-template-columns:1fr;gap:38px}.aff-calc-grid{grid-template-columns:1fr;gap:28px}.aff-cards,.aff-prom,.aff-who-grid{grid-template-columns:1fr 1fr}.aff-flow{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.aff-cards,.aff-prom,.aff-who-grid,.aff-flow,.aff-two{grid-template-columns:1fr}}

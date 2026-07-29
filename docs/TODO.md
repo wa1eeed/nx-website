@@ -1,9 +1,40 @@
 # NX Solutions — TODO / Roadmap
 
 Prioritized backlog. `[ ]` open · `[~]` in progress · `[x]` done.
-Last updated: 2026-07-28.
+Last updated: 2026-07-29.
 
 ---
+
+## 🤝 Affiliate / NX Partners program (in progress)
+
+- [x] **2026-07-29 — Landing page shipped (AR + EN)** at `/{ar,en}/affiliate/`
+      (`body.p-affiliate`). Sections: hero + interactive **partner-dashboard
+      preview** (animated earnings count-up, sparkline, copy-referral-link toast,
+      mini-stats — all labelled "معاينة/preview"), why-partner grid, how-it-works
+      steps, what-you-promote (links to services/solutions/work), **earnings
+      estimator** (3 sliders, live math), audiences, FAQ, and a **portal** card
+      with **Register / Login** tabs. Footer column **"الشراكات / Partnerships"**
+      added site-wide (65 pages) beside Policies. CSS `.aff-*` + JS module
+      scoped to `.p-affiliate` in `nx.js`. `?v=98`.
+- [~] **Registration wiring is interim.** The register form posts to the existing
+      **Zoho Web-to-Lead** endpoint (same tokens as `nx-form.js`), tagged in the
+      note with `[NX Partners / برنامج التسويق بالعمولة]` + channel/audience, so
+      applications reach the CRM today. **Re-point to the dedicated affiliate
+      backend** once built (change the POST target in the `nx.js` affiliate module).
+- [~] **Login is a front-end placeholder** — the portal isn't live, so submitting
+      shows an honest "portal launching soon" message. Wire to real auth in the
+      backend phase.
+- [ ] **Insert real program figures.** Commission %, tiers, cookie/attribution
+      window, payout threshold + schedule are currently **qualitative** (FAQ) and
+      the estimator uses a clearly-labelled **illustrative 15%** default. Replace
+      with the finalized numbers (estimator default in `nx.js`, FAQ copy in both
+      `/affiliate/` pages) — nothing fabricated is presented as a commitment.
+- [ ] **NEXT PHASE — build the backend** (admin + affiliate dashboard): partner
+      accounts + auth, unique referral links, click/conversion tracking &
+      attribution, commission ledger, payouts, and an admin console to approve
+      partners and review performance. The landing-page Register/Login are the
+      front-end seams for this.
+
 
 ## 🗓️ Scheduled / deferred — production infra
 
