@@ -642,6 +642,89 @@
       window.addEventListener('scroll', maybe, { passive: true });
     }
 
+    // ---------- creative motion ----------
+    const onView = (el, cb) => {
+      if (!el) return; let done = false;
+      const chk = () => { if (done) return; const r = el.getBoundingClientRect(); if (r.top < innerHeight * 0.9 && r.bottom > 0) { done = true; cb(); window.removeEventListener('scroll', chk); } };
+      chk(); window.addEventListener('scroll', chk, { passive: true });
+    };
+    const tweenNum = (el, to, dur, dp, suffix) => {
+      suffix = suffix || '';
+      if (reduce) { el.textContent = (dp ? to.toFixed(dp) : fmt(to)) + suffix; return; }
+      const s = performance.now();
+      const step = now => {
+        const p = Math.min(1, (now - s) / dur), v = to * (1 - Math.pow(1 - p, 3));
+        el.textContent = (dp ? v.toFixed(dp) : fmt(v)) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    // sparkline bars grow from zero when the hero scrolls in
+    const spark = document.querySelector('.aff-spark');
+    if (spark && !reduce) {
+      const bars = [].slice.call(spark.querySelectorAll('i')), hs = bars.map(b => b.style.height);
+      bars.forEach(b => b.style.height = '0%');
+      onView(spark, () => bars.forEach((b, i) => setTimeout(() => { b.style.height = hs[i] || '0%'; }, 80 * i)));
+    }
+
+    // hero mini-stats count up on view
+    document.querySelectorAll('.aff-mini .c b').forEach(el => {
+      const raw = el.textContent.trim(), pct = raw.indexOf('%') >= 0, num = parseFloat(raw.replace(/[^\d.]/g, ''));
+      if (isNaN(num)) return;
+      onView(el, () => tweenNum(el, num, 1300, pct ? 1 : 0, pct ? '%' : ''));
+    });
+
+    // live "activity" feed inside the (clearly-labelled) preview dashboard
+    const dash = document.querySelector('.aff-dash'), spk = dash && dash.querySelector('.aff-spark');
+    if (dash && spk && !reduce) {
+      const feed = document.createElement('div');
+      feed.className = 'aff-feed';
+      feed.innerHTML = '<span class="pi"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="ev"></span><span class="amt"></span>';
+      spk.insertAdjacentElement('afterend', feed);
+      const ev = feed.querySelector('.ev'), am = feed.querySelector('.amt');
+      const events = ar ? [
+        ['تحويل جديد • NX Grow', '+﷼3,600'],
+        ['عميل عبر كود KHALID10 • NX Launch', '+﷼1,800'],
+        ['تحويل جديد • التقنية المالية', '+﷼5,200'],
+        ['نقرة جديدة على رابطك', '•']
+      ] : [
+        ['New conversion • NX Grow', '+SAR 3,600'],
+        ['Client via KHALID10 • NX Launch', '+SAR 1,800'],
+        ['New conversion • FinTech', '+SAR 5,200'],
+        ['New click on your link', '•']
+      ];
+      let i = 0;
+      const swap = () => {
+        feed.classList.remove('show');
+        setTimeout(() => { ev.textContent = events[i][0]; am.textContent = events[i][1]; feed.classList.add('show'); i = (i + 1) % events.length; }, 320);
+      };
+      setTimeout(swap, 900); setInterval(swap, 3900);
+    }
+
+    // subtle 3D tilt on the hero dashboard (desktop, motion-safe)
+    if (dash && !reduce && matchMedia('(pointer:fine)').matches) {
+      const host = dash.parentElement;
+      host.addEventListener('mousemove', e => {
+        const r = dash.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        dash.style.transform = 'perspective(1000px) rotateY(' + (x * 5).toFixed(2) + 'deg) rotateX(' + (-y * 5).toFixed(2) + 'deg)';
+      });
+      host.addEventListener('mouseleave', () => { dash.style.transform = ''; });
+    }
+
+    // mouse-follow spotlight on value cards
+    document.querySelectorAll('.aff-card').forEach(c => {
+      c.addEventListener('mousemove', e => {
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    // sequential step-number pop
+    const flow = document.querySelector('.aff-flow');
+    if (flow) onView(flow, () => flow.classList.add('run'));
+
     // copy referral link
     document.querySelectorAll('[data-aff-copy]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -664,6 +747,7 @@
       const rateV = calc.querySelector('[data-rate-v]');
       const outM = calc.querySelector('[data-out-m]');
       const outY = calc.querySelector('[data-out-y]');
+      const rvEl = outM.closest('.rv');
       const upd = () => {
         const r = +refs.value, d = +deal.value, p = +rate.value;
         refsV.textContent = ar ? (r === 1 ? 'عميل واحد' : r + ' عملاء') : r + (r === 1 ? ' client' : ' clients');
@@ -672,9 +756,15 @@
         const monthly = r * d * (p / 100);
         outM.textContent = fmt(monthly);
         outY.textContent = fmt(monthly * 12);
+        if (rvEl) { rvEl.classList.remove('bump'); void rvEl.offsetWidth; rvEl.classList.add('bump'); }
       };
       [refs, deal, rate].forEach(el => el && el.addEventListener('input', upd));
       upd();
+      // count the result up from zero the first time it scrolls into view
+      if (!reduce) onView(calc, () => {
+        const r = +refs.value, d = +deal.value, p = +rate.value, monthly = r * d * (p / 100);
+        tweenNum(outM, monthly, 1100); tweenNum(outY, monthly * 12, 1100);
+      });
     }
 
     // portal tabs
