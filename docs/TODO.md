@@ -29,11 +29,30 @@ Last updated: 2026-07-29.
       the estimator uses a clearly-labelled **illustrative 15%** default. Replace
       with the finalized numbers (estimator default in `nx.js`, FAQ copy in both
       `/affiliate/` pages) — nothing fabricated is presented as a commitment.
-- [ ] **NEXT PHASE — build the backend** (admin + affiliate dashboard): partner
-      accounts + auth, unique referral links, click/conversion tracking &
-      attribution, commission ledger, payouts, and an admin console to approve
-      partners and review performance. The landing-page Register/Login are the
-      front-end seams for this.
+- [x] **2026-07-29 — Phase 2a: portal & admin UI shipped (AR + EN)** as a
+      polished, best-in-class SaaS front-end with **demo data** at
+      `/{ar,en}/affiliate/portal/` (`body.p-portal`) and
+      `/{ar,en}/affiliate/admin/` (`body.p-admin`), `noindex`. Dark sidebar +
+      light workspace, gold money accents. **Partner dashboard:** Overview
+      (KPIs + 8-month earnings chart + quick link + recent conversions), **Wallet**
+      (available/pending/lifetime balance, next-payout, colour-coded transaction
+      ledger, withdraw modal), **Referral links** (per-campaign links + copy),
+      **Marketing kit** (filterable gallery: banners/social/email/logos with
+      copy/download + auto-embedded link), **Settings** (profile + payout details).
+      **Admin:** Overview, Partners (approve/view + statuses), Payouts
+      (mark-paid — records only, no money movement), Program settings (rates,
+      tiers, window, minimum). New files: `assets/css/nx-portal.css`,
+      `assets/js/nx-portal.js` (all rendered from in-file `DATA` — swap for
+      `fetch()` to wire the API). Not linked from the public login yet (kept
+      honest as "launching soon"); direct URLs for review.
+- [ ] **NEXT PHASE — Phase 2b: build the real backend** — decided stack
+      **Node.js + PostgreSQL, self-hosted on Coolify/Docker** (data stays in-domain
+      for PDPL). Implement: partner accounts + auth (email+password + sessions,
+      admin-approval activation), unique referral links, click/conversion tracking
+      & attribution, commission ledger, payout records (status workflow; actual
+      transfer stays external via NX's bank — no fund movement in code), and the
+      admin approval/console APIs. Then replace the portal's demo `DATA` with API
+      calls and re-point the landing Register POST off Zoho onto the backend.
 
 
 ## 🗓️ Scheduled / deferred — production infra
