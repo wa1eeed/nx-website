@@ -1,0 +1,38 @@
+# NX Partners backend — app + PostgreSQL. Suitable for Coolify (Docker Compose)
+# or local `docker compose up`. Set secrets via an .env file next to this one.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nx_partners
+      POSTGRES_USER: nx
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-nxdev}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nx -d nx_partners"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgres://nx:${DB_PASSWORD:-nxdev}@db:5432/nx_partners
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
+      IP_SALT: ${IP_SALT:?set IP_SALT}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:?set WEBHOOK_SECRET}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-https://nx.sa}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN:-}
+    ports:
+      - "4000:4000"
+
+volumes:
+  pgdata:
