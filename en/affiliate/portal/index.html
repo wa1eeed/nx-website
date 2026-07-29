@@ -8,25 +8,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=98">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=98">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=98">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=98">
+<link rel="stylesheet" href="/assets/css/nx.css?v=99">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=99">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=99">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=99">
 <meta name="theme-color" content="#0A1A2F">
 </head>
 <body class="p-portal">
 
 <div class="ap">
-  <!-- SIDEBAR -->
   <aside class="ap-side">
-    <div class="ap-brand">
-      <img src="/assets/images/logo.png" alt="NX Solutions">
-      <span class="tag">Partners</span>
-    </div>
+    <div class="ap-brand"><img src="/assets/images/logo.png" alt="NX Solutions"><span class="tag">Partners</span></div>
     <nav class="ap-nav">
       <span class="lbl">Dashboard</span>
       <a data-go="overview" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Overview</span></a>
-      <a data-go="links"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg><span>Referral links</span><span class="ct">4</span></a>
+      <a data-go="catalog"><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 21V12h6v9"/></svg><span>Products &amp; services</span></a>
+      <a data-go="links"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg><span>Links &amp; codes</span></a>
       <a data-go="materials"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Marketing kit</span></a>
       <span class="lbl">Money</span>
       <a data-go="wallet"><svg viewBox="0 0 24 24"><path d="M2 7h20v5H2zM2 7v12a1 1 0 001 1h18a1 1 0 001-1v-7"/><path d="M16 12h.01"/></svg><span>Wallet</span></a>
@@ -41,7 +38,6 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="ap-main">
     <header class="ap-top">
       <button class="ap-burger" type="button" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
@@ -51,6 +47,7 @@
         <code>nx.sa/?ref=KHALID-7Q2</code>
         <span class="cp" data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy</span>
       </div>
+      <button class="ap-lang" data-lang aria-label="Switch language"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18 15 15 0 010-18"/></svg> العربية</button>
       <div class="ap-icirc"><span class="dot"></span><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></div>
     </header>
 
@@ -66,21 +63,60 @@
             <div class="ap-chart" data-chart></div>
           </div>
           <div class="ap-card">
-            <div class="ch"><h3>Your quick link</h3></div>
-            <p style="font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px">Share this link and start counting clicks and conversions instantly.</p>
-            <div class="ap-linkcard" style="margin:0">
-              <div class="top" style="margin:0">
-                <div class="url"><code>https://nx.sa/?ref=KHALID-7Q2</code></div>
-                <button class="ap-mini-btn" data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy</button>
-              </div>
-            </div>
-            <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>A referral is counted once it becomes an actual client; track status in "Conversions" below.</span></div>
+            <div class="ch"><h3>Share &amp; earn</h3></div>
+            <div class="ap-bigcode" style="margin-bottom:10px"><code>https://nx.sa/?ref=KHALID-7Q2</code><button class="ap-mini-btn" data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy</button></div>
+            <div class="ap-bigcode coupon" style="margin-bottom:14px;border:1px dashed rgba(183,144,46,.45);background:rgba(183,144,46,.07)"><code style="font-size:1.05rem;font-weight:700;color:#9a6b12">KHALID10</code><span class="ap-off">10% off</span><button class="ap-mini-btn" data-copy="KHALID10">Copy</button></div>
+            <div data-sharebar></div>
           </div>
         </div>
         <div class="ap-card">
           <div class="ch"><h3>Recent conversions</h3></div>
-          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Product</th><th>Client</th><th>Deal value</th><th>Your commission</th><th>Status</th></tr></thead><tbody data-refs></tbody></table></div>
+          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Product</th><th>Client</th><th>Source</th><th>Deal value</th><th>Your commission</th><th>Status</th></tr></thead><tbody data-refs></tbody></table></div>
         </div>
+      </section>
+
+      <!-- CATALOG -->
+      <section class="ap-view" data-view="catalog">
+        <div class="ap-sh"><div><h2>Products &amp; services</h2><p>Pick what fits each client and copy its direct link — your referral code is embedded in every link.</p></div></div>
+        <div class="ap-cat" data-catalog></div>
+      </section>
+
+      <!-- LINKS & CODES -->
+      <section class="ap-view" data-view="links">
+        <div class="ap-sh"><div><h2>Links &amp; codes</h2><p>Mix a referral link with a discount coupon — both record your commission automatically.</p></div></div>
+        <div class="ap-lc" data-linkcoupon></div>
+        <div class="ap-card" style="margin-bottom:16px">
+          <div class="ch"><h3>Share in one click</h3></div>
+          <div data-sharebar></div>
+        </div>
+        <div class="ap-secure">
+          <div class="s"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span><b>Reliable attribution</b>Clients are attributed from the first touch via your link or code, with server-signed IDs.</span></div>
+          <div class="s"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span><b>Anti-tamper</b>Click-fraud &amp; duplicate detection, with server-side matching before any commission is counted.</span></div>
+          <div class="s"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg><span><b>PDPL privacy</b>First-party tracking, no selling your data — compliant with Saudi data-protection law.</span></div>
+        </div>
+        <div class="ap-card" style="margin-bottom:16px">
+          <div class="ch"><h3>Create a new link</h3></div>
+          <div class="ap-two">
+            <div class="ap-fld" style="margin:0"><label>Campaign name</label><input type="text" placeholder="e.g. Instagram campaign"></div>
+            <div class="ap-fld" style="margin:0"><label>Product (optional)</label><select><option>All products</option><option>NX Launch</option><option>NX Grow</option><option>FinTech</option><option>IBP Insure</option></select></div>
+          </div>
+          <button class="ap-wbtn" style="margin-top:16px" data-toast="Link creation will be enabled when the portal goes live">Create link</button>
+        </div>
+        <div data-links></div>
+      </section>
+
+      <!-- MATERIALS -->
+      <section class="ap-view" data-view="materials">
+        <div class="ap-sh"><div><h2>Marketing kit</h2><p>Banners, copy and templates tied to our products — your referral link is auto-embedded in every asset.</p></div></div>
+        <div class="ap-mat-bar">
+          <button class="ap-chipf on" data-filter="all">All</button>
+          <button class="ap-chipf" data-filter="banner">Banners</button>
+          <button class="ap-chipf" data-filter="social">Social</button>
+          <button class="ap-chipf" data-filter="email">Email</button>
+          <button class="ap-chipf" data-filter="copy">Copy</button>
+          <button class="ap-chipf" data-filter="logo">Logos</button>
+        </div>
+        <div class="ap-mats" data-mats></div>
       </section>
 
       <!-- WALLET -->
@@ -117,38 +153,13 @@
         </div>
       </section>
 
-      <!-- LINKS -->
-      <section class="ap-view" data-view="links">
-        <div class="ap-sh"><div><h2>Referral links</h2><p>Create custom links per campaign or channel, and track each one separately.</p></div></div>
-        <div class="ap-card" style="margin-bottom:16px">
-          <div class="ch"><h3>Create a new link</h3></div>
-          <div class="ap-two">
-            <div class="ap-fld" style="margin:0"><label>Campaign name</label><input type="text" placeholder="e.g. Instagram campaign"></div>
-            <div class="ap-fld" style="margin:0"><label>Product (optional)</label><select><option>All products</option><option>NX Launch</option><option>NX Grow</option><option>FinTech</option><option>IBP Insure</option></select></div>
-          </div>
-          <button class="ap-wbtn" style="margin-top:16px" data-toast="Link creation will be enabled when the portal goes live">Create link</button>
-        </div>
-        <div data-links></div>
-      </section>
-
-      <!-- MATERIALS -->
-      <section class="ap-view" data-view="materials">
-        <div class="ap-sh"><div><h2>Marketing kit</h2><p>Ready banners, copy and templates — your referral link is auto-embedded in every asset.</p></div></div>
-        <div class="ap-mat-bar">
-          <button class="ap-chipf on" data-filter="all">All</button>
-          <button class="ap-chipf" data-filter="banner">Banners</button>
-          <button class="ap-chipf" data-filter="social">Social</button>
-          <button class="ap-chipf" data-filter="email">Email</button>
-          <button class="ap-chipf" data-filter="logo">Logos</button>
-        </div>
-        <div class="ap-mats" data-mats></div>
-      </section>
-
       <!-- SETTINGS -->
       <section class="ap-view" data-view="settings">
-        <div class="ap-sh"><div><h2>Settings</h2><p>Your profile, payout details and notifications.</p></div></div>
+        <div class="ap-sh"><div><h2>Settings</h2><p>Your profile, interface language and payout details.</p></div></div>
         <div class="ap-card ap-form">
-          <div class="ch"><h3>Profile</h3></div>
+          <div class="ch"><h3>Interface language</h3></div>
+          <div class="ap-langset"><button data-lang>العربية</button><button class="on">English</button></div>
+          <div class="ch" style="margin-top:20px"><h3>Profile</h3></div>
           <div class="ap-two"><div class="ap-fld"><label>Full name</label><input type="text" value="Khalid Al-Otaibi"></div><div class="ap-fld"><label>Mobile number</label><input type="tel" value="+9665XXXXXXXX"></div></div>
           <div class="ap-fld"><label>Email</label><input type="email" value="khalid@rawnaq.sa"></div>
           <div class="ch" style="margin-top:8px"><h3>Payout details</h3></div>
@@ -186,6 +197,6 @@
 
 <div class="ap-demo">Preview mode · <b>sample data</b></div>
 
-<script src="/assets/js/nx-portal.js?v=98" defer></script>
+<script src="/assets/js/nx-portal.js?v=99" defer></script>
 </body>
 </html>

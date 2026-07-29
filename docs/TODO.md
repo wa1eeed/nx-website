@@ -45,6 +45,24 @@ Last updated: 2026-07-29.
       `assets/js/nx-portal.js` (all rendered from in-file `DATA` — swap for
       `fetch()` to wire the API). Not linked from the public login yet (kept
       honest as "launching soon"); direct URLs for review.
+- [x] **2026-07-29 — Phase 2a v2 upgrade.** Light sidebar logo (CSS filter);
+      **coupon codes** alongside referral links (e.g. `KHALID10`, 10% off) — in
+      overview + a "Links & codes" hero, tracked in conversions ("via") and the
+      admin partners table; **Products & services catalog** — every real NX
+      offering with a **deep referral link** (`/…/?ref=CODE`) + copy + share, plus
+      an admin **Products & offers** manager (per-product commission %); more
+      **marketing tools** (X post, email signature, one-liners) + a **quick-share
+      bar** (WhatsApp/X/LinkedIn/Email — real share URLs with the partner link);
+      **in-portal AR/EN switch** in the navbar (globe pill) + Settings (preserves
+      the view via hash); a **tracking & security** transparency strip.
+- [ ] **Phase 2b tracking spec (best-practice, to implement):** first-party
+      click endpoint issuing a signed, HttpOnly, SameSite cookie (referral code +
+      first-touch timestamp); server-side click log (IP hash, UA, geo) for the
+      attribution window; **coupon path** attributes at checkout when the code is
+      applied; de-dup + click-fraud heuristics (rate limits, bot filtering,
+      self-referral block); conversions confirmed server-side before the ledger
+      credits; append-only commission ledger; PDPL-compliant retention. No PII in
+      URLs; HTTPS + HSTS.
 - [ ] **NEXT PHASE — Phase 2b: build the real backend** — decided stack
       **Node.js + PostgreSQL, self-hosted on Coolify/Docker** (data stays in-domain
       for PDPL). Implement: partner accounts + auth (email+password + sessions,
