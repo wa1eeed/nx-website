@@ -2390,3 +2390,21 @@ html[dir="rtl"] .dfx-note::after{transform-origin:right}
 .fcard .fwin-bar .u{margin-inline-start:9px;font-family:var(--mono);font-size:.58rem;color:#7fa8c9;letter-spacing:.02em}
 .fcard .fwin-bar .lk{margin-inline-start:auto;display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.55rem;color:#5fd0a3}
 .fcard .fwin-bar .lk svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* hero centerpiece — interactive open-banking card (mini cards float around it) */
+.fhero .fmini{z-index:3}
+.fbankcard{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(66%,244px);aspect-ratio:1.58;z-index:1;border-radius:16px;padding:15px 17px;color:#eaf3ff;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(135deg,#0b2036,#144272 52%,#12798c);box-shadow:0 34px 66px -24px rgba(10,26,47,.62),inset 0 1px 0 rgba(255,255,255,.14);animation:ffloat 7s ease-in-out infinite}
+.fbankcard::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.18) 48%,transparent 60%);transform:translateX(-70%);animation:fsheen 4.6s ease-in-out infinite;pointer-events:none}
+@keyframes fsheen{0%{transform:translateX(-75%)}55%,100%{transform:translateX(125%)}}
+.fbc-top{display:flex;align-items:center;justify-content:space-between}
+.fbc-brand{display:inline-flex;align-items:center;gap:6px;font-size:.64rem;font-weight:700;letter-spacing:.02em}
+.fbc-brand i{width:8px;height:8px;border-radius:50%;background:#3ad0b0;box-shadow:0 0 0 0 #3ad0b0;animation:fpulse 1.6s ease-out infinite}
+.fbc-top svg{width:19px;height:19px;fill:none;stroke:rgba(255,255,255,.72);stroke-width:1.6;stroke-linecap:round}
+.fbc-chip{width:34px;height:26px;border-radius:6px;margin:15px 0 auto;background:linear-gradient(135deg,#e6c15f,#f6dfa0);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.fbc-chip{position:relative}.fbc-chip::before{content:"";position:absolute;inset:5px 7px;border:1px solid rgba(0,0,0,.22);border-radius:2px}
+.fbc-num{font-family:var(--mono);font-size:.84rem;letter-spacing:.14em;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.fbc-bot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.fbc-name{font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.82);letter-spacing:.04em}
+.fbc-conn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.55rem;color:#9bf3d5;background:rgba(58,208,176,.18);border-radius:999px;padding:3px 9px}
+.fbc-conn i{width:6px;height:6px;border-radius:50%;background:#3ad0b0;animation:fpulse 1.6s ease-out infinite}
+@media(prefers-reduced-motion:reduce){.fbankcard,.fbankcard::after,.fbc-brand i,.fbc-conn i{animation:none}}
