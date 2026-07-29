@@ -2410,14 +2410,12 @@ html[dir="rtl"] .dfx-note::after{transform-origin:right}
 @media(prefers-reduced-motion:reduce){.fbankcard,.fbankcard::after,.fbc-brand i,.fbc-conn i{animation:none}}
 
 /* ═══ FinTech · interactive Sectors Explorer ═══ */
-.fsx{margin-top:2.2rem;display:grid;grid-template-columns:.82fr 1.18fr;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 34px 66px -36px rgba(10,26,47,.34)}
-@media(max-width:820px){.fsx{grid-template-columns:1fr}}
-.fsx-tabs{display:flex;flex-direction:column;gap:3px;background:#f4f7fb;border-inline-end:1px solid var(--line);padding:10px}
-@media(max-width:820px){.fsx-tabs{flex-direction:row;overflow-x:auto;border-inline-end:none;border-bottom:1px solid var(--line);scrollbar-width:none}.fsx-tabs::-webkit-scrollbar{display:none}}
-.fsx-tab{text-align:start;background:none;border:0;padding:11px 14px;border-radius:10px;font:inherit;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
-.fsx-tab:hover{color:var(--ink)}
-.fsx-tab.active{background:#fff;color:var(--brand);box-shadow:0 5px 14px -7px rgba(10,26,47,.28)}
-.fsx-stage{position:relative;padding:28px 30px}
+.fsx{margin-top:2.2rem}
+.fsx-tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
+.fsx-tab{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;font:inherit;font-size:.83rem;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
+.fsx-tab:hover{color:var(--ink);border-color:var(--line-2)}
+.fsx-tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 9px 20px -9px color-mix(in srgb,var(--brand) 55%,transparent)}
+.fsx-stage{position:relative;border:1px solid var(--line);border-radius:18px;padding:30px 34px;background:#fff;box-shadow:0 34px 66px -40px rgba(10,26,47,.3);min-height:206px}
 @media(max-width:560px){.fsx-stage{padding:22px}}
 .fsx-panel{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s;position:absolute;inset:28px 30px;pointer-events:none}
 .fsx-panel.active{opacity:1;transform:none;pointer-events:auto;position:relative;inset:auto}
