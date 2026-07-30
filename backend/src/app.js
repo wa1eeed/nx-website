@@ -20,6 +20,7 @@ app.use(mw.originGuard);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, service: 'nx-partners', env: config.env, time: new Date().toISOString() }));
 
+app.use('/api', require('./routes/public'));          // GET /api/program (public terms)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/', require('./routes/track'));                              // /r + /track/conversion
 app.use('/api/partner', mw.requireAuth, require('./routes/partner'));

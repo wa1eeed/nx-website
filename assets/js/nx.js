@@ -760,6 +760,14 @@
       };
       [refs, deal, rate].forEach(el => el && el.addEventListener('input', upd));
       upd();
+      // pull the REAL commission rate from the backend if available (admin-set),
+      // so the estimator reflects the live program terms — no numbers hard-coded.
+      if (window.NXApi && rate) {
+        window.NXApi.get('/api/program').then(res => {
+          const bp = res && res.program && res.program.base_pct;
+          if (bp) { rate.value = bp; upd(); }
+        }).catch(() => {});
+      }
       // count the result up from zero the first time it scrolls into view
       if (!reduce) onView(calc, () => {
         const r = +refs.value, d = +deal.value, p = +rate.value, monthly = r * d * (p / 100);
