@@ -20,6 +20,12 @@ expected and safe (they fall back to the labelled preview).
 
 ## 1) Create the backend resource
 
+> **No database yet? You don't need one in advance.** `docker-compose.yml`
+> ships its **own** PostgreSQL container with a persistent `pgdata` volume — the
+> DB is created automatically on first deploy. (If you'd rather use a
+> Coolify-managed PostgreSQL, provision one in a click and point `DATABASE_URL`
+> at it instead — then deploy just the `app` service.)
+
 **Recommended — one Compose service (app + Postgres)** using
 `backend/docker-compose.yml`:
 

@@ -7,3 +7,6 @@ HANDOFF_README.md
 diag-zoho.html
 docs
 README.md
+# the affiliate backend is a SEPARATE service (deployed at api.nx.sa) —
+# never bundle its source into the static site image
+backend
