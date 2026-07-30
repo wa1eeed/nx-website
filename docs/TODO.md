@@ -81,6 +81,9 @@ Last updated: 2026-07-29.
       snippet + checklist), `GET /api/program` public terms, landing estimator now
       reads live figures, and `npm run create-admin` (non-destructive prod admin).
       Real figures now flow from ONE place: set them in the admin → site updates.
+- [x] **2026-07-30 — front-end PUBLISHED live** (`nx.sa` redeployed → v=103):
+      `/{ar,en}/affiliate/`, `/portal/`, `/admin/` all 200 and clean (demo mode
+      until the backend is up); footer "الشراكات/Partnerships" live site-wide.
 - [ ] **Phase 2c — actually go live (needs the user / infra):** (1) deploy
       `backend/` on Coolify — real `SESSION_SECRET`/`IP_SALT`/`WEBHOOK_SECRET`,
       Postgres, `PUBLIC_ORIGIN=https://nx.sa`, `COOKIE_DOMAIN=.nx.sa`; migrate +
