@@ -31,8 +31,11 @@ services:
       WEBHOOK_SECRET: ${WEBHOOK_SECRET:?set WEBHOOK_SECRET}
       PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-https://nx.sa}
       COOKIE_DOMAIN: ${COOKIE_DOMAIN:-}
-    ports:
-      - "4000:4000"
+    # Do NOT publish a host port — Coolify/Traefik reaches the app over the
+    # internal network on 4000 (via SERVICE_FQDN_APP_4000). Publishing 4000 on
+    # the host collides with other apps already using it.
+    expose:
+      - "4000"
 
 volumes:
   pgdata:
