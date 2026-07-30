@@ -6,7 +6,7 @@
 // each boot. Remove ADMIN_PASSWORD to stop managing the password via env.
 const { query } = require('./pool');
 const { hashPassword } = require('../lib/auth');
-const { refCode } = require('./ids');
+const { refCode } = require('../lib/ids');
 
 async function ensureAdminFromEnv() {
   const email = String(process.env.ADMIN_EMAIL || '').toLowerCase().trim();

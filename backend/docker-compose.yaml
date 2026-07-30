@@ -31,6 +31,9 @@ services:
       WEBHOOK_SECRET: ${WEBHOOK_SECRET:?set WEBHOOK_SECRET}
       PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-https://nx.sa}
       COOKIE_DOMAIN: ${COOKIE_DOMAIN:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_NAME: ${ADMIN_NAME:-NX Admin}
     # Do NOT publish a host port — Coolify/Traefik reaches the app over the
     # internal network on 4000 (via SERVICE_FQDN_APP_4000). Publishing 4000 on
     # the host collides with other apps already using it.
