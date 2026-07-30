@@ -404,6 +404,7 @@
     var user = me && me.partner;
     if (!user) return renderDemoFallback();
     if (isAdmin && user.role !== 'admin') { location.href = '/' + LANGSEG + '/affiliate/portal/'; return; } // logged-in non-admin → their portal
+    if (isPortal && user.role === 'admin') { location.href = '/' + LANGSEG + '/affiliate/admin/'; return; } // admin → the admin console
     LIVE = true;
     document.querySelectorAll('.ap-demo').forEach(el => el.remove());
 

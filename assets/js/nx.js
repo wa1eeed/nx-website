@@ -900,8 +900,9 @@
         if (!window.NXApi) return soon();
         if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الدخول…' : 'Signing in…'; }
         try {
-          await window.NXApi.post('/api/auth/login', { email: g('email'), password: g('password') });
-          location.href = portalUrl;
+          const r = await window.NXApi.post('/api/auth/login', { email: g('email'), password: g('password') });
+          const adminUrl = '/' + (ar ? 'ar' : 'en') + '/affiliate/admin/';
+          location.href = (r && r.partner && r.partner.role === 'admin') ? adminUrl : portalUrl;
           return;
         } catch (err) {
           if (err.status === 401) setMsg('info', ar ? 'البريد أو كلمة المرور غير صحيحة.' : 'Invalid email or password.');
