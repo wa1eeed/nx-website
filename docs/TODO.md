@@ -72,11 +72,19 @@ Last updated: 2026-07-29.
       **never moves money**), partner API (shapes match the portal demo `DATA`) +
       admin API. Dockerfile + docker-compose for Coolify. Verified end-to-end vs
       local Postgres 16. Not yet deployed or wired to the front-end.
-- [ ] **Phase 2c — go live:** deploy `backend/` on Coolify (real secrets +
-      Postgres + PUBLIC_ORIGIN + COOKIE_DOMAIN=.nx.sa); wire the portal/landing
-      (`nx-portal.js` demo `DATA` → `fetch()`; Register/Login → `/api/auth/*`;
-      referral links → `/r`); insert the real program figures; keep the static
-      nginx image from serving `/backend`.
+- [x] **2026-07-29 — Phase 2c front-end wired** to the backend + verified locally.
+      New `assets/js/nx-api.js` (`window.NXApi`); `nx-portal.js` renders demo then
+      swaps to LIVE via `/api/auth/me` (401→login, 404/network→demo) and wires real
+      actions; landing Register→`/api/auth/register` (added password field, Zoho
+      fallback) + Login→`/api/auth/login`→portal. `?v=101`.
+- [ ] **Phase 2c — actually go live (needs the user / infra):** (1) deploy
+      `backend/` on Coolify — real `SESSION_SECRET`/`IP_SALT`/`WEBHOOK_SECRET`,
+      Postgres, `PUBLIC_ORIGIN=https://nx.sa`, `COOKIE_DOMAIN=.nx.sa`; migrate +
+      create a real admin. (2) nginx on nx.sa: proxy `/api` and `/r` to the
+      backend; don't serve `/backend`. (3) insert the **real program figures**
+      (commission %, coupon %, tiers, attribution window, min payout, schedule).
+      (4) route real referral/deep links via `/r`; wire checkout/CRM to
+      `POST /track/conversion`.
 - [ ] ~~Phase 2b: build the real backend~~ — decided stack
       **Node.js + PostgreSQL, self-hosted on Coolify/Docker** (data stays in-domain
       for PDPL). Implement: partner accounts + auth (email+password + sessions,
