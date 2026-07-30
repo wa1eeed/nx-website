@@ -8,6 +8,18 @@
     console.log('%cNX Solutions', 'font:700 22px/1.4 sans-serif;color:#205295', '\n  Built clean, compliant and fast — by hand.\n  Like what you see under the hood? hello@nx.sa');
   } catch (e) {}
 
+  // NX Partners — referral click capture. Any nx.sa page carrying ?ref=CODE
+  // pings the affiliate backend to log the click + drop the first-party
+  // attribution cookie, so the clean nx.sa/?ref= link is tracked (no redirect).
+  try {
+    const ref = (location.search.match(/[?&]ref=([^&]+)/) || [])[1];
+    if (ref) {
+      const meta = document.querySelector('meta[name="nx-api"]');
+      const api = (meta && meta.content ? meta.content : (/(^|\.)nx\.sa$/i.test(location.hostname) ? 'https://api.nx.sa' : '')).replace(/\/$/, '');
+      if (api) fetch(api + '/track/click?ref=' + encodeURIComponent(ref), { credentials: 'include', mode: 'cors', keepalive: true }).catch(() => {});
+    }
+  } catch (e) {}
+
   // nav scroll shadow
   const bar = document.getElementById('bar');
   if (bar) addEventListener('scroll', () => bar.classList.toggle('scrolled', scrollY > 12));

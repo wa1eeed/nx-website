@@ -88,10 +88,12 @@ moment you save — nothing hard-coded.
 
 ## 5) Wire the real tracking
 
-- **Referral / deep links:** hand out the click form
-  `https://api.nx.sa/r?ref=CODE&to=/services/grow/` (logs the click, drops the
-  first-party cookie, 302s to the page). Partner links in the portal show the
-  `nx.sa/?ref=CODE` form for humans; the tracked form is `/r`.
+- **Referral / deep links:** partners share the clean links the portal shows —
+  `https://nx.sa/?ref=CODE` or any deep link `https://nx.sa/…/?ref=CODE`. Every
+  nx.sa page auto-fires a background beacon to `api.nx.sa/track/click` that logs
+  the click + drops the first-party attribution cookie (no redirect, no nginx
+  changes). A redirect form `https://api.nx.sa/r?ref=CODE&to=/services/grow/` is
+  also available for external/ad links.
 - **Conversions:** when a referred deal closes, the checkout/CRM calls
   `POST https://api.nx.sa/track/conversion` with header
   `x-webhook-secret: <WEBHOOK_SECRET>` and

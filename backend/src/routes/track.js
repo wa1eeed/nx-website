@@ -36,6 +36,24 @@ router.get('/r', asyncH(async (req, res) => {
   res.redirect(302, target);
 }));
 
+// GET /track/click?ref=CODE  — background beacon from any nx.sa page that carries
+// ?ref=. Logs the click + drops the first-party attribution cookie, no redirect.
+// Lets partners share the clean https://nx.sa/?ref=CODE link and still get tracked.
+router.get('/track/click', asyncH(async (req, res) => {
+  const ref = str(req.query.ref, { name: 'ref', max: 40 });
+  if (ref) {
+    const partner = await recordClick({ refCode: ref, ip: req.ip, ua: req.get('user-agent'), referrer: req.get('referer') });
+    if (partner) {
+      res.cookie(config.refCookie, sign(JSON.stringify({ c: ref, t: Date.now() })), {
+        httpOnly: true, sameSite: 'lax', secure: config.secureCookies,
+        domain: config.cookieDomain, path: '/', maxAge: config.attributionWindowDays * 864e5,
+      });
+    }
+  }
+  res.set('Cache-Control', 'no-store');
+  res.status(204).end();
+}));
+
 // POST /track/conversion  (server-to-server; authenticated by shared secret)
 // Body: { ref?|coupon?, product (slug or path), client_name?, client_email?, deal_value, external_ref? }
 router.post('/track/conversion', asyncH(async (req, res) => {
