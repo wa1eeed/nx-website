@@ -67,16 +67,18 @@ Sanity check once up: `https://api.nx.sa/api/health` → `{"ok":true}`.
 > If you ever move the API to a different host, change the `<meta name="nx-api">`
 > on the 6 pages (and `PUBLIC_ORIGIN`) — nothing else.
 
-## 3) Create the first admin (one-off, non-destructive)
+## 3) Create the first admin — easiest: via env vars (no terminal)
 
-Never run `npm run seed` in production (it wipes partners+products). In the app
-container's terminal (Coolify → the app → Terminal):
-```bash
-node src/db/create-admin.js you@nx.sa 'a-strong-password' 'NX Partnerships'
+Add two Environment variables and redeploy; the app creates/promotes this admin
+on boot (idempotent):
+```
+ADMIN_EMAIL=you@nx.sa
+ADMIN_PASSWORD=a-strong-password-8+chars
 ```
 Then log in at `https://nx.sa/en/affiliate/` → you land in `/en/affiliate/admin/`.
-Add the real product catalog from the admin's **Products & offers** tab (or seed
-products only, once).
+(You can remove `ADMIN_PASSWORD` afterwards; the admin persists in the DB.)
+
+Alternative (terminal, one-off): `node src/db/create-admin.js you@nx.sa 'pass' 'Name'`.
 
 ## 4) Set the REAL program figures (no redeploy)
 
