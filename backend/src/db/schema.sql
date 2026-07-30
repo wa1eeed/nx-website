@@ -117,3 +117,18 @@ CREATE TABLE IF NOT EXISTS settings (
 INSERT INTO settings(key, value) VALUES
   ('program', '{"base_pct":15,"coupon_pct":10,"tier_growth_pct":18,"tier_elite_pct":22,"attribution_window_days":60,"min_payout":1000,"payout_schedule":"monthly","fraud_protection":true}')
 ON CONFLICT (key) DO NOTHING;
+
+-- product catalog = the real NX offerings (reference data, idempotent).
+-- ON CONFLICT DO NOTHING preserves any rates an admin later edits.
+INSERT INTO products(slug, name_ar, name_en, kind, path, commission_pct, sort) VALUES
+  ('services/launch',                'NX Launch',        'NX Launch',              'service',  '/services/launch/',                15, 1),
+  ('services/grow',                  'NX Grow',          'NX Grow',                'service',  '/services/grow/',                  15, 2),
+  ('services/automation360',         'NX 360',           'NX 360',                 'service',  '/services/automation360/',         18, 3),
+  ('services/connect',               'NX Connect',       'NX Connect',             'service',  '/services/connect/',               12, 4),
+  ('services/scale',                 'NX Scale',         'NX Scale',               'service',  '/services/scale/',                 12, 5),
+  ('solutions/fintech-open-banking', 'التقنية المالية',  'FinTech & Open Banking', 'solution', '/solutions/fintech-open-banking/', 20, 6),
+  ('work/ibp',                       'IBP Insure',       'IBP Insure',             'platform', '/work/ibp/',                       18, 7),
+  ('work/nqlah',                     'Nqlah',            'Nqlah',                  'platform', '/work/nqlah/',                     15, 8),
+  ('work/nx-logistic',               'NX Logistic',      'NX Logistic',            'platform', '/work/nx-logistic/',               15, 9),
+  ('work/iwork',                     'iWork',            'iWork',                  'platform', '/work/iwork/',                     18, 10)
+ON CONFLICT (slug) DO NOTHING;
