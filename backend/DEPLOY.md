@@ -1,24 +1,35 @@
 # NX Partners backend — deploy & go-live (Coolify)
 
-Phase 2c go-live. The marketing site (static) is already on Coolify. This adds
-the **NX Partners backend** (Node + PostgreSQL) and routes `/api` + `/r` on
-`nx.sa` to it, so the portal/landing talk to it on the same origin (cookies just
-work, no CORS).
+The marketing site is already live on Coolify: a single **nginx** container
+(Traefik terminates TLS; `www.nx.sa` → `nx.sa`). This adds the **NX Partners
+backend** (Node + PostgreSQL) as its **own** Coolify resource at **`api.nx.sa`**,
+so the live site's nginx config is never touched.
 
 > Reminder: the backend **never moves money** — it records/approves/tracks
 > commission and payout *status* only. Bank transfers happen outside it.
 
 ---
 
-## 1) Provision on Coolify
+## 0) Publish the front-end (one redeploy)
 
-**Recommended — one Compose service (app + Postgres)** using the included
+The affiliate pages/portal are in the repo but not deployed yet
+(`https://nx.sa/ar/affiliate/` currently 404s). In Coolify → the **static site**
+app → **Redeploy** (or push-to-deploy if a webhook is set). After it, the
+landing + portal are live in **demo mode** until the backend below is up — that's
+expected and safe (they fall back to the labelled preview).
+
+## 1) Create the backend resource
+
+**Recommended — one Compose service (app + Postgres)** using
 `backend/docker-compose.yml`:
 
-1. Coolify → your project → **+ New Resource → Docker Compose**.
-2. Repository = this repo, **Base directory = `/backend`**, compose file =
+1. Coolify → same project → **+ New Resource → Docker Compose**.
+2. Repository = this repo, **Base directory = `/backend`**, compose =
    `docker-compose.yml`.
-3. Set environment variables (Coolify → the resource → Environment):
+3. Give the **app** service the domain **`api.nx.sa`** (Coolify → the app →
+   Domains → `https://api.nx.sa`; port `4000`). Traefik issues its TLS cert.
+   Add an `A`/`CNAME` DNS record for `api.nx.sa` → the server first.
+4. Environment variables:
    ```
    DB_PASSWORD=<openssl rand -base64 24>
    SESSION_SECRET=<openssl rand -base64 48>
@@ -27,91 +38,88 @@ work, no CORS).
    PUBLIC_ORIGIN=https://nx.sa
    COOKIE_DOMAIN=.nx.sa
    ```
-4. Deploy. The app container runs `migrate` on boot (idempotent) then starts.
-   Postgres data persists in the `pgdata` volume.
+5. Deploy. The app runs `migrate` on boot (idempotent) then starts; Postgres
+   persists in the `pgdata` volume.
 
-**Alternative** — a managed Postgres + a plain Node service: create a Postgres
-resource, then a Node app from `/backend` with `DATABASE_URL` pointing at it and
-the same secrets. Coolify sets `PORT`; the app honors it.
-
-Generate the three secrets locally:
+Generate secrets:
 ```bash
 for k in SESSION_SECRET IP_SALT WEBHOOK_SECRET; do echo "$k=$(openssl rand -base64 48)"; done
 ```
-The app **refuses to boot in production** if any secret is left at its `dev-` default.
+The app **refuses to boot in production** if any secret is still a `dev-` default.
 
-## 2) Create the first admin (one-off, non-destructive)
+Sanity check once up: `https://api.nx.sa/api/health` → `{"ok":true}`.
 
-Never run `npm run seed` in production (it wipes partners+products). Instead, in
-the app container's terminal (Coolify → the app → Terminal):
+## 2) Why this "just works" with the front-end
+
+- The 6 affiliate pages already carry `<meta name="nx-api" content="https://api.nx.sa">`,
+  so `window.NXApi` calls `https://api.nx.sa/...`.
+- `PUBLIC_ORIGIN=https://nx.sa` → CORS allows the site origin **with credentials**.
+- `COOKIE_DOMAIN=.nx.sa` → the session cookie is shared between `nx.sa` and
+  `api.nx.sa` (same registrable domain → SameSite=Lax is sent on these
+  same-site requests; Secure over HTTPS in prod). No nginx changes on the site.
+
+> If you ever move the API to a different host, change the `<meta name="nx-api">`
+> on the 6 pages (and `PUBLIC_ORIGIN`) — nothing else.
+
+## 3) Create the first admin (one-off, non-destructive)
+
+Never run `npm run seed` in production (it wipes partners+products). In the app
+container's terminal (Coolify → the app → Terminal):
 ```bash
 node src/db/create-admin.js you@nx.sa 'a-strong-password' 'NX Partnerships'
 ```
-This creates (or promotes) an active admin. Log in at `https://nx.sa/en/affiliate/`
-→ Log in → you land in `/en/affiliate/admin/`.
+Then log in at `https://nx.sa/en/affiliate/` → you land in `/en/affiliate/admin/`.
+Add the real product catalog from the admin's **Products & offers** tab (or seed
+products only, once).
 
-Optionally load the real product catalog once (products only) — or add them from
-the admin's **Products & offers** tab.
+## 4) Set the REAL program figures (no redeploy)
 
-## 3) Route /api and /r to the backend (same-origin)
-
-The front-end calls same-origin `/api/*`, `/r`, `/track/*`. Point those paths at
-the backend. If the static site is served by **nginx**, add to its `server`
-block (backend reachable at `BACKEND` — a service name/host:port, e.g.
-`http://nx-partners-app:4000`):
-
-```nginx
-# NX Partners backend
-location /api/ { proxy_pass http://BACKEND/api/; include /etc/nginx/proxy_params; }
-location = /r  { proxy_pass http://BACKEND/r;   include /etc/nginx/proxy_params; }
-location /track/ { proxy_pass http://BACKEND/track/; include /etc/nginx/proxy_params; }
-
-# never expose the backend source from the static image
-location /backend/ { return 404; }
-```
-`proxy_params` (create if missing) should forward the real client IP + scheme so
-attribution + Secure cookies work:
-```nginx
-proxy_set_header Host $host;
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;
-proxy_http_version 1.1;
-```
-The app already runs `trust proxy`, so `req.ip` is the real client.
-
-**If you prefer a subdomain** (`api.nx.sa`) instead of a path proxy: give the
-backend its own domain in Coolify, keep `PUBLIC_ORIGIN=https://nx.sa` and
-`COOKIE_DOMAIN=.nx.sa`, and add `<meta name="nx-api" content="https://api.nx.sa">`
-to the 6 affiliate pages' `<head>`. CORS + same-site cookies are already handled.
-
-## 4) Set the REAL program figures (no redeploy needed)
-
-Log into the admin → **Program settings** → set and save:
-base commission %, coupon discount %, growth/elite tier %, referral window (days),
-minimum payout, payout schedule.
-
-These persist in the DB and are served publicly at `GET /api/program`; the
-landing **earnings estimator** reads it automatically, so the site reflects the
-real rate the moment you save — nothing is hard-coded.
+Admin → **Program settings** → set & save: base commission %, coupon %,
+growth/elite tier %, referral window (days), minimum payout, payout schedule.
+These persist in the DB and are served at `GET /api/program`; the landing
+**earnings estimator** reads it, so the public site shows the real rate the
+moment you save — nothing hard-coded.
 
 ## 5) Wire the real tracking
 
-- **Referral links / deep links:** route them through the click endpoint, e.g.
-  `https://nx.sa/r?ref=CODE&to=/services/grow/` (logs the click, drops the
-  first-party cookie, 302s to the page). Partners' links in the portal already
-  point at `nx.sa/?ref=CODE`; add an nginx rewrite from `/?ref=` to `/r` if you
-  want the bare form tracked, or hand out the `/r` form.
-- **Conversions:** when a referred deal closes, your checkout/CRM calls
-  `POST https://nx.sa/track/conversion` with header `x-webhook-secret: <WEBHOOK_SECRET>`
-  and `{ ref | coupon, product, deal_value, client_email?, external_ref }`.
-  It creates a **pending** conversion; approve it in the admin to credit the ledger.
+- **Referral / deep links:** hand out the click form
+  `https://api.nx.sa/r?ref=CODE&to=/services/grow/` (logs the click, drops the
+  first-party cookie, 302s to the page). Partner links in the portal show the
+  `nx.sa/?ref=CODE` form for humans; the tracked form is `/r`.
+- **Conversions:** when a referred deal closes, the checkout/CRM calls
+  `POST https://api.nx.sa/track/conversion` with header
+  `x-webhook-secret: <WEBHOOK_SECRET>` and
+  `{ ref | coupon, product, deal_value, client_email?, external_ref }` →
+  creates a **pending** conversion; approve it in the admin to credit the ledger.
 
 ## Go-live checklist
-- [ ] Compose deployed; `GET https://nx.sa/api/health` → `{"ok":true}`.
-- [ ] Real `SESSION_SECRET` / `IP_SALT` / `WEBHOOK_SECRET` set; `PUBLIC_ORIGIN=https://nx.sa`; `COOKIE_DOMAIN=.nx.sa`.
-- [ ] `/api` + `/r` + `/track/` proxied; `/backend/` returns 404.
-- [ ] First admin created; admin console loads live.
-- [ ] Program figures set in the admin; estimator shows the real rate.
-- [ ] A test click on `/r?ref=…` logs, and a test `POST /track/conversion` creates a pending conversion.
-- [ ] Register on the landing → account appears **pending** in the admin → approve → partner can log in.
+- [ ] Static app redeployed → `https://nx.sa/ar/affiliate/` loads (demo).
+- [ ] DNS `api.nx.sa` → server; domain added in Coolify (Traefik cert issued).
+- [ ] Backend up → `https://api.nx.sa/api/health` = `{"ok":true}`; real secrets set;
+      `PUBLIC_ORIGIN=https://nx.sa`; `COOKIE_DOMAIN=.nx.sa`.
+- [ ] First admin created; admin console loads live from `nx.sa`.
+- [ ] Program figures set; estimator shows the real rate.
+- [ ] Register on the landing → account **pending** in admin → approve → login works.
+- [ ] Test `/r?ref=…` click + a `POST /track/conversion` create records.
+
+---
+
+### Appendix — same-origin alternative (only if you later drop the subdomain)
+To serve the API under `nx.sa/api` instead, add this to the site's `nginx.conf`
+**using a resolver + variable** so a down/misnamed backend returns 502 for `/api`
+only and never stops nginx from starting:
+```nginx
+location ~ ^/(api|r|track)(/|$) {
+    resolver 127.0.0.11 valid=30s ipv6=off;      # Docker DNS
+    set $nx_upstream nx-partners-app:4000;         # backend service name:port
+    proxy_pass http://$nx_upstream$request_uri;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+location /backend/ { return 404; }
+```
+Then remove the `<meta name="nx-api">` from the 6 pages (same-origin) and set
+`PUBLIC_ORIGIN=https://nx.sa` (no `COOKIE_DOMAIN` needed).
