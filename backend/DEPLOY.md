@@ -20,18 +20,18 @@ expected and safe (they fall back to the labelled preview).
 
 ## 1) Create the backend resource
 
-> **No database yet? You don't need one in advance.** `docker-compose.yml`
+> **No database yet? You don't need one in advance.** `docker-compose.yaml`
 > ships its **own** PostgreSQL container with a persistent `pgdata` volume — the
 > DB is created automatically on first deploy. (If you'd rather use a
 > Coolify-managed PostgreSQL, provision one in a click and point `DATABASE_URL`
 > at it instead — then deploy just the `app` service.)
 
 **Recommended — one Compose service (app + Postgres)** using
-`backend/docker-compose.yml`:
+`backend/docker-compose.yaml`:
 
 1. Coolify → same project → **+ New Resource → Docker Compose**.
 2. Repository = this repo, **Base directory = `/backend`**, compose =
-   `docker-compose.yml`.
+   `docker-compose.yaml`.
 3. Give the **app** service the domain **`api.nx.sa`** (Coolify → the app →
    Domains → `https://api.nx.sa`; port `4000`). Traefik issues its TLS cert.
    Add an `A`/`CNAME` DNS record for `api.nx.sa` → the server first.
