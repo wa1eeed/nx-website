@@ -388,6 +388,8 @@
       // balance card
       var b = w.balances;
       setText('[data-bal-available]', fmt(b.available)); setText('[data-bal-pending]', fmt(b.pending) + ' ' + CUR); setText('[data-bal-lifetime]', fmt(b.lifetime) + ' ' + CUR);
+      setText('[data-modal-available]', fmt(b.available) + ' ' + CUR);
+      var wa = $('[data-withdraw-amount]'); if (wa) { wa.value = Math.floor(b.available); wa.max = Math.floor(b.available); }
     } catch (e) {}
   }
   function setText(sel, v) { var el = $(sel); if (el) el.textContent = v; }
@@ -425,6 +427,10 @@
     // topbar reflink
     var rl = $('.ap-reflink code'); if (rl) rl.textContent = 'nx.sa/?ref=' + refCode;
     var rlBtn = $('.ap-reflink .cp'); if (rlBtn) rlBtn.setAttribute('data-copy', link);
+    var first = (user.name || '').trim().split(/\s+/)[0] || '';
+    setText('[data-hello]', (ar ? 'مرحباً' : 'Hi') + (first ? (ar ? '، ' : ', ') + first : '') + ' 👋');
+    var ql = $('[data-quick-link]'); if (ql) ql.textContent = link;
+    var qlb = $('[data-quick-linkbtn]'); if (qlb) qlb.setAttribute('data-copy', link);
 
     var ov = await window.NXApi.get('/api/partner/overview');
     renderKpis([
@@ -437,6 +443,8 @@
 
     var links = await window.NXApi.get('/api/partner/links');
     renderLinkCoupon(links.refCode || refCode, links.couponCode, COUPON_PCT); renderShare(link);
+    var qc = $('[data-quick-coupon]'); if (qc) qc.textContent = links.couponCode || '—';
+    var qcb = $('[data-quick-couponbtn]'); if (qcb) qcb.setAttribute('data-copy', links.couponCode || '');
     renderLinks({ refCode: links.refCode, links: links.links });
 
     var cat = await window.NXApi.get('/api/partner/catalog');

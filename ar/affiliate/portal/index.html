@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=105">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=105">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=105">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=105">
+<link rel="stylesheet" href="/assets/css/nx.css?v=106">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=106">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=106">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=106">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -42,7 +42,7 @@
   <div class="ap-main">
     <header class="ap-top">
       <button class="ap-burger" type="button" aria-label="القائمة"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-      <div class="ap-h">مرحباً، خالد 👋<span class="sub">إليك أداء إحالاتك اليوم</span></div>
+      <div class="ap-h"><span data-hello>مرحباً 👋</span><span class="sub">إليك أداء إحالاتك اليوم</span></div>
       <div class="grow"></div>
       <div class="ap-reflink">
         <code>nx.sa/?ref=KHALID-7Q2</code>
@@ -65,8 +65,8 @@
           </div>
           <div class="ap-card">
             <div class="ch"><h3>شارك واربح</h3></div>
-            <div class="ap-bigcode" style="margin-bottom:10px"><code>https://nx.sa/?ref=KHALID-7Q2</code><button class="ap-mini-btn" data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> نسخ</button></div>
-            <div class="ap-bigcode coupon" style="margin-bottom:14px;border:1px dashed rgba(183,144,46,.45);background:rgba(183,144,46,.07)"><code style="font-size:1.05rem;font-weight:700;color:#9a6b12">KHALID10</code><span class="ap-off">خصم 10%</span><button class="ap-mini-btn" data-copy="KHALID10">نسخ</button></div>
+            <div class="ap-bigcode" style="margin-bottom:10px"><code data-quick-link>https://nx.sa/?ref=KHALID-7Q2</code><button class="ap-mini-btn" data-quick-linkbtn data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> نسخ</button></div>
+            <div class="ap-bigcode coupon" style="margin-bottom:14px;border:1px dashed rgba(183,144,46,.45);background:rgba(183,144,46,.07)"><code style="font-size:1.05rem;font-weight:700;color:#9a6b12" data-quick-coupon>KHALID10</code><span class="ap-off">خصم 10%</span><button class="ap-mini-btn" data-quick-couponbtn data-copy="KHALID10">نسخ</button></div>
             <div data-sharebar></div>
           </div>
         </div>
@@ -128,10 +128,10 @@
         <div class="ap-wal">
           <div class="ap-balance">
             <div class="lbl">الرصيد المتاح للسحب</div>
-            <div class="big"><span class="cur">﷼</span>8,420</div>
+            <div class="big"><span class="cur">﷼</span><span data-bal-available>8,420</span></div>
             <div class="split">
-              <div class="s"><div class="n">﷼ 3,160</div><div class="t">قيد المراجعة</div></div>
-              <div class="s"><div class="n">﷼ 41,280</div><div class="t">إجمالي مدى الحياة</div></div>
+              <div class="s"><div class="n" data-bal-pending>﷼ 3,160</div><div class="t">قيد المراجعة</div></div>
+              <div class="s"><div class="n" data-bal-lifetime>﷼ 41,280</div><div class="t">إجمالي مدى الحياة</div></div>
             </div>
             <div class="ap-wbtns">
               <button class="ap-wbtn" data-open-withdraw><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg> سحب</button>
@@ -183,9 +183,9 @@
     <h3>سحب الأرباح</h3>
     <p class="sub">اطلب تحويل رصيدك المتاح إلى حسابك البنكي المسجّل.</p>
     <form>
-      <div class="ap-fld"><label>المبلغ (﷼)</label><input type="number" value="8420" min="1000" max="8420"></div>
+      <div class="ap-fld"><label>المبلغ (﷼)</label><input type="number" value="8420" min="1000" max="8420" data-withdraw-amount></div>
       <div class="ap-fld" style="margin-bottom:6px"><label>إلى</label><select><option>تحويل بنكي — الآيبان المنتهي بـ ****4471</option></select></div>
-      <div class="row"><span>المتاح</span><b>﷼ 8,420</b></div>
+      <div class="row"><span>المتاح</span><b data-modal-available>﷼ 8,420</b></div>
       <div class="row"><span>الحد الأدنى</span><b>﷼ 1,000</b></div>
       <div class="ap-note-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>يُنفّذ التحويل الفعلي من NX عبر البنك بعد المراجعة؛ هذه الخطوة تُسجّل طلبك فقط.</span></div>
       <div class="ap-mact">
@@ -198,7 +198,7 @@
 
 <div class="ap-demo">وضع المعاينة · <b>بيانات تجريبية</b></div>
 
-<script src="/assets/js/nx-api.js?v=105" defer></script>
-<script src="/assets/js/nx-portal.js?v=105" defer></script>
+<script src="/assets/js/nx-api.js?v=106" defer></script>
+<script src="/assets/js/nx-portal.js?v=106" defer></script>
 </body>
 </html>

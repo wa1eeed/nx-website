@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=105">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=105">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=105">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=105">
+<link rel="stylesheet" href="/assets/css/nx.css?v=106">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=106">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=106">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=106">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -42,7 +42,7 @@
   <div class="ap-main">
     <header class="ap-top">
       <button class="ap-burger" type="button" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-      <div class="ap-h">Hi, Khalid 👋<span class="sub">Here's how your referrals are doing today</span></div>
+      <div class="ap-h"><span data-hello>Hi 👋</span><span class="sub">Here's how your referrals are doing today</span></div>
       <div class="grow"></div>
       <div class="ap-reflink">
         <code>nx.sa/?ref=KHALID-7Q2</code>
@@ -65,8 +65,8 @@
           </div>
           <div class="ap-card">
             <div class="ch"><h3>Share &amp; earn</h3></div>
-            <div class="ap-bigcode" style="margin-bottom:10px"><code>https://nx.sa/?ref=KHALID-7Q2</code><button class="ap-mini-btn" data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy</button></div>
-            <div class="ap-bigcode coupon" style="margin-bottom:14px;border:1px dashed rgba(183,144,46,.45);background:rgba(183,144,46,.07)"><code style="font-size:1.05rem;font-weight:700;color:#9a6b12">KHALID10</code><span class="ap-off">10% off</span><button class="ap-mini-btn" data-copy="KHALID10">Copy</button></div>
+            <div class="ap-bigcode" style="margin-bottom:10px"><code data-quick-link>https://nx.sa/?ref=KHALID-7Q2</code><button class="ap-mini-btn" data-quick-linkbtn data-copy="https://nx.sa/?ref=KHALID-7Q2"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy</button></div>
+            <div class="ap-bigcode coupon" style="margin-bottom:14px;border:1px dashed rgba(183,144,46,.45);background:rgba(183,144,46,.07)"><code style="font-size:1.05rem;font-weight:700;color:#9a6b12" data-quick-coupon>KHALID10</code><span class="ap-off">10% off</span><button class="ap-mini-btn" data-quick-couponbtn data-copy="KHALID10">Copy</button></div>
             <div data-sharebar></div>
           </div>
         </div>
@@ -128,10 +128,10 @@
         <div class="ap-wal">
           <div class="ap-balance">
             <div class="lbl">Available to withdraw</div>
-            <div class="big"><span class="cur">SAR</span>8,420</div>
+            <div class="big"><span class="cur">SAR</span><span data-bal-available>8,420</span></div>
             <div class="split">
-              <div class="s"><div class="n">SAR 3,160</div><div class="t">Pending review</div></div>
-              <div class="s"><div class="n">SAR 41,280</div><div class="t">Lifetime total</div></div>
+              <div class="s"><div class="n" data-bal-pending>SAR 3,160</div><div class="t">Pending review</div></div>
+              <div class="s"><div class="n" data-bal-lifetime>SAR 41,280</div><div class="t">Lifetime total</div></div>
             </div>
             <div class="ap-wbtns">
               <button class="ap-wbtn" data-open-withdraw><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg> Withdraw</button>
@@ -183,9 +183,9 @@
     <h3>Withdraw earnings</h3>
     <p class="sub">Request a transfer of your available balance to your registered bank account.</p>
     <form>
-      <div class="ap-fld"><label>Amount (SAR)</label><input type="number" value="8420" min="1000" max="8420"></div>
+      <div class="ap-fld"><label>Amount (SAR)</label><input type="number" value="8420" min="1000" max="8420" data-withdraw-amount></div>
       <div class="ap-fld" style="margin-bottom:6px"><label>To</label><select><option>Bank transfer — IBAN ending ****4471</option></select></div>
-      <div class="row"><span>Available</span><b>SAR 8,420</b></div>
+      <div class="row"><span>Available</span><b data-modal-available>SAR 8,420</b></div>
       <div class="row"><span>Minimum</span><b>SAR 1,000</b></div>
       <div class="ap-note-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>The actual transfer is made by NX via bank after review; this step only records your request.</span></div>
       <div class="ap-mact">
@@ -198,7 +198,7 @@
 
 <div class="ap-demo">Preview mode · <b>sample data</b></div>
 
-<script src="/assets/js/nx-api.js?v=105" defer></script>
-<script src="/assets/js/nx-portal.js?v=105" defer></script>
+<script src="/assets/js/nx-api.js?v=106" defer></script>
+<script src="/assets/js/nx-portal.js?v=106" defer></script>
 </body>
 </html>
