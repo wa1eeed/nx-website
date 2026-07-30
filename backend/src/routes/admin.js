@@ -14,7 +14,8 @@ router.get('/overview', asyncH(async (_req, res) => {
        (SELECT COALESCE(SUM(amount),0) FROM ledger) AS commissions_due,
        (SELECT COUNT(*) FROM conversions WHERE created_at>now()-interval '30 days') AS conv30,
        (SELECT COUNT(*) FROM payouts WHERE status='pending') AS pending_payouts,
-       (SELECT COUNT(*) FROM conversions WHERE status='pending') AS pending_conversions`)).rows[0];
+       (SELECT COUNT(*) FROM conversions WHERE status='pending') AS pending_conversions,
+       (SELECT COUNT(*) FROM leads WHERE status='pending') AS pending_leads`)).rows[0];
   const chart = (await query(
     `SELECT to_char(g,'MM') AS label,
        (SELECT COUNT(*) FROM conversions WHERE date_trunc('month',created_at)=date_trunc('month',g)) AS value
@@ -25,7 +26,7 @@ router.get('/overview', asyncH(async (_req, res) => {
     pendingApprovals: Number(k.pending_partners), conversions30: Number(k.conv30),
   }, chart, needsAction: {
     joinRequests: Number(k.pending_partners), pendingPayouts: Number(k.pending_payouts),
-    pendingConversions: Number(k.pending_conversions),
+    pendingConversions: Number(k.pending_conversions), pendingLeads: Number(k.pending_leads),
   } });
 }));
 
@@ -81,11 +82,67 @@ router.post('/conversions/:id/:action', asyncH(async (req, res) => {
 
 router.get('/leads', asyncH(async (_req, res) => {
   const rows = (await query(
-    `SELECT l.id, l.created_at::date AS date, pt.name AS partner, l.name AS client_name,
-            l.email, l.phone, l.company, l.service, l.via, l.source_page, l.status
+    `SELECT l.id, l.created_at::date AS date, pt.name AS partner, pt.ref_code AS partner_ref,
+            l.name AS client_name, l.email, l.phone, l.company, l.service, l.via,
+            l.source_page, l.status,
+            COALESCE(c.deal_value, 0) AS deal_value, COALESCE(c.commission, 0) AS commission
      FROM leads l JOIN partners pt ON pt.id = l.partner_id
+     LEFT JOIN conversions c ON c.id = l.conversion_id
      ORDER BY l.created_at DESC LIMIT 200`)).rows;
-  res.json({ ok: true, leads: rows });
+  res.json({ ok: true, leads: rows.map(r => ({ ...r, deal_value: Number(r.deal_value), commission: Number(r.commission) })) });
+}));
+
+// Map a contact-form service code to a product slug (best-effort; admin can override).
+const SERVICE_TO_SLUG = {
+  launch: 'services/launch', grow: 'services/grow', auto: 'services/automation360',
+  connect: 'services/connect', scale: 'services/scale',
+};
+
+// Admin decides a lead. 'won' verifies the customer paid → creates an APPROVED
+// conversion + credits the commission ledger in one transaction. 'lost' closes it
+// with no commission. 'reopen' returns a lost lead to pending (never a won one —
+// reversing money goes through the conversion, not here).
+router.post('/leads/:id/:action', asyncH(async (req, res) => {
+  const action = oneOf(req.params.action, ['won', 'lost', 'reopen'], 'action');
+  const id = parseInt(req.params.id, 10);
+  const b = req.body || {};
+
+  const out = await tx(async (db) => {
+    const lead = (await db.query(`SELECT * FROM leads WHERE id=$1 FOR UPDATE`, [id])).rows[0];
+    if (!lead) return { err: [404, 'Lead not found', 'not_found'] };
+
+    if (action === 'lost') {
+      if (lead.status === 'won') return { err: [409, 'A won lead cannot be marked lost — reverse its conversion instead', 'conflict'] };
+      await db.query(`UPDATE leads SET status='lost', decided_at=now() WHERE id=$1`, [id]);
+      return { ok: true, status: 'lost' };
+    }
+    if (action === 'reopen') {
+      if (lead.status === 'won') return { err: [409, 'A won lead cannot be reopened here — reverse its conversion first', 'conflict'] };
+      await db.query(`UPDATE leads SET status='pending', decided_at=NULL WHERE id=$1`, [id]);
+      return { ok: true, status: 'pending' };
+    }
+    // won
+    if (lead.status === 'won') return { err: [409, 'Lead is already won', 'conflict'] };
+    const dealValue = num(b.deal_value, { min: 0, def: 0 });
+    if (dealValue <= 0) return { err: [400, 'deal_value is required to mark a lead won', 'bad_request'] };
+    const slug = (b.product && String(b.product)) || SERVICE_TO_SLUG[lead.service] || null;
+    const prod = slug
+      ? (await db.query(`SELECT id, commission_pct FROM products WHERE slug=$1 OR path=$1`, [slug])).rows[0]
+      : null;
+    const pct = prod ? Number(prod.commission_pct) : 15;
+    const commission = Math.round(dealValue * pct) / 100;
+    const conv = (await db.query(
+      `INSERT INTO conversions(partner_id, product_id, client_name, deal_value, commission, via, status, decided_at)
+       VALUES ($1,$2,$3,$4,$5,$6,'approved',now()) RETURNING id`,
+      [lead.partner_id, prod ? prod.id : null, lead.name, dealValue, commission, lead.via || 'link'])).rows[0];
+    await ledger.post(db, { partnerId: lead.partner_id, type: 'commission', amount: commission,
+      refType: 'lead', refId: id, memo: 'Lead won — commission credited' });
+    await db.query(`UPDATE leads SET status='won', conversion_id=$1, decided_at=now() WHERE id=$2`, [conv.id, id]);
+    return { ok: true, status: 'won', commission };
+  });
+
+  if (out.err) throw new HttpError(out.err[0], out.err[1], out.err[2]);
+  res.json(out);
 }));
 
 router.get('/offers', asyncH(async (_req, res) => {

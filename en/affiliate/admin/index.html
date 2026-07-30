@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=107">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=107">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=107">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=107">
+<link rel="stylesheet" href="/assets/css/nx.css?v=108">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=108">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=108">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=108">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -24,6 +24,7 @@
       <span class="lbl">Program</span>
       <a data-go="overview" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Overview</span></a>
       <a data-go="partners"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg><span>Partners</span><span class="ct">214</span></a>
+      <a data-go="leads"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Requests</span><span class="ct" data-need="pendingLeads">—</span></a>
       <a data-go="offers"><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 21V12h6v9"/></svg><span>Products &amp; offers</span></a>
       <a data-go="payouts"><svg viewBox="0 0 24 24"><path d="M2 7h20v5H2zM2 7v12a1 1 0 001 1h18a1 1 0 001-1v-7"/></svg><span>Payouts</span><span class="ct">2</span></a>
       <span class="lbl">Configure</span>
@@ -59,10 +60,10 @@
           </div>
           <div class="ap-card">
             <div class="ch"><h3>Needs action</h3></div>
-            <div class="ap-payrow"><span class="t">Pending join requests</span><b>12</b></div>
-            <div class="ap-payrow"><span class="t">Pending payout requests</span><b>2</b></div>
-            <div class="ap-payrow"><span class="t">Conversions awaiting approval</span><b>27</b></div>
-            <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Approve partners and conversions from the "Partners" tab, and process withdrawals from "Payouts".</span></div>
+            <div class="ap-payrow"><span class="t">Pending join requests</span><b data-need="joinRequests">—</b></div>
+            <div class="ap-payrow"><span class="t">Referred clients awaiting review</span><b data-need="pendingLeads">—</b></div>
+            <div class="ap-payrow"><span class="t">Pending payout requests</span><b data-need="pendingPayouts">—</b></div>
+            <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Turn referred clients into deals from the "Requests" tab, approve partners, and process withdrawals from "Payouts".</span></div>
           </div>
         </div>
       </section>
@@ -73,6 +74,16 @@
         <div class="ap-card">
           <div class="ch"><h3>All partners</h3><span class="mini">Export CSV</span></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Partner</th><th>Channel</th><th>Coupon</th><th>Conversions</th><th>Earnings</th><th>Status</th><th></th></tr></thead><tbody data-partners></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- LEADS / REQUESTS -->
+      <section class="ap-view" data-view="leads">
+        <div class="ap-sh"><div><h2>Requests</h2><p>Every referred client who submitted the contact form — verify payment and turn it into a deal, or close it.</p></div></div>
+        <div class="ap-card">
+          <div class="ch"><h3>Referred clients</h3><span class="mini">Export CSV</span></div>
+          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Client</th><th>Partner</th><th>Service</th><th>Status</th><th></th></tr></thead><tbody data-admin-leads></tbody></table></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>"Mark won" creates an approved deal and credits the partner's commission instantly. The Zoho integration is fully independent and unaffected.</span></div>
         </div>
       </section>
 
@@ -118,9 +129,27 @@
 </div>
 
 <div class="ap-scrim"></div>
+
+<!-- WON / RECORD-DEAL MODAL -->
+<div class="ap-modal" data-won-modal>
+  <div class="box">
+    <h3>Confirm paid client</h3>
+    <p class="sub">Enter the deal value to compute the partner's commission. An approved deal is created and the commission is added to their balance right away.</p>
+    <form>
+      <div class="ap-fld"><label>Client</label><input type="text" data-won-client disabled></div>
+      <div class="ap-fld" style="margin-bottom:6px"><label>Deal value (SAR)</label><input type="number" min="1" placeholder="e.g. 24000" data-won-deal></div>
+      <div class="ap-note-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Commission is computed from the product rate tied to the service. This moves no money — the transfer happens later via the bank.</span></div>
+      <div class="ap-mact">
+        <button type="submit" class="ap-wbtn" style="flex:1">Confirm &amp; credit commission</button>
+        <button type="button" class="ap-wbtn ghost" data-close style="background:var(--canvas);color:var(--ink-2);border-color:var(--line)">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="ap-demo">Preview mode · <b>sample data</b></div>
 
-<script src="/assets/js/nx-api.js?v=107" defer></script>
-<script src="/assets/js/nx-portal.js?v=107" defer></script>
+<script src="/assets/js/nx-api.js?v=108" defer></script>
+<script src="/assets/js/nx-portal.js?v=108" defer></script>
 </body>
 </html>

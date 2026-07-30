@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS leads (
   via           TEXT,                                -- 'link' | coupon code
   source_page   TEXT,                                -- page the form was submitted from
   ip_hash       TEXT,
-  status        TEXT NOT NULL DEFAULT 'new',         -- new | qualified | converted | rejected
+  status        TEXT NOT NULL DEFAULT 'pending',     -- pending (awaiting) | won (paid → commission) | lost
   conversion_id INT REFERENCES conversions(id) ON DELETE SET NULL,
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   decided_at    TIMESTAMPTZ

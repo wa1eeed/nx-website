@@ -18,6 +18,8 @@
   var fmt = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
   var pick = (o, k) => o[k + (ar ? '_ar' : '_en')];
   var day = (d) => String(d || '').slice(0, 10);
+  // Escape untrusted values (lead names/emails come from the public contact form).
+  var esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   var CODE = 'KHALID-7Q2', COUPON = 'KHALID10', COUPON_PCT = 10;
   var ORIGIN = 'https://nx.sa';
@@ -30,7 +32,10 @@
     email: 'بريد', logos: 'شعارات', copytxt: 'نصوص',
     approve: 'اعتماد', view: 'عرض', markpaid: 'تحديد كمدفوعة', service: 'خدمة', solution: 'حل', platform: 'منصّة',
     shareMsg: 'اكتشف NX Solutions — شريك تقني يبني ويطوّر المنصّات الرقمية للمنشآت السعودية.',
-    shareSubj: 'قد يهمّك: NX Solutions', dl_soon: 'سيبدأ التنزيل عند تفعيل البوابة'
+    shareSubj: 'قد يهمّك: NX Solutions', dl_soon: 'سيبدأ التنزيل عند تفعيل البوابة',
+    leadPending: 'قيد المتابعة', leadWon: 'مدفوع', leadLost: 'لم يكتمل',
+    markWon: 'عميل مدفوع', markLost: 'لم يكتمل', reopen: 'إعادة فتح',
+    noLeads: 'لا يوجد عملاء مُحالون بعد — شارك رابطك لتبدأ.', noReq: 'لا توجد طلبات بعد.'
   } : {
     clicks: 'clicks', convs: 'conv.', rate: 'rate', copied: 'Copied', copy: 'Copy', download: 'Download',
     paid: 'Paid', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', reversed: 'Reversed',
@@ -38,9 +43,14 @@
     email: 'Email', logos: 'Logos', copytxt: 'Copy',
     approve: 'Approve', view: 'View', markpaid: 'Mark paid', service: 'Service', solution: 'Solution', platform: 'Platform',
     shareMsg: 'Discover NX Solutions — a tech partner building digital platforms for Saudi enterprises.',
-    shareSubj: 'You might like: NX Solutions', dl_soon: 'Download begins when the portal goes live'
+    shareSubj: 'You might like: NX Solutions', dl_soon: 'Download begins when the portal goes live',
+    leadPending: 'Pending', leadWon: 'Won', leadLost: 'Lost',
+    markWon: 'Mark won', markLost: 'Lost', reopen: 'Reopen',
+    noLeads: 'No referred clients yet — share your link to start.', noReq: 'No requests yet.'
   };
   var kindLabel = { service: T.service, solution: T.solution, platform: T.platform };
+  var SERVICE_LABELS = { launch: 'NX Launch', grow: 'NX Grow', auto: 'NX 360', connect: 'NX Connect', scale: 'NX Scale', unsure: ar ? 'غير محدّد' : 'Unsure' };
+  var svcLabel = (s) => SERVICE_LABELS[s] || s || '—';
 
   var badge = (kind, txt) => '<span class="ap-b ' + kind + '">' + txt + '</span>';
   var money = (n, neg) => (neg ? '−' : '') + fmt(n) + ' ' + CUR;
@@ -48,6 +58,8 @@
     : s === 'pending' ? badge('warn', T.pending) : s === 'reversed' ? badge('bad', T.reversed)
     : s === 'rejected' ? badge('bad', T.rejected) : s === 'active' ? badge('ok', T.active)
     : s === 'suspended' ? badge('bad', T.suspended) : badge('info', s);
+  // lead lifecycle: pending (awaiting) → won (paid) / lost
+  var leadStatusBadge = (s) => s === 'won' ? badge('ok', T.leadWon) : s === 'lost' ? badge('bad', T.leadLost) : badge('warn', T.leadPending);
 
   var SVG = {
     copy: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>',
@@ -236,11 +248,42 @@
     document.querySelectorAll('[data-need]').forEach(el => { var k = el.dataset.need; if (n[k] != null) el.textContent = n[k]; });
   }
 
+  // partner: "my referred clients" — name + status + commission once won
+  function renderMyLeads(rows) {
+    var b = $('[data-my-leads]'); if (!b) return;
+    if (!rows || !rows.length) { b.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:22px">' + T.noLeads + '</td></tr>'; return; }
+    b.innerHTML = rows.map(function (x) {
+      var comm = x.status === 'won' ? '<span class="amt pos">' + fmt(x.commission) + ' ' + CUR + '</span>' : '<span style="color:var(--muted)">—</span>';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + esc(x.client_name) + '</b></td><td>' + esc(svcLabel(x.service)) + '</td><td>' + leadStatusBadge(x.status) + '</td><td>' + comm + '</td></tr>';
+    }).join('');
+  }
+  // admin: the "Requests" queue — verify payment → won (deal + commission) / lost / reopen
+  function renderAdminLeads(rows, live) {
+    var b = $('[data-admin-leads]'); if (!b) return;
+    if (!rows || !rows.length) { b.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">' + T.noReq + '</td></tr>'; return; }
+    b.innerHTML = rows.map(function (x) {
+      var acts;
+      if (x.status === 'won') acts = '<span class="amt pos">' + fmt(x.commission) + ' ' + CUR + '</span>';
+      else if (x.status === 'lost') acts = live ? '<button class="ap-mini-btn" data-lead-reopen="' + x.id + '">' + T.reopen + '</button>' : '—';
+      else acts = live
+        ? '<button class="ap-mini-btn" data-lead-won="' + x.id + '" data-lead-client="' + esc(x.client_name) + '">' + T.markWon + '</button> <button class="ap-mini-btn" style="color:var(--ap-bad)" data-lead-lost="' + x.id + '">' + T.markLost + '</button>'
+        : '<button class="ap-mini-btn" data-act="' + (ar ? 'تأكيد الدفع (معاينة)' : 'Confirm paid (demo)') + '">' + T.markWon + '</button>';
+      var email = x.email ? '<div style="font-size:.72rem;color:var(--muted)">' + esc(x.email) + '</div>' : '';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + esc(x.client_name) + '</b>' + email + '</td><td>' + esc(x.partner) + '</td><td>' + esc(svcLabel(x.service)) + '</td><td>' + leadStatusBadge(x.status) + '</td><td>' + acts + '</td></tr>';
+    }).join('');
+  }
+
   // ============================================================
   //  DEMO dataset (labelled preview) — used until live data loads
   // ============================================================
   var DEMO = {
     partner: {
+      leads: [
+        { date: '2026-07-29', client_name: ar ? 'شركة رونق' : 'Rawnaq Co.', service: 'grow', status: 'won', commission: 3600 },
+        { date: '2026-07-27', client_name: ar ? 'استوديو نجوم' : 'Nujoom Studio', service: 'launch', status: 'pending', commission: 0 },
+        { date: '2026-07-22', client_name: ar ? 'مدار لوجستيك' : 'Madar Logistics', service: 'auto', status: 'pending', commission: 0 },
+        { date: '2026-07-15', client_name: ar ? 'متجر أصيل' : 'Aseel Store', service: 'connect', status: 'lost', commission: 0 }
+      ],
       kpis: [
         { cls: 'gold', k: ar ? 'الرصيد المتاح' : 'Available balance', v: 8420, cur: true, ic: '<path d="M20 12v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7M2 7h20v5H2zM12 22V7"/>' },
         { k: ar ? 'أرباح هذا الشهر' : 'Earnings this month', v: 12480, cur: true, d: '18%', ic: '<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>' },
@@ -281,6 +324,12 @@
       ].map(p => ({ slug: p[0], name_ar: p[1], name_en: p[2], kind: p[3], d_ar: p[4], d_en: p[5], url: ORIGIN + '/' + LANGSEG + '/' + p[0] + '/?ref=' + CODE })),
     },
     admin: {
+      leads: [
+        { id: 1, date: '2026-07-29', client_name: 'Rawnaq Co.', email: 'ceo@rawnaq.sa', partner: 'Khalid Al-Otaibi', service: 'grow', status: 'won', commission: 3600 },
+        { id: 2, date: '2026-07-28', client_name: 'Nujoom Studio', email: 'hi@nujoom.co', partner: 'Sara Al-Ghamdi', service: 'launch', status: 'pending', commission: 0 },
+        { id: 3, date: '2026-07-27', client_name: 'Madar Logistics', email: 'ops@madar.sa', partner: 'Khalid Al-Otaibi', service: 'auto', status: 'pending', commission: 0 },
+        { id: 4, date: '2026-07-20', client_name: 'Aseel Store', email: 'aseel@shop.sa', partner: 'Faisal Media', service: 'connect', status: 'lost', commission: 0 }
+      ],
       kpis: [
         { k: ar ? 'إجمالي الشركاء' : 'Total partners', v: 214, cur: false, ic: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>' },
         { cls: 'gold', k: ar ? 'عمولات مستحقّة' : 'Commissions due', v: 86400, cur: true, ic: '<path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>' },
@@ -309,7 +358,7 @@
         { id: 3, date: '2026-07-20', partner: 'Faisal Media', method: ar ? 'حساب بنكي' : 'Bank', amount: 3000, status: 'paid' },
         { id: 4, date: '2026-07-12', partner: 'Khalid Al-Otaibi', method: ar ? 'حساب بنكي' : 'Bank', amount: 6000, status: 'paid' }
       ],
-      needs: { joinRequests: 12, pendingPayouts: 2, pendingConversions: 27 }
+      needs: { joinRequests: 12, pendingLeads: 8, pendingPayouts: 2, pendingConversions: 27 }
     }
   };
 
@@ -317,12 +366,13 @@
     var d = DEMO.partner;
     renderKpis(d.kpis); renderChart(d.chart); renderRefs(d.refs); renderTx(d.tx);
     renderLinkCoupon(CODE, COUPON, COUPON_PCT); renderShare(BASE); renderLinks(d);
-    renderCatalog(d.catalog, COUPON); renderMats('all');
+    renderCatalog(d.catalog, COUPON); renderMats('all'); renderMyLeads(d.leads);
   }
   function demoRenderAdmin() {
     var d = DEMO.admin;
     renderKpis(d.kpis); renderChart(d.chart); renderPartners(d.partners, false);
-    renderOffers(d.offers, false); renderPayouts(d.payouts, false); renderNeedsAction(d.needs);
+    renderOffers(d.offers, false); renderPayouts(d.payouts, false);
+    renderAdminLeads(d.leads, false); renderNeedsAction(d.needs);
   }
 
   // ============================================================
@@ -452,6 +502,8 @@
 
     await loadWalletLive();
 
+    try { var ml = await window.NXApi.get('/api/partner/leads'); renderMyLeads(ml.leads); } catch (e) {}
+
     try {
       var pr = (await window.NXApi.get('/api/partner/profile')).profile;
       setVal('[data-view="settings"] input[name=name], [data-view="settings"] input[type=text]', pr.name);
@@ -486,7 +538,39 @@
     var pt = await window.NXApi.get('/api/admin/partners'); renderPartners(pt.partners, true);
     var of = await window.NXApi.get('/api/admin/offers'); renderOffers(of.offers, true);
     var po = await window.NXApi.get('/api/admin/payouts'); renderPayouts(po.payouts, true);
+    var ld = await window.NXApi.get('/api/admin/leads'); renderAdminLeads(ld.leads, true);
+    setupWonModal();
     wireAdminActions();
+  }
+  async function refreshAdminLeads() {
+    try { var ld = await window.NXApi.get('/api/admin/leads'); renderAdminLeads(ld.leads, true); } catch (e) {}
+    try { var ov = await window.NXApi.get('/api/admin/overview'); renderNeedsAction(ov.needsAction); } catch (e) {}
+  }
+  // record-deal modal (admin): mark a lead won → enter deal value → commission
+  var wonModal, currentWonId = null;
+  function openWon(client) {
+    wonModal = wonModal || $('[data-won-modal]'); if (!wonModal) return;
+    var ci = wonModal.querySelector('[data-won-client]'); if (ci) ci.value = client;
+    var di = wonModal.querySelector('[data-won-deal]'); if (di) di.value = '';
+    wonModal.classList.add('on');
+  }
+  function setupWonModal() {
+    wonModal = $('[data-won-modal]');
+    if (!wonModal || wonModal._wired) return; wonModal._wired = 1;
+    wonModal.addEventListener('click', function (e) { if (e.target === wonModal || e.target.hasAttribute('data-close')) wonModal.classList.remove('on'); });
+    var f = wonModal.querySelector('form');
+    if (f) f.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var deal = parseFloat((wonModal.querySelector('[data-won-deal]') || {}).value);
+      if (!deal || deal <= 0) return toast(ar ? 'أدخل قيمة الصفقة' : 'Enter the deal value');
+      if (!currentWonId) return;
+      try {
+        var r = await window.NXApi.post('/api/admin/leads/' + currentWonId + '/won', { deal_value: deal });
+        wonModal.classList.remove('on');
+        toast(ar ? ('تم — عمولة ' + fmt(r.commission) + ' ' + CUR) : ('Done — ' + fmt(r.commission) + ' ' + CUR + ' commission'));
+        await refreshAdminLeads();
+      } catch (er) { toast(er.message); }
+    });
   }
   function wireAdminActions() {
     if (document._adminWired) return; document._adminWired = 1;
@@ -495,6 +579,12 @@
       if (ap) { try { await window.NXApi.post('/api/admin/partners/' + ap.dataset.approvePartner + '/approve'); toast(ar ? 'تم اعتماد الشريك' : 'Partner approved'); renderPartners((await window.NXApi.get('/api/admin/partners')).partners, true); } catch (er) { toast(er.message); } return; }
       var pp = e.target.closest('[data-pay-paid]');
       if (pp) { try { await window.NXApi.post('/api/admin/payouts/' + pp.dataset.payPaid + '/paid'); toast(ar ? 'تم التحديد كمدفوعة' : 'Marked paid'); renderPayouts((await window.NXApi.get('/api/admin/payouts')).payouts, true); } catch (er) { toast(er.message); } return; }
+      var lw = e.target.closest('[data-lead-won]');
+      if (lw) { currentWonId = lw.dataset.leadWon; openWon(lw.dataset.leadClient || ''); return; }
+      var ll = e.target.closest('[data-lead-lost]');
+      if (ll) { try { await window.NXApi.post('/api/admin/leads/' + ll.dataset.leadLost + '/lost'); toast(ar ? 'تم الإغلاق' : 'Marked lost'); await refreshAdminLeads(); } catch (er) { toast(er.message); } return; }
+      var lr = e.target.closest('[data-lead-reopen]');
+      if (lr) { try { await window.NXApi.post('/api/admin/leads/' + lr.dataset.leadReopen + '/reopen'); toast(ar ? 'أُعيد فتحه' : 'Reopened'); await refreshAdminLeads(); } catch (er) { toast(er.message); } return; }
     });
   }
 

@@ -61,6 +61,18 @@ router.get('/conversions', asyncH(async (req, res) => {
   res.json({ ok: true, conversions: await recentConversions(me(req).id, 100) });
 }));
 
+// The partner's referred clients (leads) — name + status + commission once won.
+// Contact details stay admin-only (PDPL): the partner sees who they referred and
+// where it stands, not the client's email/phone.
+router.get('/leads', asyncH(async (req, res) => {
+  const rows = (await query(
+    `SELECT l.created_at::date AS date, l.name AS client_name, l.service, l.via, l.status,
+            COALESCE(c.deal_value, 0) AS deal_value, COALESCE(c.commission, 0) AS commission
+     FROM leads l LEFT JOIN conversions c ON c.id = l.conversion_id
+     WHERE l.partner_id = $1 ORDER BY l.created_at DESC LIMIT 100`, [me(req).id])).rows;
+  res.json({ ok: true, leads: rows.map(r => ({ ...r, deal_value: Number(r.deal_value), commission: Number(r.commission) })) });
+}));
+
 router.get('/links', asyncH(async (req, res) => {
   const u = me(req);
   const base = `${config.publicOrigin}/?ref=${u.ref_code}`;

@@ -8,7 +8,7 @@ async function main() {
   const drop = process.argv.includes('--drop');
   if (drop) {
     console.log('[migrate] dropping tables…');
-    await pool.query(`DROP TABLE IF EXISTS ledger, payouts, conversions, clicks, links, sessions, products, settings, partners CASCADE;`);
+    await pool.query(`DROP TABLE IF EXISTS ledger, payouts, leads, conversions, clicks, links, sessions, products, settings, partners CASCADE;`);
   }
   const sql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
   await pool.query(sql);
