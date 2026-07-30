@@ -392,17 +392,18 @@
   }
   function setText(sel, v) { var el = $(sel); if (el) el.textContent = v; }
 
+  function renderDemoFallback() { if (isPortal) demoRenderPortal(); else demoRenderAdmin(); route(); }
   async function bootLive() {
-    if (!window.NXApi) return;
+    if (!window.NXApi) return renderDemoFallback();
     var me;
     try { me = await window.NXApi.get('/api/auth/me'); }
     catch (e) {
       if (e.status === 401) return gotoLogin();
-      return; // no backend / network → stay in demo
+      return renderDemoFallback(); // backend unreachable → show demo, not a blank page
     }
     var user = me && me.partner;
-    if (!user) return; // non-JSON/200 from static host before backend is live → stay in demo
-    if (isAdmin && user.role !== 'admin') return gotoLogin();
+    if (!user) return renderDemoFallback();
+    if (isAdmin && user.role !== 'admin') { location.href = '/' + LANGSEG + '/affiliate/portal/'; return; } // logged-in non-admin → their portal
     LIVE = true;
     document.querySelectorAll('.ap-demo').forEach(el => el.remove());
 
@@ -498,7 +499,15 @@
   });
 
   // ---- go ----
-  if (isPortal) demoRenderPortal(); else demoRenderAdmin();
-  route();
-  bootLive();
+  if (window.NXApi && window.NXApi.base) {
+    // backend configured → verify the session FIRST (no demo flash for logged-out
+    // visitors): bootLive renders live, redirects to login on 401, or falls back
+    // to demo only if the backend is unreachable.
+    route();
+    bootLive();
+  } else {
+    // no backend configured (pure static preview) → paint the demo instantly
+    if (isPortal) demoRenderPortal(); else demoRenderAdmin();
+    route();
+  }
 })();
