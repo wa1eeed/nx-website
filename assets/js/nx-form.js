@@ -39,6 +39,11 @@
     utm_medium:   'LEADCF4',     // UTM_Medium
     referrer:     'LEADCF5',     // Referrer_URL
     language:     'LEADCF6',     // Lang_Code
+    // ref:       'LEADCF13',    // ← Referral code. Create a "Referral Code" custom
+    //                           //   field in Zoho CRM, then uncomment to file it in
+    //                           //   its own column. Until then we append it to the
+    //                           //   note (LEADCF11) so sales still sees it, and the
+    //                           //   affiliate backend records it separately.
   };
   // Picklist value mapping: internal value → Zoho picklist label.
   const ZOHO_VALUE_MAP = {
@@ -343,6 +348,38 @@
   }
   captureUTM();
 
+  // ---------- affiliate referral (NX Partners) ----------
+  // The referral code is captured & persisted site-wide by nx.js; we read it
+  // back here to attach it to the lead. NX is B2B (no online checkout), so a
+  // submitted lead is the conversion event — the code is what attributes it.
+  function getRef() {
+    if (window.NX && typeof window.NX.getRef === 'function') return window.NX.getRef() || '';
+    const m = location.search.match(/[?&]ref=([^&]+)/);
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function apiBase() {
+    const meta = document.querySelector('meta[name="nx-api"]');
+    return (meta && meta.content ? meta.content : (/(^|\.)nx\.sa$/i.test(location.hostname) ? 'https://api.nx.sa' : '')).replace(/\/$/, '');
+  }
+  // Best-effort beacon → affiliate backend. Records the lead against the partner
+  // (the backend also cross-checks its own first-party cookie). Only fires when a
+  // referral code is present, so non-affiliate leads send no PII to the backend.
+  function sendLead(data) {
+    try {
+      const ref = data.ref || '';
+      const api = apiBase();
+      if (!ref || !api) return;
+      fetch(api + '/track/lead', {
+        method: 'POST', credentials: 'include', mode: 'cors', keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ref: ref, name: data.name || '', email: data.email || '', phone: data.phone || '',
+          company: data.company || '', service: data.service || '', source_page: data.source_page || location.pathname,
+        }),
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
   // ---------- form renderer ----------
   function render(host) {
     const stages = S.stages, sectors = S.sectors, services = S.services, times = S.times;
@@ -629,6 +666,10 @@
 
     const data = collect(form);
 
+    // Record the affiliate lead independently of Zoho — the visitor completed the
+    // form, so attribution should stand even if the CRM POST hiccups.
+    sendLead(data);
+
     let ok = false;
     try {
       if (ZOHO_ENDPOINT) {
@@ -661,6 +702,7 @@
     const obj = {};
     fd.forEach((v, k) => { obj[k] = v; });
     const utm = getUTM();
+    const ref = getRef();
     Object.assign(obj, {
       utm_source:   utm.utm_source   || '',
       utm_medium:   utm.utm_medium   || '',
@@ -669,7 +711,15 @@
       referrer:     document.referrer || '',
       language:     lang,
       source:       'Website',
+      ref:          ref,               // → affiliate backend (not a Zoho field)
     });
+    // Surface the referral in the CRM note so sales sees it (Zoho has no dedicated
+    // referral field yet). `ref` itself is not in ZOHO_FIELD_MAP, so it is NOT sent
+    // to Zoho as a stray field — only the affiliate backend receives it directly.
+    if (ref) {
+      const tag = (lang === 'ar' ? 'كود الإحالة' : 'Referral code') + ': ' + ref;
+      obj.details = obj.details ? (obj.details + '\n\n— ' + tag) : ('— ' + tag);
+    }
     return obj;
   }
 

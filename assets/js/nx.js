@@ -8,17 +8,54 @@
     console.log('%cNX Solutions', 'font:700 22px/1.4 sans-serif;color:#205295', '\n  Built clean, compliant and fast — by hand.\n  Like what you see under the hood? hello@nx.sa');
   } catch (e) {}
 
-  // NX Partners — referral click capture. Any nx.sa page carrying ?ref=CODE
-  // pings the affiliate backend to log the click + drop the first-party
-  // attribution cookie, so the clean nx.sa/?ref= link is tracked (no redirect).
-  try {
-    const ref = (location.search.match(/[?&]ref=([^&]+)/) || [])[1];
-    if (ref) {
+  // NX Partners — referral capture. Any nx.sa page carrying ?ref=CODE
+  //  (a) pings the affiliate backend to log the click + drop the first-party
+  //      (HttpOnly) attribution cookie, so the clean nx.sa/?ref= link is tracked;
+  //  (b) persists the code client-side — a JS-readable `.nx.sa` cookie + a
+  //      localStorage copy — so the contact form can attach it to the lead it
+  //      creates. The referral code carried on the lead is what attributes it to
+  //      a partner (NX has no online checkout — a submitted lead IS the conversion
+  //      event). Exposes window.NX.getRef() for nx-form.js and other scripts.
+  (function () {
+    const KEEP_MS = 90 * 864e5;                       // client-side keep window
+    const onNx = /(^|\.)nx\.sa$/i.test(location.hostname);
+    const apiBase = () => {
       const meta = document.querySelector('meta[name="nx-api"]');
-      const api = (meta && meta.content ? meta.content : (/(^|\.)nx\.sa$/i.test(location.hostname) ? 'https://api.nx.sa' : '')).replace(/\/$/, '');
-      if (api) fetch(api + '/track/click?ref=' + encodeURIComponent(ref), { credentials: 'include', mode: 'cors', keepalive: true }).catch(() => {});
-    }
-  } catch (e) {}
+      return (meta && meta.content ? meta.content : (onNx ? 'https://api.nx.sa' : '')).replace(/\/$/, '');
+    };
+    const readCookie = (name) => {
+      const m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+      return m ? decodeURIComponent(m[1]) : '';
+    };
+    const store = (code) => {
+      const dom = onNx ? '; Domain=.nx.sa' : '';
+      const secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = 'nx_ref=' + encodeURIComponent(code) + '; Max-Age=' + Math.floor(KEEP_MS / 1e3) + '; Path=/; SameSite=Lax' + dom + secure;
+      try { localStorage.setItem('nx_ref', JSON.stringify({ c: code, t: Date.now() })); } catch (e) {}
+    };
+    const getRef = () => {
+      const c = readCookie('nx_ref');
+      if (c) return c;
+      try {
+        const j = JSON.parse(localStorage.getItem('nx_ref') || 'null');
+        if (j && j.c && (Date.now() - (+j.t || 0)) < KEEP_MS) return j.c;
+      } catch (e) {}
+      const m = location.search.match(/[?&]ref=([^&]+)/);
+      return m ? decodeURIComponent(m[1]) : '';
+    };
+    window.NX = window.NX || {};
+    window.NX.getRef = getRef;
+
+    try {
+      const m = location.search.match(/[?&]ref=([^&]+)/);
+      const ref = m ? decodeURIComponent(m[1]) : '';
+      if (ref) {
+        store(ref);
+        const api = apiBase();
+        if (api) fetch(api + '/track/click?ref=' + encodeURIComponent(ref), { credentials: 'include', mode: 'cors', keepalive: true }).catch(() => {});
+      }
+    } catch (e) {}
+  })();
 
   // nav scroll shadow
   const bar = document.getElementById('bar');

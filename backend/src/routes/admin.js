@@ -79,6 +79,15 @@ router.post('/conversions/:id/:action', asyncH(async (req, res) => {
   res.json({ ok: true });
 }));
 
+router.get('/leads', asyncH(async (_req, res) => {
+  const rows = (await query(
+    `SELECT l.id, l.created_at::date AS date, pt.name AS partner, l.name AS client_name,
+            l.email, l.phone, l.company, l.service, l.via, l.source_page, l.status
+     FROM leads l JOIN partners pt ON pt.id = l.partner_id
+     ORDER BY l.created_at DESC LIMIT 200`)).rows;
+  res.json({ ok: true, leads: rows });
+}));
+
 router.get('/offers', asyncH(async (_req, res) => {
   const rows = (await query(`SELECT id, slug, name_ar, name_en, kind, commission_pct, promotable FROM products ORDER BY sort, id`)).rows;
   res.json({ ok: true, offers: rows.map(r => ({ ...r, commission_pct: Number(r.commission_pct) })) });

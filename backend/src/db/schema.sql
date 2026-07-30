@@ -83,6 +83,28 @@ CREATE INDEX IF NOT EXISTS idx_conv_partner_time ON conversions(partner_id, crea
 -- idempotency for webhook-created conversions
 CREATE UNIQUE INDEX IF NOT EXISTS uniq_conv_external ON conversions(external_ref) WHERE external_ref IS NOT NULL;
 
+-- attributed leads: NX is B2B (no online checkout), so the conversion event is a
+-- referred visitor submitting the site contact form. The referral code carried on
+-- the lead is the deciding factor — we record the lead here, attributed to a partner.
+-- Sales later closes it → admin turns the lead into a conversion → commission.
+CREATE TABLE IF NOT EXISTS leads (
+  id            SERIAL PRIMARY KEY,
+  partner_id    INT NOT NULL REFERENCES partners(id) ON DELETE CASCADE,
+  name          TEXT,
+  email         TEXT,
+  phone         TEXT,
+  company       TEXT,
+  service       TEXT,                                -- service of interest (from the form)
+  via           TEXT,                                -- 'link' | coupon code
+  source_page   TEXT,                                -- page the form was submitted from
+  ip_hash       TEXT,
+  status        TEXT NOT NULL DEFAULT 'new',         -- new | qualified | converted | rejected
+  conversion_id INT REFERENCES conversions(id) ON DELETE SET NULL,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  decided_at    TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS idx_leads_partner_time ON leads(partner_id, created_at);
+
 -- append-only commission ledger (money accounting only — never moves funds)
 CREATE TABLE IF NOT EXISTS ledger (
   id          BIGSERIAL PRIMARY KEY,
