@@ -77,6 +77,10 @@ Last updated: 2026-07-29.
       swaps to LIVE via `/api/auth/me` (401→login, 404/network→demo) and wires real
       actions; landing Register→`/api/auth/register` (added password field, Zoho
       fallback) + Login→`/api/auth/login`→portal. `?v=101`.
+- [x] **2026-07-29 — go-live prep:** `backend/DEPLOY.md` (Coolify + nginx proxy
+      snippet + checklist), `GET /api/program` public terms, landing estimator now
+      reads live figures, and `npm run create-admin` (non-destructive prod admin).
+      Real figures now flow from ONE place: set them in the admin → site updates.
 - [ ] **Phase 2c — actually go live (needs the user / infra):** (1) deploy
       `backend/` on Coolify — real `SESSION_SECRET`/`IP_SALT`/`WEBHOOK_SECRET`,
       Postgres, `PUBLIC_ORIGIN=https://nx.sa`, `COOKIE_DOMAIN=.nx.sa`; migrate +
