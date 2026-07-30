@@ -1,9 +1,9 @@
 /* ============================================================
    NX Partners — portal & admin behaviour (nx-portal.js)
-   DEMO front-end: renders from in-file sample data so the product
-   can be seen and approved before the Node + PostgreSQL backend is
-   wired. Every render reads from local DATA — swap for fetch() to
-   the API and the UI is unchanged.
+   Renders the demo dataset instantly, then — if the backend
+   (window.NXApi) answers /api/auth/me — swaps in LIVE data and
+   wires real actions. No backend / network error → stays in the
+   labelled demo. 401 → redirect to the login on the landing page.
    ============================================================ */
 (function () {
   'use strict';
@@ -15,51 +15,47 @@
   var ar = document.documentElement.lang === 'ar';
   var LANGSEG = ar ? 'ar' : 'en';
   var CUR = ar ? '﷼' : 'SAR';
-  var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
-  var pick = function (o, k) { return o[k + (ar ? '_ar' : '_en')]; };
+  var fmt = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
+  var pick = (o, k) => o[k + (ar ? '_ar' : '_en')];
+  var day = (d) => String(d || '').slice(0, 10);
 
-  // ---- shared identity (demo) ----
-  var CODE = 'KHALID-7Q2';
-  var COUPON = 'KHALID10';
-  var COUPON_PCT = 10;
-  var BASE = 'https://nx.sa/?ref=' + CODE;
+  var CODE = 'KHALID-7Q2', COUPON = 'KHALID10', COUPON_PCT = 10;
   var ORIGIN = 'https://nx.sa';
-  var deep = function (path) { return ORIGIN + '/' + LANGSEG + path + '?ref=' + CODE; };
+  var BASE = ORIGIN + '/?ref=' + CODE;
 
   var T = ar ? {
     clicks: 'نقرة', convs: 'تحويل', rate: 'معدّل', copied: 'تم النسخ', copy: 'نسخ', download: 'تنزيل',
     paid: 'مدفوعة', pending: 'قيد المراجعة', approved: 'معتمدة', rejected: 'مرفوضة', reversed: 'مُسترجعة',
     active: 'نشط', suspended: 'موقوف', all: 'الكل', banners: 'لافتات', social: 'سوشال ميديا',
-    email: 'بريد', logos: 'شعارات', copytxt: 'نصوص', qr: 'رمز QR',
-    approve: 'اعتماد', view: 'عرض', markpaid: 'تحديد كمدفوعة', promote: 'تسويق', share: 'مشاركة',
-    service: 'خدمة', solution: 'حل', platform: 'منصّة',
+    email: 'بريد', logos: 'شعارات', copytxt: 'نصوص',
+    approve: 'اعتماد', view: 'عرض', markpaid: 'تحديد كمدفوعة', service: 'خدمة', solution: 'حل', platform: 'منصّة',
     shareMsg: 'اكتشف NX Solutions — شريك تقني يبني ويطوّر المنصّات الرقمية للمنشآت السعودية.',
     shareSubj: 'قد يهمّك: NX Solutions', dl_soon: 'سيبدأ التنزيل عند تفعيل البوابة'
   } : {
     clicks: 'clicks', convs: 'conv.', rate: 'rate', copied: 'Copied', copy: 'Copy', download: 'Download',
     paid: 'Paid', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', reversed: 'Reversed',
     active: 'Active', suspended: 'Suspended', all: 'All', banners: 'Banners', social: 'Social',
-    email: 'Email', logos: 'Logos', copytxt: 'Copy', qr: 'QR code',
-    approve: 'Approve', view: 'View', markpaid: 'Mark paid', promote: 'Promote', share: 'Share',
-    service: 'Service', solution: 'Solution', platform: 'Platform',
+    email: 'Email', logos: 'Logos', copytxt: 'Copy',
+    approve: 'Approve', view: 'View', markpaid: 'Mark paid', service: 'Service', solution: 'Solution', platform: 'Platform',
     shareMsg: 'Discover NX Solutions — a tech partner building digital platforms for Saudi enterprises.',
     shareSubj: 'You might like: NX Solutions', dl_soon: 'Download begins when the portal goes live'
   };
+  var kindLabel = { service: T.service, solution: T.solution, platform: T.platform };
 
-  var badge = function (kind, txt) { return '<span class="ap-b ' + kind + '">' + txt + '</span>'; };
-  var money = function (n, neg) { return (neg ? '−' : '') + fmt(n) + ' ' + CUR; };
+  var badge = (kind, txt) => '<span class="ap-b ' + kind + '">' + txt + '</span>';
+  var money = (n, neg) => (neg ? '−' : '') + fmt(n) + ' ' + CUR;
+  var statusBadge = (s) => s === 'paid' ? badge('ok', T.paid) : s === 'approved' ? badge('info', T.approved)
+    : s === 'pending' ? badge('warn', T.pending) : s === 'reversed' ? badge('bad', T.reversed)
+    : s === 'rejected' ? badge('bad', T.rejected) : s === 'active' ? badge('ok', T.active)
+    : s === 'suspended' ? badge('bad', T.suspended) : badge('info', s);
 
-  // ---------- toast + copy + share ----------
-  var toastEl;
-  function toast(msg) {
-    if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'ap-toast'; document.body.appendChild(toastEl); }
-    toastEl.textContent = msg; toastEl.classList.add('show');
-    clearTimeout(toastEl._t); toastEl._t = setTimeout(function () { toastEl.classList.remove('show'); }, 2000);
-  }
-  function copy(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { toast(T.copied); }, function () { toast(T.copied); });
-    else toast(T.copied);
-  }
+  var SVG = {
+    copy: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>',
+    wa: '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 01-12.4 7.4L3 21l2.2-5.4A8.4 8.4 0 1121 11.5z"/><path d="M8.5 8.8c.2 3 2.7 5.5 5.7 5.7"/></svg>',
+    x: '<svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>',
+    li: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 014 0v4"/></svg>',
+    em: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  };
   function shareHref(net, url) {
     var u = encodeURIComponent(url), m = encodeURIComponent(T.shareMsg);
     if (net === 'wa') return 'https://wa.me/?text=' + encodeURIComponent(T.shareMsg + ' ' + url);
@@ -68,13 +64,6 @@
     if (net === 'em') return 'mailto:?subject=' + encodeURIComponent(T.shareSubj) + '&body=' + encodeURIComponent(T.shareMsg + '\n\n' + url);
     return url;
   }
-  var SVG = {
-    wa: '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 01-12.4 7.4L3 21l2.2-5.4A8.4 8.4 0 1121 11.5z"/><path d="M8.5 8.8c.2 3 2.7 5.5 5.7 5.7"/></svg>',
-    x: '<svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>',
-    li: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 014 0v4"/></svg>',
-    em: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
-    copy: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>'
-  };
   function shareBar(url) {
     return '<div class="ap-share">' +
       '<a class="ap-shbtn wa" target="_blank" rel="noopener" href="' + shareHref('wa', url) + '">' + SVG.wa + (ar ? 'واتساب' : 'WhatsApp') + '</a>' +
@@ -85,7 +74,6 @@
       '</div>';
   }
 
-  // ---------- shared products catalog ----------
   var IC = {
     launch: '<path d="M12 2c4 2 6 6 6 10l-3 3-3-1-1 3-2 2-2-4 3-1-1-3 3-3c0-4 2-8 0-6z"/><circle cx="12" cy="9" r="1.5"/>',
     grow: '<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>',
@@ -98,265 +86,419 @@
     box: '<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/>',
     bot: '<rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/>'
   };
-  var PRODUCTS = [
-    { k: 'service', path: '/services/launch/', ic: IC.launch, name_ar: 'NX Launch', name_en: 'NX Launch', d_ar: 'إطلاق أول نظام رقمي لعملك بسرعة وثبات.', d_en: 'Launch your first digital system — fast and solid.' },
-    { k: 'service', path: '/services/grow/', ic: IC.grow, name_ar: 'NX Grow', name_en: 'NX Grow', d_ar: 'طوّر منصّتك ووسّع قدراتها مع نمو عملك.', d_en: 'Grow and extend your platform as you scale.' },
-    { k: 'service', path: '/services/automation360/', ic: IC.gear, name_ar: 'NX 360', name_en: 'NX 360', d_ar: 'أتمتة العمليات وربطها من طرف إلى طرف.', d_en: 'Automate and connect operations end to end.' },
-    { k: 'service', path: '/services/connect/', ic: IC.plug, name_ar: 'NX Connect', name_en: 'NX Connect', d_ar: 'اربط أنظمتك بالجهات الحكومية والخدمات.', d_en: 'Integrate with government & third-party services.' },
-    { k: 'service', path: '/services/scale/', ic: IC.layers, name_ar: 'NX Scale', name_en: 'NX Scale', d_ar: 'بنية جاهزة للتوسّع وأحمال الإنتاج.', d_en: 'Architecture ready for scale and production load.' },
-    { k: 'solution', path: '/solutions/fintech-open-banking/', ic: IC.coin, name_ar: 'التقنية المالية', name_en: 'FinTech & Open Banking', d_ar: 'طبقة مالية ومصرفية مفتوحة داخل منتجك.', d_en: 'An embedded open-banking & payments layer.' },
-    { k: 'platform', path: '/work/ibp/', ic: IC.shield, name_ar: 'IBP Insure', name_en: 'IBP Insure', d_ar: 'منصّة متكاملة لوسطاء التأمين.', d_en: 'An end-to-end insurance-broker platform.' },
-    { k: 'platform', path: '/work/nqlah/', ic: IC.truck, name_ar: 'Nqlah', name_en: 'Nqlah', d_ar: 'منصّة النقل والخدمات اللوجستية.', d_en: 'A transport & logistics platform.' },
-    { k: 'platform', path: '/work/nx-logistic/', ic: IC.box, name_ar: 'NX Logistic', name_en: 'NX Logistic', d_ar: 'إدارة أصول وعمليات شركات النقليات.', d_en: 'Fleet asset & operations management.' },
-    { k: 'platform', path: '/work/iwork/', ic: IC.bot, name_ar: 'iWork', name_en: 'iWork', d_ar: 'قوى عاملة ذكية بوكلاء ذكاء اصطناعي.', d_en: 'An AI-powered digital workforce.' }
-  ];
-  var kindLabel = { service: T.service, solution: T.solution, platform: T.platform };
+  var IC_BY_SLUG = {
+    'services/launch': IC.launch, 'services/grow': IC.grow, 'services/automation360': IC.gear,
+    'services/connect': IC.plug, 'services/scale': IC.layers, 'solutions/fintech-open-banking': IC.coin,
+    'work/ibp': IC.shield, 'work/nqlah': IC.truck, 'work/nx-logistic': IC.box, 'work/iwork': IC.bot,
+  };
 
-  function kpiHTML(x) {
-    var d = x.d ? '<div class="d up">▲ ' + x.d + '</div>' : '';
-    return '<div class="ap-kpi ' + (x.cls || '') + '"><div class="ic"><svg viewBox="0 0 24 24">' + x.ic + '</svg></div>' +
-      '<div class="k">' + x.k + '</div><div class="v">' + (x.cur ? '<span class="cur">' + CUR + '</span>' : '') + fmt(x.v) + '</div>' + d + '</div>';
+  // ---------- toast + copy ----------
+  var toastEl;
+  function toast(msg) {
+    if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'ap-toast'; document.body.appendChild(toastEl); }
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastEl._t); toastEl._t = setTimeout(() => toastEl.classList.remove('show'), 2000);
   }
-  function chartHTML(series, labels) {
-    var mx = Math.max.apply(null, series);
-    return series.map(function (v, i) {
-      var h = Math.round(v / mx * 100);
-      return '<div class="bar"><i data-h="' + h + '" style="height:0"><b>' + fmt(v) + '</b></i><span>' + labels[i] + '</span></div>';
-    }).join('');
+  function copy(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => toast(T.copied), () => toast(T.copied));
+    else toast(T.copied);
   }
+
+  // ---------- generic renderers ----------
+  var $ = (sel) => document.querySelector(sel);
   var MLABELS = ['12', '01', '02', '03', '04', '05', '06', '07'];
 
-  // ============================================================
-  //  PARTNER PORTAL
-  // ============================================================
-  if (isPortal) {
-    var TX = [
-      { d: '2026-07-28', k: ar ? 'عمولة — NX Grow' : 'Commission — NX Grow', a: 3600, s: 'approved', neg: false },
-      { d: '2026-07-26', k: ar ? 'عمولة عبر كود KHALID10 — NX Launch' : 'Commission via KHALID10 — NX Launch', a: 1800, s: 'approved', neg: false },
-      { d: '2026-07-20', k: ar ? 'صرف إلى الحساب البنكي' : 'Payout to bank account', a: 6000, s: 'paid', neg: true },
-      { d: '2026-07-18', k: ar ? 'عمولة — NX 360' : 'Commission — NX 360', a: 3160, s: 'pending', neg: false },
-      { d: '2026-07-11', k: ar ? 'عمولة — التقنية المالية' : 'Commission — FinTech', a: 5200, s: 'approved', neg: false },
-      { d: '2026-07-03', k: ar ? 'استرجاع — إلغاء اشتراك' : 'Reversal — cancelled signup', a: 1200, s: 'reversed', neg: true }
-    ];
-    var REFS = [
-      { d: '2026-07-28', p: 'NX Grow', c: 'Rawnaq Co.', v: 24000, com: 3600, s: 'approved', via: ar ? 'رابط' : 'Link' },
-      { d: '2026-07-26', p: 'NX Launch', c: 'Nujoom Studio', v: 12000, com: 1800, s: 'approved', via: 'KHALID10' },
-      { d: '2026-07-18', p: 'NX 360', c: 'Madar Logistics', v: 31600, com: 3160, s: 'pending', via: ar ? 'رابط' : 'Link' },
-      { d: '2026-07-11', p: 'FinTech', c: 'Sadad Wallet', v: 52000, com: 5200, s: 'approved', via: ar ? 'رابط' : 'Link' },
-      { d: '2026-07-02', p: 'IBP Insure', c: 'Wathiq Brokers', v: 16000, com: 2400, s: 'pending', via: 'KHALID10' }
-    ];
-    var LINKS = [
-      { n: ar ? 'الرابط الافتراضي' : 'Default link', q: '', cl: 1240, cv: 38 },
-      { n: ar ? 'حملة لينكدإن' : 'LinkedIn campaign', q: '&c=linkedin', cl: 486, cv: 17 },
-      { n: ar ? 'قائمتي البريدية' : 'My newsletter', q: '&c=news', cl: 322, cv: 11 },
-      { n: ar ? 'التقنية المالية' : 'FinTech push', q: '&s=fintech', cl: 198, cv: 9 }
-    ];
-    var MATS = [
-      { type: 'banner', tone: 'dark', dim: '1200×628', tag: 'NX Grow', name_ar: 'لافتة — NX Grow', name_en: 'Banner — NX Grow', desc_ar: 'لافتة أفقية للمشاركات الاجتماعية.', desc_en: 'Landscape banner for social posts.', big_ar: 'طوّر منصّتك مع NX', big_en: 'Grow your platform with NX', sm_ar: 'NX Grow', sm_en: 'NX Grow' },
-      { type: 'banner', tone: 'light', dim: '1080×1080', tag: 'FinTech', name_ar: 'مربّع — التقنية المالية', name_en: 'Square — FinTech', desc_ar: 'تصميم مربّع لإنستغرام.', desc_en: 'Square design for Instagram.', big_ar: 'طبقة مالية داخل منتجك', big_en: 'A finance layer in your product', sm_ar: 'FinTech & Open Banking', sm_en: 'FinTech & Open Banking' },
-      { type: 'banner', tone: 'dark', dim: '300×600', tag: 'IBP', name_ar: 'لافتة عمودية — IBP', name_en: 'Skyscraper — IBP', desc_ar: 'لافتة عمودية لمواقع المحتوى.', desc_en: 'Vertical banner for content sites.', big_ar: 'منصّة وسطاء التأمين', big_en: 'Insurance-broker platform', sm_ar: 'IBP Insure', sm_en: 'IBP Insure' },
-      { type: 'social', tone: 'light', dim: ar ? 'نص جاهز' : 'Ready copy', tag: ar ? 'عام' : 'General', name_ar: 'منشور تعريفي', name_en: 'Intro post', desc_ar: 'نص منشور جاهز مع رابطك.', desc_en: 'Ready post copy with your link.', snip_ar: 'تبحث عن شريك تقني يبني لك نظاماً رقمياً يصمد أمام النمو والتدقيق؟ اكتشف NX Solutions 👇', snip_en: 'Looking for a tech partner to build a digital system that scales? Discover NX Solutions 👇' },
-      { type: 'social', tone: 'dark', dim: ar ? 'منشور X' : 'X post', tag: ar ? 'عام' : 'General', name_ar: 'منشور X (تويتر)', name_en: 'X (Twitter) post', desc_ar: 'تغريدة قصيرة جاهزة للنشر.', desc_en: 'A short ready-to-post tweet.', snip_ar: 'من الموقع إلى نظام التشغيل والربط الحكومي — @NXSolutions تبني تقنية تعمل فعلاً. 👇', snip_en: 'From your website to your operating system to gov integrations — NX Solutions builds tech that works. 👇' },
-      { type: 'email', tone: 'light', dim: 'HTML', tag: ar ? 'عام' : 'General', name_ar: 'قالب بريد — عرض الخدمات', name_en: 'Email — services', desc_ar: 'قالب بريد قابل للتخصيص.', desc_en: 'Customizable email template.', snip_ar: 'مرحباً، أردت أن أشاركك NX Solutions — شريك تقني يبني ويطوّر المنصّات الرقمية للمنشآت السعودية…', snip_en: 'Hi, I wanted to share NX Solutions — a tech partner that builds digital platforms for Saudi enterprises…' },
-      { type: 'email', tone: 'light', dim: ar ? 'توقيع' : 'Signature', tag: ar ? 'عام' : 'General', name_ar: 'توقيع بريد', name_en: 'Email signature', desc_ar: 'توقيع بريد أنيق مع رابط إحالتك.', desc_en: 'A tidy email signature with your link.', snip_ar: 'شريك NX Solutions المعتمد — احجز استشارة عبر رابطي', snip_en: 'Certified NX Solutions partner — book a consult via my link' },
-      { type: 'copy', tone: 'light', dim: ar ? 'عبارات' : 'One-liners', tag: ar ? 'عام' : 'General', name_ar: 'عبارات تسويقية', name_en: 'Marketing one-liners', desc_ar: 'جُمل قصيرة لكل منتج تنسخها بسرعة.', desc_en: 'Short lines per product to copy fast.', snip_ar: 'NX Launch: أطلق نظامك الرقمي بثقة. · NX 360: أتمتة عملياتك بالكامل. · FinTech: مدفوعات وبيانات بنكية داخل منتجك.', snip_en: 'NX Launch: launch your system with confidence. · NX 360: fully automate your ops. · FinTech: payments & bank data inside your product.' },
-      { type: 'logo', tone: 'light', dim: 'SVG · PNG', tag: ar ? 'علامة' : 'Brand', name_ar: 'حزمة الشعار', name_en: 'Logo pack', desc_ar: 'شعار NX بصيغ ونسخ متعددة (فاتح/داكن).', desc_en: 'NX logo in multiple formats (light/dark).', logo: true }
-    ];
-
-    // KPIs
-    var host = document.querySelector('[data-kpis]');
-    if (host) host.innerHTML = [
-      { cls: 'gold', k: ar ? 'الرصيد المتاح' : 'Available balance', v: 8420, cur: true, ic: '<path d="M20 12v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7M2 7h20v5H2zM12 22V7"/>' },
-      { k: ar ? 'أرباح هذا الشهر' : 'Earnings this month', v: 12480, cur: true, d: '18%', ic: '<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>' },
-      { k: ar ? 'النقرات (30 يوماً)' : 'Clicks (30d)', v: 1240, cur: false, d: '9%', ic: '<path d="M9 3v4M15 3v4M4 9h16M6 21h12a1 1 0 001-1V8H5v12a1 1 0 001 1z"/>' },
-      { k: ar ? 'التحويلات (30 يوماً)' : 'Conversions (30d)', v: 38, cur: false, d: '12%', ic: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/>' }
-    ].map(kpiHTML).join('');
-
-    var chart = document.querySelector('[data-chart]');
-    if (chart) chart.innerHTML = chartHTML([5100, 6200, 5800, 7400, 9100, 8600, 10800, 12480], MLABELS);
-
-    var txb = document.querySelector('[data-tx]');
-    if (txb) txb.innerHTML = TX.map(function (x) {
-      var sb = x.s === 'paid' ? badge('ok', T.paid) : x.s === 'approved' ? badge('info', T.approved) : x.s === 'pending' ? badge('warn', T.pending) : badge('bad', T.reversed);
-      return '<tr><td class="mono">' + x.d + '</td><td><b>' + x.k + '</b></td><td class="amt ' + (x.neg ? 'neg' : 'pos') + '">' + money(x.a, x.neg) + '</td><td>' + sb + '</td></tr>';
+  function renderKpis(list) {
+    var host = $('[data-kpis]'); if (!host) return;
+    host.innerHTML = list.map(x => {
+      var d = x.d ? '<div class="d up">▲ ' + x.d + '</div>' : '';
+      return '<div class="ap-kpi ' + (x.cls || '') + '"><div class="ic"><svg viewBox="0 0 24 24">' + x.ic + '</svg></div>' +
+        '<div class="k">' + x.k + '</div><div class="v">' + (x.cur ? '<span class="cur">' + CUR + '</span>' : '') + fmt(x.v) + '</div>' + d + '</div>';
     }).join('');
-
-    var rb = document.querySelector('[data-refs]');
-    if (rb) rb.innerHTML = REFS.map(function (x) {
-      var sb = x.s === 'approved' ? badge('ok', T.approved) : x.s === 'pending' ? badge('warn', T.pending) : badge('bad', T.rejected);
-      var via = x.via === 'KHALID10' ? '<span class="ap-tag" style="color:var(--ap-warn);background:rgba(183,144,46,.1);border-color:rgba(183,144,46,.3)">' + x.via + '</span>' : x.via;
-      return '<tr><td class="mono">' + x.d + '</td><td><b>' + x.p + '</b></td><td>' + x.c + '</td><td>' + via + '</td><td class="mono">' + fmt(x.v) + ' ' + CUR + '</td><td class="amt pos">' + fmt(x.com) + ' ' + CUR + '</td><td>' + sb + '</td></tr>';
+  }
+  function renderChart(series) {
+    var host = $('[data-chart]'); if (!host) return;
+    var vals = series.map(s => Number(s.value) || 0), mx = Math.max.apply(null, vals.concat([1]));
+    host.innerHTML = series.map((s, i) => {
+      var h = Math.round(vals[i] / mx * 100);
+      return '<div class="bar"><i data-h="' + h + '" style="height:0"><b>' + fmt(vals[i]) + '</b></i><span>' + (s.label || MLABELS[i]) + '</span></div>';
     }).join('');
-
-    var lb = document.querySelector('[data-links]');
-    if (lb) lb.innerHTML = LINKS.map(function (x) {
-      var url = BASE + x.q;
-      return '<div class="ap-linkcard"><div class="top"><span class="nm">' + x.n + '</span>' +
+    requestAnimationFrame(() => host.querySelectorAll('i[data-h]').forEach(i => { i.style.height = i.dataset.h + '%'; }));
+  }
+  function renderRefs(rows) {
+    var b = $('[data-refs]'); if (!b) return;
+    b.innerHTML = rows.map(x => {
+      var via = x.via === 'link' || !x.via ? (ar ? 'رابط' : 'Link')
+        : '<span class="ap-tag" style="color:var(--ap-warn);background:rgba(183,144,46,.1);border-color:rgba(183,144,46,.3)">' + x.via + '</span>';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + (x.product || '—') + '</b></td><td>' + (x.client_name || '—') +
+        '</td><td>' + via + '</td><td class="mono">' + fmt(x.deal_value) + ' ' + CUR + '</td><td class="amt pos">' + fmt(x.commission) + ' ' + CUR + '</td><td>' + statusBadge(x.status) + '</td></tr>';
+    }).join('');
+  }
+  function renderTx(rows) {
+    var b = $('[data-tx]'); if (!b) return;
+    b.innerHTML = rows.map(x => {
+      var neg = (x.type === 'payout' || x.type === 'reversal') || Number(x.amount) < 0;
+      var label = x.memo || ({ commission: ar ? 'عمولة' : 'Commission', payout: ar ? 'صرف' : 'Payout', reversal: ar ? 'استرجاع' : 'Reversal' }[x.type] || x.type);
+      var s = x.type === 'payout' ? 'paid' : x.type === 'reversal' ? 'reversed' : 'approved';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + label + '</b></td><td class="amt ' + (neg ? 'neg' : 'pos') + '">' + money(Math.abs(x.amount), neg) + '</td><td>' + statusBadge(s) + '</td></tr>';
+    }).join('');
+  }
+  function renderLinkCoupon(refCode, coupon, couponPct) {
+    var lc = $('[data-linkcoupon]'); if (!lc) return;
+    var link = ORIGIN + '/?ref=' + refCode;
+    lc.innerHTML =
+      '<div class="ap-lccard"><div class="lbl"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>' + (ar ? 'رابط الإحالة' : 'Referral link') + '</div>' +
+      '<div class="ap-bigcode"><code>' + link + '</code><button class="ap-mini-btn" data-copy="' + link + '">' + SVG.copy + T.copy + '</button></div>' +
+      '<p class="sub">' + (ar ? 'يُنسب كل من يفتح هذا الرابط إليك خلال نافذة التتبّع.' : 'Anyone opening this link is attributed to you within the tracking window.') + '</p></div>' +
+      (coupon ? '<div class="ap-lccard coupon"><div class="lbl"><svg viewBox="0 0 24 24"><path d="M4 9V6a2 2 0 012-2h12a2 2 0 012 2v3a2 2 0 000 6v3a2 2 0 01-2 2H6a2 2 0 01-2-2v-3a2 2 0 000-6z"/></svg>' + (ar ? 'كود الخصم' : 'Coupon code') + '<span class="ap-off">' + (ar ? 'خصم ' : '') + couponPct + '%' + (ar ? '' : ' off') + '</span></div>' +
+      '<div class="ap-bigcode"><code>' + coupon + '</code><button class="ap-mini-btn" data-copy="' + coupon + '">' + SVG.copy + T.copy + '</button></div>' +
+      '<p class="sub">' + (ar ? 'يمنح العميل خصم ' + couponPct + '٪ ويُسجّل عمولتك تلقائياً عند الشراء.' : 'Gives the client ' + couponPct + '% off and records your commission automatically at checkout.') + '</p></div>' : '');
+  }
+  function renderShare(link) { document.querySelectorAll('[data-sharebar]').forEach(el => el.innerHTML = shareBar(link)); }
+  function renderLinks(data) {
+    var lb = $('[data-links]'); if (!lb) return;
+    lb.innerHTML = (data.links || []).map(x => {
+      var url = x.url || (ORIGIN + '/?ref=' + (data.refCode || CODE));
+      return '<div class="ap-linkcard"><div class="top"><span class="nm">' + x.name + '</span>' +
         '<div class="url"><code>' + url + '</code></div>' +
         '<button class="ap-mini-btn" data-copy="' + url + '">' + SVG.copy + T.copy + '</button></div>' +
-        '<div class="stats"><div class="s"><div class="n">' + fmt(x.cl) + '</div><div class="t">' + T.clicks + '</div></div>' +
-        '<div class="s"><div class="n">' + fmt(x.cv) + '</div><div class="t">' + T.convs + '</div></div>' +
-        '<div class="s"><div class="n">' + (x.cl ? (x.cv / x.cl * 100).toFixed(1) : '0') + '%</div><div class="t">' + T.rate + '</div></div></div></div>';
+        '<div class="stats"><div class="s"><div class="n">' + fmt(x.clicks) + '</div><div class="t">' + T.clicks + '</div></div>' +
+        '<div class="s"><div class="n">' + fmt(x.conversions || 0) + '</div><div class="t">' + T.convs + '</div></div>' +
+        '<div class="s"><div class="n">' + (x.clicks ? ((x.conversions || 0) / x.clicks * 100).toFixed(1) : '0') + '%</div><div class="t">' + T.rate + '</div></div></div></div>';
     }).join('');
-
-    // referral link + coupon hero + share
-    var lc = document.querySelector('[data-linkcoupon]');
-    if (lc) lc.innerHTML =
-      '<div class="ap-lccard"><div class="lbl"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>' + (ar ? 'رابط الإحالة' : 'Referral link') + '</div>' +
-      '<div class="ap-bigcode"><code>' + BASE + '</code><button class="ap-mini-btn" data-copy="' + BASE + '">' + SVG.copy + T.copy + '</button></div>' +
-      '<p class="sub">' + (ar ? 'يُنسب كل من يفتح هذا الرابط إليك خلال نافذة التتبّع.' : 'Anyone opening this link is attributed to you within the tracking window.') + '</p></div>' +
-      '<div class="ap-lccard coupon"><div class="lbl"><svg viewBox="0 0 24 24"><path d="M4 9V6a2 2 0 012-2h12a2 2 0 012 2v3a2 2 0 000 6v3a2 2 0 01-2 2H6a2 2 0 01-2-2v-3a2 2 0 000-6z"/><path d="M12 7v10" stroke-dasharray="1 3"/></svg>' + (ar ? 'كود الخصم' : 'Coupon code') + '<span class="ap-off">' + (ar ? 'خصم ' : '') + COUPON_PCT + '%' + (ar ? '' : ' off') + '</span></div>' +
-      '<div class="ap-bigcode"><code>' + COUPON + '</code><button class="ap-mini-btn" data-copy="' + COUPON + '">' + SVG.copy + T.copy + '</button></div>' +
-      '<p class="sub">' + (ar ? 'لمن يفضّل كوداً بدل رابط: يمنح العميل خصم ' + COUPON_PCT + '٪ ويُسجّل عمولتك تلقائياً عند الشراء.' : 'For those who prefer a code over a link: gives the client ' + COUPON_PCT + '% off and records your commission automatically at checkout.') + '</p></div>';
-
-    document.querySelectorAll('[data-sharebar]').forEach(function (el) { el.innerHTML = shareBar(BASE); });
-
-    // catalog
-    var cat = document.querySelector('[data-catalog]');
-    if (cat) cat.innerHTML = PRODUCTS.map(function (p) {
-      var url = deep(p.path);
-      return '<div class="ap-catcard"><div class="top"><span class="ci"><svg viewBox="0 0 24 24">' + p.ic + '</svg></span>' +
-        '<div><div class="nm">' + pick(p, 'name') + '</div><div class="kind">' + kindLabel[p.k] + '</div></div></div>' +
-        '<div class="ds">' + pick(p, 'd') + '</div>' +
+  }
+  function renderCatalog(products, coupon) {
+    var cat = $('[data-catalog]'); if (!cat) return;
+    cat.innerHTML = products.map(p => {
+      var url = p.url; var ic = IC_BY_SLUG[p.slug] || IC.grow;
+      return '<div class="ap-catcard"><div class="top"><span class="ci"><svg viewBox="0 0 24 24">' + ic + '</svg></span>' +
+        '<div><div class="nm">' + pick(p, 'name') + '</div><div class="kind">' + (kindLabel[p.kind] || p.kind) + '</div></div></div>' +
+        '<div class="ds">' + (pick(p, 'd') || '') + '</div>' +
         '<div class="lk"><code>' + url + '</code><button class="ap-mini-btn" data-copy="' + url + '">' + SVG.copy + T.copy + '</button></div>' +
         shareBar(url) + '</div>';
     }).join('');
+  }
 
-    // materials
+  // materials are front-end assets (not in the backend)
+  var MATS = [
+    { type: 'banner', tone: 'dark', dim: '1200×628', tag: 'NX Grow', name_ar: 'لافتة — NX Grow', name_en: 'Banner — NX Grow', desc_ar: 'لافتة أفقية للمشاركات الاجتماعية.', desc_en: 'Landscape banner for social posts.', big_ar: 'طوّر منصّتك مع NX', big_en: 'Grow your platform with NX', sm_ar: 'NX Grow', sm_en: 'NX Grow' },
+    { type: 'banner', tone: 'light', dim: '1080×1080', tag: 'FinTech', name_ar: 'مربّع — التقنية المالية', name_en: 'Square — FinTech', desc_ar: 'تصميم مربّع لإنستغرام.', desc_en: 'Square design for Instagram.', big_ar: 'طبقة مالية داخل منتجك', big_en: 'A finance layer in your product', sm_ar: 'FinTech & Open Banking', sm_en: 'FinTech & Open Banking' },
+    { type: 'banner', tone: 'dark', dim: '300×600', tag: 'IBP', name_ar: 'لافتة عمودية — IBP', name_en: 'Skyscraper — IBP', desc_ar: 'لافتة عمودية لمواقع المحتوى.', desc_en: 'Vertical banner for content sites.', big_ar: 'منصّة وسطاء التأمين', big_en: 'Insurance-broker platform', sm_ar: 'IBP Insure', sm_en: 'IBP Insure' },
+    { type: 'social', tone: 'light', dim: ar ? 'نص جاهز' : 'Ready copy', tag: ar ? 'عام' : 'General', name_ar: 'منشور تعريفي', name_en: 'Intro post', desc_ar: 'نص منشور جاهز مع رابطك.', desc_en: 'Ready post copy with your link.', snip_ar: 'تبحث عن شريك تقني يبني لك نظاماً رقمياً يصمد أمام النمو والتدقيق؟ اكتشف NX Solutions 👇', snip_en: 'Looking for a tech partner to build a digital system that scales? Discover NX Solutions 👇' },
+    { type: 'social', tone: 'dark', dim: ar ? 'منشور X' : 'X post', tag: ar ? 'عام' : 'General', name_ar: 'منشور X (تويتر)', name_en: 'X (Twitter) post', desc_ar: 'تغريدة قصيرة جاهزة للنشر.', desc_en: 'A short ready-to-post tweet.', snip_ar: 'من الموقع إلى نظام التشغيل والربط الحكومي — NX Solutions تبني تقنية تعمل فعلاً. 👇', snip_en: 'From your website to your operating system to gov integrations — NX Solutions builds tech that works. 👇' },
+    { type: 'email', tone: 'light', dim: 'HTML', tag: ar ? 'عام' : 'General', name_ar: 'قالب بريد — عرض الخدمات', name_en: 'Email — services', desc_ar: 'قالب بريد قابل للتخصيص.', desc_en: 'Customizable email template.', snip_ar: 'مرحباً، أردت أن أشاركك NX Solutions — شريك تقني يبني ويطوّر المنصّات الرقمية للمنشآت السعودية…', snip_en: 'Hi, I wanted to share NX Solutions — a tech partner that builds digital platforms for Saudi enterprises…' },
+    { type: 'email', tone: 'light', dim: ar ? 'توقيع' : 'Signature', tag: ar ? 'عام' : 'General', name_ar: 'توقيع بريد', name_en: 'Email signature', desc_ar: 'توقيع بريد أنيق مع رابط إحالتك.', desc_en: 'A tidy email signature with your link.', snip_ar: 'شريك NX Solutions المعتمد — احجز استشارة عبر رابطي', snip_en: 'Certified NX Solutions partner — book a consult via my link' },
+    { type: 'copy', tone: 'light', dim: ar ? 'عبارات' : 'One-liners', tag: ar ? 'عام' : 'General', name_ar: 'عبارات تسويقية', name_en: 'Marketing one-liners', desc_ar: 'جُمل قصيرة لكل منتج تنسخها بسرعة.', desc_en: 'Short lines per product to copy fast.', snip_ar: 'NX Launch: أطلق نظامك الرقمي بثقة. · NX 360: أتمتة عملياتك بالكامل. · FinTech: مدفوعات وبيانات بنكية داخل منتجك.', snip_en: 'NX Launch: launch your system with confidence. · NX 360: fully automate your ops. · FinTech: payments & bank data inside your product.' },
+    { type: 'logo', tone: 'light', dim: 'SVG · PNG', tag: ar ? 'علامة' : 'Brand', name_ar: 'حزمة الشعار', name_en: 'Logo pack', desc_ar: 'شعار NX بصيغ ونسخ متعددة (فاتح/داكن).', desc_en: 'NX logo in multiple formats (light/dark).', logo: true }
+  ];
+  function renderMats(filter) {
+    var host = $('[data-mats]'); if (!host) return;
     var typeLabel = { banner: T.banners, social: T.social, email: T.email, logo: T.logos, copy: T.copytxt };
-    var matHost = document.querySelector('[data-mats]');
-    function renderMats(filter) {
-      if (!matHost) return;
-      matHost.innerHTML = MATS.filter(function (m) { return !filter || filter === 'all' || m.type === filter; }).map(function (m) {
-        var pv;
-        if (m.logo) pv = '<div class="pv light"><img class="logo" src="/assets/images/favicon.png" alt="NX"></div>';
-        else if (m.type === 'social' || m.type === 'email' || m.type === 'copy') pv = '<div class="pv ' + (m.tone === 'light' ? 'light' : '') + '"><div class="bnr"><b style="color:' + (m.tone === 'light' ? 'var(--ink)' : '#fff') + '">' + (m.type === 'email' ? '✉' : m.type === 'copy' ? '“ ”' : '◈') + '</b></div><span class="type">' + typeLabel[m.type] + '</span></div>';
-        else pv = '<div class="pv ' + (m.tone === 'light' ? 'light' : '') + '"><div class="bnr"><b style="color:' + (m.tone === 'light' ? 'var(--ink)' : '#fff') + '">' + pick(m, 'big') + '</b><span style="color:' + (m.tone === 'light' ? 'var(--muted)' : '#cfe0f2') + '">' + pick(m, 'sm') + '</span></div><span class="type">' + typeLabel[m.type] + '</span></div>';
-        var snip = (m.snip_ar || m.snip_en) ? '<div class="ap-snip">' + pick(m, 'snip') + '<button class="ap-mini-btn cp" data-copy="' + pick(m, 'snip') + '">' + T.copy + '</button></div>' : '';
-        var act = (m.logo || m.type === 'banner')
-          ? '<button class="ap-mini-btn" data-toast="' + T.dl_soon + '"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>' + T.download + '</button>'
-          : '<button class="ap-mini-btn" data-copy="' + (pick(m, 'snip') || '') + '">' + SVG.copy + T.copy + '</button>';
-        return '<div class="ap-mat">' + pv + '<div class="mt"><div class="top-row"><div class="nm">' + pick(m, 'name') + '</div><span class="ap-tag">' + m.tag + '</span></div>' +
-          '<div class="ds">' + pick(m, 'desc') + '</div>' + snip + '<div class="dim">' + m.dim + '</div><div class="acts">' + act + '</div></div></div>';
-      }).join('');
-    }
-    renderMats('all');
-    document.querySelectorAll('[data-filter]').forEach(function (c) {
-      c.addEventListener('click', function () {
-        document.querySelectorAll('[data-filter]').forEach(function (o) { o.classList.remove('on'); });
-        c.classList.add('on'); renderMats(c.dataset.filter);
-      });
-    });
-
-    // withdraw modal
-    var modal = document.querySelector('[data-modal]');
-    document.querySelectorAll('[data-open-withdraw]').forEach(function (b) { b.addEventListener('click', function () { modal && modal.classList.add('on'); }); });
-    if (modal) {
-      modal.addEventListener('click', function (e) { if (e.target === modal || e.target.hasAttribute('data-close')) modal.classList.remove('on'); });
-      var wf = modal.querySelector('form');
-      if (wf) wf.addEventListener('submit', function (e) { e.preventDefault(); modal.classList.remove('on'); toast(ar ? 'تم تسجيل طلب السحب (معاينة)' : 'Withdrawal request recorded (demo)'); });
-    }
+    host.innerHTML = MATS.filter(m => !filter || filter === 'all' || m.type === filter).map(m => {
+      var pv;
+      if (m.logo) pv = '<div class="pv light"><img class="logo" src="/assets/images/favicon.png" alt="NX"></div>';
+      else if (m.type === 'social' || m.type === 'email' || m.type === 'copy') pv = '<div class="pv ' + (m.tone === 'light' ? 'light' : '') + '"><div class="bnr"><b style="color:' + (m.tone === 'light' ? 'var(--ink)' : '#fff') + '">' + (m.type === 'email' ? '✉' : m.type === 'copy' ? '“ ”' : '◈') + '</b></div><span class="type">' + typeLabel[m.type] + '</span></div>';
+      else pv = '<div class="pv ' + (m.tone === 'light' ? 'light' : '') + '"><div class="bnr"><b style="color:' + (m.tone === 'light' ? 'var(--ink)' : '#fff') + '">' + pick(m, 'big') + '</b><span style="color:' + (m.tone === 'light' ? 'var(--muted)' : '#cfe0f2') + '">' + pick(m, 'sm') + '</span></div><span class="type">' + typeLabel[m.type] + '</span></div>';
+      var snip = (m.snip_ar || m.snip_en) ? '<div class="ap-snip">' + pick(m, 'snip') + '<button class="ap-mini-btn cp" data-copy="' + pick(m, 'snip') + '">' + T.copy + '</button></div>' : '';
+      var act = (m.logo || m.type === 'banner')
+        ? '<button class="ap-mini-btn" data-toast="' + T.dl_soon + '"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>' + T.download + '</button>'
+        : '<button class="ap-mini-btn" data-copy="' + (pick(m, 'snip') || '') + '">' + SVG.copy + T.copy + '</button>';
+      return '<div class="ap-mat">' + pv + '<div class="mt"><div class="top-row"><div class="nm">' + pick(m, 'name') + '</div><span class="ap-tag">' + m.tag + '</span></div><div class="ds">' + pick(m, 'desc') + '</div>' + snip + '<div class="dim">' + m.dim + '</div><div class="acts">' + act + '</div></div></div>';
+    }).join('');
   }
 
-  // ============================================================
-  //  ADMIN CONSOLE
-  // ============================================================
-  if (isAdmin) {
-    var ah = document.querySelector('[data-kpis]');
-    if (ah) ah.innerHTML = [
-      { k: ar ? 'إجمالي الشركاء' : 'Total partners', v: 214, cur: false, ic: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>' },
-      { cls: 'gold', k: ar ? 'عمولات مستحقّة' : 'Commissions due', v: 86400, cur: true, ic: '<path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>' },
-      { k: ar ? 'طلبات قيد المراجعة' : 'Pending approvals', v: 12, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' },
-      { k: ar ? 'التحويلات (30 يوماً)' : 'Conversions (30d)', v: 486, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/>' }
-    ].map(kpiHTML).join('');
-
-    var achart = document.querySelector('[data-chart]');
-    if (achart) achart.innerHTML = chartHTML([210, 260, 240, 320, 380, 360, 430, 486], MLABELS);
-
-    var PARTNERS = [
-      { n: 'Khalid Al-Otaibi', e: 'khalid@rawnaq.sa', ch: ar ? 'لينكدإن' : 'LinkedIn', cp: 'KHALID10', cv: 38, earned: 41280, s: 'active' },
-      { n: 'Sara Al-Ghamdi', e: 'sara@mostashar.co', ch: ar ? 'قائمة بريدية' : 'Newsletter', cp: 'SARA10', cv: 21, earned: 22400, s: 'active' },
-      { n: 'Faisal Media', e: 'hi@faisal.media', ch: ar ? 'يوتيوب' : 'YouTube', cp: 'FAISAL10', cv: 12, earned: 9600, s: 'active' },
-      { n: 'Noura Consulting', e: 'noura@nc.sa', ch: ar ? 'إحالات' : 'Referrals', cp: '—', cv: 0, earned: 0, s: 'pending' },
-      { n: 'Tariq Dev', e: 'tariq@devs.io', ch: ar ? 'مدوّنة' : 'Blog', cp: '—', cv: 3, earned: 2400, s: 'pending' },
-      { n: 'Old Agency', e: 'x@old.co', ch: ar ? 'وكالة' : 'Agency', cp: 'OLD10', cv: 1, earned: 800, s: 'suspended' }
-    ];
-    var pb = document.querySelector('[data-partners]');
-    if (pb) pb.innerHTML = PARTNERS.map(function (x) {
-      var sb = x.s === 'active' ? badge('ok', T.active) : x.s === 'pending' ? badge('warn', T.pending) : badge('bad', T.suspended);
-      var act = x.s === 'pending'
-        ? '<button class="ap-mini-btn" data-act="' + (ar ? 'تم اعتماد الشريك (معاينة)' : 'Partner approved (demo)') + '">' + T.approve + '</button>'
+  // admin renderers
+  function renderPartners(rows, live) {
+    var b = $('[data-partners]'); if (!b) return;
+    b.innerHTML = rows.map(x => {
+      var act = x.status === 'pending'
+        ? '<button class="ap-mini-btn" ' + (live ? 'data-approve-partner="' + x.id + '"' : 'data-act="' + (ar ? 'تم اعتماد الشريك (معاينة)' : 'Partner approved (demo)') + '"') + '>' + T.approve + '</button>'
         : '<button class="ap-mini-btn" data-act="' + (ar ? 'فتح ملف الشريك (معاينة)' : 'Open partner (demo)') + '">' + T.view + '</button>';
-      return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;font-size:.72rem">' + x.n.charAt(0) + '</span><div><b>' + x.n + '</b><div style="font-size:.72rem;color:var(--muted)">' + x.e + '</div></div></div></td><td>' + x.ch + '</td><td class="mono">' + x.cp + '</td><td class="mono">' + x.cv + '</td><td class="amt">' + fmt(x.earned) + ' ' + CUR + '</td><td>' + sb + '</td><td>' + act + '</td></tr>';
+      return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;font-size:.72rem">' + (x.name || '?').charAt(0) + '</span><div><b>' + x.name + '</b><div style="font-size:.72rem;color:var(--muted)">' + (x.email || '') + '</div></div></div></td><td>' + (x.channel || '—') + '</td><td class="mono">' + (x.coupon_code || '—') + '</td><td class="mono">' + fmt(x.conversions) + '</td><td class="amt">' + fmt(x.earned) + ' ' + CUR + '</td><td>' + statusBadge(x.status) + '</td><td>' + act + '</td></tr>';
     }).join('');
-
-    var PAYOUTS = [
-      { d: '2026-07-28', n: 'Khalid Al-Otaibi', m: ar ? 'حساب بنكي' : 'Bank', a: 6000, s: 'pending' },
-      { d: '2026-07-28', n: 'Sara Al-Ghamdi', m: ar ? 'حساب بنكي' : 'Bank', a: 4200, s: 'pending' },
-      { d: '2026-07-20', n: 'Faisal Media', m: ar ? 'حساب بنكي' : 'Bank', a: 3000, s: 'paid' },
-      { d: '2026-07-12', n: 'Khalid Al-Otaibi', m: ar ? 'حساب بنكي' : 'Bank', a: 6000, s: 'paid' }
-    ];
-    var payb = document.querySelector('[data-payouts]');
-    if (payb) payb.innerHTML = PAYOUTS.map(function (x) {
-      var sb = x.s === 'paid' ? badge('ok', T.paid) : badge('warn', T.pending);
-      var act = x.s === 'pending' ? '<button class="ap-mini-btn" data-act="' + (ar ? 'تم التحديد كمدفوعة (معاينة) — التحويل الفعلي عبر البنك' : 'Marked paid (demo) — actual transfer via your bank') + '">' + T.markpaid + '</button>' : '—';
-      return '<tr><td class="mono">' + x.d + '</td><td><b>' + x.n + '</b></td><td>' + x.m + '</td><td class="amt">' + fmt(x.a) + ' ' + CUR + '</td><td>' + sb + '</td><td>' + act + '</td></tr>';
+  }
+  function renderOffers(rows, live) {
+    var b = $('[data-offers]'); if (!b) return;
+    b.innerHTML = rows.map(p => {
+      var ic = IC_BY_SLUG[p.slug] || IC.grow;
+      return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;background:linear-gradient(135deg,rgba(20,66,114,.14),rgba(44,116,179,.2))"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--brand-2);fill:none;stroke-width:1.8">' + ic + '</svg></span><b>' + pick(p, 'name') + '</b></div></td><td>' + (kindLabel[p.kind] || p.kind) + '</td><td class="mono">' + (Number(p.commission_pct)) + '%</td><td>' + (p.promotable === false ? badge('bad', ar ? 'موقوف' : 'Off') : badge('ok', ar ? 'قابل للتسويق' : 'Promotable')) + '</td><td><button class="ap-mini-btn" data-act="' + (ar ? 'تعديل العرض (معاينة)' : 'Edit offer (demo)') + '">' + (ar ? 'تعديل' : 'Edit') + '</button></td></tr>';
     }).join('');
-
-    // offers / products management
-    var RATES = { '/services/launch/': 15, '/services/grow/': 15, '/services/automation360/': 18, '/services/connect/': 12, '/services/scale/': 12, '/solutions/fintech-open-banking/': 20, '/work/ibp/': 18, '/work/nqlah/': 15, '/work/nx-logistic/': 15, '/work/iwork/': 18 };
-    var ob = document.querySelector('[data-offers]');
-    if (ob) ob.innerHTML = PRODUCTS.map(function (p) {
-      return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;background:linear-gradient(135deg,rgba(20,66,114,.14),rgba(44,116,179,.2))"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--brand-2);fill:none;stroke-width:1.8">' + p.ic + '</svg></span><b>' + pick(p, 'name') + '</b></div></td><td>' + kindLabel[p.k] + '</td><td class="mono">' + (RATES[p.path] || 15) + '%</td><td>' + badge('ok', ar ? 'قابل للتسويق' : 'Promotable') + '</td><td><button class="ap-mini-btn" data-act="' + (ar ? 'تعديل العرض (معاينة)' : 'Edit offer (demo)') + '">' + (ar ? 'تعديل' : 'Edit') + '</button></td></tr>';
+  }
+  function renderPayouts(rows, live) {
+    var b = $('[data-payouts]'); if (!b) return;
+    b.innerHTML = rows.map(x => {
+      var act = x.status === 'pending'
+        ? '<button class="ap-mini-btn" ' + (live ? 'data-pay-paid="' + x.id + '"' : 'data-act="' + (ar ? 'تم التحديد كمدفوعة (معاينة) — التحويل الفعلي عبر البنك' : 'Marked paid (demo) — actual transfer via your bank') + '"') + '>' + T.markpaid + '</button>' : '—';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + x.partner + '</b></td><td>' + (x.method || 'bank') + '</td><td class="amt">' + fmt(x.amount) + ' ' + CUR + '</td><td>' + statusBadge(x.status) + '</td><td>' + act + '</td></tr>';
     }).join('');
+  }
+  function renderNeedsAction(n) {
+    document.querySelectorAll('[data-need]').forEach(el => { var k = el.dataset.need; if (n[k] != null) el.textContent = n[k]; });
   }
 
   // ============================================================
-  //  SHARED: interactions, language switch, drawer, routing
+  //  DEMO dataset (labelled preview) — used until live data loads
+  // ============================================================
+  var DEMO = {
+    partner: {
+      kpis: [
+        { cls: 'gold', k: ar ? 'الرصيد المتاح' : 'Available balance', v: 8420, cur: true, ic: '<path d="M20 12v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7M2 7h20v5H2zM12 22V7"/>' },
+        { k: ar ? 'أرباح هذا الشهر' : 'Earnings this month', v: 12480, cur: true, d: '18%', ic: '<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>' },
+        { k: ar ? 'النقرات (30 يوماً)' : 'Clicks (30d)', v: 1240, cur: false, d: '9%', ic: '<path d="M9 3v4M15 3v4M4 9h16M6 21h12a1 1 0 001-1V8H5v12a1 1 0 001 1z"/>' },
+        { k: ar ? 'التحويلات (30 يوماً)' : 'Conversions (30d)', v: 38, cur: false, d: '12%', ic: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/>' }
+      ],
+      chart: [5100, 6200, 5800, 7400, 9100, 8600, 10800, 12480].map((v, i) => ({ label: MLABELS[i], value: v })),
+      refs: [
+        { date: '2026-07-28', product: 'NX Grow', client_name: 'Rawnaq Co.', via: 'link', deal_value: 24000, commission: 3600, status: 'approved' },
+        { date: '2026-07-26', product: 'NX Launch', client_name: 'Nujoom Studio', via: 'KHALID10', deal_value: 12000, commission: 1800, status: 'approved' },
+        { date: '2026-07-18', product: 'NX 360', client_name: 'Madar Logistics', via: 'link', deal_value: 31600, commission: 3160, status: 'pending' },
+        { date: '2026-07-11', product: 'FinTech', client_name: 'Sadad Wallet', via: 'link', deal_value: 52000, commission: 5200, status: 'approved' },
+        { date: '2026-07-02', product: 'IBP Insure', client_name: 'Wathiq Brokers', via: 'KHALID10', deal_value: 16000, commission: 2400, status: 'pending' }
+      ],
+      tx: [
+        { date: '2026-07-28', type: 'commission', amount: 3600, memo: ar ? 'عمولة — NX Grow' : 'Commission — NX Grow' },
+        { date: '2026-07-26', type: 'commission', amount: 1800, memo: ar ? 'عمولة عبر KHALID10' : 'Commission via KHALID10' },
+        { date: '2026-07-20', type: 'payout', amount: 6000, memo: ar ? 'صرف إلى الحساب البنكي' : 'Payout to bank' },
+        { date: '2026-07-11', type: 'commission', amount: 5200, memo: ar ? 'عمولة — التقنية المالية' : 'Commission — FinTech' },
+        { date: '2026-07-03', type: 'reversal', amount: 1200, memo: ar ? 'استرجاع — إلغاء اشتراك' : 'Reversal — cancelled' }
+      ],
+      links: [
+        { name: ar ? 'حملة لينكدإن' : 'LinkedIn campaign', url: BASE + '&c=linkedin', clicks: 486, conversions: 17 },
+        { name: ar ? 'قائمتي البريدية' : 'My newsletter', url: BASE + '&c=news', clicks: 322, conversions: 11 },
+        { name: ar ? 'التقنية المالية' : 'FinTech push', url: BASE + '&s=fintech', clicks: 198, conversions: 9 }
+      ],
+      catalog: [
+        ['services/launch', 'NX Launch', 'NX Launch', 'service', 'إطلاق أول نظام رقمي لعملك بسرعة وثبات.', 'Launch your first digital system — fast and solid.'],
+        ['services/grow', 'NX Grow', 'NX Grow', 'service', 'طوّر منصّتك ووسّع قدراتها مع نمو عملك.', 'Grow and extend your platform as you scale.'],
+        ['services/automation360', 'NX 360', 'NX 360', 'service', 'أتمتة العمليات وربطها من طرف إلى طرف.', 'Automate and connect operations end to end.'],
+        ['services/connect', 'NX Connect', 'NX Connect', 'service', 'اربط أنظمتك بالجهات الحكومية والخدمات.', 'Integrate with government & third-party services.'],
+        ['services/scale', 'NX Scale', 'NX Scale', 'service', 'بنية جاهزة للتوسّع وأحمال الإنتاج.', 'Architecture ready for scale and production load.'],
+        ['solutions/fintech-open-banking', 'التقنية المالية', 'FinTech & Open Banking', 'solution', 'طبقة مالية ومصرفية مفتوحة داخل منتجك.', 'An embedded open-banking & payments layer.'],
+        ['work/ibp', 'IBP Insure', 'IBP Insure', 'platform', 'منصّة متكاملة لوسطاء التأمين.', 'An end-to-end insurance-broker platform.'],
+        ['work/nqlah', 'Nqlah', 'Nqlah', 'platform', 'منصّة النقل والخدمات اللوجستية.', 'A transport & logistics platform.'],
+        ['work/nx-logistic', 'NX Logistic', 'NX Logistic', 'platform', 'إدارة أصول وعمليات شركات النقليات.', 'Fleet asset & operations management.'],
+        ['work/iwork', 'iWork', 'iWork', 'platform', 'قوى عاملة ذكية بوكلاء ذكاء اصطناعي.', 'An AI-powered digital workforce.']
+      ].map(p => ({ slug: p[0], name_ar: p[1], name_en: p[2], kind: p[3], d_ar: p[4], d_en: p[5], url: ORIGIN + '/' + LANGSEG + '/' + p[0] + '/?ref=' + CODE })),
+    },
+    admin: {
+      kpis: [
+        { k: ar ? 'إجمالي الشركاء' : 'Total partners', v: 214, cur: false, ic: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>' },
+        { cls: 'gold', k: ar ? 'عمولات مستحقّة' : 'Commissions due', v: 86400, cur: true, ic: '<path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>' },
+        { k: ar ? 'طلبات قيد المراجعة' : 'Pending approvals', v: 12, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' },
+        { k: ar ? 'التحويلات (30 يوماً)' : 'Conversions (30d)', v: 486, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/>' }
+      ],
+      chart: [210, 260, 240, 320, 380, 360, 430, 486].map((v, i) => ({ label: MLABELS[i], value: v })),
+      partners: [
+        { id: 1, name: 'Khalid Al-Otaibi', email: 'khalid@rawnaq.sa', channel: ar ? 'لينكدإن' : 'LinkedIn', coupon_code: 'KHALID10', conversions: 38, earned: 41280, status: 'active' },
+        { id: 2, name: 'Sara Al-Ghamdi', email: 'sara@mostashar.co', channel: ar ? 'قائمة بريدية' : 'Newsletter', coupon_code: 'SARA10', conversions: 21, earned: 22400, status: 'active' },
+        { id: 3, name: 'Faisal Media', email: 'hi@faisal.media', channel: ar ? 'يوتيوب' : 'YouTube', coupon_code: 'FAISAL10', conversions: 12, earned: 9600, status: 'active' },
+        { id: 4, name: 'Noura Consulting', email: 'noura@nc.sa', channel: ar ? 'إحالات' : 'Referrals', coupon_code: '—', conversions: 0, earned: 0, status: 'pending' },
+        { id: 5, name: 'Tariq Dev', email: 'tariq@devs.io', channel: ar ? 'مدوّنة' : 'Blog', coupon_code: '—', conversions: 3, earned: 2400, status: 'pending' },
+        { id: 6, name: 'Old Agency', email: 'x@old.co', channel: ar ? 'وكالة' : 'Agency', coupon_code: 'OLD10', conversions: 1, earned: 800, status: 'suspended' }
+      ],
+      offers: [
+        ['services/launch', 'NX Launch', 'service', 15], ['services/grow', 'NX Grow', 'service', 15],
+        ['services/automation360', 'NX 360', 'service', 18], ['services/connect', 'NX Connect', 'service', 12],
+        ['services/scale', 'NX Scale', 'service', 12], ['solutions/fintech-open-banking', 'التقنية المالية', 'solution', 20],
+        ['work/ibp', 'IBP Insure', 'platform', 18], ['work/nqlah', 'Nqlah', 'platform', 15],
+        ['work/nx-logistic', 'NX Logistic', 'platform', 15], ['work/iwork', 'iWork', 'platform', 18]
+      ].map((o, i) => ({ id: i + 1, slug: o[0], name_ar: o[1], name_en: o[1], kind: o[2], commission_pct: o[3], promotable: true })),
+      payouts: [
+        { id: 1, date: '2026-07-28', partner: 'Khalid Al-Otaibi', method: ar ? 'حساب بنكي' : 'Bank', amount: 6000, status: 'pending' },
+        { id: 2, date: '2026-07-28', partner: 'Sara Al-Ghamdi', method: ar ? 'حساب بنكي' : 'Bank', amount: 4200, status: 'pending' },
+        { id: 3, date: '2026-07-20', partner: 'Faisal Media', method: ar ? 'حساب بنكي' : 'Bank', amount: 3000, status: 'paid' },
+        { id: 4, date: '2026-07-12', partner: 'Khalid Al-Otaibi', method: ar ? 'حساب بنكي' : 'Bank', amount: 6000, status: 'paid' }
+      ],
+      needs: { joinRequests: 12, pendingPayouts: 2, pendingConversions: 27 }
+    }
+  };
+
+  function demoRenderPortal() {
+    var d = DEMO.partner;
+    renderKpis(d.kpis); renderChart(d.chart); renderRefs(d.refs); renderTx(d.tx);
+    renderLinkCoupon(CODE, COUPON, COUPON_PCT); renderShare(BASE); renderLinks(d);
+    renderCatalog(d.catalog, COUPON); renderMats('all');
+  }
+  function demoRenderAdmin() {
+    var d = DEMO.admin;
+    renderKpis(d.kpis); renderChart(d.chart); renderPartners(d.partners, false);
+    renderOffers(d.offers, false); renderPayouts(d.payouts, false); renderNeedsAction(d.needs);
+  }
+
+  // ============================================================
+  //  interactions (shared)
   // ============================================================
   document.addEventListener('click', function (e) {
     var c = e.target.closest('[data-copy]'); if (c) { copy(c.dataset.copy); return; }
     var t = e.target.closest('[data-toast]'); if (t) { toast(t.dataset.toast); return; }
     var a = e.target.closest('[data-act]'); if (a && a.dataset.act) { toast(a.dataset.act); return; }
   });
-
-  // language switch (topbar pill + settings) — swap /ar/ <-> /en/, keep the view
-  function mirrorPath() {
-    var p = location.pathname;
-    return p.indexOf('/ar/') >= 0 ? p.replace('/ar/', '/en/') : p.replace('/en/', '/ar/');
-  }
-  document.querySelectorAll('[data-lang]').forEach(function (b) {
-    b.addEventListener('click', function () { location.href = mirrorPath() + location.hash; });
-  });
-
-  // sidebar drawer (mobile)
-  var burger = document.querySelector('.ap-burger');
-  var side = document.querySelector('.ap-side');
-  var scrim = document.querySelector('.ap-scrim');
-  if (burger && side) {
-    burger.addEventListener('click', function () { side.classList.toggle('open'); if (scrim) scrim.classList.toggle('on', side.classList.contains('open')); });
-    if (scrim) scrim.addEventListener('click', function () { side.classList.remove('open'); scrim.classList.remove('on'); });
-  }
-
-  function animateChart() {
-    document.querySelectorAll('.ap-chart .bar i[data-h]').forEach(function (i) {
-      requestAnimationFrame(function () { i.style.height = i.dataset.h + '%'; });
+  document.querySelectorAll('[data-filter]').forEach(c => c.addEventListener('click', function () {
+    document.querySelectorAll('[data-filter]').forEach(o => o.classList.remove('on'));
+    c.classList.add('on'); renderMats(c.dataset.filter);
+  }));
+  // withdraw modal (portal)
+  var modal = $('[data-modal]');
+  document.querySelectorAll('[data-open-withdraw]').forEach(b => b.addEventListener('click', () => modal && modal.classList.add('on')));
+  if (modal) {
+    modal.addEventListener('click', e => { if (e.target === modal || e.target.hasAttribute('data-close')) modal.classList.remove('on'); });
+    var wf = modal.querySelector('form');
+    if (wf) wf.addEventListener('submit', async e => {
+      e.preventDefault(); modal.classList.remove('on');
+      var amt = parseFloat((modal.querySelector('input[type=number]') || {}).value) || undefined;
+      if (LIVE) {
+        try { await window.NXApi.post('/api/partner/payouts', { amount: amt }); toast(ar ? 'تم تسجيل طلب السحب' : 'Withdrawal request recorded'); await loadWalletLive(); }
+        catch (err) { toast(err.message); }
+      } else toast(ar ? 'تم تسجيل طلب السحب (معاينة)' : 'Withdrawal request recorded (demo)');
     });
   }
+  // language switch
+  function mirrorPath() { var p = location.pathname; return p.indexOf('/ar/') >= 0 ? p.replace('/ar/', '/en/') : p.replace('/en/', '/ar/'); }
+  document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => { location.href = mirrorPath() + location.hash; }));
+  // sidebar drawer
+  var burger = $('.ap-burger'), side = $('.ap-side'), scrim = $('.ap-scrim');
+  if (burger && side) {
+    burger.addEventListener('click', () => { side.classList.toggle('open'); if (scrim) scrim.classList.toggle('on', side.classList.contains('open')); });
+    if (scrim) scrim.addEventListener('click', () => { side.classList.remove('open'); scrim.classList.remove('on'); });
+  }
+  // routing
+  function animateChart() { document.querySelectorAll('.ap-chart .bar i[data-h]').forEach(i => requestAnimationFrame(() => { i.style.height = i.dataset.h + '%'; })); }
   function route() {
     var hash = (location.hash || '').replace('#', '');
-    var views = document.querySelectorAll('.ap-view');
-    var found = false;
-    views.forEach(function (v) { var on = v.dataset.view === hash; v.classList.toggle('on', on); if (on) found = true; });
+    var views = document.querySelectorAll('.ap-view'), found = false;
+    views.forEach(v => { var on = v.dataset.view === hash; v.classList.toggle('on', on); if (on) found = true; });
     if (!found && views[0]) { views[0].classList.add('on'); hash = views[0].dataset.view; }
-    document.querySelectorAll('.ap-nav a[data-go]').forEach(function (a) { a.classList.toggle('on', a.dataset.go === hash); });
+    document.querySelectorAll('.ap-nav a[data-go]').forEach(a => a.classList.toggle('on', a.dataset.go === hash));
     if (side) side.classList.remove('open'); if (scrim) scrim.classList.remove('on');
-    animateChart();
-    window.scrollTo(0, 0);
+    animateChart(); window.scrollTo(0, 0);
   }
-  document.querySelectorAll('.ap-nav a[data-go]').forEach(function (a) {
-    a.addEventListener('click', function (e) { e.preventDefault(); location.hash = a.dataset.go; });
-  });
+  document.querySelectorAll('.ap-nav a[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); location.hash = a.dataset.go; }));
   window.addEventListener('hashchange', route);
+
+  // ============================================================
+  //  LIVE (backend) bootstrap
+  // ============================================================
+  var LIVE = false;
+  function gotoLogin() { location.href = '/' + LANGSEG + '/affiliate/#login'; }
+
+  async function loadWalletLive() {
+    try {
+      var w = await window.NXApi.get('/api/partner/wallet');
+      renderTx(w.transactions.map(t => ({ date: t.date, type: t.type, amount: t.amount, memo: t.memo })));
+      // balance card
+      var b = w.balances;
+      setText('[data-bal-available]', fmt(b.available)); setText('[data-bal-pending]', fmt(b.pending) + ' ' + CUR); setText('[data-bal-lifetime]', fmt(b.lifetime) + ' ' + CUR);
+    } catch (e) {}
+  }
+  function setText(sel, v) { var el = $(sel); if (el) el.textContent = v; }
+
+  async function bootLive() {
+    if (!window.NXApi) return;
+    var me;
+    try { me = await window.NXApi.get('/api/auth/me'); }
+    catch (e) {
+      if (e.status === 401) return gotoLogin();
+      return; // no backend / network → stay in demo
+    }
+    var user = me && me.partner;
+    if (!user) return; // non-JSON/200 from static host before backend is live → stay in demo
+    if (isAdmin && user.role !== 'admin') return gotoLogin();
+    LIVE = true;
+    document.querySelectorAll('.ap-demo').forEach(el => el.remove());
+
+    // identity
+    setText('.ap-user .nm', user.name);
+    setText('.ap-user .rl', (user.role === 'admin' ? (ar ? 'مسؤول' : 'Administrator') : (ar ? 'شريك · ' : 'Partner · ') + user.refCode));
+    var ava = $('.ap-user .ava, .ap-user .ap-ava'); if (ava) ava.textContent = (user.name || '?').charAt(0);
+
+    try {
+      if (isPortal) await loadPortalLive(user);
+      else await loadAdminLive();
+    } catch (e) { /* keep demo where a view failed */ }
+    route();
+  }
+
+  async function loadPortalLive(user) {
+    var refCode = user.refCode || CODE, link = ORIGIN + '/?ref=' + refCode;
+    // topbar reflink
+    var rl = $('.ap-reflink code'); if (rl) rl.textContent = 'nx.sa/?ref=' + refCode;
+    var rlBtn = $('.ap-reflink .cp'); if (rlBtn) rlBtn.setAttribute('data-copy', link);
+
+    var ov = await window.NXApi.get('/api/partner/overview');
+    renderKpis([
+      { cls: 'gold', k: ar ? 'الرصيد المتاح' : 'Available balance', v: ov.kpis.available, cur: true, ic: '<path d="M20 12v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7M2 7h20v5H2zM12 22V7"/>' },
+      { k: ar ? 'أرباح هذا الشهر' : 'Earnings this month', v: ov.kpis.month, cur: true, ic: '<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>' },
+      { k: ar ? 'النقرات (30 يوماً)' : 'Clicks (30d)', v: ov.kpis.clicks30, cur: false, ic: '<path d="M9 3v4M15 3v4M4 9h16M6 21h12a1 1 0 001-1V8H5v12a1 1 0 001 1z"/>' },
+      { k: ar ? 'التحويلات (30 يوماً)' : 'Conversions (30d)', v: ov.kpis.conversions30, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/>' }
+    ]);
+    renderChart(ov.chart); renderRefs(ov.recentConversions);
+
+    var links = await window.NXApi.get('/api/partner/links');
+    renderLinkCoupon(links.refCode || refCode, links.couponCode, COUPON_PCT); renderShare(link);
+    renderLinks({ refCode: links.refCode, links: links.links });
+
+    var cat = await window.NXApi.get('/api/partner/catalog');
+    renderCatalog(cat.products.map(p => ({ slug: p.slug, name_ar: p.name_ar, name_en: p.name_en, kind: p.kind, d_ar: '', d_en: '', url: p.url })), cat.couponCode);
+
+    await loadWalletLive();
+
+    try {
+      var pr = (await window.NXApi.get('/api/partner/profile')).profile;
+      setVal('[data-view="settings"] input[name=name], [data-view="settings"] input[type=text]', pr.name);
+    } catch (e) {}
+    wirePortalActions();
+  }
+  function setVal(sel, v) { var el = $(sel); if (el && v != null) el.value = v; }
+
+  function wirePortalActions() {
+    var createBtn = document.querySelector('[data-view="links"] .ap-wbtn');
+    if (createBtn && !createBtn._wired) {
+      createBtn._wired = 1;
+      createBtn.addEventListener('click', async function () {
+        var wrap = createBtn.closest('.ap-card');
+        var name = (wrap.querySelector('input[type=text]') || {}).value;
+        if (!name) return toast(ar ? 'أدخل اسم الحملة' : 'Enter a campaign name');
+        try { await window.NXApi.post('/api/partner/links', { name: name }); toast(ar ? 'تم إنشاء الرابط' : 'Link created'); var l = await window.NXApi.get('/api/partner/links'); renderLinks({ refCode: l.refCode, links: l.links }); }
+        catch (e) { toast(e.message); }
+      });
+    }
+  }
+
+  async function loadAdminLive() {
+    var ov = await window.NXApi.get('/api/admin/overview');
+    renderKpis([
+      { k: ar ? 'إجمالي الشركاء' : 'Total partners', v: ov.kpis.totalPartners, cur: false, ic: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>' },
+      { cls: 'gold', k: ar ? 'عمولات مستحقّة' : 'Commissions due', v: ov.kpis.commissionsDue, cur: true, ic: '<path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>' },
+      { k: ar ? 'طلبات قيد المراجعة' : 'Pending approvals', v: ov.kpis.pendingApprovals, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' },
+      { k: ar ? 'التحويلات (30 يوماً)' : 'Conversions (30d)', v: ov.kpis.conversions30, cur: false, ic: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/>' }
+    ]);
+    renderChart(ov.chart); renderNeedsAction(ov.needsAction);
+    var pt = await window.NXApi.get('/api/admin/partners'); renderPartners(pt.partners, true);
+    var of = await window.NXApi.get('/api/admin/offers'); renderOffers(of.offers, true);
+    var po = await window.NXApi.get('/api/admin/payouts'); renderPayouts(po.payouts, true);
+    wireAdminActions();
+  }
+  function wireAdminActions() {
+    if (document._adminWired) return; document._adminWired = 1;
+    document.addEventListener('click', async function (e) {
+      var ap = e.target.closest('[data-approve-partner]');
+      if (ap) { try { await window.NXApi.post('/api/admin/partners/' + ap.dataset.approvePartner + '/approve'); toast(ar ? 'تم اعتماد الشريك' : 'Partner approved'); renderPartners((await window.NXApi.get('/api/admin/partners')).partners, true); } catch (er) { toast(er.message); } return; }
+      var pp = e.target.closest('[data-pay-paid]');
+      if (pp) { try { await window.NXApi.post('/api/admin/payouts/' + pp.dataset.payPaid + '/paid'); toast(ar ? 'تم التحديد كمدفوعة' : 'Marked paid'); renderPayouts((await window.NXApi.get('/api/admin/payouts')).payouts, true); } catch (er) { toast(er.message); } return; }
+    });
+  }
+
+  // logout link
+  var logout = $('.ap-user .out');
+  if (logout) logout.addEventListener('click', async function (e) {
+    if (!window.NXApi) return; // demo → just follow href
+    e.preventDefault();
+    try { await window.NXApi.post('/api/auth/logout'); } catch (er) {}
+    location.href = logout.getAttribute('href') || ('/' + LANGSEG + '/affiliate/');
+  });
+
+  // ---- go ----
+  if (isPortal) demoRenderPortal(); else demoRenderAdmin();
   route();
+  bootLive();
 })();

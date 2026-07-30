@@ -783,6 +783,13 @@
         if (portal && !el.getAttribute('href')) { e.preventDefault(); portal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       });
     });
+    // open a tab from the URL hash (e.g. redirect from the portal → #login)
+    const hashKey = (location.hash || '').replace('#', '');
+    if (hashKey === 'login' || hashKey === 'register') {
+      showTab(hashKey);
+      const portalEl = document.querySelector('#portal');
+      if (portalEl) setTimeout(() => portalEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
 
     // ----- registration → Zoho Web-to-Lead (real capture, iframe POST) -----
     const ZOHO_ENDPOINT = 'https://crm.zoho.sa/crm/WebToLeadForm';
@@ -811,6 +818,12 @@
       form.submit();
     });
 
+    // API responded with a real client error (our errors carry a `code`; a bare
+    // 404/405 from static hosting before the backend is live does not) →
+    // distinguishes "backend said no" from "no backend yet".
+    const apiResponded = err => err && err.code && err.status >= 400 && err.status < 500;
+    const portalUrl = '/' + (ar ? 'ar' : 'en') + '/affiliate/portal/';
+
     const regForm = document.querySelector('[data-aff-register]');
     if (regForm) {
       regForm.addEventListener('submit', async e => {
@@ -818,43 +831,65 @@
         const btn = regForm.querySelector('button[type=submit]');
         const msg = regForm.querySelector('[data-aff-msg]');
         const g = n => (regForm.querySelector('[name=' + n + ']') || {}).value || '';
+        const setMsg = (cls, text) => { if (msg) { msg.className = 'aff-msg ' + cls; msg.textContent = text; msg.scrollIntoView({ behavior: 'smooth', block: 'center' }); } };
         if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الإرسال…' : 'Sending…'; }
-        const note = '[NX Partners / برنامج التسويق بالعمولة]'
-          + ' | Channel: ' + g('channel')
-          + ' | Audience: ' + g('audience')
-          + ' | Note: ' + g('note');
-        await zohoPost({
-          'Last Name': g('name') || 'Affiliate applicant',
-          'Email': g('email'),
-          'Phone': g('phone'),
-          'Company': g('company'),
-          'LEADCF11': note,
-          'LEADCF1': location.pathname,
-          'LEADCF6': ar ? 'ar' : 'en'
-        });
-        regForm.reset();
-        if (btn) { btn.disabled = false; btn.textContent = btn.dataset.orig; }
-        if (msg) {
-          msg.className = 'aff-msg ok';
-          msg.textContent = ar
+        const zohoFallback = async () => {
+          const note = '[NX Partners] | Channel: ' + g('channel') + ' | Audience: ' + g('audience') + ' | Note: ' + g('note');
+          await zohoPost({ 'Last Name': g('name') || 'Affiliate applicant', 'Email': g('email'), 'Phone': g('phone'), 'Company': g('company'), 'LEADCF11': note, 'LEADCF1': location.pathname, 'LEADCF6': ar ? 'ar' : 'en' });
+          regForm.reset();
+          setMsg('ok', ar
             ? 'تم استلام طلبك بنجاح. سيتواصل معك فريق الشراكات، وسنُفعّل حسابك ونُشعرك فور جاهزية بوابة الشركاء.'
-            : 'Your application was received. Our partnerships team will reach out, and we’ll activate your account and notify you once the partner portal is ready.';
-          msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            : 'Your application was received. Our partnerships team will reach out, and we’ll activate your account and notify you once the partner portal is ready.');
+        };
+        try {
+          if (window.NXApi) {
+            try {
+              await window.NXApi.post('/api/auth/register', {
+                name: g('name'), email: g('email'), phone: g('phone'), company: g('company'),
+                channel: g('channel'), audience: g('audience'), note: g('note'),
+                password: g('password'), lang: ar ? 'ar' : 'en'
+              });
+              regForm.reset();
+              setMsg('ok', ar
+                ? 'تم إنشاء طلبك بنجاح. سيراجع فريقنا الطلب ويفعّل حسابك، وستتمكّن من الدخول بعد الاعتماد.'
+                : 'Your application was created. Our team will review and activate your account; you can log in once approved.');
+            } catch (err) {
+              if (err.status === 409) setMsg('info', ar ? 'يوجد حساب بهذا البريد بالفعل — جرّب تسجيل الدخول.' : 'An account with this email already exists — try logging in.');
+              else if (apiResponded(err)) setMsg('info', err.message || (ar ? 'تعذّر إرسال الطلب' : 'Could not submit the application'));
+              else await zohoFallback(); // no/broken backend → capture as a lead
+            }
+          } else { await zohoFallback(); }
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = btn.dataset.orig; }
         }
       });
     }
 
-    // login (portal not live yet — honest placeholder)
+    // login → backend session, then redirect to the portal. No backend → honest placeholder.
     const loginForm = document.querySelector('[data-aff-login]');
     if (loginForm) {
-      loginForm.addEventListener('submit', e => {
+      loginForm.addEventListener('submit', async e => {
         e.preventDefault();
         const msg = loginForm.querySelector('[data-aff-msg]');
-        if (msg) {
-          msg.className = 'aff-msg info';
-          msg.textContent = ar
-            ? 'بوابة الشركاء قيد الإطلاق. أنشئ حساباً الآن وسنُشعرك فور تفعيله.'
-            : 'The partner portal is launching soon. Create an account now and we’ll notify you the moment it goes live.';
+        const btn = loginForm.querySelector('button[type=submit]');
+        const g = n => (loginForm.querySelector('[name=' + n + ']') || {}).value || '';
+        const setMsg = (cls, text) => { if (msg) { msg.className = 'aff-msg ' + cls; msg.textContent = text; } };
+        const soon = () => setMsg('info', ar
+          ? 'بوابة الشركاء قيد الإطلاق. أنشئ حساباً الآن وسنُشعرك فور تفعيله.'
+          : 'The partner portal is launching soon. Create an account now and we’ll notify you the moment it goes live.');
+        if (!window.NXApi) return soon();
+        if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الدخول…' : 'Signing in…'; }
+        try {
+          await window.NXApi.post('/api/auth/login', { email: g('email'), password: g('password') });
+          location.href = portalUrl;
+          return;
+        } catch (err) {
+          if (err.status === 401) setMsg('info', ar ? 'البريد أو كلمة المرور غير صحيحة.' : 'Invalid email or password.');
+          else if (err.code === 'pending' || err.status === 403 && /pending|مراجعة/.test(err.message)) setMsg('info', ar ? 'حسابك قيد المراجعة — سنُفعّله قريباً.' : 'Your account is pending approval — we’ll activate it soon.');
+          else if (err.status === 403) setMsg('info', err.message);
+          else soon(); // 404 / network → no backend yet
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = btn.dataset.orig; }
         }
       });
     }
