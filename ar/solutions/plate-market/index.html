@@ -278,6 +278,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-final .pm-btn.pm-ghost{background:transparent;color:#fff;border-color:#46586F}
 .pm footer{padding:32px 0 60px;font-size:13.5px;color:var(--ink-50);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 @media (prefers-reduced-motion: reduce){.pm *{animation:none!important;transition:none!important}}
+
+/* ── بطاقة الإعلان في السوق (شاشة الزائر) ── */
+.pm .pm-lc{background:var(--face);border:1px solid var(--line-soft);border-radius:18px;overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(10,26,47,.04)}
+.pm .pm-lc-plate{background:#F1F4F8;padding:16px 14px;border-bottom:1px solid var(--line-soft)}
+.pm .pm-lc-plate svg{display:block;width:100%;height:auto}
+.pm .pm-lc-cd{direction:ltr;display:flex;align-items:flex-start;justify-content:center;gap:7px;
+  padding:11px 12px;border-bottom:1px solid var(--line-soft);background:var(--face)}
+.pm .pm-lc-cd span{text-align:center;min-width:30px}
+.pm .pm-lc-cd b{display:block;font-family:"Noto Kufi Arabic";font-size:17px;font-weight:800;line-height:1.15;color:var(--ink)}
+.pm .pm-lc-cd i{display:block;font-style:normal;font-size:10.5px;color:var(--ink-50);margin-top:1px}
+.pm .pm-lc-cd em{font-style:normal;color:var(--ink-30);font-size:15px;line-height:1.15;padding-top:1px}
+.pm .pm-lc-cd svg{width:17px;height:17px;flex:none;stroke:var(--ink-50);fill:none;stroke-width:1.7;margin-top:1px}
+.pm .pm-lc-body{padding:16px 16px 14px;display:flex;flex-direction:column;gap:14px}
+.pm .pm-lc-tags{display:flex;flex-wrap:wrap;gap:8px}
+.pm .pm-lt{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
+  padding:6px 13px;border-radius:999px;border:1px solid var(--line);color:var(--ink-70);background:var(--face)}
+.pm .pm-lt svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-lt-auction{background:#F3EEE0;border-color:#E6D7A8;color:#8A6C22}
+.pm .pm-lt-direct{background:#E9F7F1;border-color:#A8DCC6;color:#0B7A55}
+.pm .pm-lt-offer{background:#E4ECF5;border-color:#BCD8EE;color:#2C74B3}
+.pm .pm-lc-price{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.pm .pm-lc-lbl{font-size:13px;color:var(--ink-50)}
+.pm .pm-lc-amt{font-family:"Noto Kufi Arabic";font-weight:800;font-size:25px;letter-spacing:-.5px;color:var(--ink);line-height:1.25;margin-top:2px}
+.pm .pm-lc-amt span{font-family:"IBM Plex Sans Arabic";font-size:14px;font-weight:500;color:var(--ink-50)}
+.pm .pm-lc-bids{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--ink-50);padding-bottom:5px}
+.pm .pm-lc-bids svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-lc-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:12px 14px;border-top:1px solid var(--line-soft)}
+.pm .pm-lc-ref{font-size:11.5px;color:var(--ink-30);direction:ltr;white-space:nowrap;flex:none}
+.pm .pm-lc-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.pm .pm-lc-cta svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2}
+.pm .pm-visitor{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+@media(max-width:560px){.pm .pm-visitor{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="p-work">
@@ -525,7 +559,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <span class="pm-pill">ثلاثي الحروف</span><span class="pm-pill">رقم واحد</span>
               <span style="margin-inline-start:auto;font-size:12.5px;color:var(--ink-50)">عرض 12 من 47</span>
             </div>
-            <div class="pm-mkt" id="market-cards"></div>
+            <div class="pm-visitor" id="market-cards"></div>
           </div>
         </div>
         <p class="pm-cap">البحث يجد اللوحة سواء كُتبت «كطع» أو «KTE» أو «٤٠٤٠» أو «4040»، وفلاتر بعدد الحروف وعدد الأرقام — لأنّها فئات سعرية في سوق اللوحات لا أوصاف.</p>
@@ -1500,7 +1534,38 @@ const cardHTML=c=>{
     <div class="pm-meta"><span style="font-size:11px;color:var(--ink-50)">${c.note}</span><span class="pm-money" style="font-size:16px">${c.price}</span></div>
     <div class="pm-go ${M.cls}">${M.cta}</div><div class="pm-ref">${c.ref}</div></div>`;
 };
-document.getElementById('market-cards').innerHTML=cards.slice(0,6).map(cardHTML).join('');
+/* ── بطاقات شاشة الزائر: مزاد · بيع مباشر · استقبال عروض ── */
+const IC_GAVEL='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5l5 5M16.5 2.5l5 5M12.5 6.5l5 5"/><path d="M11 8l-7 7 4 4 7-7"/><path d="M3 22h10"/></svg>';
+const IC_TAG='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4a1 1 0 011-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg>';
+const IC_CLOCK='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/></svg>';
+const IC_ARROW='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>';
+
+const LMODE={
+  auction:{tag:'مزاد',        cls:'pm-lt-auction',ic:IC_GAVEL,lbl:'أعلى مزايدة',   cta:'التفاصيل والمزايدة'},
+  direct: {tag:'بيع مباشر',   cls:'pm-lt-direct', ic:IC_TAG,  lbl:'سعر البيع',      cta:'اشترِ الآن'},
+  offer:  {tag:'استقبال عروض',cls:'pm-lt-offer',  ic:IC_GAVEL,lbl:'أقل عرض مقبول', cta:'التفاصيل والمزايدة'}
+};
+const cdUnit=(v,u)=>`<span><b>${v}</b><i>${u}</i></span>`;
+const listingHTML=c=>{
+  const M=LMODE[c.m];
+  const cd=c.cd?`<div class="pm-lc-cd" data-cd="${c.cd}">${cdUnit('00','يوم')}<em>:</em>${cdUnit('00','ساعة')}<em>:</em>${cdUnit('00','دقيقة')}<em>:</em>${cdUnit('00','ثانية')}${IC_CLOCK}</div>`:'';
+  const extra=(c.tags||[]).map(t=>`<span class="pm-lt">${t}</span>`).join('');
+  const bids=c.bids?`<span class="pm-lc-bids">${IC_GAVEL}${c.bids}</span>`:'';
+  return `<article class="pm-lc">
+    <div class="pm-lc-plate">${plateSVG(c)}</div>${cd}
+    <div class="pm-lc-body">
+      <div class="pm-lc-tags"><span class="pm-lt ${M.cls}">${M.ic}${M.tag}</span><span class="pm-lt">خصوصي</span>${extra}</div>
+      <div class="pm-lc-price"><div><div class="pm-lc-lbl">${M.lbl}</div><div class="pm-lc-amt">${c.price} <span>ريال</span></div></div>${bids}</div>
+    </div>
+    <div class="pm-lc-foot"><span class="pm-lc-cta">${M.cta}${IC_ARROW}</span><span class="pm-lc-ref">${c.ref}</span></div>
+  </article>`;
+};
+const visitorCards=[
+ {ar:['ر','ر'],lat:['R','R'],num:'77',m:'auction',price:'45,000',cd:'1:04:07:44',bids:'1',ref:'L26-00002',emblem:'palm-swords'},
+ {ar:['ر','ر','ر'],lat:['R','R','R'],num:'7',m:'direct',price:'240,000',ref:'L26-00015',emblem:'palm-swords'},
+ {format:'sport',lat:['E'],num:'1',m:'offer',price:'180,000',ref:'L26-00018',tags:['لوحة رياضية']}
+];
+document.getElementById('market-cards').innerHTML=visitorCards.map(listingHTML).join('');
 document.getElementById('market-cards-2').innerHTML=cards.map(cardHTML).join('');
 
 document.getElementById('m-rows').innerHTML=cards.slice(0,3).map(c=>{
