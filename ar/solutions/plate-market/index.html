@@ -103,7 +103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-navbtn.pm-prev{right:16px}
 .pm .pm-navbtn.pm-next{left:16px}
 @media(max-width:820px){.pm .pm-navbtn{display:none}.pm .pm-track{-webkit-mask-image:none;mask-image:none;padding-inline:16px}}
-.pm .pm-shot{flex:0 0 auto;width:326px;direction:rtl;user-select:none;background:var(--face);border:2px solid var(--ink);border-radius:14px;overflow:hidden;
+.pm .pm-shot{flex:0 0 auto;width:100%;direction:rtl;user-select:none;background:var(--face);border:2px solid var(--ink);border-radius:14px;overflow:hidden;
   box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
 .pm .pm-shot .pm-bar{display:flex;align-items:center;gap:8px;padding:7px 11px;background:var(--ink);color:#fff;font-size:11.5px}
 .pm .pm-shot .pm-bar code{direction:ltr;background:rgba(255,255,255,.13);padding:1px 8px;border-radius:5px;font-family:inherit}
@@ -313,7 +313,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-visitor{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 /* البطاقات تحتفظ بارتفاعها الطبيعي بدل أن تُمطّ إلى أطول واحدة */
 .pm .pm-track{align-items:flex-start}
-.pm .pm-track .pm-lc{flex:0 0 auto;width:300px;user-select:none;border-color:var(--line);box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
+.pm .pm-track .pm-lc{flex:0 0 auto;width:100%;user-select:none;border-color:var(--line);box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
 /* داخل الشريط: الوسوم أصغر وعلى سطر واحد */
 .pm .pm-track .pm-lc .pm-lc-tags{flex-wrap:nowrap;gap:6px}
 .pm .pm-track .pm-lc .pm-lt{font-size:11px;font-weight:600;padding:4px 9px;gap:4px;white-space:nowrap}
@@ -321,7 +321,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @media(max-width:560px){.pm .pm-visitor{grid-template-columns:1fr}}
 
 /* ── كرت المحفظة في الشريط ── */
-.pm .pm-wal{flex:0 0 auto;width:300px;direction:rtl;user-select:none}
+.pm .pm-wal{flex:0 0 auto;width:100%;direction:rtl;user-select:none}
 .pm .pm-wal h4{font-size:17px;font-weight:800;letter-spacing:-.4px;color:var(--ink)}
 .pm .pm-wal .pm-wal-sub{font-size:11.5px;color:var(--ink-50);margin-top:3px;line-height:1.5}
 .pm .pm-wal-card{margin-top:11px;background:linear-gradient(150deg,#FFFFFF 0%,#FFFFFF 55%,#F2F4F7 100%);
@@ -346,7 +346,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-wal-tot div:last-child{font-family:"Noto Kufi Arabic";font-weight:800;font-size:16px;color:var(--ink);margin-top:2px}
 
 /* ── كرت الطلب والمبلغ المحجوز في الشريط ── */
-.pm .pm-ord{flex:0 0 auto;width:330px;direction:rtl;user-select:none;background:var(--face);
+.pm .pm-ord{flex:0 0 auto;width:100%;direction:rtl;user-select:none;background:var(--face);
   border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
 .pm .pm-ord-head{padding:11px 12px 10px}
 .pm .pm-ord-plate{width:168px;margin:0 auto 9px}
@@ -504,6 +504,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color:var(--ink-50);padding:1px 7px;margin-top:2px}
 .pm .pm-adm-tbl .pm-num{font-family:"Noto Kufi Arabic";font-weight:800;font-size:10.5px;color:var(--ink);white-space:nowrap}
 .pm .pm-adm-tbl .pm-num i{font-style:normal;font-size:8px;font-weight:500;color:var(--ink-50)}
+
+/* ── خلايا الشريط: مقاس واحد لكل البطاقات، وعنوان إرشادي فوق كلٍّ منها ── */
+.pm .pm-cell{flex:0 0 auto;width:320px;height:436px;display:flex;flex-direction:column;direction:rtl;user-select:none}
+.pm .pm-cap-h{display:flex;align-items:center;gap:7px;margin-bottom:9px;padding-inline-start:2px}
+.pm .pm-cap-h .pm-cap-n{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ink-30);
+  letter-spacing:.06em;flex:none}
+.pm .pm-cap-h i{width:6px;height:6px;border-radius:50%;flex:none;
+  box-shadow:0 0 0 3px color-mix(in srgb,currentColor 18%,transparent)}
+.pm .pm-cap-h span.pm-cap-t{font-size:12px;font-weight:700;color:var(--ink-70);line-height:1.35}
+.pm .pm-cell > :not(.pm-cap-h){flex:1;min-height:0;width:100%}
+.pm .pm-cell .pm-lc,.pm .pm-cell .pm-ord,.pm .pm-cell .pm-shot{display:flex;flex-direction:column}
+.pm .pm-cell .pm-shot .pm-in{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.pm .pm-cell .pm-ord .pm-ord-esc{margin-top:auto}
+.pm .pm-cell .pm-wal{display:flex;flex-direction:column}
+.pm .pm-cell .pm-wal-card{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+/* الفراغ الزائد يذهب إلى شريط اللوحة فتكبر اللوحة وتبقى في وسطه، بدل فجوة في منتصف البطاقة */
+.pm .pm-cell .pm-lc-plate{flex:1;display:flex;align-items:center;justify-content:center}
+.pm .pm-cell .pm-lc-plate svg{max-height:100%}
+.pm .pm-cell .pm-lc-body{flex:none}
+/* داخل الشريط: وسمَا المهلة والاعتراض بجانب بعضهما */
+.pm .pm-cell .pm-ord-pills{flex-direction:row;flex-wrap:wrap;align-items:center}
+.pm .pm-cell .pm-ord-head{flex:none}
+.pm .pm-cell .pm-ord-step{flex:1;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:420px){.pm .pm-cell{width:284px;height:486px}}
 </style>
 </head>
 <body class="p-work">
@@ -1775,7 +1799,7 @@ document.getElementById('m-rows').innerHTML=cards.slice(0,3).map(c=>{
 
 /* ── شريط العرض ── */
 /* بطاقات الأنماط الثلاثة في الشريط: نفس تصميم بطاقة الإعلان */
-const stripeCards=visitorCards.map(listingHTML).join('');
+
 const adminShot=`<div class="pm-shot"><div class="pm-bar"><code>/admin</code></div><div class="pm-in">
   <div style="font-size:11px;color:var(--ink-50)">أمانة في يدك الآن</div>
   <div class="pm-money" style="font-size:22px">498,800</div>
@@ -1841,7 +1865,18 @@ const walletShot=`<div class="pm-wal">
     <div class="pm-wal-tot"><div>الرصيد الكلي</div><div>111,551</div></div>
   </div>
 </div>`;
-const set=stripeCards+adminShot+orderShot+walletShot;
+const cell=(n,t,c,html)=>`<div class="pm-cell"><div class="pm-cap-h" style="color:${c}">`
+  +`<span class="pm-cap-n">${n}</span><i style="background:${c}"></i>`
+  +`<span class="pm-cap-t">${t}</span></div>${html}</div>`;
+const STRIP=[
+ ['٠١','لوحة في مزادٍ مباشر','#B7902E',listingHTML(visitorCards[0])],
+ ['٠٢','لوحة تُباع فوراً بسعرٍ معلن','#0B7A55',listingHTML(visitorCards[1])],
+ ['٠٣','لوحة تستقبل عروض السوم','#2C74B3',listingHTML(visitorCards[2])],
+ ['٠٤','محفظة المشتري وعرابينه','#0B7A55',walletShot],
+ ['٠٥','صفقة قيد نقل الملكية','#0A1A2F',orderShot],
+ ['٠٦','لوحة تحكّم المنصّة','#144272',adminShot]
+];
+const set=STRIP.map(x=>cell(...x)).join('');
 const track=document.getElementById('stripe');
 track.innerHTML=set+set;   /* نسختان متطابقتان تصنعان حلقةً بلا نهاية */
 
