@@ -311,6 +311,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-lc-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
 .pm .pm-lc-cta svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2}
 .pm .pm-visitor{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.pm .pm-track .pm-lc{flex:0 0 auto;width:300px;user-select:none;border-color:var(--line);box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
 @media(max-width:560px){.pm .pm-visitor{grid-template-columns:1fr}}
 </style>
 </head>
@@ -1580,12 +1581,8 @@ document.getElementById('m-rows').innerHTML=cards.slice(0,3).map(c=>{
 }).join('');
 
 /* ── شريط العرض ── */
-const stripeCards=cards.slice(0,5).map(c=>{const M=MODE[c.m];return `
- <div class="pm-shot"><div class="pm-bar"><code>/market</code></div><div class="pm-in">${plateSVG(c)}
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-   <span class="pm-pill ${M.cls}" style="font-size:11px">${M.label}</span>
-   <span class="pm-money" style="font-size:15px">${c.price}</span></div>
-  <div class="pm-go ${M.cls}">${M.cta}</div></div></div>`;}).join('');
+/* بطاقات الأنماط الثلاثة في الشريط: نفس تصميم بطاقة الإعلان */
+const stripeCards=visitorCards.map(listingHTML).join('');
 const adminShot=`<div class="pm-shot"><div class="pm-bar"><code>/admin</code></div><div class="pm-in">
   <div style="font-size:11px;color:var(--ink-50)">أمانة في يدك الآن</div>
   <div class="pm-money" style="font-size:22px">498,800</div>
