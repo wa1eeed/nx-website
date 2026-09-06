@@ -11,7 +11,7 @@ const PRODUCTS = [
   ['services/automation360', 'NX 360', 'NX 360', 'service', '/services/automation360/', 18, 3],
   ['services/connect', 'NX Connect', 'NX Connect', 'service', '/services/connect/', 12, 4],
   ['services/scale', 'NX Scale', 'NX Scale', 'service', '/services/scale/', 12, 5],
-  ['solutions/fintech-open-banking', 'التقنية المالية', 'FinTech & Open Banking', 'solution', '/solutions/fintech-open-banking/', 20, 6],
+  ['solutions/fintech-open-banking', 'التقنية المالية', 'FinTech & Open Banking', 'solution', '/sectors/fintech/', 20, 6],
   ['work/ibp', 'IBP Insure', 'IBP Insure', 'platform', '/work/ibp/', 18, 7],
   ['work/nqlah', 'Nqlah', 'Nqlah', 'platform', '/work/nqlah/', 15, 8],
   ['work/nx-logistic', 'NX Logistic', 'NX Logistic', 'platform', '/work/nx-logistic/', 15, 9],

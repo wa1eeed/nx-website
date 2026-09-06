@@ -402,50 +402,50 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/business-systems/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/business-systems/"/>
+    <loc>https://nx.sa/en/sectors/business-systems/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/business-systems/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/business-systems/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/business-systems/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/business-systems/"/>
+    <loc>https://nx.sa/ar/sectors/business-systems/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/business-systems/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/business-systems/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/booking/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/booking/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/booking/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/booking/"/>
+    <loc>https://nx.sa/en/sectors/booking/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/booking/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/booking/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/booking/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/booking/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/booking/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/booking/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/booking/"/>
+    <loc>https://nx.sa/ar/sectors/booking/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/booking/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/booking/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/booking/"/>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/en/solutions/blockchain/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/blockchain/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/blockchain/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/blockchain/"/>
+    <loc>https://nx.sa/en/sectors/blockchain/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/blockchain/"/>
     <lastmod>2026-06-18</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nx.sa/ar/solutions/blockchain/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/blockchain/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/blockchain/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/blockchain/"/>
+    <loc>https://nx.sa/ar/sectors/blockchain/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/sectors/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/sectors/blockchain/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/sectors/blockchain/"/>
     <lastmod>2026-06-18</lastmod>
     <priority>0.8</priority>
   </url>
