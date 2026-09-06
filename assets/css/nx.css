@@ -1276,6 +1276,11 @@ html[dir="rtl"] .plat-card::before{transform-origin:right}
 .plat-card .pc-ic{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#EEF4FB,#E1ECF8);border:1px solid #D5E4F4;display:grid;place-items:center;color:var(--brand-2);margin-bottom:.5rem;transition:.3s}
 .plat-card:hover .pc-ic{background:var(--grad);border-color:transparent;color:#fff}
 .plat-card .pc-ic svg{width:24px;height:24px;stroke-width:1.6;fill:none}
+/* Bare icon slot: the artwork stands on its own, no tinted plate behind it. */
+.plat-card .pc-ic.pc-bare{width:auto;height:auto;background:none;border:0;border-radius:0;justify-items:start;margin-bottom:.35rem}
+.plat-card:hover .pc-ic.pc-bare{background:none;border-color:transparent}
+.plat-card .pc-ic.pc-bare img{display:block;width:58px;height:auto;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.plat-card:hover .pc-ic.pc-bare img{transform:rotate(-8deg) scale(1.06)}
 .plat-card h3{font-size:1.12rem;font-weight:800;letter-spacing:-.012em}
 .plat-card p{font-size:.9rem;color:var(--muted);line-height:1.62;flex:1}
 .plat-card .pc-go{margin-top:.5rem;font-size:.82rem;font-weight:700;color:var(--brand-2);display:inline-flex;align-items:center;gap:.45rem}
