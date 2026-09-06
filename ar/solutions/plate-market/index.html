@@ -399,6 +399,111 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-ord-rail .pm-sg.pm-dk{background:var(--ink)}
 .pm .pm-ord-more{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:10.5px;font-weight:700;color:var(--ink)}
 .pm .pm-ord-more svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* ── لوحة الإدارة داخل شاشة لابتوب ── */
+.pm .pm-lap{max-width:940px;margin:0 auto 34px}
+.pm .pm-lap-lid{background:linear-gradient(150deg,#20262E,#0F131A);border-radius:16px 16px 6px 6px;
+  padding:12px 12px 14px;box-shadow:0 44px 70px -46px rgba(10,26,47,.85),inset 0 1px 0 rgba(255,255,255,.09)}
+.pm .pm-lap-cam{width:5px;height:5px;border-radius:50%;background:#3A4250;margin:0 auto 9px;
+  box-shadow:0 0 0 2px rgba(255,255,255,.05)}
+.pm .pm-lap-screen{background:var(--face);border-radius:7px;overflow:hidden;aspect-ratio:916/555}
+.pm .pm-lap-base{height:13px;background:linear-gradient(#C6CDD6,#8F9AA8);border-radius:0 0 10px 10px;
+  width:112%;margin:0 auto;max-width:none;position:relative;left:-6%;
+  box-shadow:0 16px 24px -18px rgba(10,26,47,.7)}
+.pm .pm-lap-base::after{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:88px;height:5px;border-radius:0 0 6px 6px;background:#7C8795}
+
+/* اللوحة تُرسم بمقاس ثابت ثم تُصغَّر لتملأ الشاشة — كصورة شاشة حقيقية،
+   بدل أن يُقتطع محتواها على الشاشات الضيّقة. */
+.pm .pm-adm{width:916px;height:555px;flex:none;display:flex;flex-direction:column;font-size:11px;
+  background:#F6F7F9;overflow:hidden;transform-origin:top right;transform:scale(var(--pm-s,1))}
+.pm .pm-adm-top{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#12161C;color:#E7EBF0;padding:8px 12px}
+.pm .pm-adm-brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12.5px}
+.pm .pm-adm-brand .pm-sh{width:22px;height:22px;border-radius:7px;background:#2A313B;display:grid;place-items:center}
+.pm .pm-adm-brand svg{width:13px;height:13px;fill:none;stroke:#C7D2DF;stroke-width:1.7}
+.pm .pm-adm-role{font-size:9px;font-weight:600;color:#B9C4D2;border:1px solid #39414D;border-radius:999px;padding:2px 8px}
+.pm .pm-adm-act{display:flex;gap:12px;font-size:10px;color:#AEBCCC}
+.pm .pm-adm-main{flex:1;display:flex;min-height:0}
+.pm .pm-adm-side{flex:none;width:132px;background:var(--face);border-inline-start:1px solid var(--line-soft);
+  padding:10px 8px;overflow:hidden}
+.pm .pm-adm-side button{display:flex;align-items:center;gap:6px;width:100%;background:none;border:0;
+  font-family:inherit;font-size:10.5px;color:var(--ink-70);padding:6px 8px;border-radius:8px;cursor:pointer;text-align:start}
+.pm .pm-adm-side button svg{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;opacity:.75}
+.pm .pm-adm-side button.pm-on{background:var(--face);border:1px solid var(--line);color:var(--ink);font-weight:700;
+  box-shadow:0 2px 8px -4px rgba(10,26,47,.3)}
+.pm .pm-adm-side button b{margin-inline-start:auto;background:#C7222B;color:#fff;font-size:8.5px;font-weight:700;
+  min-width:14px;height:14px;border-radius:50%;display:grid;place-items:center}
+.pm .pm-adm-grp{font-size:8.5px;color:var(--ink-30);padding:9px 8px 3px}
+.pm .pm-adm-view{flex:1;min-width:0;padding:12px 14px;overflow:hidden}
+.pm .pm-adm-h{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.3px}
+.pm .pm-adm-sub{font-size:9.5px;color:var(--ink-50);margin-top:2px;margin-bottom:10px}
+.pm .pm-adm-pane{display:none}
+.pm .pm-adm-pane.pm-on{display:block}
+.pm .pm-adm-cards{display:grid;grid-template-columns:1.45fr 1fr;gap:10px}
+.pm .pm-adm-c{background:var(--face);border:1px solid var(--line-soft);border-radius:11px;padding:10px}
+.pm .pm-adm-c .pm-t{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pm .pm-adm-c .pm-t span{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--ink)}
+.pm .pm-adm-c .pm-t svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-adm-c .pm-n{font-family:"Noto Kufi Arabic";font-weight:800;font-size:17px;color:var(--ink);white-space:nowrap}
+.pm .pm-adm-c .pm-n i{font-style:normal;font-size:9.5px;font-weight:500;color:var(--ink-50)}
+.pm .pm-adm-bar{display:flex;height:6px;border-radius:99px;overflow:hidden;margin:8px 0}
+.pm .pm-adm-bar i{display:block;height:100%}
+.pm .pm-adm-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pm .pm-adm-two > div{background:#F7F9FB;border:1px solid var(--line-soft);border-radius:9px;padding:8px}
+.pm .pm-adm-two .pm-k{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--ink-50)}
+.pm .pm-adm-two .pm-k b{width:5px;height:5px;border-radius:50%;display:block}
+.pm .pm-adm-two .pm-v{font-family:"Noto Kufi Arabic";font-weight:800;font-size:14px;margin-top:3px}
+.pm .pm-adm-two .pm-s{font-size:8.5px;color:var(--ink-30);margin-top:2px}
+.pm .pm-adm-note{font-size:8.5px;color:var(--ink-30);margin-top:7px;line-height:1.5}
+.pm .pm-adm-tabs{display:flex;gap:12px;background:#EFF3F7;border-radius:9px;padding:6px 9px;margin:10px 0 8px;
+  font-size:9.5px;color:var(--ink-50);justify-content:flex-end}
+.pm .pm-adm-tabs span{display:inline-flex;align-items:center;gap:4px}
+.pm .pm-adm-tabs span.pm-on{background:var(--face);border-radius:7px;padding:3px 8px;color:var(--ink);font-weight:700}
+.pm .pm-adm-lbl{font-size:9.5px;color:var(--ink-50);margin:0 0 6px;border-inline-end:2px solid var(--line);padding-inline-end:6px}
+.pm .pm-adm-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pm .pm-adm-kpis > div{background:var(--face);border:1px solid var(--line-soft);border-radius:10px;padding:8px}
+.pm .pm-adm-kpis .pm-r{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:9px;color:var(--ink-50)}
+.pm .pm-adm-kpis .pm-i{width:17px;height:17px;border-radius:6px;background:#EFF3F7;display:grid;place-items:center}
+.pm .pm-adm-kpis .pm-i svg{width:10px;height:10px;fill:none;stroke:var(--ink-50);stroke-width:1.8}
+.pm .pm-adm-kpis .pm-v{font-family:"Noto Kufi Arabic";font-weight:800;font-size:16px;margin-top:5px;text-align:end}
+.pm .pm-adm-srch{background:#EFF3F7;border-radius:9px;padding:6px 9px;font-size:9.5px;color:var(--ink-30);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.pm .pm-adm-srch svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.8}
+.pm .pm-adm-fil{display:flex;gap:14px;font-size:9.5px;color:var(--ink-50);justify-content:flex-end;
+  border-bottom:1px solid var(--line-soft);padding-bottom:7px;margin-bottom:9px}
+.pm .pm-adm-fil span{display:inline-flex;align-items:center;gap:5px}
+.pm .pm-adm-fil span b{background:#EFF3F7;border-radius:999px;font-size:8px;font-weight:700;color:var(--ink-50);padding:1px 5px}
+.pm .pm-adm-fil span.pm-on{color:var(--ink);font-weight:700;border-bottom:2px solid #C7222B;padding-bottom:5px;margin-bottom:-7px}
+.pm .pm-adm-fil span.pm-on b{background:#FBEFF0;color:#C7222B}
+.pm .pm-adm-deal{border:1px solid var(--line-soft);border-radius:11px;overflow:hidden;margin-bottom:8px;background:var(--face)}
+.pm .pm-adm-deal .pm-hd{display:flex;align-items:center;gap:9px;padding:8px 9px}
+.pm .pm-adm-deal .pm-pl{flex:none;width:104px}
+.pm .pm-adm-deal .pm-pl svg{display:block;width:100%;height:auto}
+.pm .pm-adm-deal .pm-mid{flex:1;min-width:0;font-size:9.5px;color:var(--ink-50);text-align:start}
+.pm .pm-adm-deal .pm-mid b{color:var(--ink);font-weight:700}
+.pm .pm-adm-deal .pm-amt{font-family:"Noto Kufi Arabic";font-weight:800;font-size:13px;white-space:nowrap}
+.pm .pm-adm-deal .pm-amt i{font-style:normal;font-size:9px;font-weight:500;color:var(--ink-50)}
+.pm .pm-adm-deal .pm-tg{font-size:8.5px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap;
+  border:1px solid var(--line);color:var(--ink-70)}
+.pm .pm-adm-deal .pm-tg.pm-late{background:#FBEFF0;border-color:#E8C2C4;color:#C7222B}
+.pm .pm-adm-deal .pm-ft{border-top:1px solid var(--line-soft);background:#FCFDFE;padding:8px 9px;
+  display:flex;align-items:center;justify-content:space-between;gap:9px}
+.pm .pm-adm-deal .pm-ft h5{font-size:10px;font-weight:800;color:#C7222B;margin:0}
+.pm .pm-adm-deal .pm-ft p{font-size:8.5px;color:var(--ink-50);margin-top:2px}
+.pm .pm-adm-btns{display:flex;align-items:center;gap:7px;flex:none}
+.pm .pm-adm-btns .pm-b{font-size:9px;font-weight:700;border-radius:8px;padding:5px 10px;white-space:nowrap}
+.pm .pm-adm-btns .pm-b.pm-go{background:#0B7A55;color:#fff}
+.pm .pm-adm-btns .pm-b.pm-gh{border:1px solid var(--line);color:var(--ink-70)}
+.pm .pm-adm-tbl{width:100%;border-collapse:collapse;font-size:9px}
+.pm .pm-adm-tbl th{text-align:start;font-weight:600;color:var(--ink-50);font-size:8.5px;padding:0 6px 6px;
+  border-bottom:1px solid var(--line)}
+.pm .pm-adm-tbl td{padding:6px;border-bottom:1px solid var(--line-soft);color:var(--ink-70)}
+.pm .pm-adm-tbl td b{color:var(--ink);font-weight:700}
+.pm .pm-adm-tbl .pm-hold{display:inline-block;background:#EFF3F7;border-radius:999px;font-size:8px;font-weight:700;
+  color:var(--ink-50);padding:1px 7px;margin-top:2px}
+.pm .pm-adm-tbl .pm-num{font-family:"Noto Kufi Arabic";font-weight:800;font-size:10.5px;color:var(--ink);white-space:nowrap}
+.pm .pm-adm-tbl .pm-num i{font-style:normal;font-size:8px;font-weight:500;color:var(--ink-50)}
 </style>
 </head>
 <body class="p-work">
@@ -861,6 +966,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p>خمس عشرة شاشة تجيب عن أسئلتك الثلاثة: كم يجري الآن؟ وأين المال؟ وإلى أين نمضي؟ — بجلسةٍ مستقلّة عن حساب المستخدم، فتفتح الاثنين في المتصفّح نفسه وتتنقّل بينهما بلا خروج.</p>
       </div>
     </div>
+
+    <div class="pm-lap rv" id="admin-lap"></div>
 
     <div class="pm-screen">
       <div class="pm-bar"><span class="pm-dot"></span><code>/admin</code><span class="pm-who">جلسة إدارة مستقلّة</span></div>
@@ -1826,6 +1933,133 @@ document.querySelectorAll('#sides button').forEach(b=>b.addEventListener('click'
   b.setAttribute('aria-pressed','true'); sides=+b.dataset.s; calc();
 }));
 calc();
+
+/* ── لوحة الإدارة داخل شاشة لابتوب ── */
+const AI={
+ grid:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+ users:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c1.2-3.2 3.4-4.6 6-4.6s4.8 1.4 6 4.6M16 11a3 3 0 100-6"/></svg>',
+ list:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="7" rx="1.4"/><path d="M13 6h8M13 10h5M3 15h18M3 19h12"/></svg>',
+ deal:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
+ gavel:'<svg viewBox="0 0 24 24"><path d="M14 5l5 5M16.5 2.5l5 5M11 8l-7 7 4 4 7-7M3 22h10"/></svg>',
+ shield:'<svg viewBox="0 0 24 24"><path d="M12 3l8 3.5v5c0 4.6-3.3 7.7-8 8.5-4.7-.8-8-3.9-8-8.5v-5z"/></svg>',
+ card:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>',
+ flow:'<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2.5"/><path d="M6 12h5M15 12h3"/></svg>',
+ pig:'<svg viewBox="0 0 24 24"><path d="M4 12a7 7 0 0114 0v5H4z"/><path d="M8 9h.01M4 14H2.5"/></svg>',
+ bank:'<svg viewBox="0 0 24 24"><path d="M3 9l9-5 9 5M5 9v9M19 9v9M9 9v9M15 9v9M2 21h20"/></svg>',
+ doc:'<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>',
+ page:'<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M12 11v6M9 14h6"/></svg>',
+ srch:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+ up:'<svg viewBox="0 0 24 24"><path d="M4 17l6-6 4 4 6-7M15 8h5v5"/></svg>'};
+const navItem=(ic,t,n,on,p)=>`<button class="${on?'pm-on':''}"${p?` data-pane="${p}"`:''}>${AI[ic]}${t}${n?`<b>${n}</b>`:''}</button>`;
+const dealRow=(pl,ref,mode,buyer,seller,amt,tag,late,head,note,btns)=>`
+ <div class="pm-adm-deal"><div class="pm-hd">
+   <div class="pm-pl">${plateSVG(pl)}</div>
+   <div class="pm-mid">${ref} · ${mode} — المشتري <b>${buyer}</b> ← البائع <b>${seller}</b></div>
+   <div class="pm-amt">${amt} <i>ريال</i></div>
+   <span class="pm-tg ${late?'pm-late':''}">${tag}</span></div>
+  <div class="pm-ft"><div><h5>${head}</h5><p>${note}</p></div><div class="pm-adm-btns">${btns}</div></div></div>`;
+const ledRow=(id,date,user,desc,hold,amt,bal,blocked,note)=>`
+ <tr><td class="pm-num" style="direction:ltr;text-align:start">${id}</td><td style="font-size:8.5px">${date}</td>
+  <td><b>${user}</b></td><td><b>${desc}</b>${hold?`<div class="pm-hold">${hold}</div>`:''}</td>
+  <td class="pm-num">${amt} <i>ريال</i></td>
+  <td class="pm-num">${bal} <i>ريال</i><div style="font-size:8px;font-weight:500;color:var(--ink-30)">محجوز ${blocked}</div></td>
+  <td style="font-size:8.5px;color:var(--ink-50)">${note}</td></tr>`;
+
+document.getElementById('admin-lap').innerHTML=`
+<div class="pm-lap-lid"><div class="pm-lap-cam"></div><div class="pm-lap-screen"><div class="pm-adm">
+  <div class="pm-adm-top">
+    <div class="pm-adm-brand"><span class="pm-sh">${AI.shield}</span>لوحة الإدارة<span class="pm-adm-role">صلاحيات إدارية</span></div>
+    <div class="pm-adm-act"><span>عرض السوق ↗</span><span>مدير المنصة</span><span>خروج ⇥</span></div>
+  </div>
+  <div class="pm-adm-main">
+    <aside class="pm-adm-side">
+      ${navItem('grid','المؤشرات',0,true,'kpi')}
+      <div class="pm-adm-grp">التشغيل</div>
+      ${navItem('users','المستخدمون')}${navItem('list','الإعلانات')}
+      ${navItem('deal','الصفقات',3,false,'deals')}${navItem('gavel','السوم',2)}${navItem('shield','العرابين',1)}
+      <div class="pm-adm-grp">المال</div>
+      ${navItem('card','المدفوعات')}${navItem('flow','الحركات المالية',0,false,'ledger')}${navItem('pig','إيرادات المنصّة')}
+      <div class="pm-adm-grp">المحاسبة</div>
+      ${navItem('bank','أوامر الصرف',3)}${navItem('doc','الفواتير الضريبية')}
+      <div class="pm-adm-grp">النظام</div>
+      ${navItem('page','صفحات المنصّة')}
+    </aside>
+    <div class="pm-adm-view">
+
+      <div class="pm-adm-pane pm-on" data-p="kpi">
+        <div class="pm-adm-h">مؤشرات المنصّة</div>
+        <div class="pm-adm-sub">صورة واحدة عن النشاط والأموال والالتزامات.</div>
+        <div class="pm-adm-cards">
+          <div class="pm-adm-c">
+            <div class="pm-t"><span>${AI.shield}أمانةٌ في يد المنصة الآن</span><span class="pm-n">202,900 <i>ريال</i></span></div>
+            <div class="pm-adm-bar"><i style="width:79.8%;background:#0B7A55"></i><i style="width:20.2%;background:#6B7888"></i></div>
+            <div class="pm-adm-two">
+              <div><div class="pm-k"><b style="background:#6B7888"></b>عرابين محجوزة</div><div class="pm-v">41,000</div><div class="pm-s">لمزايدين في مزادات جارية</div></div>
+              <div><div class="pm-k"><b style="background:#0B7A55"></b>مبالغ صفقات محبوسة</div><div class="pm-v">161,900</div><div class="pm-s">6 صفقات حتى نقل الملكية</div></div>
+            </div>
+            <div class="pm-adm-note">هذا ليس مال المنصّة: عرابين تعود لأصحابها أو تُخصم من صفقاتهم، ومبالغ لا تُفرج للبائع إلا بعد نقل الملكية.</div>
+          </div>
+          <div class="pm-adm-c">
+            <div class="pm-t"><span>${AI.up}إيراد سبعة أيام</span><span class="pm-n" style="color:#0B7A55">0 <i>ريال</i></span></div>
+            <svg viewBox="0 0 260 96" style="width:100%;margin-top:14px"><line x1="6" y1="60" x2="254" y2="60" stroke="#0B7A55" stroke-width="1.6"/></svg>
+            <div style="display:flex;justify-content:space-between;font-size:8.5px;color:var(--ink-30)">
+              <span>اليوم</span><span>قبل ٧ أيام</span></div>
+          </div>
+        </div>
+        <div class="pm-adm-tabs"><span class="pm-on">${AI.gavel}الأداء التشغيلي</span><span>${AI.card}الأداء المالي</span><span>${AI.up}مؤشرات النمو</span></div>
+        <div class="pm-adm-lbl">النشاط</div>
+        <div class="pm-adm-kpis">
+          <div><div class="pm-r"><span class="pm-i">${AI.users}</span>المستخدمون</div><div class="pm-v">3</div></div>
+          <div><div class="pm-r"><span class="pm-i">${AI.doc}</span>الإعلانات</div><div class="pm-v">32</div>
+            <div class="pm-adm-bar" style="height:4px;background:var(--line-soft);margin:5px 0 2px"><i style="width:41%;background:#C9D3DE"></i></div>
+            <div style="font-size:8px;color:var(--ink-30);text-align:end">13 معروضة</div></div>
+          <div><div class="pm-r"><span class="pm-i">${AI.gavel}</span>مزادات جارية</div><div class="pm-v">3</div></div>
+          <div><div class="pm-r"><span class="pm-i">${AI.deal}</span>مزايدات مقبولة</div><div class="pm-v">12</div></div>
+        </div>
+      </div>
+
+      <div class="pm-adm-pane" data-p="deals">
+        <div class="pm-adm-h">الصفقات</div>
+        <div class="pm-adm-sub">كل صفقة وما تنتظره منك. المبلغ يُحجَز أمانةً ولا يخرج إلا بقرارك بعد تحقّقك من نقل الملكية.</div>
+        <div class="pm-adm-srch"><span>ابحث باللوحة أو الطرفين أو رقم الصفقة (S26-00001)</span>${AI.srch}</div>
+        <div class="pm-adm-fil"><span class="pm-on">بانتظار قرارك <b>5</b></span><span>تحت الإجراء <b>4</b></span><span>معاملة مكتملة <b>5</b></span></div>
+        ${dealRow({ar:['ه','د'],lat:['H','D'],num:'5050',emblem:'palm-swords'},'S26-00003','مزاد','ماجد الشهري','سارة القحطاني','38,000','تجاوزت المهلة',true,
+          'انتهت مهلة السداد — صادر العربون أو ألغِ الصفقة','للمشتري عربونٌ قد يُصادر، ولك إعادة الإرساء على المزايد التالي',
+          '<span class="pm-b pm-go">إتمام</span><span class="pm-b pm-gh">إلغاء</span><span class="pm-b pm-gh">إعادة الإرساء</span>')}
+        ${dealRow({ar:['س','ل','م'],lat:['S','L','Z'],num:'3600',emblem:'palm-swords'},'S26-00005','بيع مباشر','ماجد الشهري','وليد العتيبي','31,500','نُقلت الملكية — بانتظار تحقّق الإدارة',false,
+          'تحقّق من نقل الملكية ثم حوّل المبلغ','إثبات البائع: نُقلت الملكية في أبشر — رقم العملية 4471209 (بيانات تجريبية)',
+          '<span class="pm-b pm-go">حوّل للبائع</span><span class="pm-b pm-gh">أعد للمشتري</span>')}
+      </div>
+
+      <div class="pm-adm-pane" data-p="ledger">
+        <div class="pm-adm-h">الحركات المالية</div>
+        <div class="pm-adm-sub">آخر 200 قيد على محافظ المستخدمين. القيود لا تُعدّل ولا تُحذف.</div>
+        <div class="pm-adm-srch"><span>ابحث بالمستخدم أو البيان أو رقم الحركة (W26-00001)</span>${AI.srch}</div>
+        <table class="pm-adm-tbl">
+          <thead><tr><th>رقم الحركة</th><th>التاريخ</th><th>المستخدم</th><th>البيان</th><th>المبلغ</th><th>الرصيد بعده</th><th>الملاحظة</th></tr></thead>
+          <tbody>
+            ${ledRow('W26-00010','2026/09/06 · 12:44 ص','وليد العتيبي','عربون عاد للمحفظة','محجوز','4,000','50,000','4,000','انتهى المزاد دون بيع')}
+            ${ledRow('W26-00012','2026/09/06 · 12:44 ص','ماجد الشهري','عربون عاد للمحفظة','محجوز','4,000','50,000','19,000','انتهى المزاد دون بيع')}
+            ${ledRow('W26-00008','2026/09/05 · 11:59 م','ماجد الشهري','حجز عربون','محجوز','4,000','50,000','19,000','حجز عربون لدخول المزاد')}
+            ${ledRow('W26-00006','2026/09/05 · 11:59 م','ماجد الشهري','حجز عربون','محجوز','5,000','50,000','15,000','حجز عربون لدخول المزاد')}
+            ${ledRow('W26-00007','2026/09/05 · 11:29 م','وليد العتيبي','حجز عربون','محجوز','4,000','50,000','4,000','حجز عربون لدخول المزاد')}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div></div></div><div class="pm-lap-base"></div>`;
+
+document.querySelectorAll('#admin-lap .pm-adm-side button[data-pane]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#admin-lap .pm-adm-side button').forEach(x=>x.classList.remove('pm-on'));
+  b.classList.add('pm-on');
+  document.querySelectorAll('#admin-lap .pm-adm-pane').forEach(p=>p.classList.toggle('pm-on',p.dataset.p===b.dataset.pane));
+}));
+/* تصغير لوحة الإدارة لتملأ شاشة اللابتوب مهما كان العرض */
+(()=>{const sc=document.querySelector('#admin-lap .pm-lap-screen'); if(!sc) return;
+  const fit=()=>sc.style.setProperty('--pm-s',(sc.clientWidth/916).toFixed(4));
+  fit(); new ResizeObserver(fit).observe(sc);})();
 
 /* ── العدّادات ── */
 const p2=n=>String(n).padStart(2,'0');
