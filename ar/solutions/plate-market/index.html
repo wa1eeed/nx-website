@@ -311,6 +311,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-lc-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
 .pm .pm-lc-cta svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2}
 .pm .pm-visitor{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+/* البطاقات تحتفظ بارتفاعها الطبيعي بدل أن تُمطّ إلى أطول واحدة */
+.pm .pm-track{align-items:flex-start}
 .pm .pm-track .pm-lc{flex:0 0 auto;width:300px;user-select:none;border-color:var(--line);box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
 /* داخل الشريط: الوسوم أصغر وعلى سطر واحد */
 .pm .pm-track .pm-lc .pm-lc-tags{flex-wrap:nowrap;gap:6px}
@@ -342,6 +344,61 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-wal-tot{margin-top:12px;padding-top:11px;border-top:1px solid var(--line-soft)}
 .pm .pm-wal-tot div:first-child{font-size:11.5px;color:var(--ink-50)}
 .pm .pm-wal-tot div:last-child{font-family:"Noto Kufi Arabic";font-weight:800;font-size:16px;color:var(--ink);margin-top:2px}
+
+/* ── كرت الطلب والمبلغ المحجوز في الشريط ── */
+.pm .pm-ord{flex:0 0 auto;width:330px;direction:rtl;user-select:none;background:var(--face);
+  border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
+.pm .pm-ord-head{padding:11px 12px 10px}
+.pm .pm-ord-plate{width:168px;margin:0 auto 9px}
+.pm .pm-ord-plate svg{display:block;width:100%;height:auto}
+.pm .pm-ord-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-start}
+.pm .pm-ot{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:600;
+  padding:4px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-70);white-space:nowrap}
+.pm .pm-ot b{width:5px;height:5px;border-radius:50%;background:var(--ink-50);display:block}
+.pm .pm-ot-hold{background:#EDF0F4;border-color:#DCE3EC}
+.pm .pm-ot-direct{background:#E9F7F1;border-color:#A8DCC6;color:#0B7A55}
+.pm .pm-ord-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-top:9px}
+.pm .pm-ord-ref{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--ink-70);
+  border:1px solid var(--line);border-radius:999px;padding:4px 9px;direction:ltr}
+.pm .pm-ord-ref span{color:var(--ink-30)}
+.pm .pm-ord-by{font-size:9.5px;color:var(--ink-50);margin-top:6px;line-height:1.5}
+.pm .pm-ord-by b{color:var(--ink-70);font-weight:700}
+.pm .pm-ord-amt-l{font-size:10px;color:var(--ink-50)}
+.pm .pm-ord-amt{font-family:"Noto Kufi Arabic";font-weight:800;font-size:19px;letter-spacing:-.6px;color:var(--ink);line-height:1.25;margin-top:1px;white-space:nowrap}
+.pm .pm-ord-amt span{font-family:"IBM Plex Sans Arabic";font-size:11px;font-weight:500;color:var(--ink-50)}
+.pm .pm-ord-step{background:#EFF3F7;border-block:1px solid var(--line-soft);padding:10px 12px}
+.pm .pm-ord-step-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pm .pm-ord-step-h strong{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--ink)}
+.pm .pm-ord-step-h svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-ord-wait{font-size:9.5px;font-weight:600;color:var(--ink-70);border:1px solid var(--line);
+  border-radius:999px;padding:4px 9px;background:var(--face);white-space:nowrap}
+.pm .pm-ord-note{font-size:10px;color:var(--ink-50);margin-top:6px;line-height:1.55}
+.pm .pm-ord-pills{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin-top:8px}
+.pm .pm-ord-pill{display:inline-flex;align-items:center;gap:6px;background:var(--face);border:1px solid var(--line);
+  border-radius:10px;padding:5px 9px;font-size:10.5px;font-weight:700;color:var(--ink)}
+.pm .pm-ord-pill svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-ord-pill em{font-style:normal;font-weight:500;color:var(--ink-50)}
+.pm .pm-ord-pill .pm-t{font-family:"Noto Kufi Arabic";font-weight:800;direction:ltr}
+.pm .pm-ord-pill .pm-t b{font-weight:800}
+.pm .pm-ord-esc{padding:10px 12px 10px}
+.pm .pm-ord-esc-h{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--ink)}
+.pm .pm-ord-esc-h svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-ord-rail{display:flex;align-items:flex-start;margin:15px 0 2px;padding:0 2px}
+.pm .pm-ord-rail .pm-stp{flex:0 0 42px;display:flex;flex-direction:column;align-items:center}
+.pm .pm-ord-rail .pm-dt{height:18px;display:flex;align-items:center;position:relative}
+.pm .pm-ord-rail .pm-dt::after{content:"";width:11px;height:11px;border-radius:50%;background:#C9D3DE}
+.pm .pm-ord-rail .pm-stp.pm-on .pm-dt::after{width:13px;height:13px;background:#0B7A55}
+.pm .pm-ord-rail .pm-stp.pm-cur .pm-dt::after{width:17px;height:17px;background:var(--face);border:3px solid var(--ink);box-sizing:border-box}
+.pm .pm-ord-rail .pm-stp.pm-cur .pm-dt::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:var(--ink)}
+.pm .pm-ord-rail .pm-stp em{font-style:normal;font-size:10px;color:var(--ink-30);margin-top:6px;white-space:nowrap}
+.pm .pm-ord-rail .pm-stp.pm-on em{color:var(--ink-70);font-weight:600}
+.pm .pm-ord-rail .pm-stp.pm-cur em{color:var(--ink);font-weight:800}
+.pm .pm-ord-rail .pm-sg{flex:1;height:4px;border-radius:2px;background:#D7DEE7;margin:7px 2px 0}
+.pm .pm-ord-rail .pm-sg.pm-on{background:#0B7A55}
+.pm .pm-ord-rail .pm-sg.pm-dk{background:var(--ink)}
+.pm .pm-ord-more{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:10.5px;font-weight:700;color:var(--ink)}
+.pm .pm-ord-more svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
 </style>
 </head>
 <body class="p-work">
@@ -1618,15 +1675,45 @@ const adminShot=`<div class="pm-shot"><div class="pm-bar"><code>/admin</code></d
   <div class="pm-split" style="height:9px"><i style="width:83%;background:#144272"></i><i style="width:17%;background:#B7902E"></i></div>
   <svg viewBox="0 0 300 70" style="width:100%;margin-top:12px"><polygon points="290,50 240,42 190,46 140,26 90,32 40,12 10,8 10,64 290,64" fill="#144272" opacity=".1"/><polyline points="290,50 240,42 190,46 140,26 90,32 40,12 10,8" fill="none" stroke="#144272" stroke-width="2"/></svg>
   <div style="font-size:11px;color:var(--ink-50);margin-top:8px">إيراد سبعة أيام · +19%</div></div></div>`;
-const orderShot=`<div class="pm-shot"><div class="pm-bar"><code>/orders/S26-00012</code></div><div class="pm-in">
-  <div style="font-size:11.5px"><b>المبلغ محجوز أمانةً</b> — 148,000</div>
-  <div class="pm-rail" style="margin-top:10px">
-   <div class="pm-st pm-done"><i></i><b style="font-size:10px">طلب</b></div>
-   <div class="pm-st pm-done"><i></i><b style="font-size:10px">سداد</b></div>
-   <div class="pm-st pm-now"><i></i><b style="font-size:10px">نقل</b></div>
-   <div class="pm-st"><i></i><b style="font-size:10px">تأكيد</b></div>
-   <div class="pm-st"><i></i><b style="font-size:10px">تمّت</b></div></div>
-  <div style="margin-top:14px;font-size:11px;color:var(--ink-50)">المطلوب: إثبات نقل الملكية من البائع</div></div></div>`;
+const IC_DOT_C='<svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>';
+const IC_SHIELD='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5c0 4.6-3.3 7.7-8 8.5-4.7-.8-8-3.9-8-8.5v-5z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>';
+const IC_ALERT='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="stroke:#B3373C"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></svg>';
+const IC_CHEV='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+const orderShot=`<div class="pm-ord">
+  <div class="pm-ord-head">
+    <div class="pm-ord-plate">${plateSVG({ar:['س','ه','م'],lat:['S','H','Z'],num:'2400',emblem:'palm-swords'})}</div>
+    <div class="pm-ord-tags">
+      <span class="pm-ot pm-ot-hold"><b></b>المبلغ محجوز — بانتظار نقل الملكية</span>
+      <span class="pm-ot pm-ot-direct">شراء مباشر</span><span class="pm-ot">خصوصي</span>
+    </div>
+    <div class="pm-ord-row">
+      <div>
+        <span class="pm-ord-ref"><span>#</span>S26-00008</span>
+        <div class="pm-ord-by">البائع: <b>سارة القحطاني</b> · 2026/09/04 · 02:59 ص</div>
+      </div>
+      <div><div class="pm-ord-amt-l">المبلغ</div><div class="pm-ord-amt">27,500 <span>ريال</span></div></div>
+    </div>
+  </div>
+  <div class="pm-ord-step">
+    <div class="pm-ord-step-h"><strong>${IC_DOT_C}نقل الملكية</strong><span class="pm-ord-wait">ننتظر الطرف الآخر</span></div>
+    <div class="pm-ord-note">ينقلها البائع ويرفع إثباتها. ومبلغك محجوز حتى ذلك</div>
+    <div class="pm-ord-pills">
+      <span class="pm-ord-pill">${IC_CLOCK}<em>يتبقّى</em><span class="pm-t" data-cd="0:20:45:48"><b>20</b>:<b>45</b>:<b>48</b></span></span>
+      <span class="pm-ord-pill">${IC_ALERT}استفسار أو اعتراض</span>
+    </div>
+  </div>
+  <div class="pm-ord-esc">
+    <div class="pm-ord-esc-h">${IC_SHIELD}المبلغ محجوز أمانةً لدى المنصّة</div>
+    <div class="pm-ord-rail">
+      <span class="pm-stp pm-on"><span class="pm-dt"></span><em>طلب</em></span><span class="pm-sg pm-on"></span>
+      <span class="pm-stp pm-on"><span class="pm-dt"></span><em>سداد</em></span><span class="pm-sg pm-on"></span>
+      <span class="pm-stp pm-cur"><span class="pm-dt"></span><em>نقل</em></span><span class="pm-sg pm-dk"></span>
+      <span class="pm-stp"><span class="pm-dt"></span><em>تحقّق</em></span><span class="pm-sg"></span>
+      <span class="pm-stp"><span class="pm-dt"></span><em>تحويل</em></span>
+    </div>
+    <div class="pm-ord-more">${IC_CHEV}تفاصيل المسار</div>
+  </div>
+</div>`;
 const IC_WALLET='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h12a2 2 0 012 2v1"/><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2v-7H6a3 3 0 01-3-3z"/><circle cx="17" cy="13.5" r="1.1" fill="currentColor" stroke="none"/></svg>';
 const walletShot=`<div class="pm-wal">
   <h4>محفظتي</h4>
