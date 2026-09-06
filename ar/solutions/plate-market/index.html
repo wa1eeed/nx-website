@@ -528,6 +528,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-cell .pm-ord-head{flex:none}
 .pm .pm-cell .pm-ord-step{flex:1;display:flex;flex-direction:column;justify-content:center}
 @media(max-width:420px){.pm .pm-cell{width:284px;height:486px}}
+
+/* ── اللوحة الحيّة في الهيرو: إشعارات المزايدة وعدّاد تنازلي ── */
+.pm .pm-hl{position:relative}
+.pm .pm-hl .pm-plate-stage{transition:box-shadow .45s ease,transform .3s ease}
+.pm .pm-hl[data-s="lead"] .pm-plate-stage{box-shadow:inset 0 1px 0 #fff,0 26px 50px -30px rgba(10,26,47,.55),0 0 0 2px rgba(11,122,85,.28)}
+.pm .pm-hl[data-s="out"] .pm-plate-stage{box-shadow:inset 0 1px 0 #fff,0 26px 50px -30px rgba(10,26,47,.55),0 0 0 2px rgba(183,144,46,.55)}
+.pm .pm-hl[data-s="out"] .pm-plate-stage{animation:pmNudge .5s cubic-bezier(.36,.07,.19,.97)}
+@keyframes pmNudge{10%,90%{transform:translateX(-1.5px) rotate(-.25deg)}30%,70%{transform:translateX(2.5px) rotate(.35deg)}50%{transform:translateX(-2px)}}
+
+.pm .pm-hl-toasts{position:absolute;top:-14px;inset-inline:22px;z-index:3;display:flex;flex-direction:column;
+  align-items:center;gap:7px;pointer-events:none}
+.pm .pm-toast{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;
+  padding:9px 15px;border-radius:999px;background:var(--face);border:1px solid var(--line);color:var(--ink);
+  box-shadow:0 16px 30px -18px rgba(10,26,47,.65);white-space:nowrap;
+  animation:pmToastIn .42s cubic-bezier(.2,.9,.3,1.2) both}
+.pm .pm-toast.pm-away{animation:pmToastOut .34s ease forwards}
+.pm .pm-toast svg{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2}
+.pm .pm-toast.pm-good{border-color:#A8DCC6;background:#E9F7F1;color:#0B7A55}
+.pm .pm-toast.pm-warn{border-color:#E6D7A8;background:#FAF3E2;color:#8A6C22}
+.pm .pm-toast em{font-style:normal;font-weight:500;opacity:.85}
+@keyframes pmToastIn{from{opacity:0;transform:translateY(-12px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes pmToastOut{to{opacity:0;transform:translateY(-9px) scale(.97)}}
+
+.pm .pm-hl-bar{margin-top:26px;background:var(--face);border:1px solid var(--line-soft);border-radius:16px;
+  padding:13px 15px;display:grid;grid-template-columns:1fr auto;gap:11px 12px;align-items:center;
+  box-shadow:0 20px 38px -30px rgba(10,26,47,.75)}
+/* صفّان مقصودان: الحالة والعدّاد، ثم المزايدة والزر — بدل التفافٍ يتغيّر مع العرض */
+.pm .pm-hl-live{grid-area:1/1;justify-self:start}
+.pm .pm-hl-cd{grid-area:1/2;justify-self:end}
+.pm .pm-hl-bid{grid-area:2/1}
+.pm .pm-hl-btn{grid-area:2/2;justify-self:end}
+.pm .pm-hl-live{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:#B3373C;
+  background:#FBEFF0;border:1px solid #E8C2C4;border-radius:999px;padding:4px 10px;flex:none}
+.pm .pm-hl-live i{width:7px;height:7px;border-radius:50%;background:#B3373C;animation:pmLive 1.6s ease-in-out infinite}
+@keyframes pmLive{0%{box-shadow:0 0 0 0 rgba(179,55,60,.55)}70%{box-shadow:0 0 0 7px rgba(179,55,60,0)}100%{box-shadow:0 0 0 0 rgba(179,55,60,0)}}
+.pm .pm-hl-bid{min-width:0}
+.pm .pm-hl-bid span{display:block;font-size:11px;color:var(--ink-50)}
+.pm .pm-hl-bid b{font-family:"Noto Kufi Arabic";font-weight:800;font-size:22px;letter-spacing:-.6px;color:var(--ink);
+  display:inline-block;transition:color .3s}
+.pm .pm-hl-bid b.pm-bump{animation:pmBump .55s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pmBump{0%{transform:translateY(7px);opacity:.25}60%{transform:translateY(-2px)}100%{transform:none;opacity:1}}
+.pm .pm-hl-bid em{font-style:normal;font-size:12px;color:var(--ink-50);font-weight:500}
+.pm .pm-hl-cd{display:inline-flex;align-items:center;gap:7px;background:#EFF3F7;border-radius:11px;padding:7px 11px}
+.pm .pm-hl-cd svg{width:15px;height:15px;flex:none;fill:none;stroke:var(--ink-50);stroke-width:1.8}
+.pm .pm-hl-cd .pm-t{font-family:"Noto Kufi Arabic";font-weight:800;font-size:17px;letter-spacing:.5px;
+  color:var(--ink);direction:ltr;transition:color .3s}
+.pm .pm-hl-cd.pm-hot{background:#FBEFF0}
+.pm .pm-hl-cd.pm-hot .pm-t{color:#B3373C}
+.pm .pm-hl-cd.pm-ext{animation:pmExt .6s ease}
+@keyframes pmExt{0%{background:#FAF3E2}100%{background:#EFF3F7}}
+.pm .pm-hl-btn{background:var(--ink);color:#fff;border:0;font-family:inherit;font-size:13px;font-weight:700;
+  padding:10px 18px;border-radius:11px;cursor:pointer;transition:transform .16s ease,background .2s}
+.pm .pm-hl-btn:hover{transform:translateY(-1px);background:#16324F}
+.pm .pm-hl-btn:active{transform:translateY(0) scale(.98)}
+.pm .pm-hl-btn:disabled{opacity:.45;cursor:default;transform:none}
+.pm .pm-hl-ext{font-size:10.5px;font-weight:700;color:#8A6C22;background:#FAF3E2;border:1px solid #E6D7A8;
+  border-radius:999px;padding:2px 8px;margin-inline-start:6px;animation:pmToastIn .3s both}
+@media(max-width:520px){.pm .pm-hl-bar{padding:11px}.pm .pm-hl-bid b{font-size:19px}
+  .pm .pm-hl-btn{grid-area:3/1/3/3;justify-self:stretch;width:100%}}
+@media(prefers-reduced-motion:reduce){
+  .pm .pm-toast,.pm .pm-hl-bid b.pm-bump,.pm .pm-hl-cd.pm-ext,.pm .pm-hl-live i,
+  .pm .pm-hl[data-s="out"] .pm-plate-stage{animation:none}
+}
 </style>
 </head>
 <body class="p-work">
@@ -574,7 +637,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div><b>15</b><span>شاشة إدارة تحت يدك</span></div>
       </div>
     </div>
-    <div class="pm-plate-stage" id="hero-plate"></div>
+    <div class="pm-hl" id="hero-live" data-s="lead">
+      <div class="pm-hl-toasts" id="hero-toasts"></div>
+      <div class="pm-plate-stage" id="hero-plate"></div>
+      <div class="pm-hl-bar">
+        <span class="pm-hl-live"><i></i>مزاد مباشر</span>
+        <div class="pm-hl-bid"><span>المزايدة الحالية</span><b id="hero-bid">148,000</b> <em>ريال</em></div>
+        <div class="pm-hl-cd" id="hero-cd">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/></svg>
+          <span class="pm-t" id="hero-clock">04:37</span>
+        </div>
+        <button class="pm-hl-btn" type="button" id="hero-bidbtn">زايد الآن</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2095,6 +2170,74 @@ document.querySelectorAll('#admin-lap .pm-adm-side button[data-pane]').forEach(b
 (()=>{const sc=document.querySelector('#admin-lap .pm-lap-screen'); if(!sc) return;
   const fit=()=>sc.style.setProperty('--pm-s',(sc.clientWidth/916).toFixed(4));
   fit(); new ResizeObserver(fit).observe(sc);})();
+
+/* ── اللوحة الحيّة في الهيرو ── */
+(()=>{
+  const box=document.getElementById('hero-live'); if(!box) return;
+  const bidEl=document.getElementById('hero-bid'), clockEl=document.getElementById('hero-clock'),
+        cdEl=document.getElementById('hero-cd'), toasts=document.getElementById('hero-toasts'),
+        btn=document.getElementById('hero-bidbtn');
+  const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt=n=>n.toLocaleString('en-US');
+  const mmss=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+  const IC_OK='<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>';
+  const IC_UP='<svg viewBox="0 0 24 24"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12z"/></svg>';
+
+  let bid=148000, left=277, timer=null;
+
+  const toast=(cls,icon,html,ttl=3400)=>{
+    const el=document.createElement('div');
+    el.className='pm-toast '+cls; el.innerHTML=icon+html;
+    toasts.replaceChildren(el);
+    clearTimeout(toast._t);
+    toast._t=setTimeout(()=>{el.classList.add('pm-away');},ttl);
+  };
+  const setBid=v=>{
+    bid=v; bidEl.textContent=fmt(bid);
+    bidEl.classList.remove('pm-bump'); void bidEl.offsetWidth; bidEl.classList.add('pm-bump');
+  };
+  const lead=()=>{
+    box.dataset.s='lead';
+    toast('pm-good',IC_OK,'مزايدتك هي الأعلى');
+    btn.disabled=true; btn.textContent='أنت الأعلى';
+  };
+  const outbid=()=>{
+    box.dataset.s='out';
+    setBid(bid+2500);
+    /* التمديد التلقائي: كل مزايدة في الدقيقة الأخيرة تُطيل المزاد */
+    let ext='';
+    if(left<60){ left+=30; ext='<span class="pm-hl-ext">مُدِّد ٣٠ ثانية</span>';
+      cdEl.classList.remove('pm-ext'); void cdEl.offsetWidth; cdEl.classList.add('pm-ext'); }
+    toast('pm-warn',IC_UP,'تمت المزايدة على مزايدتك <em>'+fmt(bid)+' ريال</em>'+ext);
+    btn.disabled=false; btn.textContent='زايد الآن';
+  };
+  const myBid=()=>{ setBid(bid+2500); lead(); schedule(6200); };
+
+  const schedule=d=>{ clearTimeout(schedule._t); schedule._t=setTimeout(cycle,d); };
+  const cycle=()=>{
+    if(box.dataset.s==='lead'){ outbid(); schedule(4200); }
+    else { setBid(bid+2500); lead(); schedule(5200); }
+  };
+
+  const tick=()=>{
+    left=left>0?left-1:600;                     /* يعود من جديد فالشريط لا يقف عند الصفر */
+    clockEl.textContent=mmss(left);
+    cdEl.classList.toggle('pm-hot',left<60);
+  };
+
+  btn.addEventListener('click',myBid);
+  bidEl.textContent=fmt(bid); clockEl.textContent=mmss(left);
+  lead();
+  if(!calm){
+    timer=setInterval(tick,1000);
+    schedule(3600);
+    /* لا تُشغّل الدورة إلا والقسم مرئي */
+    new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.isIntersecting){ if(!timer) timer=setInterval(tick,1000); schedule(2600); }
+      else { clearInterval(timer); timer=null; clearTimeout(schedule._t); }
+    }),{threshold:.15}).observe(box);
+  }
+})();
 
 /* ── العدّادات ── */
 const p2=n=>String(n).padStart(2,'0');
