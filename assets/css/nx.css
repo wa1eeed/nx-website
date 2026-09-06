@@ -1261,7 +1261,13 @@ html[dir="rtl"] .so-chip{font-family:'Tajawal',var(--sans)}
 .so-chip svg{width:15px;height:15px;stroke-width:1.8;fill:none;color:var(--brand-2);flex-shrink:0}
 @media(prefers-reduced-motion:reduce){.so-lines line,.so-core::after,.so-chip{animation:none}}
 /* platform-types index grid */
-.plat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-top:1.8rem}
+/* auto-fill, not auto-fit: a single product card stays a card instead of
+   stretching into a full-width band. */
+.plat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px;margin-top:1.8rem}
+/* Optional preview of the product itself, bled to the card edges. */
+.plat-card .pc-shot{display:block;margin:-30px -28px 1.15rem;padding:26px 24px 22px;background:radial-gradient(120% 90% at 50% 0%,#FBFCFD,#DDE3EA);border-bottom:1px solid var(--line)}
+.plat-card .pc-shot img{display:block;width:100%;height:auto;filter:drop-shadow(0 14px 22px rgba(10,26,47,.26));transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.plat-card:hover .pc-shot img{transform:translateY(-3px) scale(1.03)}
 .plat-card{position:relative;display:flex;flex-direction:column;gap:.55rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px;text-decoration:none;color:inherit;overflow:hidden;transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s,border-color .3s}
 .plat-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
 html[dir="rtl"] .plat-card::before{transform-origin:right}
