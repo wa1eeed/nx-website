@@ -317,6 +317,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-track .pm-lc .pm-lt{font-size:11px;font-weight:600;padding:4px 9px;gap:4px;white-space:nowrap}
 .pm .pm-track .pm-lc .pm-lt svg{width:12px;height:12px}
 @media(max-width:560px){.pm .pm-visitor{grid-template-columns:1fr}}
+
+/* ── كرت المحفظة في الشريط ── */
+.pm .pm-wal{flex:0 0 auto;width:300px;direction:rtl;user-select:none}
+.pm .pm-wal h4{font-size:17px;font-weight:800;letter-spacing:-.4px;color:var(--ink)}
+.pm .pm-wal .pm-wal-sub{font-size:11.5px;color:var(--ink-50);margin-top:3px;line-height:1.5}
+.pm .pm-wal-card{margin-top:11px;background:linear-gradient(150deg,#FFFFFF 0%,#FFFFFF 55%,#F2F4F7 100%);
+  border:1px solid var(--line-soft);border-radius:16px;padding:15px 15px 13px;
+  box-shadow:0 24px 44px -34px rgba(10,26,47,.8)}
+.pm .pm-wal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.pm .pm-wal-lbl{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-50);justify-content:flex-end}
+.pm .pm-wal-lbl svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+.pm .pm-wal-amt{font-family:"Noto Kufi Arabic";font-weight:800;font-size:27px;letter-spacing:-1px;color:var(--ink);line-height:1.2;margin-top:3px;text-align:end}
+.pm .pm-wal-amt span{font-family:"IBM Plex Sans Arabic";font-size:13px;font-weight:500;color:var(--ink-50)}
+.pm .pm-wal-btn{flex:none;background:#3A4A60;color:#fff;font-size:12px;font-weight:700;
+  padding:9px 14px;border-radius:11px;white-space:nowrap;margin-top:4px}
+.pm .pm-wal-bar{display:flex;height:8px;border-radius:99px;overflow:hidden;margin:14px 0 11px;background:var(--line)}
+.pm .pm-wal-bar i{display:block;height:100%}
+.pm .pm-wal-legend{display:flex;justify-content:space-between;gap:12px}
+.pm .pm-wal-legend .pm-k{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-70)}
+.pm .pm-wal-legend .pm-k b{width:7px;height:7px;border-radius:50%;display:block}
+.pm .pm-wal-legend .pm-v{font-family:"Noto Kufi Arabic";font-weight:800;font-size:15px;margin-top:2px}
+.pm .pm-wal-legend .pm-n{font-size:10px;color:var(--ink-30);margin-top:2px;line-height:1.4}
+.pm .pm-wal-tot{margin-top:12px;padding-top:11px;border-top:1px solid var(--line-soft)}
+.pm .pm-wal-tot div:first-child{font-size:11.5px;color:var(--ink-50)}
+.pm .pm-wal-tot div:last-child{font-family:"Noto Kufi Arabic";font-weight:800;font-size:16px;color:var(--ink);margin-top:2px}
 </style>
 </head>
 <body class="p-work">
@@ -1602,14 +1627,26 @@ const orderShot=`<div class="pm-shot"><div class="pm-bar"><code>/orders/S26-0001
    <div class="pm-st"><i></i><b style="font-size:10px">تأكيد</b></div>
    <div class="pm-st"><i></i><b style="font-size:10px">تمّت</b></div></div>
   <div style="margin-top:14px;font-size:11px;color:var(--ink-50)">المطلوب: إثبات نقل الملكية من البائع</div></div></div>`;
-const walletShot=`<div class="pm-shot"><div class="pm-bar"><code>/account/wallet</code></div><div class="pm-in">
-  <div style="font-size:11px;color:var(--ink-50)">المتاح في المحفظة</div>
-  <div class="pm-money" style="font-size:22px">41,600</div>
-  <div class="pm-split" style="height:9px"><i style="width:85%;background:#0B7A55"></i><i style="width:15%;background:#B7902E"></i></div>
-  <table class="pm-tbl" style="font-size:11px;margin-top:10px">
-   <tr><td>سداد صفقة</td><td class="pm-deb pm-money" style="text-align:end">144,855</td></tr>
-   <tr><td>حجز عربون</td><td class="pm-deb pm-money" style="text-align:end">3,100</td></tr>
-   <tr><td>عربون عاد</td><td class="pm-cre pm-money" style="text-align:end">2,400</td></tr></table></div></div>`;
+const IC_WALLET='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h12a2 2 0 012 2v1"/><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2v-7H6a3 3 0 01-3-3z"/><circle cx="17" cy="13.5" r="1.1" fill="currentColor" stroke="none"/></svg>';
+const walletShot=`<div class="pm-wal">
+  <h4>محفظتي</h4>
+  <div class="pm-wal-sub">رصيدك وكشف حسابك والعرابين المحجوزة في المزادات.</div>
+  <div class="pm-wal-card">
+    <div class="pm-wal-top">
+      <div>
+        <div class="pm-wal-lbl">${IC_WALLET}المتاح للمزايدة</div>
+        <div class="pm-wal-amt">103,551 <span>ريال</span></div>
+      </div>
+      <div class="pm-wal-btn">+ شحن الرصيد</div>
+    </div>
+    <div class="pm-wal-bar"><i style="width:92.8%;background:#0B7A55"></i><i style="width:7.2%;background:#6B7888"></i></div>
+    <div class="pm-wal-legend">
+      <div><div class="pm-k"><b style="background:#0B7A55"></b>المتاح</div><div class="pm-v" style="color:#0B7A55">103,551</div></div>
+      <div style="text-align:end"><div class="pm-k" style="justify-content:flex-end"><b style="background:#6B7888"></b>محجوز كعرابين</div><div class="pm-v" style="color:var(--ink)">8,000</div><div class="pm-n">ملكك، غير متاح حتى تنتهي مزاداته</div></div>
+    </div>
+    <div class="pm-wal-tot"><div>الرصيد الكلي</div><div>111,551</div></div>
+  </div>
+</div>`;
 const set=stripeCards+adminShot+orderShot+walletShot;
 const track=document.getElementById('stripe');
 track.innerHTML=set+set;   /* نسختان متطابقتان تصنعان حلقةً بلا نهاية */
