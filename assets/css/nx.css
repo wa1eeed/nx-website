@@ -946,6 +946,10 @@ html[dir="rtl"] .eyebrow::before{margin-left:0}
 
 /* swap any small-cap mono numerals back to readable Tajawal weight */
 html[dir="rtl"] .mn,html[dir="rtl"] .sub,html[dir="rtl"] .crumb,html[dir="rtl"] .case .body .sect,html[dir="rtl"] .case .chips span,html[dir="rtl"] .case .stats .st b,html[dir="rtl"] .band .m b,html[dir="rtl"] .roi .r b,html[dir="rtl"] .hero-trust .t b,html[dir="rtl"] .hero-stats .s b,html[dir="rtl"] .phero-stats .s b,html[dir="rtl"] .sigdock .d b,html[dir="rtl"] .seal b,html[dir="rtl"] .stamp b,html[dir="rtl"] .meter .mh .badge,html[dir="rtl"] .lane .node,html[dir="rtl"] .lane .tag,html[dir="rtl"] .cstack .c,html[dir="rtl"] .erow .ecode,html[dir="rtl"] .chip,html[dir="rtl"] .case .vis .pill,html[dir="rtl"] .case .vis .big b,html[dir="rtl"] .seals span,html[dir="rtl"] .copy .mono,html[dir="rtl"] .icol h4,html[dir="rtl"] .rmod .tt span,html[dir="rtl"] .spec .row .v,html[dir="rtl"] .tl .ph .w,html[dir="rtl"] .slab .t,html[dir="rtl"] .bp-tag,html[dir="rtl"] .badges .bg span,html[dir="rtl"] .sigcard .reg .rg span,html[dir="rtl"] .cell .num,html[dir="rtl"] .cell .tag{font-family:var(--mono);letter-spacing:.04em}
+/* AR services matrix: the Arabic name leads, the NX product name reads as a subtitle
+   beneath it at the same size, in dark grey. */
+html[dir="rtl"] .mod h3{color:var(--ink);margin-bottom:.15rem}
+html[dir="rtl"] .mod .sub{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.18rem;font-weight:700;letter-spacing:-.01em;text-transform:none;color:var(--ink-2);margin-bottom:.85rem}
 
 /* arrow icons flip horizontally */
 html[dir="rtl"] .btn svg,
