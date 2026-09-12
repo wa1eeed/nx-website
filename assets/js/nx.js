@@ -824,28 +824,14 @@
       });
     }
 
-    // portal tabs
-    const tabs = document.querySelectorAll('[data-aff-tab]');
-    const panels = document.querySelectorAll('[data-aff-panel]');
-    const showTab = key => {
-      tabs.forEach(t => t.classList.toggle('on', t.dataset.affTab === key));
-      panels.forEach(p => p.classList.toggle('on', p.dataset.affPanel === key));
-    };
-    tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.affTab)));
-    document.querySelectorAll('[data-aff-goto]').forEach(el => {
-      el.addEventListener('click', e => {
-        const key = el.dataset.affGoto;
-        if (key) { showTab(key); }
-        const portal = document.querySelector('#portal');
-        if (portal && !el.getAttribute('href')) { e.preventDefault(); portal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-      });
-    });
-    // open a tab from the URL hash (e.g. redirect from the portal → #login)
+    // Sign-up and log-in each have their own page now, so the tabbed card is gone.
+    // Old links and bookmarks still carrying #login / #register land on the right
+    // page — but only from a page that does not already host one of those forms,
+    // or /affiliate/login/#login would redirect to itself forever.
     const hashKey = (location.hash || '').replace('#', '');
-    if (hashKey === 'login' || hashKey === 'register') {
-      showTab(hashKey);
-      const portalEl = document.querySelector('#portal');
-      if (portalEl) setTimeout(() => portalEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    const onAuthPage = document.querySelector('[data-aff-register], [data-aff-login]');
+    if ((hashKey === 'login' || hashKey === 'register') && !onAuthPage) {
+      location.replace('/' + (ar ? 'ar' : 'en') + '/affiliate/' + hashKey + '/');
     }
 
     // ----- registration → Zoho Web-to-Lead (real capture, iframe POST) -----
@@ -895,8 +881,8 @@
           await zohoPost({ 'Last Name': g('name') || 'Affiliate applicant', 'Email': g('email'), 'Phone': g('phone'), 'Company': g('company'), 'LEADCF11': note, 'LEADCF1': location.pathname, 'LEADCF6': ar ? 'ar' : 'en' });
           regForm.reset();
           setMsg('ok', ar
-            ? 'تم استلام طلبك بنجاح. سيتواصل معك فريق الشراكات، وسنُفعّل حسابك ونُشعرك فور جاهزية بوابة الشركاء.'
-            : 'Your application was received. Our partnerships team will reach out, and we’ll activate your account and notify you once the partner portal is ready.');
+            ? 'تم استلام طلبك بنجاح. سيتواصل معك فريق الشراكات ونُفعّل حسابك، ويصلك إشعار عند الاعتماد.'
+            : 'Your application was received. Our partnerships team will be in touch and activate your account; you are notified once approved.');
         };
         try {
           if (window.NXApi) {
@@ -931,9 +917,11 @@
         const btn = loginForm.querySelector('button[type=submit]');
         const g = n => (loginForm.querySelector('[name=' + n + ']') || {}).value || '';
         const setMsg = (cls, text) => { if (msg) { msg.className = 'aff-msg ' + cls; msg.textContent = text; } };
+        // Only fires when the backend is unreachable — the portal itself is live, so
+        // say what is actually wrong instead of repeating a launch promise.
         const soon = () => setMsg('info', ar
-          ? 'بوابة الشركاء قيد الإطلاق. أنشئ حساباً الآن وسنُشعرك فور تفعيله.'
-          : 'The partner portal is launching soon. Create an account now and we’ll notify you the moment it goes live.');
+          ? 'تعذّر الوصول إلى البوابة الآن. حاول بعد قليل، أو راسلنا على hello@nx.sa'
+          : 'We could not reach the portal just now. Please try again shortly, or email hello@nx.sa');
         if (!window.NXApi) return soon();
         if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الدخول…' : 'Signing in…'; }
         try {

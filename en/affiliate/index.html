@@ -21,10 +21,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=112">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=112">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png?v=112">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=112">
+<link rel="stylesheet" href="/assets/css/nx.css?v=113">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=113">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png?v=113">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=113">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#136B7E">
 <link rel="alternate" hreflang="ar" href="https://nx.sa/ar/affiliate/">
@@ -61,8 +61,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="/en/contact/"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5L12 13l8.5-6.5"/></svg></span><span class="nt">Contact</span></a>
       </div>
       <div class="nav-cta">
-        <span class="lang" onclick="location.href='/ar/affiliate/'">العربية</span>
-        <a href="#portal" class="btn btn-primary" data-aff-goto="register">Join now
+        <span class="lang" onclick="location.href='/ar/affiliate/'">ع</span>
+        <a href="/en/affiliate/login/" class="nav-login">Log in</a>
+        <a href="/en/affiliate/register/" class="btn btn-primary btn-sm">Become an affiliate
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
@@ -82,10 +83,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h1>Turn your network into <span class="g">recurring income</span> with NX Partners.</h1>
         <p class="lede">Refer businesses to NX’s ready-to-launch digital products, and earn a competitive commission on every client. A unique referral link, a dashboard to track your clicks, conversions and earnings, and clear regular payouts — and joining is completely free.</p>
         <div class="aff-cta">
-          <a href="#portal" class="btn btn-primary" data-aff-goto="register">Become an affiliate
+          <a href="/en/affiliate/register/" class="btn btn-primary">Become an affiliate
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a href="#portal" class="btn btn-ghost" data-aff-goto="login">Log in</a>
+          <a href="/en/affiliate/login/" class="btn btn-ghost">Log in</a>
         </div>
         <div class="aff-trust">
           <span><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Transparent tracking</span>
@@ -95,65 +96,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <!-- register / log in, right in the hero -->
-      <div class="rv in aff-hero-portal" id="portal">
-        <div class="aff-portal-card">
-      <div class="aff-tabs">
-        <button type="button" data-aff-tab="register" class="on">Become an affiliate</button>
-        <button type="button" data-aff-tab="login">Log in</button>
-      </div>
-
-      <!-- register -->
-      <div class="aff-panel on" data-aff-panel="register">
-        <form data-aff-register novalidate>
-          <div data-aff-msg class="aff-msg"></div>
-          <div class="aff-two">
-            <div class="aff-field"><label>Full name <span class="req">*</span></label><input type="text" name="name" required autocomplete="name"></div>
-            <div class="aff-field"><label>Mobile number <span class="req">*</span></label><input type="tel" name="phone" required autocomplete="tel" inputmode="tel"></div>
+      <!-- interactive partner dashboard preview -->
+      <div class="rv in">
+        <div class="aff-dash">
+          <div class="aff-dash-hd">
+            <b>Partner dashboard</b>
+            <span class="prev">Preview</span>
           </div>
-          <div class="aff-field"><label>Email <span class="req">*</span></label><input type="email" name="email" required autocomplete="email"></div>
-          <div class="aff-field"><label>Password <span class="req">*</span></label><input type="password" name="password" required autocomplete="new-password" minlength="8" placeholder="At least 8 characters"></div>
-          <div class="aff-two">
-            <div class="aff-field"><label>Company / organization</label><input type="text" name="company" autocomplete="organization"></div>
-            <div class="aff-field"><label>Your marketing channel</label>
-              <select name="channel">
-                <option value="">Select…</option>
-                <option>Website or blog</option>
-                <option>Social media</option>
-                <option>YouTube or podcast</option>
-                <option>Community or mailing list</option>
-                <option>Marketing agency</option>
-                <option>Other</option>
-              </select>
-            </div>
+          <div class="aff-earn">
+            <div class="lbl">Your earnings this month</div>
+            <div class="val"><span class="cur">SAR</span><span data-aff-earn="12480">0</span><span class="up">▲ 18%</span></div>
           </div>
-          <div class="aff-field"><label>Approximate audience size</label>
-            <select name="audience">
-              <option value="">Select…</option>
-              <option>Under 1,000</option>
-              <option>1,000 – 10,000</option>
-              <option>10,000 – 100,000</option>
-              <option>Over 100,000</option>
-            </select>
+          <div class="aff-spark">
+            <i style="height:34%"></i><i style="height:46%"></i><i style="height:40%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:66%"></i><i style="height:60%"></i><i style="height:74%"></i><i style="height:70%"></i><i style="height:84%"></i><i style="height:80%"></i><i style="height:100%"></i>
           </div>
-          <div class="aff-field"><label>How do you plan to market NX solutions?</label><textarea name="note" placeholder="Optional — briefly describe your channels and audience"></textarea></div>
-          <label class="aff-check"><input type="checkbox" required> I agree to the <a href="/en/legal/terms/">program terms</a> and <a href="/en/legal/privacy/">privacy policy</a>.</label>
-          <button type="submit" class="btn btn-primary aff-submit">Submit application</button>
-        </form>
-      </div>
-
-      <!-- login -->
-      <div class="aff-panel" data-aff-panel="login">
-        <form data-aff-login novalidate>
-          <div data-aff-msg class="aff-msg"></div>
-          <div class="aff-field"><label>Email</label><input type="email" name="email" autocomplete="email"></div>
-          <div class="aff-field"><label>Password</label><input type="password" name="password" autocomplete="current-password"></div>
-          <button type="submit" class="btn btn-primary aff-submit">Log in</button>
-          <p class="aff-alt">Don’t have an account? <a data-aff-goto="register">Create one now</a></p>
-        </form>
-      </div>
+          <div class="aff-linkrow">
+            <code>nx.sa/?ref=YOUR-ID</code>
+            <button class="aff-copy" type="button" data-aff-copy="https://nx.sa/?ref=YOUR-ID">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy
+            </button>
+          </div>
+          <div class="aff-mini">
+            <div class="c"><b>1,240</b><span>Clicks</span></div>
+            <div class="c"><b>38</b><span>Conversions</span></div>
+            <div class="c"><b>3.1%</b><span>Conv. rate</span></div>
+          </div>
+          <div class="aff-cap">Illustrative preview — figures shown for display only</div>
         </div>
-        <p class="aff-hero-note">Joining is free. We review your application and activate your account, and you are notified once approved.</p>
       </div>
     </div>
   </div>
@@ -296,36 +265,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- PORTAL: register / login -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head center rv"><span class="eyebrow">Your dashboard</span><h2>And this is your dashboard once you join.</h2><p>Your clicks, conversions, earnings and balance — in one place you can open whenever you like.</p></div>
-    <div class="aff-dash-solo rv">
-        <div class="aff-dash">
-          <div class="aff-dash-hd">
-            <b>Partner dashboard</b>
-            <span class="prev">Preview</span>
-          </div>
-          <div class="aff-earn">
-            <div class="lbl">Your earnings this month</div>
-            <div class="val"><span class="cur">SAR</span><span data-aff-earn="12480">0</span><span class="up">▲ 18%</span></div>
-          </div>
-          <div class="aff-spark">
-            <i style="height:34%"></i><i style="height:46%"></i><i style="height:40%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:66%"></i><i style="height:60%"></i><i style="height:74%"></i><i style="height:70%"></i><i style="height:84%"></i><i style="height:80%"></i><i style="height:100%"></i>
-          </div>
-          <div class="aff-linkrow">
-            <code>nx.sa/?ref=YOUR-ID</code>
-            <button class="aff-copy" type="button" data-aff-copy="https://nx.sa/?ref=YOUR-ID">
-              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> Copy
-            </button>
-          </div>
-          <div class="aff-mini">
-            <div class="c"><b>1,240</b><span>Clicks</span></div>
-            <div class="c"><b>38</b><span>Conversions</span></div>
-            <div class="c"><b>3.1%</b><span>Conv. rate</span></div>
-          </div>
-          <div class="aff-cap">Illustrative preview — figures shown for display only</div>
-        </div>
+    <div class="cta rv">
+      <h2>Ready to start?</h2>
+      <p>Create your account in a minute and get your referral link and dashboard. Joining is free, with no commitment.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="/en/affiliate/register/" class="btn btn-primary">Become an affiliate <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="/en/affiliate/login/" class="btn btn-ghost">Log in</a>
+      </div>
     </div>
-    <div style="text-align:center;margin-top:32px"><a href="#portal" class="btn btn-primary" data-aff-goto="register">Become an affiliate
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
 
@@ -369,9 +316,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
-<script src="/assets/js/nx-api.js?v=112" defer></script>
-<script src="/assets/js/nx.js?v=112" defer></script>
-<script src="/assets/js/nx-form.js?v=112" defer></script>
-<script src="/assets/js/nx-zoho.js?v=112" defer></script>
+<script src="/assets/js/nx-api.js?v=113" defer></script>
+<script src="/assets/js/nx.js?v=113" defer></script>
+<script src="/assets/js/nx-form.js?v=113" defer></script>
+<script src="/assets/js/nx-zoho.js?v=113" defer></script>
 </body>
 </html>
