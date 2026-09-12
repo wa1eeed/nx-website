@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=115">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=115">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=115">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=115">
+<link rel="stylesheet" href="/assets/css/nx.css?v=116">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=116">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=116">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=116">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -138,6 +138,12 @@
           <button class="ap-wbtn" type="button" data-save-settings>حفظ الإعدادات</button>
           <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>هذه هي أرقام البرنامج الفعلية. ما تحفظه هنا يسري فوراً على صفحة الهبوط وحاسبة الأرباح واحتساب العمولات — بلا نشر.</span></div>
         </div>
+
+        <div class="ap-card ap-form" style="margin-top:16px">
+          <div class="ch"><h3>البريد الصادر</h3><button class="ap-mini-btn" type="button" data-mail-test>أرسل رسالة تجربة</button></div>
+          <div data-mail-status><p style="font-size:.85rem;color:var(--muted)">جارٍ الفحص…</p></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>رسائل الاستعادة والإشعارات تُرسل عبر Resend. تُضبط المفاتيح في متغيّرات بيئة الخادم لا من هنا: <code dir="ltr">RESEND_API_KEY</code> و<code dir="ltr">MAIL_FROM</code> و<code dir="ltr">MAIL_ADMIN</code>. ونطاق عنوان المرسِل يجب أن يكون Verified في Resend.</span></div>
+        </div>
       </section>
 
     </div>
@@ -209,7 +215,7 @@
 
 <div class="ap-demo">وضع المعاينة · <b>بيانات تجريبية</b></div>
 
-<script src="/assets/js/nx-api.js?v=115" defer></script>
-<script src="/assets/js/nx-portal.js?v=115" defer></script>
+<script src="/assets/js/nx-api.js?v=116" defer></script>
+<script src="/assets/js/nx-portal.js?v=116" defer></script>
 </body>
 </html>

@@ -13,9 +13,27 @@ const config = require('../config');
 
 const ENDPOINT = 'https://api.resend.com/emails';
 
+// Deliberately answering 200 to a failed reset keeps the enumeration guard honest,
+// but it also hides a misconfiguration from the only people who can fix it. So the
+// last outcome is kept here and exposed to admins through GET /api/admin/mail-status.
+const state = { lastOk: null, lastError: null, sent: 0, failed: 0 };
+function status() {
+  return {
+    configured: !!config.resendApiKey,
+    from: config.mailFrom,
+    replyTo: config.mailReplyTo,
+    adminInbox: config.mailAdmin,
+    sent: state.sent,
+    failed: state.failed,
+    lastOk: state.lastOk,
+    lastError: state.lastError,
+  };
+}
+
 async function send({ to, subject, html, text }) {
   if (!config.resendApiKey) {
     console.warn('[mail] RESEND_API_KEY is not set — not sending:', subject, '→', to);
+    state.failed++; state.lastError = { at: new Date().toISOString(), reason: 'RESEND_API_KEY is not set' };
     return { ok: false, skipped: true };
   }
   try {
@@ -37,11 +55,15 @@ async function send({ to, subject, html, text }) {
     if (!res.ok) {
       const body = await res.text().catch(() => '');
       console.error('[mail] Resend rejected the message:', res.status, body.slice(0, 400));
+      state.failed++;
+      state.lastError = { at: new Date().toISOString(), reason: `Resend returned ${res.status}: ${body.slice(0, 300)}` };
       return { ok: false, status: res.status };
     }
+    state.sent++; state.lastOk = new Date().toISOString(); state.lastError = null;
     return { ok: true };
   } catch (e) {
     console.error('[mail] Could not reach Resend:', e.message);
+    state.failed++; state.lastError = { at: new Date().toISOString(), reason: 'Could not reach Resend: ' + e.message };
     return { ok: false, error: e.message };
   }
 }
@@ -237,4 +259,4 @@ function commissionMail({ lang, partner, clientName, service, amount, portalUrl 
   };
 }
 
-module.exports = { send, passwordResetMail, newLeadMail, leadDecisionMail, commissionMail };
+module.exports = { send, status, passwordResetMail, newLeadMail, leadDecisionMail, commissionMail };

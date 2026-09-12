@@ -56,7 +56,12 @@
     lostConfirm: 'أغلِق الطلب', wonTitle: 'تأكيد عميل مدفوع',
     wonSub: 'أدخل قيمة الصفقة لاحتساب عمولة المسوّق. تُنشأ صفقة معتمدة وتُضاف العمولة إلى رصيده مباشرةً.',
     wonConfirm: 'تأكيد واحتساب العمولة',
-    lostNote: 'يصل العميل إشعار بإغلاق طلبه يتضمّن رسالتك إن كتبتها. لا عمولة على طلب مغلق.'
+    lostNote: 'يصل العميل إشعار بإغلاق طلبه يتضمّن رسالتك إن كتبتها. لا عمولة على طلب مغلق.',
+    mailOn: 'البريد الصادر يعمل', mailOff: 'البريد الصادر غير مفعّل',
+    mailNoKey: 'مفتاح Resend غير مضبوط على الخادم — لا تُرسَل أي رسالة، ولا يصل رابط استعادة كلمة المرور.',
+    mailFrom: 'المرسِل', mailAdminTo: 'إشعارات الأدمن إلى', mailSent: 'أُرسلت', mailFailed: 'أخفقت',
+    mailLastErr: 'آخر خطأ', mailTesting: 'جارٍ الإرسال…', mailTestOk: 'أُرسلت رسالة تجربة إلى ',
+    mailTestFail: 'لم تُرسَل — راجع التفاصيل أعلاه'
   } : {
     clicks: 'clicks', convs: 'conv.', rate: 'rate', copied: 'Copied', copy: 'Copy', download: 'Download',
     paid: 'Paid', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', reversed: 'Reversed',
@@ -88,7 +93,12 @@
     lostConfirm: 'Close the request', wonTitle: 'Confirm paid client',
     wonSub: 'Enter the deal value to compute the partner’s commission. An approved deal is created and the commission is added to their balance right away.',
     wonConfirm: 'Confirm & credit commission',
-    lostNote: 'The client is emailed that their request was closed, including your message if you wrote one. A closed request earns no commission.'
+    lostNote: 'The client is emailed that their request was closed, including your message if you wrote one. A closed request earns no commission.',
+    mailOn: 'Outbound email is working', mailOff: 'Outbound email is not enabled',
+    mailNoKey: 'No Resend key is set on the server — nothing is sent, and password-reset links never arrive.',
+    mailFrom: 'From', mailAdminTo: 'Admin alerts to', mailSent: 'sent', mailFailed: 'failed',
+    mailLastErr: 'Last error', mailTesting: 'Sending…', mailTestOk: 'A test was sent to ',
+    mailTestFail: 'Not sent — see the detail above'
   };
   var kindLabel = { service: T.service, solution: T.solution, platform: T.platform };
   var SERVICE_LABELS = { launch: 'NX Launch', grow: 'NX Grow', auto: 'NX 360', connect: 'NX Connect', scale: 'NX Scale',
@@ -150,7 +160,7 @@
     'work/ibp': IC.shield, 'work/nqlah': IC.truck, 'work/nx-logistic': IC.box, 'work/iwork': IC.bot,
   };
   // Cover art for product cards — mirrors the card the client sees on /{lang}/solutions/.
-  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=115' };
+  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=116' };
 
   // ---------- toast + copy ----------
   var toastEl;
@@ -650,7 +660,8 @@
   //  LIVE (backend) bootstrap
   // ============================================================
   var LIVE = false;
-  function gotoLogin() { location.href = '/' + LANGSEG + '/affiliate/login/'; }
+  // each console sends an expired session back to its own door
+  function gotoLogin() { location.href = '/' + LANGSEG + '/affiliate/' + (isAdmin ? 'admin-login' : 'login') + '/'; }
 
   async function loadWalletLive() {
     try {
@@ -797,6 +808,7 @@
     var po = await window.NXApi.get('/api/admin/payouts'); renderPayouts(po.payouts, true);
     var cv = await window.NXApi.get('/api/admin/conversions'); renderConversions(cv.conversions, true);
     var st = await window.NXApi.get('/api/admin/settings'); fillSettings(st.settings);
+    try { renderMailStatus((await window.NXApi.get('/api/admin/mail-status')).mail); } catch (e) {}
     var ld = await window.NXApi.get('/api/admin/leads'); renderAdminLeads(ld.leads, true);
     setupWonModal();
     wireAdminActions();
@@ -1017,6 +1029,26 @@
     if (oe) openOffer(OFFERS.filter(function (o) { return String(o.id) === String(oe.dataset.offerEdit); })[0] || null);
   });
 
+  // Outbound-mail health. The reset flow answers 200 whatever happens, so this is
+  // the only place an operator can see that nothing is actually going out.
+  function renderMailStatus(m) {
+    var host = $('[data-mail-status]'); if (!host) return;
+    var ok = m.configured && !m.lastError;
+    var rows = [
+      [T.mailFrom, m.from],
+      [T.mailAdminTo, (m.adminInbox || []).join('، ') || '—'],
+      [T.mailSent + ' / ' + T.mailFailed, fmt(m.sent) + ' / ' + fmt(m.failed)],
+    ];
+    host.innerHTML =
+      '<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:12px">' +
+        (ok ? badge('ok', T.mailOn) : badge('bad', T.mailOff)) + '</div>' +
+      (!m.configured ? '<p style="font-size:.85rem;color:var(--ap-bad);line-height:1.6;margin-bottom:12px">' + esc(T.mailNoKey) + '</p>' : '') +
+      rows.map(function (r) {
+        return '<div class="ap-payrow"><span class="t">' + esc(r[0]) + '</span><b style="direction:ltr">' + esc(r[1]) + '</b></div>';
+      }).join('') +
+      (m.lastError ? '<div class="ap-payrow"><span class="t">' + esc(T.mailLastErr) + '</span><b style="direction:ltr;font-size:.72rem;color:var(--ap-bad);text-align:end;max-width:60%">' + esc(m.lastError.reason) + '</b></div>' : '');
+  }
+
   function wireAdminActions() {
     if (document._adminWired) return; document._adminWired = 1;
     document.addEventListener('click', async function (e) {
@@ -1038,6 +1070,17 @@
         if (act === 'reverse' && !confirm(T.confirmReverse)) return;
         try { await window.NXApi.post('/api/admin/conversions/' + cd.dataset.convId + '/' + act); toast(ar ? 'تم' : 'Done'); await refreshConversions(); }
         catch (er) { toast(er.message); }
+        return;
+      }
+      var mt = e.target.closest('[data-mail-test]');
+      if (mt) {
+        mt.disabled = true; var orig = mt.textContent; mt.textContent = T.mailTesting;
+        try {
+          var r = await window.NXApi.post('/api/admin/mail-test');
+          toast(r.delivered ? T.mailTestOk + r.to : T.mailTestFail);
+          renderMailStatus((await window.NXApi.get('/api/admin/mail-status')).mail);
+        } catch (er) { toast(er.message); }
+        mt.disabled = false; mt.textContent = orig;
         return;
       }
       var ss = e.target.closest('[data-save-settings]');

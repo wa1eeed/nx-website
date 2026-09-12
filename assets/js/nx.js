@@ -1030,7 +1030,23 @@
         try {
           const r = await window.NXApi.post('/api/auth/login', { email: g('email'), password: g('password') });
           const adminUrl = '/' + (ar ? 'ar' : 'en') + '/affiliate/admin/';
-          location.href = (r && r.partner && r.partner.role === 'admin') ? adminUrl : portalUrl;
+          const isAdmin = !!(r && r.partner && r.partner.role === 'admin');
+          // Two doors, and each one only opens onto what it is for. Signing in at the
+          // wrong door still authenticated you, so the session is dropped rather than
+          // quietly forwarding you somewhere you did not ask to go.
+          const adminDoor = loginForm.hasAttribute('data-aff-admin');
+          if (adminDoor !== isAdmin) {
+            try { await window.NXApi.post('/api/auth/logout'); } catch (e2) {}
+            const other = adminDoor
+              ? '/' + (ar ? 'ar' : 'en') + '/affiliate/login/'
+              : '/' + (ar ? 'ar' : 'en') + '/affiliate/admin-login/';
+            setMsg('info', adminDoor
+              ? (ar ? 'هذا الحساب ليس حساب إدارة. ادخل من صفحة دخول المسوّقين.' : 'This is not an administrator account. Use the partner log-in page.')
+              : (ar ? 'هذا حساب إدارة. ادخل من صفحة دخول الإدارة.' : 'This is an administrator account. Use the admin sign-in page.'));
+            setTimeout(() => { location.href = other; }, 1800);
+            return;
+          }
+          location.href = isAdmin ? adminUrl : portalUrl;
           return;
         } catch (err) {
           if (err.status === 401) setMsg('info', ar ? 'البريد أو كلمة المرور غير صحيحة.' : 'Invalid email or password.');

@@ -4,7 +4,7 @@ const { query, tx } = require('../db/pool');
 const { asyncH, HttpError, str, num, oneOf } = require('../lib/http');
 const ledger = require('../services/ledger');
 const config = require('../config');
-const { send, leadDecisionMail, commissionMail } = require('../services/mailer');
+const { send, status: mailStatus, leadDecisionMail, commissionMail } = require('../services/mailer');
 
 const router = express.Router();
 
@@ -185,6 +185,26 @@ async function notifyLeadDecision(out, message) {
       service: lead.service, amount: out.commission, portalUrl }) });
   }
 }
+
+// Is outbound mail actually working? The reset flow answers 200 whatever happens,
+// so without this an operator has no way to tell a delivered email from a missing
+// API key. Reports configuration and the last outcome — never the key itself.
+router.get('/mail-status', asyncH(async (_req, res) => {
+  res.json({ ok: true, mail: mailStatus() });
+}));
+
+// Send a real message to the signed-in admin. The only honest way to prove the
+// whole chain — key, verified domain, From address — actually delivers.
+router.post('/mail-test', asyncH(async (req, res) => {
+  const to = req.user.email;
+  const r = await send({
+    to,
+    subject: 'NX Partners — mail test',
+    html: '<p style="font:400 15px/1.7 -apple-system,Segoe UI,Tahoma,sans-serif">This is a test from the NX Partners admin console. If you are reading it, outbound email works.</p>',
+    text: 'This is a test from the NX Partners admin console. If you are reading it, outbound email works.',
+  });
+  res.json({ ok: true, to, delivered: !!r.ok, detail: mailStatus().lastError });
+}));
 
 router.get('/offers', asyncH(async (_req, res) => {
   const rows = (await query(`SELECT id, slug, name_ar, name_en, kind, path, commission_pct, promotable, sort FROM products ORDER BY sort, id`)).rows;

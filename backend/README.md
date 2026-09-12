@@ -40,7 +40,14 @@ Base: JSON, cookie auth. State-changing requests are same-origin guarded; the
 marketing origin (`PUBLIC_ORIGIN`) is allowed via CORS with credentials.
 
 **Auth** — `POST /api/auth/register` (application + password → *pending*) ·
-`POST /api/auth/login` (active only) · `POST /api/auth/logout` · `GET /api/auth/me`
+`POST /api/auth/login` (active only) · `POST /api/auth/logout` · `GET /api/auth/me` ·
+`POST /api/auth/forgot` · `GET|POST /api/auth/reset`
+
+Partners and administrators sign in through **separate pages** —
+`/{lang}/affiliate/login/` and `/{lang}/affiliate/admin-login/` — against the same
+endpoint. The page checks the returned role and, at the wrong door, logs the session
+straight back out and points at the right one. The role decides access; the page
+only decides where you land.
 
 **Tracking** —
 `GET /r?ref=CODE&c=<campaign>&to=/services/grow/` logs the click, sets a
@@ -99,6 +106,13 @@ Four messages, each in the recipient's own language:
 `send()` never throws at the caller and notifications are never awaited into a
 response: a mail outage must not cost a visitor their submission, and must not make
 an admin think a decision failed and click it twice.
+
+**Because of that, a broken mail setup is invisible from the outside** — `/forgot`
+answers 200 either way. `GET /api/admin/mail-status` (admin) reports whether a key
+is configured, the From address, the alert inbox, and the last failure reason;
+`POST /api/admin/mail-test` sends a real message to the signed-in admin. Both are
+surfaced in the admin console under **Program settings → Outbound email**. If reset
+links are not arriving, look there first.
 
 ## How money is accounted
 Balances derive from an **append-only `ledger`**: `commission` credits on
