@@ -2492,6 +2492,7 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 /* ============ Affiliate / NX Partners landing (p-affiliate) ============ */
 .p-affiliate .phero{padding:126px 0 26px}
 .aff-hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:54px;align-items:center}
+.aff-hero-grid:has(.aff-hero-portal){align-items:start}
 .aff-badge{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:rgba(183,144,46,.08);border:1px solid rgba(183,144,46,.32);padding:.42rem .85rem;border-radius:100px}
 .aff-badge i{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:affPulse 2.4s ease-out infinite}
 @keyframes affPulse{0%{box-shadow:0 0 0 0 rgba(183,144,46,.5)}70%{box-shadow:0 0 0 9px rgba(183,144,46,0)}100%{box-shadow:0 0 0 0 rgba(183,144,46,0)}}
@@ -2566,6 +2567,13 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 .aff-who-c{display:flex;align-items:center;gap:.85rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-weight:600;font-size:.94rem}
 .aff-who-c svg{width:22px;height:22px;stroke:var(--brand-2);fill:none;stroke-width:1.7;flex-shrink:0}
 .aff-portal-card{max-width:600px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-l);overflow:hidden}
+.aff-hero-portal .aff-portal-card{max-width:none;margin:0}
+/* The register panel is a long form. Beside the headline it is capped so the fold
+   stays usable; once the grid stacks it is the only thing on screen, so it takes
+   its natural height rather than nesting a scroll inside the page scroll. */
+@media(min-width:921px){.aff-hero-portal .aff-panel{max-height:min(62vh,560px);overflow-y:auto}}
+.aff-hero-note{font-size:.8rem;line-height:1.6;color:var(--muted);text-align:center;margin:.9rem auto 0;max-width:44ch}
+.aff-dash-solo{max-width:520px;margin:0 auto}
 .aff-tabs{display:grid;grid-template-columns:1fr 1fr}
 .aff-tabs button{padding:1rem;font-weight:600;font-size:.92rem;color:var(--muted);background:var(--canvas);border-bottom:2px solid transparent;cursor:pointer;transition:.2s}
 .aff-tabs button.on{color:var(--brand);background:var(--surface);border-bottom-color:var(--brand)}

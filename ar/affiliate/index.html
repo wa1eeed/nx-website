@@ -82,7 +82,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h1>حوّل شبكتك إلى <span class="g">دخلٍ متكرّر</span> مع شركاء NX.</h1>
         <p class="lede">أحِل الشركات والمنشآت إلى منتجات NX الرقمية الجاهزة للإطلاق، واحصل على عمولة تنافسية عن كل عميل. رابط إحالة فريد، ولوحة تتابع فيها نقراتك وتحويلاتك وأرباحك، وتحويلات دورية واضحة — والانضمام مجاني تماماً.</p>
         <div class="aff-cta">
-          <a href="#portal" class="btn btn-primary" data-aff-goto="register">سجّل الآن
+          <a href="#portal" class="btn btn-primary" data-aff-goto="register">انضم كمسوّق
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a href="#portal" class="btn btn-ghost" data-aff-goto="login">تسجيل الدخول</a>
@@ -95,33 +95,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <!-- interactive partner dashboard preview -->
-      <div class="rv in">
-        <div class="aff-dash">
-          <div class="aff-dash-hd">
-            <b>لوحة الشريك</b>
-            <span class="prev">معاينة</span>
+      <!-- register / log in, right in the hero -->
+      <div class="rv in aff-hero-portal" id="portal">
+        <div class="aff-portal-card">
+      <div class="aff-tabs">
+        <button type="button" data-aff-tab="register" class="on">انضم كمسوّق</button>
+        <button type="button" data-aff-tab="login">تسجيل الدخول</button>
+      </div>
+
+      <!-- register -->
+      <div class="aff-panel on" data-aff-panel="register">
+        <form data-aff-register novalidate>
+          <div data-aff-msg class="aff-msg"></div>
+          <div class="aff-two">
+            <div class="aff-field"><label>الاسم الكامل <span class="req">*</span></label><input type="text" name="name" required autocomplete="name"></div>
+            <div class="aff-field"><label>رقم الجوال <span class="req">*</span></label><input type="tel" name="phone" required autocomplete="tel" inputmode="tel"></div>
           </div>
-          <div class="aff-earn">
-            <div class="lbl">أرباحك هذا الشهر</div>
-            <div class="val"><span class="cur">﷼</span><span data-aff-earn="12480">0</span><span class="up">▲ 18%</span></div>
+          <div class="aff-field"><label>البريد الإلكتروني <span class="req">*</span></label><input type="email" name="email" required autocomplete="email"></div>
+          <div class="aff-field"><label>كلمة المرور <span class="req">*</span></label><input type="password" name="password" required autocomplete="new-password" minlength="8" placeholder="٨ أحرف على الأقل"></div>
+          <div class="aff-two">
+            <div class="aff-field"><label>الجهة / الشركة</label><input type="text" name="company" autocomplete="organization"></div>
+            <div class="aff-field"><label>قناتك التسويقية</label>
+              <select name="channel">
+                <option value="">اختر…</option>
+                <option>موقع أو مدوّنة</option>
+                <option>وسائل التواصل الاجتماعي</option>
+                <option>يوتيوب أو بودكاست</option>
+                <option>مجتمع أو قائمة بريدية</option>
+                <option>وكالة تسويق</option>
+                <option>أخرى</option>
+              </select>
+            </div>
           </div>
-          <div class="aff-spark">
-            <i style="height:34%"></i><i style="height:46%"></i><i style="height:40%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:66%"></i><i style="height:60%"></i><i style="height:74%"></i><i style="height:70%"></i><i style="height:84%"></i><i style="height:80%"></i><i style="height:100%"></i>
+          <div class="aff-field"><label>حجم جمهورك تقريباً</label>
+            <select name="audience">
+              <option value="">اختر…</option>
+              <option>أقل من 1,000</option>
+              <option>1,000 – 10,000</option>
+              <option>10,000 – 100,000</option>
+              <option>أكثر من 100,000</option>
+            </select>
           </div>
-          <div class="aff-linkrow">
-            <code>nx.sa/?ref=YOUR-ID</code>
-            <button class="aff-copy" type="button" data-aff-copy="https://nx.sa/?ref=YOUR-ID">
-              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> نسخ
-            </button>
-          </div>
-          <div class="aff-mini">
-            <div class="c"><b>1,240</b><span>نقرة</span></div>
-            <div class="c"><b>38</b><span>تحويل</span></div>
-            <div class="c"><b>3.1%</b><span>معدّل التحويل</span></div>
-          </div>
-          <div class="aff-cap">معاينة توضيحية — الأرقام لأغراض العرض</div>
+          <div class="aff-field"><label>كيف تنوي التسويق لحلول NX؟</label><textarea name="note" placeholder="اختياري — اشرح باختصار قنواتك وجمهورك"></textarea></div>
+          <label class="aff-check"><input type="checkbox" required> أوافق على <a href="/ar/legal/terms/">شروط البرنامج</a> و<a href="/ar/legal/privacy/">سياسة الخصوصية</a>.</label>
+          <button type="submit" class="btn btn-primary aff-submit">أرسل طلب الانضمام</button>
+        </form>
+      </div>
+
+      <!-- login -->
+      <div class="aff-panel" data-aff-panel="login">
+        <form data-aff-login novalidate>
+          <div data-aff-msg class="aff-msg"></div>
+          <div class="aff-field"><label>البريد الإلكتروني</label><input type="email" name="email" autocomplete="email"></div>
+          <div class="aff-field"><label>كلمة المرور</label><input type="password" name="password" autocomplete="current-password"></div>
+          <button type="submit" class="btn btn-primary aff-submit">دخول</button>
+          <p class="aff-alt">ليس لديك حساب؟ <a data-aff-goto="register">أنشئ حساباً الآن</a></p>
+        </form>
+      </div>
         </div>
+        <p class="aff-hero-note">الانضمام مجاني. نراجع طلبك ونُفعّل حسابك، ويصلك إشعار عند الاعتماد.</p>
       </div>
     </div>
   </div>
@@ -262,69 +294,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- PORTAL: register / login -->
-<section class="sec" id="portal" style="padding-top:0">
+<section class="sec" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head center rv"><span class="eyebrow">بوابة الشركاء</span><h2>انضم الآن، وابدأ الكسب.</h2></div>
-    <div class="aff-note rv">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      <span>بوابة الشركاء قيد الإطلاق. سجّل الآن لتكون من أوائل المنضمّين — يصلنا طلبك مباشرةً، وسنُفعّل حسابك ونُشعرك فور جاهزية البوابة.</span>
+    <div class="sec-head center rv"><span class="eyebrow">لوحتك</span><h2>وهذه لوحتك بعد الانضمام.</h2><p>نقراتك وتحويلاتك وأرباحك ورصيدك — في مكان واحد تفتحه متى شئت.</p></div>
+    <div class="aff-dash-solo rv">
+        <div class="aff-dash">
+          <div class="aff-dash-hd">
+            <b>لوحة الشريك</b>
+            <span class="prev">معاينة</span>
+          </div>
+          <div class="aff-earn">
+            <div class="lbl">أرباحك هذا الشهر</div>
+            <div class="val"><span class="cur">﷼</span><span data-aff-earn="12480">0</span><span class="up">▲ 18%</span></div>
+          </div>
+          <div class="aff-spark">
+            <i style="height:34%"></i><i style="height:46%"></i><i style="height:40%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:66%"></i><i style="height:60%"></i><i style="height:74%"></i><i style="height:70%"></i><i style="height:84%"></i><i style="height:80%"></i><i style="height:100%"></i>
+          </div>
+          <div class="aff-linkrow">
+            <code>nx.sa/?ref=YOUR-ID</code>
+            <button class="aff-copy" type="button" data-aff-copy="https://nx.sa/?ref=YOUR-ID">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg> نسخ
+            </button>
+          </div>
+          <div class="aff-mini">
+            <div class="c"><b>1,240</b><span>نقرة</span></div>
+            <div class="c"><b>38</b><span>تحويل</span></div>
+            <div class="c"><b>3.1%</b><span>معدّل التحويل</span></div>
+          </div>
+          <div class="aff-cap">معاينة توضيحية — الأرقام لأغراض العرض</div>
+        </div>
     </div>
-    <div class="aff-portal-card rv">
-      <div class="aff-tabs">
-        <button type="button" data-aff-tab="register" class="on">إنشاء حساب</button>
-        <button type="button" data-aff-tab="login">تسجيل الدخول</button>
-      </div>
-
-      <!-- register -->
-      <div class="aff-panel on" data-aff-panel="register">
-        <form data-aff-register novalidate>
-          <div data-aff-msg class="aff-msg"></div>
-          <div class="aff-two">
-            <div class="aff-field"><label>الاسم الكامل <span class="req">*</span></label><input type="text" name="name" required autocomplete="name"></div>
-            <div class="aff-field"><label>رقم الجوال <span class="req">*</span></label><input type="tel" name="phone" required autocomplete="tel" inputmode="tel"></div>
-          </div>
-          <div class="aff-field"><label>البريد الإلكتروني <span class="req">*</span></label><input type="email" name="email" required autocomplete="email"></div>
-          <div class="aff-field"><label>كلمة المرور <span class="req">*</span></label><input type="password" name="password" required autocomplete="new-password" minlength="8" placeholder="٨ أحرف على الأقل"></div>
-          <div class="aff-two">
-            <div class="aff-field"><label>الجهة / الشركة</label><input type="text" name="company" autocomplete="organization"></div>
-            <div class="aff-field"><label>قناتك التسويقية</label>
-              <select name="channel">
-                <option value="">اختر…</option>
-                <option>موقع أو مدوّنة</option>
-                <option>وسائل التواصل الاجتماعي</option>
-                <option>يوتيوب أو بودكاست</option>
-                <option>مجتمع أو قائمة بريدية</option>
-                <option>وكالة تسويق</option>
-                <option>أخرى</option>
-              </select>
-            </div>
-          </div>
-          <div class="aff-field"><label>حجم جمهورك تقريباً</label>
-            <select name="audience">
-              <option value="">اختر…</option>
-              <option>أقل من 1,000</option>
-              <option>1,000 – 10,000</option>
-              <option>10,000 – 100,000</option>
-              <option>أكثر من 100,000</option>
-            </select>
-          </div>
-          <div class="aff-field"><label>كيف تنوي التسويق لحلول NX؟</label><textarea name="note" placeholder="اختياري — اشرح باختصار قنواتك وجمهورك"></textarea></div>
-          <label class="aff-check"><input type="checkbox" required> أوافق على <a href="/ar/legal/terms/">شروط البرنامج</a> و<a href="/ar/legal/privacy/">سياسة الخصوصية</a>.</label>
-          <button type="submit" class="btn btn-primary aff-submit">أرسل طلب الانضمام</button>
-        </form>
-      </div>
-
-      <!-- login -->
-      <div class="aff-panel" data-aff-panel="login">
-        <form data-aff-login novalidate>
-          <div data-aff-msg class="aff-msg"></div>
-          <div class="aff-field"><label>البريد الإلكتروني</label><input type="email" name="email" autocomplete="email"></div>
-          <div class="aff-field"><label>كلمة المرور</label><input type="password" name="password" autocomplete="current-password"></div>
-          <button type="submit" class="btn btn-primary aff-submit">دخول</button>
-          <p class="aff-alt">ليس لديك حساب؟ <a data-aff-goto="register">أنشئ حساباً الآن</a></p>
-        </form>
-      </div>
-    </div>
+    <div style="text-align:center;margin-top:32px"><a href="#portal" class="btn btn-primary" data-aff-goto="register">انضم كمسوّق
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
 
