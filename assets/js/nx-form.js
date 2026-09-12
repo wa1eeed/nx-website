@@ -363,12 +363,13 @@
     const meta = document.querySelector('meta[name="nx-api"]');
     return (meta && meta.content ? meta.content : (/(^|\.)nx\.sa$/i.test(location.hostname) ? 'https://api.nx.sa' : '')).replace(/\/$/, '');
   }
-  // Best-effort beacon → affiliate backend. Records the lead against the partner
-  // (the backend also cross-checks its own first-party cookie). For the contact
-  // form it only fires when a referral code is present, so non-affiliate leads send
-  // no PII to a backend that has no use for them. A form that sets `direct: true`
-  // — the product request forms, whose queue *is* the admin console — opts into
-  // sending unreferred requests too.
+  // Best-effort beacon → the NX Partners backend, whose Requests queue is the admin
+  // console. Records the lead against the partner when a code is present (the
+  // backend also cross-checks its own first-party cookie). `direct: true` opts a
+  // form into sending unreferred leads as well; both site forms set it, so the team
+  // works one inbox and an unreferred lead is simply tagged "direct".
+  // Note this means the backend stores contact details for every site lead, not
+  // only affiliate ones — retention there is governed like any other lead store.
   function sendLead(data) {
     try {
       const ref = data.ref || '';
@@ -674,9 +675,21 @@
 
     const data = collect(form);
 
-    // Record the affiliate lead independently of Zoho — the visitor completed the
-    // form, so attribution should stand even if the CRM POST hiccups.
-    sendLead(data);
+    // Record the lead independently of Zoho — the visitor completed the form, so it
+    // should stand even if the CRM POST hiccups. `direct: true` means the admin
+    // queue receives every contact-form lead, not only referred ones; an unreferred
+    // one lands there tagged "direct" and earns nobody a commission.
+    // `details` carries the referral tag appended for Zoho's benefit, so the note
+    // sent here is the visitor's own text, and the rest of the answers ride in meta.
+    sendLead(Object.assign({}, data, {
+      direct: true,
+      note: (form.details && form.details.value || '').trim(),
+      meta: {
+        form: 'contact',
+        role: data.role || '', sector: data.sector || '', stage: data.stage || '',
+        time: data.time || '', language: data.language || '',
+      },
+    }));
 
     let ok = false;
     try {

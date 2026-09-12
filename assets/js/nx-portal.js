@@ -47,6 +47,9 @@
     viaLink: 'رابط إحالة', viaCoupon: 'كود خصم', viaDirect: 'طلب مباشر',
     dtNoPartner: 'طلب مباشر — لم يحمل كود مسوّق، فلا عمولة عليه.', dash: '—',
     reject: 'رفض', reverse: 'استرجاع', noConv: 'لا توجد صفقات بعد.',
+    mRole: 'الدور في المنشأة', mSector: 'القطاع', mStage: 'مرحلة المنشأة', mTime: 'وقت التواصل المفضّل',
+    mForm: 'مصدر الطلب', formContact: 'نموذج التواصل', formProduct: 'نموذج طلب منتج',
+    noMatch: 'لا توجد طلبات بهذا التصنيف.',
     savedProfile: 'تم حفظ بياناتك', savedSettings: 'تم حفظ إعدادات البرنامج',
     confirmReverse: 'استرجاع هذه العمولة؟ سيُخصم مبلغها من رصيد المسوّق.'
   } : {
@@ -71,6 +74,9 @@
     viaLink: 'Referral link', viaCoupon: 'Coupon code', viaDirect: 'Direct request',
     dtNoPartner: 'Direct request — no partner code was carried, so no commission is due.', dash: '—',
     reject: 'Reject', reverse: 'Reverse', noConv: 'No deals yet.',
+    mRole: 'Role', mSector: 'Sector', mStage: 'Company stage', mTime: 'Preferred contact time',
+    mForm: 'Came from', formContact: 'Contact form', formProduct: 'Product request form',
+    noMatch: 'No requests in this view.',
     savedProfile: 'Your details were saved', savedSettings: 'Program settings saved',
     confirmReverse: 'Reverse this commission? Its amount is debited from the partner’s balance.'
   };
@@ -384,11 +390,19 @@
     }).join('');
   }
   // admin: the "Requests" queue — verify payment → won (deal + commission) / lost / reopen
-  var LEADS = [];
+  // Both site forms now feed this queue, so most rows carry no partner. The filter
+  // is what keeps the affiliate work visible inside the larger stream.
+  var LEADS = [], LEAD_FILTER = 'all', LEADS_LIVE = false;
+  function leadMatches(x) {
+    return LEAD_FILTER === 'all' || (LEAD_FILTER === 'direct' ? !x.partner : !!x.partner);
+  }
   function renderAdminLeads(rows, live) {
     var b = $('[data-admin-leads]'); if (!b) return;
-    LEADS = rows || [];
-    if (!rows || !rows.length) { b.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">' + T.noReq + '</td></tr>'; return; }
+    if (rows) { LEADS = rows; LEADS_LIVE = live; }
+    rows = LEADS.filter(leadMatches);
+    if (!LEADS.length) { b.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">' + T.noReq + '</td></tr>'; return; }
+    if (!rows.length) { b.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">' + T.noMatch + '</td></tr>'; return; }
+    live = LEADS_LIVE;
     b.innerHTML = rows.map(function (x) {
       var acts;
       if (x.status === 'won') acts = '<span class="amt pos">' + fmt(x.commission) + ' ' + CUR + '</span>';
@@ -471,7 +485,13 @@
         { id: 4, date: '2026-07-27', submitted_at: '2026-07-27T08:20:00Z', client_name: 'Madar Logistics', email: 'ops@madar.sa',
           phone: '0552223333', company: 'Madar Logistics', partner: 'Khalid Al-Otaibi', partner_ref: 'KHALID-7Q2',
           partner_coupon: 'KHALID10', via: 'link', service: 'auto', source_page: '/' + LANGSEG + '/services/automation360/',
-          status: 'pending', commission: 0, meta: {} },
+          status: 'pending', commission: 0, meta: { form: 'contact', role: ar ? 'مدير تقني' : 'CTO', sector: 'logistics', stage: 'live', time: 'morning' } },
+        { id: 6, date: '2026-07-26', submitted_at: '2026-07-26T13:35:00Z', client_name: ar ? 'متجر بروق' : 'Burooq Store',
+          email: 'hi@burooq.sa', phone: '0557778888', company: ar ? 'بروق للتجارة' : 'Burooq Trading',
+          partner: null, via: 'direct', service: 'launch', source_page: '/' + LANGSEG + '/services/launch/',
+          status: 'pending', commission: 0,
+          note: ar ? 'نبغى متجراً إلكترونياً مربوطاً بأنظمتنا.' : 'We want a storefront wired into our systems.',
+          meta: { form: 'contact', role: ar ? 'مؤسس' : 'Founder', sector: 'ecommerce', stage: 'pre', time: 'evening' } },
         { id: 5, date: '2026-07-20', submitted_at: '2026-07-20T16:02:00Z', client_name: 'Aseel Store', email: 'aseel@shop.sa',
           phone: '0554445555', company: 'Aseel Store', partner: 'Faisal Media', partner_ref: 'FAISAL-9M2',
           partner_coupon: 'FAISAL10', via: 'FAISAL10', service: 'connect', source_page: '/' + LANGSEG + '/services/connect/',
@@ -562,7 +582,7 @@
       [ar ? 'التاريخ' : 'Date', ar ? 'العميل' : 'Client', ar ? 'البريد' : 'Email', ar ? 'الجوال' : 'Phone',
        ar ? 'المنشأة' : 'Company', ar ? 'المنتج' : 'Product', ar ? 'المسوّق' : 'Partner', ar ? 'الكود' : 'Code',
        ar ? 'الحالة' : 'Status', ar ? 'الملاحظات' : 'Notes'],
-      LEADS.map(function (x) {
+      LEADS.filter(leadMatches).map(function (x) {
         return [day(x.date), x.client_name, x.email, x.phone, x.company, svcLabel(x.service),
           x.partner || T.direct, x.partner_ref || '', x.status, x.note || ''];
       }));
@@ -828,15 +848,36 @@
     if (!x.partner) return T.viaDirect;
     return x.via === 'link' ? T.viaLink : (T.viaCoupon + ' · ' + x.via);
   }
+  // The contact form and the product forms ask different things; both are shown
+  // with real labels, and anything neither knows about still renders by key rather
+  // than being dropped.
+  var META_LABELS = function () { return { role: T.mRole, sector: T.mSector, stage: T.mStage, time: T.mTime }; };
+  var SECTOR_LABELS = ar
+    ? { fintech: 'تقنية مالية', proptech: 'عقارات', healthtech: 'صحة', insurtech: 'تأمين', ecommerce: 'تجارة إلكترونية', ondemand: 'حسب الطلب', logistics: 'لوجستيات', other: 'قطاع آخر' }
+    : { fintech: 'FinTech', proptech: 'PropTech', healthtech: 'HealthTech', insurtech: 'InsurTech', ecommerce: 'E-commerce', ondemand: 'On-demand', logistics: 'Logistics', other: 'Other' };
+  var STAGE_LABELS = ar
+    ? { pre: 'قبل الإطلاق', live: 'منصة قائمة', invest: 'تحضير لاستثمار' }
+    : { pre: 'Pre-launch', live: 'Live platform', invest: 'Pre-investment' };
+  var TIME_LABELS = ar
+    ? { morning: 'صباحاً', noon: 'ظهراً', afternoon: 'عصراً', evening: 'مساءً', any: 'أي وقت' }
+    : { morning: 'Morning', noon: 'Noon', afternoon: 'Afternoon', evening: 'Evening', any: 'Any time' };
+  function metaValue(k, v) {
+    if (k === 'sector') return SECTOR_LABELS[v] || v;
+    if (k === 'stage') return STAGE_LABELS[v] || v;
+    if (k === 'time') return TIME_LABELS[v] || v;
+    return v;
+  }
   function renderLeadDetails(x) {
     var meta = x.meta || {};
     var kind = meta.kind_label || KIND_LABELS[meta.kind] || meta.kind || '';
+    var formLabel = meta.form === 'product' ? T.formProduct : meta.form === 'contact' ? T.formContact : '';
     var page = x.source_page
       ? '<a href="' + esc(ORIGIN + x.source_page) + '" target="_blank" rel="noopener">' + esc(x.source_page) + '</a>' : '';
-    // any answer a future product's form adds shows up here without a code change
-    var known = { product: 1, kind: 1, kind_label: 1 };
+    // any answer a future form adds shows up here without a code change
+    var known = { product: 1, kind: 1, kind_label: 1, form: 1, language: 1 };
+    var labels = META_LABELS();
     var extra = Object.keys(meta).filter(function (k) { return !known[k] && meta[k] !== ''; })
-      .map(function (k) { return row(k, meta[k]); }).join('');
+      .map(function (k) { return row(labels[k] || k, metaValue(k, meta[k])); }).join('');
 
     return '<div class="ap-det-h"><b>' + esc(x.client_name || T.dash) + '</b>' + leadStatusBadge(x.status) + '</div>' +
       '<div class="ap-det-s">' + esc(T.dtClient) + '</div>' +
@@ -845,6 +886,7 @@
       row(T.dtPhone, x.phone ? '<a href="tel:' + esc(String(x.phone).replace(/\s/g, '')) + '" dir="ltr">' + esc(x.phone) + '</a>' : '', { html: true, mono: true }) +
       row(T.dtCompany, x.company) +
       '<div class="ap-det-s">' + esc(T.dtRequest) + '</div>' +
+      row(T.mForm, formLabel) +
       row(T.dtProduct, meta.product || svcLabel(x.service)) +
       row(T.dtKind, kind) +
       row(T.dtNote, x.note, { pre: true }) +
@@ -877,7 +919,13 @@
   }
   if (isAdmin) document.addEventListener('click', function (e) {
     var o = e.target.closest('[data-lead-open]');
-    if (o) openLeadDetails(o.dataset.leadOpen);
+    if (o) { openLeadDetails(o.dataset.leadOpen); return; }
+    var f = e.target.closest('[data-lead-filter]');
+    if (f) {
+      document.querySelectorAll('[data-lead-filter]').forEach(function (b) { b.classList.toggle('on', b === f); });
+      LEAD_FILTER = f.dataset.leadFilter;
+      renderAdminLeads(null, LEADS_LIVE);
+    }
   });
 
   // product modal (admin): add a new catalogue entry, or edit an existing one.

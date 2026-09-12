@@ -83,11 +83,12 @@ CREATE INDEX IF NOT EXISTS idx_conv_partner_time ON conversions(partner_id, crea
 -- idempotency for webhook-created conversions
 CREATE UNIQUE INDEX IF NOT EXISTS uniq_conv_external ON conversions(external_ref) WHERE external_ref IS NOT NULL;
 
--- client requests. NX is B2B (no online checkout), so the conversion event is a
--- visitor submitting the site contact form or a product request form. When the
--- visitor carries a referral code the lead is attributed to that partner; a direct
--- request has partner_id NULL and earns no commission — it still lands in the admin
--- «Requests» queue so the team works one inbox.
+-- client requests from every site form. NX is B2B (no online checkout), so the
+-- conversion event is a visitor submitting the contact form or a product request
+-- form. When the visitor carries a referral code the lead is attributed to that
+-- partner; a direct request has partner_id NULL and earns no commission — it still
+-- lands in the admin «Requests» queue, tagged direct, so the team works one inbox.
+-- This therefore holds contact details for all site leads, not only affiliate ones.
 -- Sales later closes it → admin turns the lead into a conversion → commission.
 CREATE TABLE IF NOT EXISTS leads (
   id            SERIAL PRIMARY KEY,

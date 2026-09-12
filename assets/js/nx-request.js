@@ -238,7 +238,7 @@
     if (api && api.toPartners) {
       api.toPartners(Object.assign({}, payload, {
         service: SERVICE, note: note, direct: true,
-        meta: { product: PRODUCT, kind: kind, kind_label: T.kinds[kind] || '' },
+        meta: { form: 'product', product: PRODUCT, kind: kind, kind_label: T.kinds[kind] || '' },
       }));
     }
     try { if (api && api.toZoho) await api.toZoho(payload); } catch (err) {}

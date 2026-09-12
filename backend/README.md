@@ -51,8 +51,11 @@ checkout/CRM → attributes by `ref` or `coupon` (enforces the attribution windo
 `POST /track/lead` records a client request from a site form. A `ref`/`coupon` (or
 the signed attribution cookie) attributes it to a partner; with `direct: true` in
 the body an *unattributed* request is recorded too (`partner_id NULL`, no
-commission) so the admin works a single queue. The contact form omits `direct` —
-its leads already flow to the CRM. The product request forms set it.
+commission) so the admin works a single queue, where it shows tagged **direct**.
+Both site forms — the contact form and the product request forms — set `direct`,
+so this table holds contact details for every site lead, not only affiliate ones;
+treat its retention like any other lead store. Partners still only ever see their
+own (`GET /api/partner/leads`), and without contact details.
 `meta` carries whatever else that form asked, stored as submitted (flat scalars,
 sanitized) so the admin console can show the form the way the CRM does.
 

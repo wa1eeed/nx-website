@@ -80,11 +80,16 @@
 
       <!-- LEADS / REQUESTS -->
       <section class="ap-view" data-view="leads">
-        <div class="ap-sh"><div><h2>الطلبات</h2><p>كل طلب وصل من نماذج الموقع — المُحال والمباشر معاً. افتح «تفاصيل» لترى ما عبّأه العميل وكود المسوّق، ثم تحقّق من الدفع وحوّله إلى صفقة أو أغلقه.</p></div></div>
+        <div class="ap-sh"><div><h2>الطلبات</h2><p>كل طلب وصل من نماذج الموقع: نموذج التواصل ونماذج طلب المنتجات، المُحال والمباشر معاً. رشّح بالأعلى لعزل طلبات المسوّقين، وافتح «تفاصيل» لترى ما عبّأه العميل وكود من أحاله.</p></div></div>
+        <div class="ap-mat-bar">
+          <button class="ap-chipf on" type="button" data-lead-filter="all">الكل</button>
+          <button class="ap-chipf" type="button" data-lead-filter="referred">عبر مسوّق</button>
+          <button class="ap-chipf" type="button" data-lead-filter="direct">مباشر</button>
+        </div>
         <div class="ap-card">
           <div class="ch"><h3>طلبات العملاء</h3><button class="ap-mini-btn" type="button" data-export="leads">تصدير CSV</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>التاريخ</th><th>العميل</th><th>المسوّق</th><th>المنتج / الخدمة</th><th>الحالة</th><th></th></tr></thead><tbody data-admin-leads></tbody></table></div>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«عميل مدفوع» يُنشئ صفقة معتمدة ويحتسب عمولة المسوّق فوراً في محفظته. الطلب المباشر (بلا كود) يُغلق بقيمة الصفقة بلا عمولة. كل طلب يصل Zoho أيضاً، والربط معه مستقلّ ولا يتأثّر.</span></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«عميل مدفوع» يُنشئ صفقة معتمدة ويحتسب عمولة المسوّق فوراً في محفظته. الطلب الموسوم «مباشر» لا مسوّق له، فيُغلق بقيمة الصفقة بلا عمولة. كل طلب يصل Zoho أيضاً، والربط معه مستقلّ ولا يتأثّر.</span></div>
         </div>
       </section>
 
