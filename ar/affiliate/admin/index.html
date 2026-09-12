@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=111">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=111">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=111">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=111">
+<link rel="stylesheet" href="/assets/css/nx.css?v=112">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=112">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=112">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=112">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -25,6 +25,7 @@
       <a data-go="overview" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>نظرة عامة</span></a>
       <a data-go="partners"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg><span>الشركاء</span><span class="ct">214</span></a>
       <a data-go="leads"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>الطلبات</span><span class="ct" data-need="pendingLeads">—</span></a>
+      <a data-go="conversions"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span>الصفقات والعمولات</span><span class="ct" data-need="pendingConversions">—</span></a>
       <a data-go="offers"><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 21V12h6v9"/></svg><span>المنتجات والعروض</span></a>
       <a data-go="payouts"><svg viewBox="0 0 24 24"><path d="M2 7h20v5H2zM2 7v12a1 1 0 001 1h18a1 1 0 001-1v-7"/></svg><span>المدفوعات</span><span class="ct">2</span></a>
       <span class="lbl">الإعداد</span>
@@ -72,18 +73,28 @@
       <section class="ap-view" data-view="partners">
         <div class="ap-sh"><div><h2>الشركاء</h2><p>راجِع الطلبات، واعتمِد الشركاء، وتابِع أداءهم وأكوادهم.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>كل الشركاء</h3><span class="mini">تصدير CSV</span></div>
+          <div class="ch"><h3>كل الشركاء</h3><button class="ap-mini-btn" type="button" data-export="partners">تصدير CSV</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>الشريك</th><th>القناة</th><th>الكود</th><th>التحويلات</th><th>الأرباح</th><th>الحالة</th><th></th></tr></thead><tbody data-partners></tbody></table></div>
         </div>
       </section>
 
       <!-- LEADS / REQUESTS -->
       <section class="ap-view" data-view="leads">
-        <div class="ap-sh"><div><h2>الطلبات</h2><p>كل عميل مُحال عبّأ نموذج التواصل — تحقّق من الدفع وحوّله إلى صفقة، أو أغلقه.</p></div></div>
+        <div class="ap-sh"><div><h2>الطلبات</h2><p>كل طلب وصل من نماذج الموقع — المُحال والمباشر معاً. افتح «تفاصيل» لترى ما عبّأه العميل وكود المسوّق، ثم تحقّق من الدفع وحوّله إلى صفقة أو أغلقه.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>العملاء المُحالون</h3><span class="mini">تصدير CSV</span></div>
-          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>التاريخ</th><th>العميل</th><th>المسوّق</th><th>الخدمة</th><th>الحالة</th><th></th></tr></thead><tbody data-admin-leads></tbody></table></div>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«عميل مدفوع» يُنشئ صفقة معتمدة ويحتسب عمولة المسوّق فوراً في محفظته. الربط مع Zoho مستقلّ تماماً ولا يتأثّر.</span></div>
+          <div class="ch"><h3>طلبات العملاء</h3><button class="ap-mini-btn" type="button" data-export="leads">تصدير CSV</button></div>
+          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>التاريخ</th><th>العميل</th><th>المسوّق</th><th>المنتج / الخدمة</th><th>الحالة</th><th></th></tr></thead><tbody data-admin-leads></tbody></table></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«عميل مدفوع» يُنشئ صفقة معتمدة ويحتسب عمولة المسوّق فوراً في محفظته. الطلب المباشر (بلا كود) يُغلق بقيمة الصفقة بلا عمولة. كل طلب يصل Zoho أيضاً، والربط معه مستقلّ ولا يتأثّر.</span></div>
+        </div>
+      </section>
+
+      <!-- CONVERSIONS -->
+      <section class="ap-view" data-view="conversions">
+        <div class="ap-sh"><div><h2>الصفقات والعمولات</h2><p>كل صفقة احتُسبت لمسوّق. هنا تعتمد المعلّقة، وترفض غير المستحقّة، وتسترجع عمولة صُرفت بالخطأ.</p></div></div>
+        <div class="ap-card">
+          <div class="ch"><h3>سجل الصفقات</h3></div>
+          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>التاريخ</th><th>المسوّق</th><th>المنتج</th><th>العميل</th><th>قيمة الصفقة</th><th>العمولة</th><th>الحالة</th><th></th></tr></thead><tbody data-conversions></tbody></table></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>«الاسترجاع» يقيّد خصماً مقابلاً في السجل المحاسبي ويخفض رصيد المسوّق — ولا يحرّك أي أموال. استخدمه حين يُلغى العقد أو يُسترد المبلغ.</span></div>
         </div>
       </section>
 
@@ -91,9 +102,9 @@
       <section class="ap-view" data-view="offers">
         <div class="ap-sh"><div><h2>المنتجات والعروض</h2><p>حدّد نسبة العمولة لكل منتج/خدمة وحالة إتاحته للتسويق.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>محفظة المنتجات</h3><span class="mini">إضافة منتج</span></div>
+          <div class="ch"><h3>محفظة المنتجات</h3><button class="ap-mini-btn" type="button" data-offer-new>إضافة منتج</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>المنتج / الخدمة</th><th>النوع</th><th>العمولة</th><th>الحالة</th><th></th></tr></thead><tbody data-offers></tbody></table></div>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>هذه المنتجات هي نفسها المعروضة للشركاء في «المنتجات والخدمات» بروابط إحالة مباشرة. النِسب تجريبية للعرض.</span></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>هذه المنتجات هي نفسها المعروضة للشركاء في «الخدمات» و«المنتجات والحلول» بروابط إحالة مباشرة. نشر حلّ جديد على الموقع لا يضيفه هنا تلقائياً — أضفه من «إضافة منتج» وحدّد نسبته وإتاحته للتسويق.</span></div>
         </div>
       </section>
 
@@ -101,7 +112,7 @@
       <section class="ap-view" data-view="payouts">
         <div class="ap-sh"><div><h2>المدفوعات</h2><p>راجِع طلبات السحب وحدّد حالتها. التحويل الفعلي يتم عبر بنك NX.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>طلبات السحب</h3><span class="mini">تصدير للبنك</span></div>
+          <div class="ch"><h3>طلبات السحب</h3><button class="ap-mini-btn" type="button" data-export="payouts">تصدير للبنك</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>التاريخ</th><th>الشريك</th><th>الطريقة</th><th>المبلغ</th><th>الحالة</th><th></th></tr></thead><tbody data-payouts></tbody></table></div>
           <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>لا تُحرّك هذه اللوحة أي أموال — إنّما تُسجّل وتعتمد وتتابع حالة الصرف؛ التحويل الفعلي يُنفَّذ من خزينة/بنك NX خارج النظام.</span></div>
         </div>
@@ -114,13 +125,13 @@
           <div class="ch"><h3>لغة الواجهة</h3></div>
           <div class="ap-langset"><button class="on">العربية</button><button data-lang>English</button></div>
           <div class="ch" style="margin-top:20px"><h3>العمولة والأكواد</h3></div>
-          <div class="ap-two"><div class="ap-fld"><label>النسبة الأساسية (%)</label><input type="number" value="15"></div><div class="ap-fld"><label>خصم كود الكوبون (%)</label><input type="number" value="10"></div></div>
-          <div class="ap-two"><div class="ap-fld"><label>شريحة النمو — من 10 تحويلات (%)</label><input type="number" value="18"></div><div class="ap-fld"><label>شريحة النخبة — من 25 تحويلاً (%)</label><input type="number" value="22"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>النسبة الأساسية (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="base_pct"></div><div class="ap-fld"><label>خصم كود الكوبون (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="coupon_pct"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>شريحة النمو — من 10 تحويلات (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="tier_growth_pct"></div><div class="ap-fld"><label>شريحة النخبة — من 25 تحويلاً (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="tier_elite_pct"></div></div>
           <div class="ch" style="margin-top:8px"><h3>التتبّع والحماية</h3></div>
-          <div class="ap-two"><div class="ap-fld"><label>نافذة الإحالة (يوم)</label><input type="number" value="60"></div><div class="ap-fld"><label>الحد الأدنى للسحب (﷼)</label><input type="number" value="1000"></div></div>
-          <div class="ap-two"><div class="ap-fld"><label>حماية من النقر الاحتيالي</label><select><option>مُفعّلة</option><option>مُعطّلة</option></select></div><div class="ap-fld"><label>جدولة الصرف</label><select><option>شهرياً</option><option>كل أسبوعين</option><option>ربع سنوي</option></select></div></div>
-          <button class="ap-wbtn" data-toast="تم حفظ إعدادات البرنامج (معاينة)">حفظ الإعدادات</button>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>هذه القيم تجريبية للعرض. زوّدنا بالأرقام الفعلية لنثبّتها هنا وفي صفحة الهبوط والحاسبة.</span></div>
+          <div class="ap-two"><div class="ap-fld"><label>نافذة الإحالة (يوم)</label><input type="number" min="1" max="365" data-ps="attribution_window_days"></div><div class="ap-fld"><label>الحد الأدنى للسحب (﷼)</label><input type="number" min="0" data-ps="min_payout"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>حماية من النقر الاحتيالي</label><select data-ps="fraud_protection"><option value="1">مُفعّلة</option><option value="0">مُعطّلة</option></select></div><div class="ap-fld"><label>جدولة الصرف</label><select data-ps="payout_schedule"><option value="monthly">شهرياً</option><option value="biweekly">كل أسبوعين</option><option value="quarterly">ربع سنوي</option></select></div></div>
+          <button class="ap-wbtn" type="button" data-save-settings>حفظ الإعدادات</button>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>هذه هي أرقام البرنامج الفعلية. ما تحفظه هنا يسري فوراً على صفحة الهبوط وحاسبة الأرباح واحتساب العمولات — بلا نشر.</span></div>
         </div>
       </section>
 
@@ -147,9 +158,52 @@
   </div>
 </div>
 
+<!-- PRODUCT / OFFER MODAL -->
+<div class="ap-modal" data-offer-modal>
+  <div class="box">
+    <h3 data-offer-title>إضافة منتج</h3>
+    <p class="sub">المنتج الذي تضيفه هنا يظهر فوراً للشركاء في «الخدمات» أو «المنتجات والحلول» حسب نوعه، برابط إحالة يحمل كود كلٍّ منهم.</p>
+    <form>
+      <div class="ap-two">
+        <div class="ap-fld"><label>الاسم بالعربية</label><input type="text" placeholder="مثال: منصّة مزادات اللوحات" data-offer-namear></div>
+        <div class="ap-fld"><label>الاسم بالإنجليزية</label><input type="text" dir="ltr" placeholder="Plate Auctions Platform" data-offer-nameen></div>
+      </div>
+      <div class="ap-two">
+        <div class="ap-fld"><label>النوع</label><select data-offer-kind>
+          <option value="solution">حل / منتج جاهز</option>
+          <option value="service">خدمة</option>
+          <option value="platform">منصّة</option>
+        </select></div>
+        <div class="ap-fld"><label>نسبة العمولة (%)</label><input type="number" min="0" max="100" step="0.5" value="15" data-offer-pct></div>
+      </div>
+      <div class="ap-fld"><label>مسار الصفحة</label><input type="text" dir="ltr" placeholder="/solutions/plate-market/" data-offer-path>
+        <div class="ap-note-s" style="margin-top:10px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>اكتب المسار بدون لغة (<code dir="ltr">/solutions/…/</code>) ليُفتح بلغة كل شريك، أو معها (<code dir="ltr">/ar/solutions/…/</code>) إن كانت الصفحة بالعربية فقط.</span></div>
+      </div>
+      <div class="ap-fld" style="margin-bottom:6px"><label>الإتاحة للتسويق</label><select data-offer-promotable>
+        <option value="1">قابل للتسويق</option>
+        <option value="0">موقوف</option>
+      </select></div>
+      <div class="ap-mact">
+        <button type="submit" class="ap-wbtn" style="flex:1" data-offer-save>حفظ المنتج</button>
+        <button type="button" class="ap-wbtn ghost" data-close style="background:var(--canvas);color:var(--ink-2);border-color:var(--line)">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- REQUEST DETAILS MODAL -->
+<div class="ap-modal" data-lead-modal>
+  <div class="box ap-det">
+    <button class="ap-det-x" type="button" data-close aria-label="إغلاق">&#10005;</button>
+    <h3>تفاصيل الطلب</h3>
+    <p class="sub">كل ما عبّأه العميل في النموذج، ومن يُنسب له.</p>
+    <div data-lead-body></div>
+  </div>
+</div>
+
 <div class="ap-demo">وضع المعاينة · <b>بيانات تجريبية</b></div>
 
-<script src="/assets/js/nx-api.js?v=111" defer></script>
-<script src="/assets/js/nx-portal.js?v=111" defer></script>
+<script src="/assets/js/nx-api.js?v=112" defer></script>
+<script src="/assets/js/nx-portal.js?v=112" defer></script>
 </body>
 </html>

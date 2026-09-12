@@ -48,6 +48,21 @@ first-party attribution cookie, and 302s to the site.
 `POST /track/conversion` (header `x-webhook-secret`) reports a sale from the
 checkout/CRM → attributes by `ref` or `coupon` (enforces the attribution window
 + blocks self-referral) → creates a **pending** conversion.
+`POST /track/lead` records a client request from a site form. A `ref`/`coupon` (or
+the signed attribution cookie) attributes it to a partner; with `direct: true` in
+the body an *unattributed* request is recorded too (`partner_id NULL`, no
+commission) so the admin works a single queue. The contact form omits `direct` —
+its leads already flow to the CRM. The product request forms set it.
+`meta` carries whatever else that form asked, stored as submitted (flat scalars,
+sanitized) so the admin console can show the form the way the CRM does.
+
+**Two attribution paths, deliberately different.** A code that arrives only in the
+signed cookie goes through `attribute()`, which demands a logged click inside the
+window — a bare `?ref=` on a URL proves nothing. A code submitted *on the form*
+goes through `attributeCode()`: it matches either the referral **or** the coupon
+code and needs no prior click, because deliberately entering a partner's code is
+itself the evidence. Requiring a click there would silently rob partners who sell
+face to face. Both paths still require an active partner and block self-referral.
 
 **Partner** (`/api/partner/*`, auth) — `overview` · `wallet` · `conversions` ·
 `links` (GET/POST) · `catalog` · `profile` (GET/PATCH) · `payouts` (POST request).
@@ -55,8 +70,13 @@ checkout/CRM → attributes by `ref` or `coupon` (enforces the attribution windo
 **Admin** (`/api/admin/*`, admin) — `overview` · `partners` +
 `partners/:id/{approve,suspend,reinstate}` · `conversions` +
 `conversions/:id/{approve,reject,reverse}` (approve/reverse post to the ledger) ·
-`offers` + `offers/:id` · `payouts` + `payouts/:id/{approve,paid,reject}`
+`leads` + `leads/:id/{won,lost,reopen}` · `offers` (GET/POST) + `offers/:id`
+(PATCH) · `payouts` + `payouts/:id/{approve,paid,reject}`
 (`paid` records the ledger debit) · `settings` (GET/PUT).
+
+`leads/:id/won` takes a `deal_value`. For an attributed lead it creates an approved
+conversion and credits the commission; for a direct one it just closes the lead
+with the deal value on record — there is nobody to pay.
 
 ## How money is accounted
 Balances derive from an **append-only `ledger`**: `commission` credits on
@@ -64,12 +84,23 @@ conversion *approval*, `reversal` debits on reversal, `payout` debits when a
 payout is marked *paid*. Pending conversions are shown separately and never hit
 the ledger until approved.
 
-## Wiring the front-end
-The partner/admin pages currently render from an in-file `DATA` object in
-`assets/js/nx-portal.js`. Swap each render for a `fetch()` to the matching
-endpoint above (shapes already match). Point the landing **Register** form at
-`POST /api/auth/register` and **Login** at `POST /api/auth/login`, and route the
-referral links/deep-links through `GET /r` so clicks are logged.
+## The product catalogue
+`products` is the single source of truth for what partners may promote. Publishing
+a card on `/{lang}/solutions/` does **not** register it — the catalogue also carries
+a commission rate and a `promotable` flag, which the partnerships team decides. Add
+one from the admin console (**Products & offers → Add product**, i.e.
+`POST /api/admin/offers`); `schema.sql` only seeds the reference set.
+
+The portal shows **ready-to-launch products only**. NX's consulting services are
+sold by its own team, so `kind = 'service'` rows are not promotable and the portal
+has no Services view; `renderCatalog()` still knows how to fill one if it comes
+back, and meanwhile a service left promotable renders with the products rather
+than vanishing. A `path` that keeps its language segment
+(`/ar/solutions/plate-market/`) is language-locked — `deepLink()` leaves it alone
+instead of prefixing the partner's own language onto a 404.
+
+Retiring an entry means setting `promotable = false`, never deleting the row:
+conversions reference `product_id`.
 
 ## Tracking & security (best-practice)
 First-party signed attribution cookie · server-side click log with hashed IPs

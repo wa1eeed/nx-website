@@ -35,7 +35,20 @@
     shareSubj: 'قد يهمّك: NX Solutions', dl_soon: 'سيبدأ التنزيل عند تفعيل البوابة',
     leadPending: 'قيد المتابعة', leadWon: 'مدفوع', leadLost: 'لم يكتمل',
     markWon: 'عميل مدفوع', markLost: 'لم يكتمل', reopen: 'إعادة فتح',
-    noLeads: 'لا يوجد عملاء مُحالون بعد — شارك رابطك لتبدأ.', noReq: 'لا توجد طلبات بعد.'
+    noLeads: 'لا يوجد عملاء مُحالون بعد — شارك رابطك لتبدأ.', noReq: 'لا توجد طلبات بعد.',
+    openPage: 'افتح الصفحة', noProducts: 'لا توجد منتجات جاهزة للتسويق حالياً.', direct: 'مباشر',
+    edit: 'تعديل', addProduct: 'إضافة منتج', editProduct: 'تعديل المنتج', saved: 'تم حفظ المنتج',
+    details: 'تفاصيل', dtClient: 'بيانات العميل', dtRequest: 'الطلب', dtAttr: 'الإحالة',
+    dtName: 'الاسم', dtEmail: 'البريد الإلكتروني', dtPhone: 'الجوال', dtCompany: 'المنشأة',
+    dtProduct: 'المنتج / الخدمة', dtKind: 'نوع الطلب', dtNote: 'ملاحظات العميل',
+    dtPage: 'صفحة الطلب', dtWhen: 'وقت الإرسال', dtStatus: 'الحالة', dtDecided: 'تاريخ القرار',
+    dtPartner: 'المسوّق', dtRef: 'كود الإحالة', dtCoupon: 'كود الخصم', dtVia: 'طريقة النسبة',
+    dtDeal: 'قيمة الصفقة', dtComm: 'العمولة',
+    viaLink: 'رابط إحالة', viaCoupon: 'كود خصم', viaDirect: 'طلب مباشر',
+    dtNoPartner: 'طلب مباشر — لم يحمل كود مسوّق، فلا عمولة عليه.', dash: '—',
+    reject: 'رفض', reverse: 'استرجاع', noConv: 'لا توجد صفقات بعد.',
+    savedProfile: 'تم حفظ بياناتك', savedSettings: 'تم حفظ إعدادات البرنامج',
+    confirmReverse: 'استرجاع هذه العمولة؟ سيُخصم مبلغها من رصيد المسوّق.'
   } : {
     clicks: 'clicks', convs: 'conv.', rate: 'rate', copied: 'Copied', copy: 'Copy', download: 'Download',
     paid: 'Paid', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', reversed: 'Reversed',
@@ -46,10 +59,24 @@
     shareSubj: 'You might like: NX Solutions', dl_soon: 'Download begins when the portal goes live',
     leadPending: 'Pending', leadWon: 'Won', leadLost: 'Lost',
     markWon: 'Mark won', markLost: 'Lost', reopen: 'Reopen',
-    noLeads: 'No referred clients yet — share your link to start.', noReq: 'No requests yet.'
+    noLeads: 'No referred clients yet — share your link to start.', noReq: 'No requests yet.',
+    openPage: 'Open page', noProducts: 'No ready-to-launch products available yet.', direct: 'Direct',
+    edit: 'Edit', addProduct: 'Add product', editProduct: 'Edit product', saved: 'Product saved',
+    details: 'Details', dtClient: 'Client', dtRequest: 'Request', dtAttr: 'Attribution',
+    dtName: 'Name', dtEmail: 'Email', dtPhone: 'Mobile', dtCompany: 'Company',
+    dtProduct: 'Product / service', dtKind: 'Request type', dtNote: 'Client notes',
+    dtPage: 'Requested from', dtWhen: 'Submitted', dtStatus: 'Status', dtDecided: 'Decided',
+    dtPartner: 'Partner', dtRef: 'Referral code', dtCoupon: 'Coupon code', dtVia: 'Attributed via',
+    dtDeal: 'Deal value', dtComm: 'Commission',
+    viaLink: 'Referral link', viaCoupon: 'Coupon code', viaDirect: 'Direct request',
+    dtNoPartner: 'Direct request — no partner code was carried, so no commission is due.', dash: '—',
+    reject: 'Reject', reverse: 'Reverse', noConv: 'No deals yet.',
+    savedProfile: 'Your details were saved', savedSettings: 'Program settings saved',
+    confirmReverse: 'Reverse this commission? Its amount is debited from the partner’s balance.'
   };
   var kindLabel = { service: T.service, solution: T.solution, platform: T.platform };
-  var SERVICE_LABELS = { launch: 'NX Launch', grow: 'NX Grow', auto: 'NX 360', connect: 'NX Connect', scale: 'NX Scale', unsure: ar ? 'غير محدّد' : 'Unsure' };
+  var SERVICE_LABELS = { launch: 'NX Launch', grow: 'NX Grow', auto: 'NX 360', connect: 'NX Connect', scale: 'NX Scale',
+    'plate-market': ar ? 'منصّة مزادات اللوحات' : 'Plate Auctions Platform', unsure: ar ? 'غير محدّد' : 'Unsure' };
   var svcLabel = (s) => SERVICE_LABELS[s] || s || '—';
 
   var badge = (kind, txt) => '<span class="ap-b ' + kind + '">' + txt + '</span>';
@@ -67,6 +94,7 @@
     x: '<svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>',
     li: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 014 0v4"/></svg>',
     em: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+    open: '<svg viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"/></svg>',
   };
   function shareHref(net, url) {
     var u = encodeURIComponent(url), m = encodeURIComponent(T.shareMsg);
@@ -96,13 +124,17 @@
     shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
     truck: '<rect x="1" y="6" width="14" height="10" rx="1"/><path d="M15 9h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
     box: '<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/>',
-    bot: '<rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/>'
+    bot: '<rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/>',
+    gavel: '<path d="M13 4l7 7-3 3-7-7z"/><path d="M9.5 7.5L4 13l3 3 5.5-5.5"/><path d="M3 21h11"/>'
   };
   var IC_BY_SLUG = {
     'services/launch': IC.launch, 'services/grow': IC.grow, 'services/automation360': IC.gear,
     'services/connect': IC.plug, 'services/scale': IC.layers, 'solutions/fintech-open-banking': IC.coin,
+    'solutions/plate-market': IC.gavel,
     'work/ibp': IC.shield, 'work/nqlah': IC.truck, 'work/nx-logistic': IC.box, 'work/iwork': IC.bot,
   };
+  // Cover art for product cards — mirrors the card the client sees on /{lang}/solutions/.
+  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=112' };
 
   // ---------- toast + copy ----------
   var toastEl;
@@ -115,6 +147,26 @@
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => toast(T.copied), () => toast(T.copied));
     else toast(T.copied);
   }
+
+  // ---------- CSV export ----------
+  // The rows are already in the browser, so the export is built here rather than
+  // asking the backend for a second rendering of data it just sent.
+  function csvCell(v) {
+    var t = v == null ? '' : String(v);
+    return /[",\n;]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+  function downloadCsv(filename, header, rows) {
+    if (!rows || !rows.length) return toast(ar ? 'لا توجد بيانات للتصدير' : 'Nothing to export');
+    var body = [header].concat(rows).map(function (r) { return r.map(csvCell).join(','); }).join('\r\n');
+    // BOM so Excel reads the Arabic as UTF-8 instead of mojibake
+    var blob = new Blob(['\ufeff' + body], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+    document.body.removeChild(a); setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    toast(ar ? 'تم تنزيل الملف' : 'File downloaded');
+  }
+  var today = function () { return new Date().toISOString().slice(0, 10); };
 
   // ---------- generic renderers ----------
   var $ = (sel) => document.querySelector(sel);
@@ -148,6 +200,7 @@
   }
   function renderTx(rows) {
     var b = $('[data-tx]'); if (!b) return;
+    TX = rows || [];
     b.innerHTML = rows.map(x => {
       var neg = (x.type === 'payout' || x.type === 'reversal') || Number(x.amount) < 0;
       var label = x.memo || ({ commission: ar ? 'عمولة' : 'Commission', payout: ar ? 'صرف' : 'Payout', reversal: ar ? 'استرجاع' : 'Reversal' }[x.type] || x.type);
@@ -179,28 +232,54 @@
         '<div class="s"><div class="n">' + (x.clicks ? ((x.conversions || 0) / x.clicks * 100).toFixed(1) : '0') + '%</div><div class="t">' + T.rate + '</div></div></div></div>';
     }).join('');
   }
-  function renderCatalog(products, coupon) {
-    var cat = $('[data-catalog]'); if (!cat) return;
-    cat.innerHTML = products.map(p => {
-      var url = p.url; var ic = IC_BY_SLUG[p.slug] || IC.grow;
-      return '<div class="ap-catcard"><div class="top"><span class="ci"><svg viewBox="0 0 24 24">' + ic + '</svg></span>' +
-        '<div><div class="nm">' + pick(p, 'name') + '</div><div class="kind">' + (kindLabel[p.kind] || p.kind) + '</div></div></div>' +
-        '<div class="ds">' + (pick(p, 'd') || '') + '</div>' +
-        '<div class="lk"><code>' + url + '</code><button class="ap-mini-btn" data-copy="' + url + '">' + SVG.copy + T.copy + '</button></div>' +
-        shareBar(url) + '</div>';
-    }).join('');
+  // The catalogue is split the way the public site is: `service` items are the
+  // engagements we build per client (/services/), everything else is an NX product
+  // that ships ready to launch (/solutions/). Each lands in its own portal view.
+  function catCard(p, withShot) {
+    var url = p.url, ic = IC_BY_SLUG[p.slug] || IC.grow, shot = withShot && SHOT_BY_SLUG[p.slug];
+    return '<div class="ap-catcard">' +
+      (shot ? '<div class="shot"><img src="' + shot + '" alt="" loading="lazy" decoding="async"></div>' : '') +
+      '<div class="top"><span class="ci"><svg viewBox="0 0 24 24">' + ic + '</svg></span>' +
+      '<div><div class="nm">' + esc(pick(p, 'name')) + '</div><div class="kind">' + (kindLabel[p.kind] || p.kind) + '</div></div></div>' +
+      '<div class="ds">' + esc(pick(p, 'd') || '') + '</div>' +
+      '<div class="lk"><code>' + url + '</code><button class="ap-mini-btn" data-copy="' + url + '">' + SVG.copy + T.copy + '</button></div>' +
+      (withShot ? '<a class="ap-mini-btn ap-open" href="' + url + '" target="_blank" rel="noopener">' + SVG.open + T.openPage + '</a>' : '') +
+      shareBar(url) + '</div>';
+  }
+  function renderCatalog(products) {
+    var svc = $('[data-catalog-services]'), sol = $('[data-catalog-solutions]');
+    var isService = (p) => p.kind === 'service';
+    // The portal shows ready-to-launch products only; services are sold by NX's own
+    // team. If a services view is ever restored, it picks its items back up here —
+    // and while it is absent nothing is dropped silently: a service left promotable
+    // still renders in the products view rather than vanishing.
+    var svcItems = products.filter(isService), rest = products.filter(p => !isService(p));
+    if (svc) svc.innerHTML = svcItems.map(p => catCard(p, false)).join('');
+    else rest = products;
+    if (sol) {
+      sol.innerHTML = rest.length
+        ? rest.map(p => catCard(p, true)).join('')
+        : '<div class="ap-empty">' + T.noProducts + '</div>';
+    }
+    fillProductSelect(products);
+  }
+  // Keep the "new link" product picker in step with the live catalogue.
+  function fillProductSelect(products) {
+    var sel = document.querySelector('[data-view="links"] select'); if (!sel) return;
+    sel.innerHTML = '<option value="">' + (ar ? 'كل المنتجات' : 'All products') + '</option>' +
+      products.map(p => '<option value="' + esc(p.slug) + '">' + esc(pick(p, 'name')) + '</option>').join('');
   }
 
   // materials are front-end assets (not in the backend)
   var MATS = [
-    { type: 'banner', tone: 'dark', dim: '1200×628', tag: 'NX Grow', name_ar: 'لافتة — NX Grow', name_en: 'Banner — NX Grow', desc_ar: 'لافتة أفقية للمشاركات الاجتماعية.', desc_en: 'Landscape banner for social posts.', big_ar: 'طوّر منصّتك مع NX', big_en: 'Grow your platform with NX', sm_ar: 'NX Grow', sm_en: 'NX Grow' },
-    { type: 'banner', tone: 'light', dim: '1080×1080', tag: 'FinTech', name_ar: 'مربّع — التقنية المالية', name_en: 'Square — FinTech', desc_ar: 'تصميم مربّع لإنستغرام.', desc_en: 'Square design for Instagram.', big_ar: 'طبقة مالية داخل منتجك', big_en: 'A finance layer in your product', sm_ar: 'FinTech & Open Banking', sm_en: 'FinTech & Open Banking' },
-    { type: 'banner', tone: 'dark', dim: '300×600', tag: 'IBP', name_ar: 'لافتة عمودية — IBP', name_en: 'Skyscraper — IBP', desc_ar: 'لافتة عمودية لمواقع المحتوى.', desc_en: 'Vertical banner for content sites.', big_ar: 'منصّة وسطاء التأمين', big_en: 'Insurance-broker platform', sm_ar: 'IBP Insure', sm_en: 'IBP Insure' },
-    { type: 'social', tone: 'light', dim: ar ? 'نص جاهز' : 'Ready copy', tag: ar ? 'عام' : 'General', name_ar: 'منشور تعريفي', name_en: 'Intro post', desc_ar: 'نص منشور جاهز مع رابطك.', desc_en: 'Ready post copy with your link.', snip_ar: 'تبحث عن شريك تقني يبني لك نظاماً رقمياً يصمد أمام النمو والتدقيق؟ اكتشف NX Solutions 👇', snip_en: 'Looking for a tech partner to build a digital system that scales? Discover NX Solutions 👇' },
-    { type: 'social', tone: 'dark', dim: ar ? 'منشور X' : 'X post', tag: ar ? 'عام' : 'General', name_ar: 'منشور X (تويتر)', name_en: 'X (Twitter) post', desc_ar: 'تغريدة قصيرة جاهزة للنشر.', desc_en: 'A short ready-to-post tweet.', snip_ar: 'من الموقع إلى نظام التشغيل والربط الحكومي — NX Solutions تبني تقنية تعمل فعلاً. 👇', snip_en: 'From your website to your operating system to gov integrations — NX Solutions builds tech that works. 👇' },
-    { type: 'email', tone: 'light', dim: 'HTML', tag: ar ? 'عام' : 'General', name_ar: 'قالب بريد — عرض الخدمات', name_en: 'Email — services', desc_ar: 'قالب بريد قابل للتخصيص.', desc_en: 'Customizable email template.', snip_ar: 'مرحباً، أردت أن أشاركك NX Solutions — شريك تقني يبني ويطوّر المنصّات الرقمية للمنشآت السعودية…', snip_en: 'Hi, I wanted to share NX Solutions — a tech partner that builds digital platforms for Saudi enterprises…' },
+    { type: 'banner', tone: 'dark', dim: '1200×628', tag: ar ? 'اللوحات' : 'Plates', name_ar: 'لافتة — منصّة المزادات', name_en: 'Banner — Plate Auctions', desc_ar: 'لافتة أفقية للمشاركات الاجتماعية.', desc_en: 'Landscape banner for social posts.', big_ar: 'امتلك منصّة مزادات لوحات باسمك', big_en: 'Own a plate-auction platform', sm_ar: 'منصّة مزادات اللوحات المميّزة', sm_en: 'Plate Auctions Platform' },
+    { type: 'banner', tone: 'light', dim: '1080×1080', tag: ar ? 'اللوحات' : 'Plates', name_ar: 'مربّع — منصّة المزادات', name_en: 'Square — Plate Auctions', desc_ar: 'تصميم مربّع لإنستغرام وسناب.', desc_en: 'Square design for Instagram and Snap.', big_ar: 'مزاد لحظي · بيع مباشر · سوم', big_en: 'Live auctions · direct sale · offers', sm_ar: 'جاهزة للإطلاق خلال أيام', sm_en: 'Live in days, under your name' },
+    { type: 'banner', tone: 'dark', dim: '300×600', tag: ar ? 'اللوحات' : 'Plates', name_ar: 'لافتة عمودية — منصّة المزادات', name_en: 'Skyscraper — Plate Auctions', desc_ar: 'لافتة عمودية لمواقع المحتوى.', desc_en: 'Vertical banner for content sites.', big_ar: 'محفظة وضمان حتى نقل الملكية', big_en: 'Wallet and escrow until transfer', sm_ar: 'منصّة مزادات اللوحات', sm_en: 'Plate Auctions Platform' },
+    { type: 'social', tone: 'light', dim: ar ? 'نص جاهز' : 'Ready copy', tag: ar ? 'عام' : 'General', name_ar: 'منشور تعريفي', name_en: 'Intro post', desc_ar: 'نص منشور جاهز مع رابطك.', desc_en: 'Ready post copy with your link.', snip_ar: 'تاجر لوحات مميّزة ومهتم بالمجال؟ امتلك منصّة مزادات كاملة باسمك ولونك — جاهزة للإطلاق خلال أيام 👇', snip_en: 'Trading premium plates? Own a complete auction platform under your own name and brand — live in days 👇' },
+    { type: 'social', tone: 'dark', dim: ar ? 'منشور X' : 'X post', tag: ar ? 'عام' : 'General', name_ar: 'منشور X (تويتر)', name_en: 'X (Twitter) post', desc_ar: 'تغريدة قصيرة جاهزة للنشر.', desc_en: 'A short ready-to-post tweet.', snip_ar: 'مزاد اللوحات في السناب ينقصه النظام لا الطلب: من زايد أوّلاً، ومن يضمن الدفع. منصّة كاملة باسمك 👇', snip_en: 'Plate auctions on social lack a system, not demand: who bid first, who guarantees payment. A full platform, under your name 👇' },
+    { type: 'email', tone: 'light', dim: 'HTML', tag: ar ? 'عام' : 'General', name_ar: 'قالب بريد — عرض المنصّة', name_en: 'Email — the platform', desc_ar: 'قالب بريد قابل للتخصيص.', desc_en: 'Customizable email template.', snip_ar: 'مرحباً، أردت أن أشاركك منصّة مزادات اللوحات من NX — سوق لوحات كامل يُطلق باسمك خلال أيام…', snip_en: 'Hi, I wanted to share NX\u2019s plate-auction platform — a complete plate marketplace launched under your own name in days…' },
     { type: 'email', tone: 'light', dim: ar ? 'توقيع' : 'Signature', tag: ar ? 'عام' : 'General', name_ar: 'توقيع بريد', name_en: 'Email signature', desc_ar: 'توقيع بريد أنيق مع رابط إحالتك.', desc_en: 'A tidy email signature with your link.', snip_ar: 'شريك NX Solutions المعتمد — احجز استشارة عبر رابطي', snip_en: 'Certified NX Solutions partner — book a consult via my link' },
-    { type: 'copy', tone: 'light', dim: ar ? 'عبارات' : 'One-liners', tag: ar ? 'عام' : 'General', name_ar: 'عبارات تسويقية', name_en: 'Marketing one-liners', desc_ar: 'جُمل قصيرة لكل منتج تنسخها بسرعة.', desc_en: 'Short lines per product to copy fast.', snip_ar: 'NX Launch: أطلق نظامك الرقمي بثقة. · NX 360: أتمتة عملياتك بالكامل. · FinTech: مدفوعات وبيانات بنكية داخل منتجك.', snip_en: 'NX Launch: launch your system with confidence. · NX 360: fully automate your ops. · FinTech: payments & bank data inside your product.' },
+    { type: 'copy', tone: 'light', dim: ar ? 'عبارات' : 'One-liners', tag: ar ? 'عام' : 'General', name_ar: 'عبارات تسويقية', name_en: 'Marketing one-liners', desc_ar: 'جُمل قصيرة لكل منتج تنسخها بسرعة.', desc_en: 'Short lines per product to copy fast.', snip_ar: 'تاجر لوحات؟ امتلك منصّة مزادات باسمك. · مزاد لحظي وبيع مباشر واستقبال سوم في مكان واحد. · المال محفوظ حتى نقل الملكية.', snip_en: 'A plate dealer? Own an auction platform under your name. · Live auctions, direct sale and offers in one place. · Funds held until ownership transfers.' },
     { type: 'logo', tone: 'light', dim: 'SVG · PNG', tag: ar ? 'علامة' : 'Brand', name_ar: 'حزمة الشعار', name_en: 'Logo pack', desc_ar: 'شعار NX بصيغ ونسخ متعددة (فاتح/داكن).', desc_en: 'NX logo in multiple formats (light/dark).', logo: true }
   ];
   function renderMats(filter) {
@@ -219,9 +298,32 @@
     }).join('');
   }
 
+  // program settings live in one `settings` row and drive three surfaces at once:
+  // this form, the public estimator (via GET /api/program) and commission maths.
+  function fillSettings(v) {
+    if (!v) return;
+    document.querySelectorAll('[data-ps]').forEach(function (el) {
+      var k = el.dataset.ps, val = v[k];
+      if (val == null) return;
+      el.value = k === 'fraud_protection' ? (val === false ? '0' : '1') : String(val);
+    });
+  }
+  function readSettings() {
+    var out = {};
+    document.querySelectorAll('[data-ps]').forEach(function (el) {
+      var k = el.dataset.ps;
+      if (k === 'fraud_protection') out[k] = el.value === '1';
+      else if (k === 'payout_schedule') out[k] = el.value;
+      else out[k] = parseFloat(el.value);
+    });
+    return out;
+  }
+
   // admin renderers
+  var PARTNERS = [], PAYOUTS = [], TX = [];
   function renderPartners(rows, live) {
     var b = $('[data-partners]'); if (!b) return;
+    PARTNERS = rows || [];
     b.innerHTML = rows.map(x => {
       var act = x.status === 'pending'
         ? '<button class="ap-mini-btn" ' + (live ? 'data-approve-partner="' + x.id + '"' : 'data-act="' + (ar ? 'تم اعتماد الشريك (معاينة)' : 'Partner approved (demo)') + '"') + '>' + T.approve + '</button>'
@@ -229,15 +331,39 @@
       return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;font-size:.72rem">' + (x.name || '?').charAt(0) + '</span><div><b>' + x.name + '</b><div style="font-size:.72rem;color:var(--muted)">' + (x.email || '') + '</div></div></div></td><td>' + (x.channel || '—') + '</td><td class="mono">' + (x.coupon_code || '—') + '</td><td class="mono">' + fmt(x.conversions) + '</td><td class="amt">' + fmt(x.earned) + ' ' + CUR + '</td><td>' + statusBadge(x.status) + '</td><td>' + act + '</td></tr>';
     }).join('');
   }
+  var OFFERS = [];
   function renderOffers(rows, live) {
     var b = $('[data-offers]'); if (!b) return;
+    OFFERS = rows || [];
     b.innerHTML = rows.map(p => {
       var ic = IC_BY_SLUG[p.slug] || IC.grow;
-      return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;background:linear-gradient(135deg,rgba(20,66,114,.14),rgba(44,116,179,.2))"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--brand-2);fill:none;stroke-width:1.8">' + ic + '</svg></span><b>' + pick(p, 'name') + '</b></div></td><td>' + (kindLabel[p.kind] || p.kind) + '</td><td class="mono">' + (Number(p.commission_pct)) + '%</td><td>' + (p.promotable === false ? badge('bad', ar ? 'موقوف' : 'Off') : badge('ok', ar ? 'قابل للتسويق' : 'Promotable')) + '</td><td><button class="ap-mini-btn" data-act="' + (ar ? 'تعديل العرض (معاينة)' : 'Edit offer (demo)') + '">' + (ar ? 'تعديل' : 'Edit') + '</button></td></tr>';
+      var edit = live
+        ? '<button class="ap-mini-btn" data-offer-edit="' + p.id + '">' + T.edit + '</button>'
+        : '<button class="ap-mini-btn" data-act="' + (ar ? 'تعديل العرض (معاينة)' : 'Edit offer (demo)') + '">' + T.edit + '</button>';
+      return '<tr><td><div style="display:flex;align-items:center;gap:.6rem"><span class="ap-ava" style="width:30px;height:30px;background:linear-gradient(135deg,rgba(20,66,114,.14),rgba(44,116,179,.2))"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--brand-2);fill:none;stroke-width:1.8">' + ic + '</svg></span><div><b>' + esc(pick(p, 'name')) + '</b><div style="font-size:.7rem;color:var(--muted);direction:ltr;text-align:left">' + esc(p.path || ('/' + p.slug + '/')) + '</div></div></div></td><td>' + (kindLabel[p.kind] || p.kind) + '</td><td class="mono">' + (Number(p.commission_pct)) + '%</td><td>' + (p.promotable === false ? badge('bad', ar ? 'موقوف' : 'Off') : badge('ok', ar ? 'قابل للتسويق' : 'Promotable')) + '</td><td>' + edit + '</td></tr>';
+    }).join('');
+  }
+  // admin: the deal ledger. Pending deals come from the conversion webhook; a deal
+  // created by marking a request won is already approved. Reversal is the only way
+  // back once money has been credited — hence the confirm.
+  function renderConversions(rows, live) {
+    var b = $('[data-conversions]'); if (!b) return;
+    if (!rows || !rows.length) { b.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:22px">' + T.noConv + '</td></tr>'; return; }
+    b.innerHTML = rows.map(function (x) {
+      var acts = '—';
+      if (!live) acts = '<button class="ap-mini-btn" data-act="' + (ar ? 'إجراء تجريبي' : 'Demo action') + '">' + T.view + '</button>';
+      else if (x.status === 'pending') acts = '<button class="ap-mini-btn" data-conv-do="approve" data-conv-id="' + x.id + '">' + T.approve + '</button> ' +
+        '<button class="ap-mini-btn" style="color:var(--ap-bad)" data-conv-do="reject" data-conv-id="' + x.id + '">' + T.reject + '</button>';
+      else if (x.status === 'approved') acts = '<button class="ap-mini-btn" style="color:var(--ap-bad)" data-conv-do="reverse" data-conv-id="' + x.id + '">' + T.reverse + '</button>';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + esc(x.partner) + '</b></td><td>' + esc(x.product || T.dash) + '</td>' +
+        '<td>' + esc(x.client_name || T.dash) + '</td><td class="amt">' + money(x.deal_value) + '</td>' +
+        '<td class="amt' + (x.status === 'reversed' ? '' : ' pos') + '">' + money(x.commission, x.status === 'reversed') + '</td>' +
+        '<td>' + statusBadge(x.status) + '</td><td class="ap-acts">' + acts + '</td></tr>';
     }).join('');
   }
   function renderPayouts(rows, live) {
     var b = $('[data-payouts]'); if (!b) return;
+    PAYOUTS = rows || [];
     b.innerHTML = rows.map(x => {
       var act = x.status === 'pending'
         ? '<button class="ap-mini-btn" ' + (live ? 'data-pay-paid="' + x.id + '"' : 'data-act="' + (ar ? 'تم التحديد كمدفوعة (معاينة) — التحويل الفعلي عبر البنك' : 'Marked paid (demo) — actual transfer via your bank') + '"') + '>' + T.markpaid + '</button>' : '—';
@@ -258,8 +384,10 @@
     }).join('');
   }
   // admin: the "Requests" queue — verify payment → won (deal + commission) / lost / reopen
+  var LEADS = [];
   function renderAdminLeads(rows, live) {
     var b = $('[data-admin-leads]'); if (!b) return;
+    LEADS = rows || [];
     if (!rows || !rows.length) { b.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">' + T.noReq + '</td></tr>'; return; }
     b.innerHTML = rows.map(function (x) {
       var acts;
@@ -269,7 +397,11 @@
         ? '<button class="ap-mini-btn" data-lead-won="' + x.id + '" data-lead-client="' + esc(x.client_name) + '">' + T.markWon + '</button> <button class="ap-mini-btn" style="color:var(--ap-bad)" data-lead-lost="' + x.id + '">' + T.markLost + '</button>'
         : '<button class="ap-mini-btn" data-act="' + (ar ? 'تأكيد الدفع (معاينة)' : 'Confirm paid (demo)') + '">' + T.markWon + '</button>';
       var email = x.email ? '<div style="font-size:.72rem;color:var(--muted)">' + esc(x.email) + '</div>' : '';
-      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + esc(x.client_name) + '</b>' + email + '</td><td>' + esc(x.partner) + '</td><td>' + esc(svcLabel(x.service)) + '</td><td>' + leadStatusBadge(x.status) + '</td><td>' + acts + '</td></tr>';
+      var who = x.partner
+        ? '<b>' + esc(x.partner) + '</b>' + (x.partner_ref ? '<div class="mono" style="font-size:.7rem;color:var(--muted)">' + esc(x.partner_ref) + '</div>' : '')
+        : badge('info', T.direct);
+      var det = '<button class="ap-mini-btn" data-lead-open="' + x.id + '">' + T.details + '</button> ';
+      return '<tr><td class="mono">' + day(x.date) + '</td><td><b>' + esc(x.client_name) + '</b>' + email + '</td><td>' + who + '</td><td>' + esc(svcLabel(x.service)) + '</td><td>' + leadStatusBadge(x.status) + '</td><td class="ap-acts">' + det + acts + '</td></tr>';
     }).join('');
   }
 
@@ -280,7 +412,7 @@
     partner: {
       leads: [
         { date: '2026-07-29', client_name: ar ? 'شركة رونق' : 'Rawnaq Co.', service: 'grow', status: 'won', commission: 3600 },
-        { date: '2026-07-27', client_name: ar ? 'استوديو نجوم' : 'Nujoom Studio', service: 'launch', status: 'pending', commission: 0 },
+        { date: '2026-07-27', client_name: ar ? 'مزاد الرياض للوحات' : 'Riyadh Plate Auctions', service: 'plate-market', status: 'pending', commission: 0 },
         { date: '2026-07-22', client_name: ar ? 'مدار لوجستيك' : 'Madar Logistics', service: 'auto', status: 'pending', commission: 0 },
         { date: '2026-07-15', client_name: ar ? 'متجر أصيل' : 'Aseel Store', service: 'connect', status: 'lost', commission: 0 }
       ],
@@ -310,25 +442,40 @@
         { name: ar ? 'قائمتي البريدية' : 'My newsletter', url: BASE + '&c=news', clicks: 322, conversions: 11 },
         { name: ar ? 'التقنية المالية' : 'FinTech push', url: BASE + '&s=fintech', clicks: 198, conversions: 9 }
       ],
+      // A 7th element pins the path for a product that exists in one language only.
       catalog: [
-        ['services/launch', 'NX Launch', 'NX Launch', 'service', 'إطلاق أول نظام رقمي لعملك بسرعة وثبات.', 'Launch your first digital system — fast and solid.'],
-        ['services/grow', 'NX Grow', 'NX Grow', 'service', 'طوّر منصّتك ووسّع قدراتها مع نمو عملك.', 'Grow and extend your platform as you scale.'],
-        ['services/automation360', 'NX 360', 'NX 360', 'service', 'أتمتة العمليات وربطها من طرف إلى طرف.', 'Automate and connect operations end to end.'],
-        ['services/connect', 'NX Connect', 'NX Connect', 'service', 'اربط أنظمتك بالجهات الحكومية والخدمات.', 'Integrate with government & third-party services.'],
-        ['services/scale', 'NX Scale', 'NX Scale', 'service', 'بنية جاهزة للتوسّع وأحمال الإنتاج.', 'Architecture ready for scale and production load.'],
-        ['solutions/fintech-open-banking', 'التقنية المالية', 'FinTech & Open Banking', 'solution', 'طبقة مالية ومصرفية مفتوحة داخل منتجك.', 'An embedded open-banking & payments layer.'],
-        ['work/ibp', 'IBP Insure', 'IBP Insure', 'platform', 'منصّة متكاملة لوسطاء التأمين.', 'An end-to-end insurance-broker platform.'],
-        ['work/nqlah', 'Nqlah', 'Nqlah', 'platform', 'منصّة النقل والخدمات اللوجستية.', 'A transport & logistics platform.'],
-        ['work/nx-logistic', 'NX Logistic', 'NX Logistic', 'platform', 'إدارة أصول وعمليات شركات النقليات.', 'Fleet asset & operations management.'],
-        ['work/iwork', 'iWork', 'iWork', 'platform', 'قوى عاملة ذكية بوكلاء ذكاء اصطناعي.', 'An AI-powered digital workforce.']
-      ].map(p => ({ slug: p[0], name_ar: p[1], name_en: p[2], kind: p[3], d_ar: p[4], d_en: p[5], url: ORIGIN + '/' + LANGSEG + '/' + p[0] + '/?ref=' + CODE })),
+        ['solutions/plate-market', 'منصّة مزادات اللوحات المميّزة', 'Plate Auctions Platform', 'solution',
+          'سوق لوحات كامل باسم عميلك: مزاد لحظي، وبيع مباشر، واستقبال سوم — مع محفظة وضمان للمال حتى نقل الملكية.',
+          'A complete plate marketplace under your client\u2019s name: live auctions, direct sale and offers — with a wallet and funds held until ownership transfers.',
+          '/ar/solutions/plate-market/']
+      ].map(p => ({ slug: p[0], name_ar: p[1], name_en: p[2], kind: p[3], d_ar: p[4], d_en: p[5],
+        url: ORIGIN + (p[6] || ('/' + LANGSEG + '/' + p[0] + '/')) + '?ref=' + CODE })),
     },
     admin: {
       leads: [
-        { id: 1, date: '2026-07-29', client_name: 'Rawnaq Co.', email: 'ceo@rawnaq.sa', partner: 'Khalid Al-Otaibi', service: 'grow', status: 'won', commission: 3600 },
-        { id: 2, date: '2026-07-28', client_name: 'Nujoom Studio', email: 'hi@nujoom.co', partner: 'Sara Al-Ghamdi', service: 'launch', status: 'pending', commission: 0 },
-        { id: 3, date: '2026-07-27', client_name: 'Madar Logistics', email: 'ops@madar.sa', partner: 'Khalid Al-Otaibi', service: 'auto', status: 'pending', commission: 0 },
-        { id: 4, date: '2026-07-20', client_name: 'Aseel Store', email: 'aseel@shop.sa', partner: 'Faisal Media', service: 'connect', status: 'lost', commission: 0 }
+        { id: 1, date: '2026-07-29', submitted_at: '2026-07-29T09:12:00Z', client_name: 'Rawnaq Co.', email: 'ceo@rawnaq.sa',
+          phone: '0551234567', company: ar ? 'شركة رونق' : 'Rawnaq Co.', partner: 'Khalid Al-Otaibi', partner_ref: 'KHALID-7Q2',
+          partner_coupon: 'KHALID10', via: 'link', service: 'grow', source_page: '/' + LANGSEG + '/services/grow/',
+          status: 'won', deal_value: 24000, commission: 3600, meta: {} },
+        { id: 2, date: '2026-07-28', submitted_at: '2026-07-28T14:40:00Z', client_name: ar ? 'مزاد الرياض للوحات' : 'Riyadh Plate Auctions',
+          email: 'owner@plates.sa', phone: '0553334444', company: ar ? 'مزاد الرياض' : 'Riyadh Auctions',
+          partner: 'Sara Al-Ghamdi', partner_ref: 'SARA-4K1', partner_coupon: 'SARA10', via: 'SARA10',
+          service: 'plate-market', source_page: '/ar/solutions/plate-market/', status: 'pending', commission: 0,
+          note: ar ? 'عندي ٤٠ لوحة مميّزة وأبغى أبدأ بأسرع وقت.' : 'I have 40 premium plates and want to start quickly.',
+          meta: { product: ar ? 'منصّة مزادات اللوحات المميّزة' : 'Plate Auctions Platform', kind: 'trial' } },
+        { id: 3, date: '2026-07-28', submitted_at: '2026-07-28T11:05:00Z', client_name: ar ? 'معرض الصقر للوحات' : 'Al-Saqr Plates',
+          email: 'info@saqr.sa', phone: '0559998888', company: ar ? 'الصقر للوحات' : 'Al-Saqr Plates',
+          partner: null, via: 'direct', service: 'plate-market', source_page: '/ar/solutions/plate-market/',
+          status: 'pending', commission: 0,
+          meta: { product: ar ? 'منصّة مزادات اللوحات المميّزة' : 'Plate Auctions Platform', kind: 'demo' } },
+        { id: 4, date: '2026-07-27', submitted_at: '2026-07-27T08:20:00Z', client_name: 'Madar Logistics', email: 'ops@madar.sa',
+          phone: '0552223333', company: 'Madar Logistics', partner: 'Khalid Al-Otaibi', partner_ref: 'KHALID-7Q2',
+          partner_coupon: 'KHALID10', via: 'link', service: 'auto', source_page: '/' + LANGSEG + '/services/automation360/',
+          status: 'pending', commission: 0, meta: {} },
+        { id: 5, date: '2026-07-20', submitted_at: '2026-07-20T16:02:00Z', client_name: 'Aseel Store', email: 'aseel@shop.sa',
+          phone: '0554445555', company: 'Aseel Store', partner: 'Faisal Media', partner_ref: 'FAISAL-9M2',
+          partner_coupon: 'FAISAL10', via: 'FAISAL10', service: 'connect', source_page: '/' + LANGSEG + '/services/connect/',
+          status: 'lost', commission: 0, meta: {} }
       ],
       kpis: [
         { k: ar ? 'إجمالي الشركاء' : 'Total partners', v: 214, cur: false, ic: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>' },
@@ -346,12 +493,23 @@
         { id: 6, name: 'Old Agency', email: 'x@old.co', channel: ar ? 'وكالة' : 'Agency', coupon_code: 'OLD10', conversions: 1, earned: 800, status: 'suspended' }
       ],
       offers: [
-        ['services/launch', 'NX Launch', 'service', 15], ['services/grow', 'NX Grow', 'service', 15],
-        ['services/automation360', 'NX 360', 'service', 18], ['services/connect', 'NX Connect', 'service', 12],
-        ['services/scale', 'NX Scale', 'service', 12], ['solutions/fintech-open-banking', 'التقنية المالية', 'solution', 20],
-        ['work/ibp', 'IBP Insure', 'platform', 18], ['work/nqlah', 'Nqlah', 'platform', 15],
-        ['work/nx-logistic', 'NX Logistic', 'platform', 15], ['work/iwork', 'iWork', 'platform', 18]
-      ].map((o, i) => ({ id: i + 1, slug: o[0], name_ar: o[1], name_en: o[1], kind: o[2], commission_pct: o[3], promotable: true })),
+        ['services/launch', 'NX Launch', 'service', 15, false], ['services/grow', 'NX Grow', 'service', 15, false],
+        ['services/automation360', 'NX 360', 'service', 18, false], ['services/connect', 'NX Connect', 'service', 12, false],
+        ['services/scale', 'NX Scale', 'service', 12, false],
+        ['solutions/plate-market', ar ? 'منصّة مزادات اللوحات المميّزة' : 'Plate Auctions Platform', 'solution', 20, true],
+        ['solutions/fintech-open-banking', ar ? 'التقنية المالية' : 'FinTech & Open Banking', 'solution', 20, false],
+        ['work/ibp', 'IBP Insure', 'platform', 18, false], ['work/nqlah', 'Nqlah', 'platform', 15, false],
+        ['work/nx-logistic', 'NX Logistic', 'platform', 15, false], ['work/iwork', 'iWork', 'platform', 18, false]
+      ].map((o, i) => ({ id: i + 1, slug: o[0], name_ar: o[1], name_en: o[1], kind: o[2], commission_pct: o[3],
+        promotable: o[4], path: o[0] === 'solutions/plate-market' ? '/ar/solutions/plate-market/' : '/' + o[0] + '/' })),
+      conversions: [
+        { id: 1, date: '2026-07-29', partner: 'Khalid Al-Otaibi', product: 'NX Grow', client_name: 'Rawnaq Co.', deal_value: 24000, commission: 3600, status: 'approved' },
+        { id: 2, date: '2026-07-28', partner: 'Sara Al-Ghamdi', product: ar ? 'منصّة مزادات اللوحات المميّزة' : 'Plate Auctions Platform', client_name: ar ? 'مزاد الرياض للوحات' : 'Riyadh Plate Auctions', deal_value: 90000, commission: 18000, status: 'pending' },
+        { id: 3, date: '2026-07-18', partner: 'Khalid Al-Otaibi', product: 'NX 360', client_name: 'Madar Logistics', deal_value: 31600, commission: 3160, status: 'pending' },
+        { id: 4, date: '2026-07-03', partner: 'Faisal Media', product: 'NX Connect', client_name: 'Aseel Store', deal_value: 10000, commission: 1200, status: 'reversed' }
+      ],
+      settings: { base_pct: 15, coupon_pct: 10, tier_growth_pct: 18, tier_elite_pct: 22,
+        attribution_window_days: 60, min_payout: 1000, payout_schedule: 'monthly', fraud_protection: true },
       payouts: [
         { id: 1, date: '2026-07-28', partner: 'Khalid Al-Otaibi', method: ar ? 'حساب بنكي' : 'Bank', amount: 6000, status: 'pending' },
         { id: 2, date: '2026-07-28', partner: 'Sara Al-Ghamdi', method: ar ? 'حساب بنكي' : 'Bank', amount: 4200, status: 'pending' },
@@ -366,13 +524,15 @@
     var d = DEMO.partner;
     renderKpis(d.kpis); renderChart(d.chart); renderRefs(d.refs); renderTx(d.tx);
     renderLinkCoupon(CODE, COUPON, COUPON_PCT); renderShare(BASE); renderLinks(d);
-    renderCatalog(d.catalog, COUPON); renderMats('all'); renderMyLeads(d.leads);
+    renderCatalog(d.catalog); renderMats('all'); renderMyLeads(d.leads);
   }
   function demoRenderAdmin() {
     var d = DEMO.admin;
     renderKpis(d.kpis); renderChart(d.chart); renderPartners(d.partners, false);
     renderOffers(d.offers, false); renderPayouts(d.payouts, false);
+    renderConversions(d.conversions, false);
     renderAdminLeads(d.leads, false); renderNeedsAction(d.needs);
+    fillSettings(d.settings);
   }
 
   // ============================================================
@@ -387,6 +547,38 @@
     document.querySelectorAll('[data-filter]').forEach(o => o.classList.remove('on'));
     c.classList.add('on'); renderMats(c.dataset.filter);
   }));
+  // export buttons — partner statement, and the admin's three lists
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-export]'); if (!btn) return;
+    var what = btn.dataset.export;
+    if (what === 'tx') return downloadCsv('nx-statement-' + today() + '.csv',
+      [ar ? 'التاريخ' : 'Date', ar ? 'البيان' : 'Description', ar ? 'النوع' : 'Type', ar ? 'المبلغ' : 'Amount'],
+      TX.map(function (x) { return [day(x.date), x.memo || x.type, x.type, x.amount]; }));
+    if (what === 'partners') return downloadCsv('nx-partners-' + today() + '.csv',
+      [ar ? 'الشريك' : 'Partner', ar ? 'البريد' : 'Email', ar ? 'القناة' : 'Channel', ar ? 'الكود' : 'Coupon',
+       ar ? 'التحويلات' : 'Conversions', ar ? 'الأرباح' : 'Earned', ar ? 'الحالة' : 'Status'],
+      PARTNERS.map(function (x) { return [x.name, x.email, x.channel, x.coupon_code, x.conversions, x.earned, x.status]; }));
+    if (what === 'leads') return downloadCsv('nx-requests-' + today() + '.csv',
+      [ar ? 'التاريخ' : 'Date', ar ? 'العميل' : 'Client', ar ? 'البريد' : 'Email', ar ? 'الجوال' : 'Phone',
+       ar ? 'المنشأة' : 'Company', ar ? 'المنتج' : 'Product', ar ? 'المسوّق' : 'Partner', ar ? 'الكود' : 'Code',
+       ar ? 'الحالة' : 'Status', ar ? 'الملاحظات' : 'Notes'],
+      LEADS.map(function (x) {
+        return [day(x.date), x.client_name, x.email, x.phone, x.company, svcLabel(x.service),
+          x.partner || T.direct, x.partner_ref || '', x.status, x.note || ''];
+      }));
+    // the bank file: who to pay, how much, and to which IBAN
+    if (what === 'payouts') return downloadCsv('nx-payouts-' + today() + '.csv',
+      [ar ? 'التاريخ' : 'Date', ar ? 'الشريك' : 'Partner', ar ? 'الطريقة' : 'Method',
+       ar ? 'المبلغ' : 'Amount', ar ? 'الحالة' : 'Status'],
+      PAYOUTS.map(function (x) { return [day(x.date), x.partner, x.method || 'bank', x.amount, x.status]; }));
+  });
+
+  // Escape closes whichever panel modal is open — they all share .ap-modal.on
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.ap-modal.on').forEach(function (m) { m.classList.remove('on'); });
+  });
+
   // withdraw modal (portal)
   var modal = $('[data-modal]');
   document.querySelectorAll('[data-open-withdraw]').forEach(b => b.addEventListener('click', () => modal && modal.classList.add('on')));
@@ -497,16 +689,30 @@
     var qcb = $('[data-quick-couponbtn]'); if (qcb) qcb.setAttribute('data-copy', links.couponCode || '');
     renderLinks({ refCode: links.refCode, links: links.links });
 
+    // The backend owns names/URLs; the blurbs live here, keyed by slug, so the
+    // cards read the same whether the data came live or from the demo set.
+    var BLURB = {}; DEMO.partner.catalog.forEach(function (c) { BLURB[c.slug] = c; });
     var cat = await window.NXApi.get('/api/partner/catalog');
-    renderCatalog(cat.products.map(p => ({ slug: p.slug, name_ar: p.name_ar, name_en: p.name_en, kind: p.kind, d_ar: '', d_en: '', url: p.url })), cat.couponCode);
+    renderCatalog(cat.products.map(function (p) {
+      var b = BLURB[p.slug] || {};
+      return { slug: p.slug, name_ar: p.name_ar, name_en: p.name_en, kind: p.kind,
+        d_ar: b.d_ar || '', d_en: b.d_en || '', url: p.url };
+    }));
 
     await loadWalletLive();
 
     try { var ml = await window.NXApi.get('/api/partner/leads'); renderMyLeads(ml.leads); } catch (e) {}
 
+    // Payout details matter: without an IBAN on file nothing can be transferred, so
+    // the whole profile round-trips rather than just showing the name.
     try {
       var pr = (await window.NXApi.get('/api/partner/profile')).profile;
-      setVal('[data-view="settings"] input[name=name], [data-view="settings"] input[type=text]', pr.name);
+      var map = { name: pr.name, phone: pr.phone, email: pr.email, company: pr.company,
+        payoutMethod: pr.payoutMethod, iban: pr.iban, accountHolder: pr.accountHolder };
+      document.querySelectorAll('[data-pf]').forEach(function (el) {
+        var v = map[el.dataset.pf];
+        if (v != null && v !== '') el.value = v;
+      });
     } catch (e) {}
     wirePortalActions();
   }
@@ -519,9 +725,30 @@
       createBtn.addEventListener('click', async function () {
         var wrap = createBtn.closest('.ap-card');
         var name = (wrap.querySelector('input[type=text]') || {}).value;
+        var product = (wrap.querySelector('select') || {}).value || '';
         if (!name) return toast(ar ? 'أدخل اسم الحملة' : 'Enter a campaign name');
-        try { await window.NXApi.post('/api/partner/links', { name: name }); toast(ar ? 'تم إنشاء الرابط' : 'Link created'); var l = await window.NXApi.get('/api/partner/links'); renderLinks({ refCode: l.refCode, links: l.links }); }
+        try {
+          await window.NXApi.post('/api/partner/links', { name: name, product: product });
+          toast(ar ? 'تم إنشاء الرابط' : 'Link created');
+          var l = await window.NXApi.get('/api/partner/links');
+          renderLinks({ refCode: l.refCode, links: l.links });
+          wrap.querySelector('input[type=text]').value = '';
+        } catch (e) { toast(e.message); }
+      });
+    }
+    var saveBtn = $('[data-save-profile]');
+    if (saveBtn && !saveBtn._wired) {
+      saveBtn._wired = 1;
+      saveBtn.addEventListener('click', async function () {
+        var body = {};
+        document.querySelectorAll('[data-pf]').forEach(function (el) {
+          if (el.disabled) return;                      // email is the login, not editable here
+          body[el.dataset.pf] = (el.value || '').trim();
+        });
+        saveBtn.disabled = true;
+        try { await window.NXApi.patch('/api/partner/profile', body); toast(T.savedProfile); }
         catch (e) { toast(e.message); }
+        saveBtn.disabled = false;
       });
     }
   }
@@ -537,10 +764,17 @@
     renderChart(ov.chart); renderNeedsAction(ov.needsAction);
     var pt = await window.NXApi.get('/api/admin/partners'); renderPartners(pt.partners, true);
     var of = await window.NXApi.get('/api/admin/offers'); renderOffers(of.offers, true);
+    offerModal = $('[data-offer-modal]'); setupOfferModal();
     var po = await window.NXApi.get('/api/admin/payouts'); renderPayouts(po.payouts, true);
+    var cv = await window.NXApi.get('/api/admin/conversions'); renderConversions(cv.conversions, true);
+    var st = await window.NXApi.get('/api/admin/settings'); fillSettings(st.settings);
     var ld = await window.NXApi.get('/api/admin/leads'); renderAdminLeads(ld.leads, true);
     setupWonModal();
     wireAdminActions();
+  }
+  async function refreshConversions() {
+    try { renderConversions((await window.NXApi.get('/api/admin/conversions')).conversions, true); } catch (e) {}
+    try { renderNeedsAction((await window.NXApi.get('/api/admin/overview')).needsAction); } catch (e) {}
   }
   async function refreshAdminLeads() {
     try { var ld = await window.NXApi.get('/api/admin/leads'); renderAdminLeads(ld.leads, true); } catch (e) {}
@@ -572,6 +806,139 @@
       } catch (er) { toast(er.message); }
     });
   }
+  // request details (admin): the whole submitted form in one place — the client's
+  // answers, where they submitted from, and exactly which partner (and which code)
+  // the request is credited to. The queue table can only show five columns; the
+  // team still needs the phone number and what the client actually asked for.
+  var KIND_LABELS = ar
+    ? { demo: 'عرض مباشر للمنصّة', trial: 'نسخة تجريبية باسمي', pricing: 'الأسعار والباقات', custom: 'تخصيص المنصّة للنشاط' }
+    : { demo: 'A live walkthrough', trial: 'A trial under their name', pricing: 'Pricing and plans', custom: 'Tailoring it to their business' };
+  function row(label, value, opts) {
+    if (value == null || value === '') return '';
+    opts = opts || {};
+    return '<div class="ap-det-r"><span class="k">' + esc(label) + '</span>' +
+      '<span class="v' + (opts.mono ? ' mono' : '') + (opts.pre ? ' pre' : '') + '">' + (opts.html ? value : esc(value)) + '</span></div>';
+  }
+  function when(ts) {
+    if (!ts) return '';
+    var dt = new Date(ts); if (isNaN(dt)) return String(ts).slice(0, 16).replace('T', ' ');
+    return dt.toLocaleString(ar ? 'ar-SA' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+  }
+  function viaLabel(x) {
+    if (!x.partner) return T.viaDirect;
+    return x.via === 'link' ? T.viaLink : (T.viaCoupon + ' · ' + x.via);
+  }
+  function renderLeadDetails(x) {
+    var meta = x.meta || {};
+    var kind = meta.kind_label || KIND_LABELS[meta.kind] || meta.kind || '';
+    var page = x.source_page
+      ? '<a href="' + esc(ORIGIN + x.source_page) + '" target="_blank" rel="noopener">' + esc(x.source_page) + '</a>' : '';
+    // any answer a future product's form adds shows up here without a code change
+    var known = { product: 1, kind: 1, kind_label: 1 };
+    var extra = Object.keys(meta).filter(function (k) { return !known[k] && meta[k] !== ''; })
+      .map(function (k) { return row(k, meta[k]); }).join('');
+
+    return '<div class="ap-det-h"><b>' + esc(x.client_name || T.dash) + '</b>' + leadStatusBadge(x.status) + '</div>' +
+      '<div class="ap-det-s">' + esc(T.dtClient) + '</div>' +
+      row(T.dtName, x.client_name) +
+      row(T.dtEmail, x.email ? '<a href="mailto:' + esc(x.email) + '">' + esc(x.email) + '</a>' : '', { html: true, mono: true }) +
+      row(T.dtPhone, x.phone ? '<a href="tel:' + esc(String(x.phone).replace(/\s/g, '')) + '" dir="ltr">' + esc(x.phone) + '</a>' : '', { html: true, mono: true }) +
+      row(T.dtCompany, x.company) +
+      '<div class="ap-det-s">' + esc(T.dtRequest) + '</div>' +
+      row(T.dtProduct, meta.product || svcLabel(x.service)) +
+      row(T.dtKind, kind) +
+      row(T.dtNote, x.note, { pre: true }) +
+      extra +
+      row(T.dtPage, page, { html: true, mono: true }) +
+      row(T.dtWhen, when(x.submitted_at) || day(x.date), { mono: true }) +
+      row(T.dtDecided, when(x.decided_at), { mono: true }) +
+      '<div class="ap-det-s">' + esc(T.dtAttr) + '</div>' +
+      (x.partner
+        ? row(T.dtPartner, x.partner) + row(T.dtRef, x.partner_ref, { mono: true }) +
+          row(T.dtCoupon, x.partner_coupon, { mono: true }) + row(T.dtVia, viaLabel(x)) +
+          (Number(x.deal_value) ? row(T.dtDeal, money(x.deal_value)) : '') +
+          (Number(x.commission) ? row(T.dtComm, money(x.commission)) : '')
+        : '<div class="ap-note-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>' + esc(T.dtNoPartner) + '</span></div>' +
+          (Number(x.deal_value) ? row(T.dtDeal, money(x.deal_value)) : ''));
+  }
+  var leadModal = null;
+  function openLeadDetails(id) {
+    leadModal = leadModal || $('[data-lead-modal]'); if (!leadModal) return;
+    var x = LEADS.filter(function (l) { return String(l.id) === String(id); })[0];
+    if (!x) return;
+    leadModal.querySelector('[data-lead-body]').innerHTML = renderLeadDetails(x);
+    if (!leadModal._wired) {
+      leadModal._wired = 1;
+      leadModal.addEventListener('click', function (e) {
+        if (e.target === leadModal || e.target.closest('[data-close]')) leadModal.classList.remove('on');
+      });
+    }
+    leadModal.classList.add('on');
+  }
+  if (isAdmin) document.addEventListener('click', function (e) {
+    var o = e.target.closest('[data-lead-open]');
+    if (o) openLeadDetails(o.dataset.leadOpen);
+  });
+
+  // product modal (admin): add a new catalogue entry, or edit an existing one.
+  // Publishing a card on /{lang}/solutions/ does not register it for partners —
+  // the catalogue also carries a commission rate and a promotable flag, so a human
+  // decides. This is where that decision is made.
+  var offerModal = null, editingOffer = null;
+  function offerField(k) { return offerModal.querySelector('[data-offer-' + k + ']'); }
+  function openOffer(row) {
+    offerModal = offerModal || $('[data-offer-modal]'); if (!offerModal) return;
+    editingOffer = row || null;
+    setupOfferModal();
+    offerModal.querySelector('[data-offer-title]').textContent = row ? T.editProduct : T.addProduct;
+    offerField('namear').value = row ? (row.name_ar || '') : '';
+    offerField('nameen').value = row ? (row.name_en || '') : '';
+    offerField('kind').value = row ? (row.kind || 'solution') : 'solution';
+    offerField('pct').value = row ? Number(row.commission_pct) : 15;
+    offerField('path').value = row ? (row.path || '') : '';
+    offerField('promotable').value = row && row.promotable === false ? '0' : '1';
+    // the slug is derived from the path, so renaming a live product's path would
+    // orphan its history — lock it once the product exists.
+    offerField('path').disabled = !!row;
+    offerModal.classList.add('on');
+  }
+  function setupOfferModal() {
+    if (!offerModal || offerModal._wired) return; offerModal._wired = 1;
+    offerModal.addEventListener('click', function (e) {
+      if (e.target === offerModal || e.target.hasAttribute('data-close')) offerModal.classList.remove('on');
+    });
+    offerModal.querySelector('form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var body = {
+        nameAr: offerField('namear').value.trim(), nameEn: offerField('nameen').value.trim(),
+        kind: offerField('kind').value, commissionPct: parseFloat(offerField('pct').value),
+        promotable: offerField('promotable').value === '1',
+      };
+      if (!body.nameAr && !body.nameEn) return toast(ar ? 'أدخل اسم المنتج' : 'Enter a product name');
+      if (!editingOffer) {
+        body.path = offerField('path').value.trim();
+        if (!body.path) return toast(ar ? 'أدخل مسار الصفحة' : 'Enter the page path');
+      }
+      if (!LIVE) {
+        offerModal.classList.remove('on');
+        return toast(ar ? 'تم حفظ المنتج (معاينة)' : 'Product saved (demo)');
+      }
+      try {
+        if (editingOffer) await window.NXApi.patch('/api/admin/offers/' + editingOffer.id, body);
+        else await window.NXApi.post('/api/admin/offers', body);
+        offerModal.classList.remove('on');
+        toast(T.saved);
+        renderOffers((await window.NXApi.get('/api/admin/offers')).offers, true);
+      } catch (er) { toast(er.message); }
+    });
+  }
+
+  if (isAdmin) document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-offer-new]')) { openOffer(null); return; }
+    var oe = e.target.closest('[data-offer-edit]');
+    if (oe) openOffer(OFFERS.filter(function (o) { return String(o.id) === String(oe.dataset.offerEdit); })[0] || null);
+  });
+
   function wireAdminActions() {
     if (document._adminWired) return; document._adminWired = 1;
     document.addEventListener('click', async function (e) {
@@ -585,6 +952,24 @@
       if (ll) { try { await window.NXApi.post('/api/admin/leads/' + ll.dataset.leadLost + '/lost'); toast(ar ? 'تم الإغلاق' : 'Marked lost'); await refreshAdminLeads(); } catch (er) { toast(er.message); } return; }
       var lr = e.target.closest('[data-lead-reopen]');
       if (lr) { try { await window.NXApi.post('/api/admin/leads/' + lr.dataset.leadReopen + '/reopen'); toast(ar ? 'أُعيد فتحه' : 'Reopened'); await refreshAdminLeads(); } catch (er) { toast(er.message); } return; }
+      // deals: approve / reject / reverse. Reversal takes money back off a partner's
+      // balance, so it asks first — the other two only move a pending row.
+      var cd = e.target.closest('[data-conv-do]');
+      if (cd) {
+        var act = cd.dataset.convDo;
+        if (act === 'reverse' && !confirm(T.confirmReverse)) return;
+        try { await window.NXApi.post('/api/admin/conversions/' + cd.dataset.convId + '/' + act); toast(ar ? 'تم' : 'Done'); await refreshConversions(); }
+        catch (er) { toast(er.message); }
+        return;
+      }
+      var ss = e.target.closest('[data-save-settings]');
+      if (ss) {
+        ss.disabled = true;
+        try { var r = await window.NXApi.put('/api/admin/settings', readSettings()); fillSettings(r.settings); toast(T.savedSettings); }
+        catch (er) { toast(er.message); }
+        ss.disabled = false;
+        return;
+      }
     });
   }
 

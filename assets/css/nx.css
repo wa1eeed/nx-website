@@ -2538,12 +2538,13 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 .aff-step .n{font-family:var(--mono);font-size:.82rem;font-weight:600;color:#fff;background:var(--brand);width:32px;height:32px;border-radius:9px;display:grid;place-items:center;margin-bottom:15px}
 .aff-step h3{font-size:1.02rem;font-weight:700;margin-bottom:.45rem}
 .aff-step p{font-size:.88rem;line-height:1.6;color:var(--ink-2)}
-.aff-prom{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.aff-prom{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .aff-pcol{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px}
 .aff-pcol h3{font-size:1.05rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.55rem}
 .aff-pcol h3 svg{width:20px;height:20px;stroke:var(--hi);fill:none;stroke-width:1.8}
 .aff-pcol a{display:flex;align-items:center;justify-content:space-between;font-size:.9rem;color:var(--ink-2);padding:.6rem 0;border-top:1px solid var(--line-2);transition:.2s}
 .aff-pcol a:first-of-type{border-top:0}
+.aff-pnote{font-size:.82rem;line-height:1.65;color:var(--muted);margin:-.4rem 0 1rem}
 .aff-pcol a:hover{color:var(--hi)}
 .aff-pcol a::after{content:"→";color:var(--faint);font-size:.85rem}
 .p-affiliate[dir] .aff-pcol a::after,html[dir=rtl] .aff-pcol a::after{content:"←"}

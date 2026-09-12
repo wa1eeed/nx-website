@@ -5,7 +5,7 @@ const { query } = require('../db/pool');
 const { asyncH, HttpError, str, num } = require('../lib/http');
 const { sign, unsign, safeEqual } = require('../lib/auth');
 const { hashIp } = require('../lib/ids');
-const { recordClick, attribute } = require('../services/attribution');
+const { recordClick, attribute, attributeCode } = require('../services/attribution');
 
 // Read the ref code from the signed first-party attribution cookie (set by /r
 // and /track/click), if still inside the attribution window. Returns '' if none.
@@ -23,6 +23,22 @@ function refFromCookie(req) {
 }
 
 const router = express.Router();
+
+// Whatever extra answers a product's request form collects, stored as submitted so
+// the admin sees the form the way the CRM would. Flat scalars only, and capped —
+// this is public, unauthenticated input, and the admin console renders it.
+const META_MAX_KEYS = 20;
+function sanitizeMeta(input) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return {};
+  const out = {};
+  for (const [k, v] of Object.entries(input)) {
+    if (Object.keys(out).length >= META_MAX_KEYS) break;
+    if (!/^[A-Za-z0-9_.-]{1,40}$/.test(k)) continue;
+    if (v == null || typeof v === 'object') continue;
+    out[k] = String(v).slice(0, 500);
+  }
+  return out;
+}
 
 // Only allow same-site relative redirect targets.
 function safePath(to) {
@@ -107,44 +123,59 @@ router.post('/track/conversion', asyncH(async (req, res) => {
   }
 }));
 
-// POST /track/lead  — fired by the site contact form on a successful submit.
-// Attributes the lead to a partner from the body ref/coupon OR the signed
-// attribution cookie, then records it. Non-affiliate leads are ignored (200,
-// no-op) — this table only holds affiliate-attributed leads. Same-origin only
-// (originGuard) + rate-limited, like every state-changing browser call.
+// POST /track/lead  — fired by the site contact form and by product request forms
+// on a successful submit. Attributes the lead to a partner from the body ref/coupon
+// OR the signed attribution cookie. A lead that carries no usable code is recorded
+// as a *direct* request (partner_id NULL, no commission) so the admin works one
+// queue. Same-origin only (originGuard) + rate-limited, like every state-changing
+// browser call.
+//
+// `direct` in the body opts a form into recording unattributed requests. The site
+// contact form leaves it off: its own leads already flow to the CRM, so mirroring
+// every one of them here would send PII the affiliate program has no use for.
 router.post('/track/lead', asyncH(async (req, res) => {
   res.set('Cache-Control', 'no-store');
   const b = req.body || {};
-  let ref = str(b.ref, { name: 'ref', max: 40 });
-  const coupon = str(b.coupon, { name: 'coupon', max: 40 });
-  if (!ref && !coupon) ref = refFromCookie(req); // fall back to first-party cookie
+  const bodyCode = str(b.ref, { name: 'ref', max: 40 }) || str(b.coupon, { name: 'coupon', max: 40 });
+  const cookieRef = bodyCode ? '' : refFromCookie(req);
 
-  if (!ref && !coupon) return res.status(200).json({ ok: true, attributed: false });
+  const allowDirect = b.direct === true || b.direct === 'true';
+  if (!bodyCode && !cookieRef && !allowDirect) return res.status(200).json({ ok: true, attributed: false });
 
   const email = b.email ? String(b.email).toLowerCase().slice(0, 200) : null;
-  const attr = await attribute({ refCode: ref, coupon, clientEmail: email });
-  if (!attr) return res.status(200).json({ ok: true, attributed: false }); // unknown/expired/self
+  // A code submitted on the form carries its own evidence, so it is resolved against
+  // both code kinds without demanding a prior click. A code known only from the
+  // cookie came from a click we logged ourselves, so the window check still applies.
+  let attr = null;
+  if (bodyCode) attr = await attributeCode({ code: bodyCode, clientEmail: email });
+  else if (cookieRef) attr = await attribute({ refCode: cookieRef, clientEmail: email });
+  // unknown / expired / self-referral → still record it, just not against a partner
+  if (!attr && !allowDirect) return res.status(200).json({ ok: true, attributed: false });
 
+  const partnerId = attr ? attr.partnerId : null;
+  const via = attr ? attr.via : 'direct';
   const name = str(b.name, { name: 'name', max: 160 });
   const phone = str(b.phone, { name: 'phone', max: 40 });
   const company = str(b.company, { name: 'company', max: 160 });
   const service = str(b.service, { name: 'service', max: 60 });
+  const note = str(b.note, { name: 'note', max: 2000 });
   const sourcePage = str(b.source_page, { name: 'source_page', max: 300 });
+  const meta = sanitizeMeta(b.meta);
   const ipHash = hashIp(req.ip, config.ipSalt);
 
-  // Double-submit guard: same partner + same email within 10 min counts once.
+  // Double-submit guard: the same recipient + same email within 10 min counts once.
   if (email) {
     const dup = await query(
-      `SELECT 1 FROM leads WHERE partner_id=$1 AND email=$2
-         AND created_at > now() - interval '10 minutes' LIMIT 1`, [attr.partnerId, email]);
-    if (dup.rows[0]) return res.status(200).json({ ok: true, attributed: true, duplicate: true });
+      `SELECT 1 FROM leads WHERE partner_id IS NOT DISTINCT FROM $1 AND email=$2
+         AND created_at > now() - interval '10 minutes' LIMIT 1`, [partnerId, email]);
+    if (dup.rows[0]) return res.status(200).json({ ok: true, attributed: !!attr, duplicate: true });
   }
 
   await query(
-    `INSERT INTO leads(partner_id, name, email, phone, company, service, via, source_page, ip_hash)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-    [attr.partnerId, name, email, phone, company, service, attr.via, sourcePage, ipHash]);
-  res.status(201).json({ ok: true, attributed: true });
+    `INSERT INTO leads(partner_id, name, email, phone, company, service, via, source_page, ip_hash, note, meta)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+    [partnerId, name, email, phone, company, service, via, sourcePage, ipHash, note, meta]);
+  res.status(201).json({ ok: true, attributed: !!attr });
 }));
 
 module.exports = router;

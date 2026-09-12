@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=111">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=111">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=111">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=111">
+<link rel="stylesheet" href="/assets/css/nx.css?v=112">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=112">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=112">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=112">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -25,6 +25,7 @@
       <a data-go="overview" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Overview</span></a>
       <a data-go="partners"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg><span>Partners</span><span class="ct">214</span></a>
       <a data-go="leads"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Requests</span><span class="ct" data-need="pendingLeads">—</span></a>
+      <a data-go="conversions"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span>Deals &amp; commissions</span><span class="ct" data-need="pendingConversions">—</span></a>
       <a data-go="offers"><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 21V12h6v9"/></svg><span>Products &amp; offers</span></a>
       <a data-go="payouts"><svg viewBox="0 0 24 24"><path d="M2 7h20v5H2zM2 7v12a1 1 0 001 1h18a1 1 0 001-1v-7"/></svg><span>Payouts</span><span class="ct">2</span></a>
       <span class="lbl">Configure</span>
@@ -72,18 +73,28 @@
       <section class="ap-view" data-view="partners">
         <div class="ap-sh"><div><h2>Partners</h2><p>Review requests, approve partners, and track performance and coupon codes.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>All partners</h3><span class="mini">Export CSV</span></div>
+          <div class="ch"><h3>All partners</h3><button class="ap-mini-btn" type="button" data-export="partners">Export CSV</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Partner</th><th>Channel</th><th>Coupon</th><th>Conversions</th><th>Earnings</th><th>Status</th><th></th></tr></thead><tbody data-partners></tbody></table></div>
         </div>
       </section>
 
       <!-- LEADS / REQUESTS -->
       <section class="ap-view" data-view="leads">
-        <div class="ap-sh"><div><h2>Requests</h2><p>Every referred client who submitted the contact form — verify payment and turn it into a deal, or close it.</p></div></div>
+        <div class="ap-sh"><div><h2>Requests</h2><p>Every request that came through a site form — referred and direct alike. Open "Details" to see what the client filled in and which code they carried, then verify payment and turn it into a deal, or close it.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>Referred clients</h3><span class="mini">Export CSV</span></div>
-          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Client</th><th>Partner</th><th>Service</th><th>Status</th><th></th></tr></thead><tbody data-admin-leads></tbody></table></div>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>"Mark won" creates an approved deal and credits the partner's commission instantly. The Zoho integration is fully independent and unaffected.</span></div>
+          <div class="ch"><h3>Client requests</h3><button class="ap-mini-btn" type="button" data-export="leads">Export CSV</button></div>
+          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Client</th><th>Partner</th><th>Product / service</th><th>Status</th><th></th></tr></thead><tbody data-admin-leads></tbody></table></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>"Mark won" creates an approved deal and credits the partner's commission instantly. A direct request (no code) closes with the deal value on record and no commission. Every request also reaches Zoho; that integration stays independent and unaffected.</span></div>
+        </div>
+      </section>
+
+      <!-- CONVERSIONS -->
+      <section class="ap-view" data-view="conversions">
+        <div class="ap-sh"><div><h2>Deals &amp; commissions</h2><p>Every deal credited to a partner. Approve the pending ones, reject what is not due, and reverse a commission paid in error.</p></div></div>
+        <div class="ap-card">
+          <div class="ch"><h3>Deal history</h3></div>
+          <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Partner</th><th>Product</th><th>Client</th><th>Deal value</th><th>Commission</th><th>Status</th><th></th></tr></thead><tbody data-conversions></tbody></table></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>"Reverse" posts an offsetting debit to the ledger and lowers the partner's balance — it moves no money. Use it when a contract is cancelled or refunded.</span></div>
         </div>
       </section>
 
@@ -91,9 +102,9 @@
       <section class="ap-view" data-view="offers">
         <div class="ap-sh"><div><h2>Products &amp; offers</h2><p>Set the commission rate per product/service and its promotable status.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>Product portfolio</h3><span class="mini">Add product</span></div>
+          <div class="ch"><h3>Product portfolio</h3><button class="ap-mini-btn" type="button" data-offer-new>Add product</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Product / service</th><th>Type</th><th>Commission</th><th>Status</th><th></th></tr></thead><tbody data-offers></tbody></table></div>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>These are the same products partners promote under "Products &amp; services" with direct referral links. Rates are demo placeholders.</span></div>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>These are the same products partners promote under "Services" and "Products &amp; solutions" with direct referral links. Publishing a new solution on the site does not add it here — add it with "Add product" and set its rate and availability.</span></div>
         </div>
       </section>
 
@@ -101,7 +112,7 @@
       <section class="ap-view" data-view="payouts">
         <div class="ap-sh"><div><h2>Payouts</h2><p>Review withdrawal requests and set their status. The actual transfer is done via NX's bank.</p></div></div>
         <div class="ap-card">
-          <div class="ch"><h3>Withdrawal requests</h3><span class="mini">Export for bank</span></div>
+          <div class="ch"><h3>Withdrawal requests</h3><button class="ap-mini-btn" type="button" data-export="payouts">Export for bank</button></div>
           <div class="ap-tblwrap"><table class="ap-tbl"><thead><tr><th>Date</th><th>Partner</th><th>Method</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody data-payouts></tbody></table></div>
           <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>This console moves no money — it records, approves and tracks payout status; the actual transfer is executed from NX's treasury/bank outside the system.</span></div>
         </div>
@@ -114,13 +125,13 @@
           <div class="ch"><h3>Interface language</h3></div>
           <div class="ap-langset"><button data-lang>العربية</button><button class="on">English</button></div>
           <div class="ch" style="margin-top:20px"><h3>Commission &amp; coupons</h3></div>
-          <div class="ap-two"><div class="ap-fld"><label>Base rate (%)</label><input type="number" value="15"></div><div class="ap-fld"><label>Coupon discount (%)</label><input type="number" value="10"></div></div>
-          <div class="ap-two"><div class="ap-fld"><label>Growth tier — from 10 conversions (%)</label><input type="number" value="18"></div><div class="ap-fld"><label>Elite tier — from 25 conversions (%)</label><input type="number" value="22"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>Base rate (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="base_pct"></div><div class="ap-fld"><label>Coupon discount (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="coupon_pct"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>Growth tier — from 10 conversions (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="tier_growth_pct"></div><div class="ap-fld"><label>Elite tier — from 25 conversions (%)</label><input type="number" min="0" max="100" step="0.5" data-ps="tier_elite_pct"></div></div>
           <div class="ch" style="margin-top:8px"><h3>Tracking &amp; protection</h3></div>
-          <div class="ap-two"><div class="ap-fld"><label>Referral window (days)</label><input type="number" value="60"></div><div class="ap-fld"><label>Minimum withdrawal (SAR)</label><input type="number" value="1000"></div></div>
-          <div class="ap-two"><div class="ap-fld"><label>Click-fraud protection</label><select><option>Enabled</option><option>Disabled</option></select></div><div class="ap-fld"><label>Payout schedule</label><select><option>Monthly</option><option>Bi-weekly</option><option>Quarterly</option></select></div></div>
-          <button class="ap-wbtn" data-toast="Program settings saved (demo)">Save settings</button>
-          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>These values are demo placeholders. Give us the real figures to lock them in here and on the landing page and estimator.</span></div>
+          <div class="ap-two"><div class="ap-fld"><label>Referral window (days)</label><input type="number" min="1" max="365" data-ps="attribution_window_days"></div><div class="ap-fld"><label>Minimum withdrawal (SAR)</label><input type="number" min="0" data-ps="min_payout"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>Click-fraud protection</label><select data-ps="fraud_protection"><option value="1">Enabled</option><option value="0">Disabled</option></select></div><div class="ap-fld"><label>Payout schedule</label><select data-ps="payout_schedule"><option value="monthly">Monthly</option><option value="biweekly">Bi-weekly</option><option value="quarterly">Quarterly</option></select></div></div>
+          <button class="ap-wbtn" type="button" data-save-settings>Save settings</button>
+          <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>These are the program’s live figures. What you save here applies immediately to the landing page, the earnings estimator and commission maths — no deploy needed.</span></div>
         </div>
       </section>
 
@@ -147,9 +158,52 @@
   </div>
 </div>
 
+<!-- PRODUCT / OFFER MODAL -->
+<div class="ap-modal" data-offer-modal>
+  <div class="box">
+    <h3 data-offer-title>Add product</h3>
+    <p class="sub">A product added here shows up for partners straight away — under Services or Products &amp; solutions depending on its kind — with a referral link carrying each partner's own code.</p>
+    <form>
+      <div class="ap-two">
+        <div class="ap-fld"><label>Arabic name</label><input type="text" placeholder="منصّة مزادات اللوحات" data-offer-namear></div>
+        <div class="ap-fld"><label>English name</label><input type="text" dir="ltr" placeholder="Plate Auctions Platform" data-offer-nameen></div>
+      </div>
+      <div class="ap-two">
+        <div class="ap-fld"><label>Kind</label><select data-offer-kind>
+          <option value="solution">Solution / ready product</option>
+          <option value="service">Service</option>
+          <option value="platform">Platform</option>
+        </select></div>
+        <div class="ap-fld"><label>Commission (%)</label><input type="number" min="0" max="100" step="0.5" value="15" data-offer-pct></div>
+      </div>
+      <div class="ap-fld"><label>Page path</label><input type="text" dir="ltr" placeholder="/solutions/plate-market/" data-offer-path>
+        <div class="ap-note-s" style="margin-top:10px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Leave the language out (<code dir="ltr">/solutions/…/</code>) to open in each partner's language, or keep it (<code dir="ltr">/ar/solutions/…/</code>) when the page exists in one language only.</span></div>
+      </div>
+      <div class="ap-fld" style="margin-bottom:6px"><label>Availability</label><select data-offer-promotable>
+        <option value="1">Promotable</option>
+        <option value="0">Off</option>
+      </select></div>
+      <div class="ap-mact">
+        <button type="submit" class="ap-wbtn" style="flex:1" data-offer-save>Save product</button>
+        <button type="button" class="ap-wbtn ghost" data-close style="background:var(--canvas);color:var(--ink-2);border-color:var(--line)">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- REQUEST DETAILS MODAL -->
+<div class="ap-modal" data-lead-modal>
+  <div class="box ap-det">
+    <button class="ap-det-x" type="button" data-close aria-label="Close">&#10005;</button>
+    <h3>Request details</h3>
+    <p class="sub">Everything the client filled in, and who it is credited to.</p>
+    <div data-lead-body></div>
+  </div>
+</div>
+
 <div class="ap-demo">Preview mode · <b>sample data</b></div>
 
-<script src="/assets/js/nx-api.js?v=111" defer></script>
-<script src="/assets/js/nx-portal.js?v=111" defer></script>
+<script src="/assets/js/nx-api.js?v=112" defer></script>
+<script src="/assets/js/nx-portal.js?v=112" defer></script>
 </body>
 </html>

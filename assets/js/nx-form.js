@@ -70,8 +70,10 @@
   };
   // -----------------------------------------------------------
 
+  // A page may load this file only for the shared lead plumbing (window.NXLead)
+  // without hosting the onboarding form — render() runs per host, so an empty
+  // list is fine and we must not bail before exposing the API.
   const hosts = document.querySelectorAll('[data-nx-form]');
-  if (!hosts.length) return;
 
   const lang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
   const isRTL = document.documentElement.dir === 'rtl';
@@ -362,19 +364,25 @@
     return (meta && meta.content ? meta.content : (/(^|\.)nx\.sa$/i.test(location.hostname) ? 'https://api.nx.sa' : '')).replace(/\/$/, '');
   }
   // Best-effort beacon → affiliate backend. Records the lead against the partner
-  // (the backend also cross-checks its own first-party cookie). Only fires when a
-  // referral code is present, so non-affiliate leads send no PII to the backend.
+  // (the backend also cross-checks its own first-party cookie). For the contact
+  // form it only fires when a referral code is present, so non-affiliate leads send
+  // no PII to a backend that has no use for them. A form that sets `direct: true`
+  // — the product request forms, whose queue *is* the admin console — opts into
+  // sending unreferred requests too.
   function sendLead(data) {
     try {
       const ref = data.ref || '';
       const api = apiBase();
-      if (!ref || !api) return;
+      if (!api) return;
+      if (!ref && !data.direct) return;
       fetch(api + '/track/lead', {
         method: 'POST', credentials: 'include', mode: 'cors', keepalive: true,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ref: ref, name: data.name || '', email: data.email || '', phone: data.phone || '',
-          company: data.company || '', service: data.service || '', source_page: data.source_page || location.pathname,
+          ref: ref, direct: !!data.direct, name: data.name || '', email: data.email || '',
+          phone: data.phone || '', company: data.company || '', service: data.service || '',
+          note: data.note || '', meta: data.meta || {},
+          source_page: data.source_page || location.pathname,
         }),
       }).catch(() => {});
     } catch (e) {}
@@ -734,6 +742,34 @@
     $('.nxf-progress', form).hidden = true;
     $('.nxf-fail', form).hidden = false;
   }
+
+  // ---------- shared lead plumbing ----------
+  // Other forms on the site (e.g. the plate-platform request) reuse the exact same
+  // two destinations rather than re-declaring the Zoho credentials and field map:
+  //   toZoho()     → Zoho CRM web-to-lead, via the hidden-iframe POST
+  //   toPartners() → the NX Partners backend, which records the request for the
+  //                  admin queue and attributes it when a referral code is present
+  // `details` is the only free-text field Zoho takes, so callers put their own
+  // context there; enrich() adds the UTM/source/referral envelope for them.
+  window.NXLead = {
+    toZoho: (data) => (ZOHO_ENDPOINT ? submitViaIframe(data) : Promise.resolve(true)),
+    toPartners: sendLead,
+    getRef,
+    enrich(data) {
+      const utm = getUTM(), ref = getRef();
+      const out = Object.assign({
+        utm_source: utm.utm_source || '', utm_medium: utm.utm_medium || '',
+        utm_campaign: utm.utm_campaign || '', source_page: location.pathname,
+        referrer: document.referrer || '', language: lang, source: 'Website',
+      }, data);
+      if (!out.ref) out.ref = ref;
+      if (out.ref) {
+        const tag = (lang === 'ar' ? 'كود الإحالة' : 'Referral code') + ': ' + out.ref;
+        out.details = out.details ? (out.details + '\n\n— ' + tag) : ('— ' + tag);
+      }
+      return out;
+    },
+  };
 
   // ---------- boot ----------
   hosts.forEach(render);

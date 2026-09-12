@@ -189,7 +189,7 @@ body.p-portal, body.p-admin{background:var(--canvas);color:var(--ink);min-height
 .ap-modal{position:fixed;inset:0;z-index:120;display:none;place-items:center;background:rgba(10,26,47,.55);backdrop-filter:blur(4px);padding:20px}
 .ap-modal.on{display:grid;animation:apFade .25s ease}
 @keyframes apFade{from{opacity:0}to{opacity:1}}
-.ap-modal .box{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:28px;box-shadow:var(--shadow-l);animation:apPop .3s cubic-bezier(.22,1,.36,1)}
+.ap-modal .box{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:28px;box-shadow:var(--shadow-l);animation:apPop .3s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto}
 @keyframes apPop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
 .ap-modal h3{font-size:1.2rem;font-weight:800;margin-bottom:.4rem}
 .ap-modal p.sub{color:var(--muted);font-size:.86rem;margin-bottom:18px}
@@ -272,6 +272,34 @@ body.p-portal, body.p-admin{background:var(--canvas);color:var(--ink);min-height
 .ap-catcard .ds{font-size:.82rem;color:var(--ink-2);line-height:1.55;margin-bottom:14px}
 .ap-catcard .lk{display:flex;align-items:center;gap:.5rem;background:var(--canvas);border:1px solid var(--line);border-radius:9px;padding:.45rem .6rem;margin-bottom:10px}
 .ap-catcard .lk code{font-family:var(--mono);font-size:.66rem;color:var(--ink-2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left}
+/* ready-to-launch products carry the same cover art the client sees on /solutions/ */
+.ap-cat-sol .ap-catcard{display:flex;flex-direction:column}
+.ap-catcard .shot{display:grid;place-items:center;background:linear-gradient(135deg,#EEF3F9,#F7F9FC);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px;overflow:hidden}
+.ap-catcard .shot img{width:100%;max-width:320px;height:auto;display:block}
+.ap-catcard .ds{flex:1}
+.ap-catcard .ap-open{width:100%;justify-content:center;margin-bottom:10px}
+.ap-empty{grid-column:1/-1;background:#fff;border:1px dashed var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted);font-size:.85rem}
+
+/* request details (admin) — the submitted form, read-only */
+/* the header stays put and only the field list scrolls, so the close button and
+   the client's name never scroll out of reach on a short screen */
+.ap-modal .box.ap-det{max-width:560px;position:relative;display:flex;flex-direction:column;overflow:hidden}
+.ap-det > [data-lead-body]{overflow-y:auto;min-height:0;margin:0 -4px;padding:0 4px}
+.ap-det-x{position:absolute;inset-inline-end:18px;top:18px;width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--canvas);color:var(--muted);font-size:15px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.ap-det-x:hover{color:var(--ink);border-color:var(--ink-2)}
+.ap-det-h{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.ap-det-h b{font-size:1.05rem}
+.ap-det-s{font-size:.66rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:18px 0 8px}
+.ap-det-r{display:grid;grid-template-columns:minmax(0,8.5rem) 1fr;gap:.8rem;padding:.42rem 0;font-size:.84rem;align-items:baseline}
+.ap-det-r .k{color:var(--muted);font-size:.78rem}
+.ap-det-r .v{color:var(--ink);word-break:break-word;min-width:0}
+.ap-det-r .v.mono{font-family:var(--mono);font-size:.76rem}
+.ap-det-r .v.pre{white-space:pre-wrap;line-height:1.6}
+.ap-det-r .v a{color:var(--brand);text-decoration:none}
+.ap-det-r .v a:hover{text-decoration:underline}
+.ap-det .ap-note-s{margin-top:10px}
+.ap-acts{white-space:nowrap}
+@media(max-width:520px){.ap-det-r{grid-template-columns:1fr;gap:.15rem}}
 
 /* product tag on material cards */
 .ap-tag{display:inline-block;font-size:.6rem;font-family:var(--mono);letter-spacing:.04em;color:var(--brand);background:rgba(44,116,179,.09);border:1px solid rgba(44,116,179,.2);border-radius:100px;padding:.12rem .5rem}

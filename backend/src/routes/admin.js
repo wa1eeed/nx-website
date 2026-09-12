@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const { query, tx } = require('../db/pool');
-const { asyncH, HttpError, num, oneOf } = require('../lib/http');
+const { asyncH, HttpError, str, num, oneOf } = require('../lib/http');
 const ledger = require('../services/ledger');
 
 const router = express.Router();
@@ -80,22 +80,27 @@ router.post('/conversions/:id/:action', asyncH(async (req, res) => {
   res.json({ ok: true });
 }));
 
+// The requests queue. LEFT JOIN because a direct request (no referral code) has no
+// partner — it still belongs in this queue; it just earns nobody a commission.
 router.get('/leads', asyncH(async (_req, res) => {
   const rows = (await query(
-    `SELECT l.id, l.created_at::date AS date, pt.name AS partner, pt.ref_code AS partner_ref,
+    `SELECT l.id, l.created_at::date AS date, l.created_at AS submitted_at, l.decided_at,
+            pt.id AS partner_id, pt.name AS partner, pt.ref_code AS partner_ref,
+            pt.coupon_code AS partner_coupon, pt.email AS partner_email,
             l.name AS client_name, l.email, l.phone, l.company, l.service, l.via,
-            l.source_page, l.status,
-            COALESCE(c.deal_value, 0) AS deal_value, COALESCE(c.commission, 0) AS commission
-     FROM leads l JOIN partners pt ON pt.id = l.partner_id
+            l.source_page, l.note, l.meta, l.status,
+            COALESCE(c.deal_value, l.deal_value, 0) AS deal_value, COALESCE(c.commission, 0) AS commission
+     FROM leads l LEFT JOIN partners pt ON pt.id = l.partner_id
      LEFT JOIN conversions c ON c.id = l.conversion_id
      ORDER BY l.created_at DESC LIMIT 200`)).rows;
   res.json({ ok: true, leads: rows.map(r => ({ ...r, deal_value: Number(r.deal_value), commission: Number(r.commission) })) });
 }));
 
-// Map a contact-form service code to a product slug (best-effort; admin can override).
+// Map a form's service code to a product slug (best-effort; admin can override).
 const SERVICE_TO_SLUG = {
   launch: 'services/launch', grow: 'services/grow', auto: 'services/automation360',
   connect: 'services/connect', scale: 'services/scale',
+  'plate-market': 'solutions/plate-market',
 };
 
 // Admin decides a lead. 'won' verifies the customer paid → creates an APPROVED
@@ -125,6 +130,14 @@ router.post('/leads/:id/:action', asyncH(async (req, res) => {
     if (lead.status === 'won') return { err: [409, 'Lead is already won', 'conflict'] };
     const dealValue = num(b.deal_value, { min: 0, def: 0 });
     if (dealValue <= 0) return { err: [400, 'deal_value is required to mark a lead won', 'bad_request'] };
+
+    // A direct request has no partner: close it with the deal value on record, but
+    // create no conversion and credit no ledger — there is nobody to pay.
+    if (!lead.partner_id) {
+      await db.query(`UPDATE leads SET status='won', deal_value=$1, decided_at=now() WHERE id=$2`, [dealValue, id]);
+      return { ok: true, status: 'won', commission: 0, direct: true };
+    }
+
     const slug = (b.product && String(b.product)) || SERVICE_TO_SLUG[lead.service] || null;
     const prod = slug
       ? (await db.query(`SELECT id, commission_pct FROM products WHERE slug=$1 OR path=$1`, [slug])).rows[0]
@@ -137,7 +150,7 @@ router.post('/leads/:id/:action', asyncH(async (req, res) => {
       [lead.partner_id, prod ? prod.id : null, lead.name, dealValue, commission, lead.via || 'link'])).rows[0];
     await ledger.post(db, { partnerId: lead.partner_id, type: 'commission', amount: commission,
       refType: 'lead', refId: id, memo: 'Lead won — commission credited' });
-    await db.query(`UPDATE leads SET status='won', conversion_id=$1, decided_at=now() WHERE id=$2`, [conv.id, id]);
+    await db.query(`UPDATE leads SET status='won', conversion_id=$1, deal_value=$2, decided_at=now() WHERE id=$3`, [conv.id, dealValue, id]);
     return { ok: true, status: 'won', commission };
   });
 
@@ -146,15 +159,66 @@ router.post('/leads/:id/:action', asyncH(async (req, res) => {
 }));
 
 router.get('/offers', asyncH(async (_req, res) => {
-  const rows = (await query(`SELECT id, slug, name_ar, name_en, kind, commission_pct, promotable FROM products ORDER BY sort, id`)).rows;
+  const rows = (await query(`SELECT id, slug, name_ar, name_en, kind, path, commission_pct, promotable, sort FROM products ORDER BY sort, id`)).rows;
   res.json({ ok: true, offers: rows.map(r => ({ ...r, commission_pct: Number(r.commission_pct) })) });
+}));
+
+// Site path → catalogue slug. A page lives at /{lang}/solutions/plate-market/ and its
+// slug is the part after the language segment, which is also what SERVICE_TO_SLUG and
+// the conversion webhook look up. Accepts either spelling from the admin form.
+function normalisePath(input) {
+  let path = String(input || '').trim();
+  if (!path) return null;
+  if (!path.startsWith('/')) path = '/' + path;
+  if (!path.endsWith('/')) path += '/';
+  if (/[\r\n\t]/.test(path) || path.startsWith('//')) throw new HttpError(400, 'Invalid path', 'bad_request');
+  return path;
+}
+const slugOf = (path) => path.replace(/^\/(ar|en)\//, '/').replace(/^\/|\/$/g, '');
+
+// Add a product to the partner catalogue. This is the only way a new solution reaches
+// partners: publishing a card on /{lang}/solutions/ does not register it here, because
+// the catalogue also carries a commission rate and a promotable flag that only the
+// partnerships team decides. A path that keeps its language segment (e.g.
+// /ar/solutions/…) marks the product as available in that language only.
+router.post('/offers', asyncH(async (req, res) => {
+  const b = req.body || {};
+  const path = normalisePath(b.path);
+  if (!path) throw new HttpError(400, 'path is required', 'bad_request');
+  const nameAr = str(b.nameAr, { name: 'nameAr', max: 160 });
+  const nameEn = str(b.nameEn, { name: 'nameEn', max: 160 });
+  if (!nameAr && !nameEn) throw new HttpError(400, 'A name is required', 'bad_request');
+  const kind = oneOf(b.kind || 'solution', ['service', 'solution', 'platform'], 'kind');
+  const slug = str(b.slug, { name: 'slug', max: 120 }) || slugOf(path);
+  const pct = num(b.commissionPct, { min: 0, max: 100, def: 15 });
+  const promotable = b.promotable !== false;
+
+  try {
+    const r = await query(
+      `INSERT INTO products(slug, name_ar, name_en, kind, path, commission_pct, promotable, sort)
+       VALUES ($1,$2,$3,$4,$5,$6,$7, COALESCE((SELECT MAX(sort) FROM products), 0) + 1)
+       RETURNING id, slug`,
+      [slug, nameAr || nameEn, nameEn || nameAr, kind, path, pct, promotable]);
+    res.status(201).json({ ok: true, product: r.rows[0] });
+  } catch (e) {
+    if (e.code === '23505') throw new HttpError(409, 'A product with this slug already exists', 'conflict');
+    throw e;
+  }
 }));
 
 router.patch('/offers/:id', asyncH(async (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const pct = num((req.body || {}).commissionPct, { min: 0, max: 100, def: 15 });
-  const promotable = (req.body || {}).promotable !== false;
-  const r = await query(`UPDATE products SET commission_pct=$1, promotable=$2 WHERE id=$3 RETURNING id`, [pct, promotable, id]);
+  const b = req.body || {};
+  const pct = num(b.commissionPct, { min: 0, max: 100, def: 15 });
+  const promotable = b.promotable !== false;
+  // name/path are optional on edit — left out, the stored values stand.
+  const nameAr = str(b.nameAr, { name: 'nameAr', max: 160 });
+  const nameEn = str(b.nameEn, { name: 'nameEn', max: 160 });
+  const path = b.path === undefined ? null : normalisePath(b.path);
+  const r = await query(
+    `UPDATE products SET commission_pct=$1, promotable=$2,
+       name_ar=COALESCE($3, name_ar), name_en=COALESCE($4, name_en), path=COALESCE($5, path)
+     WHERE id=$6 RETURNING id`, [pct, promotable, nameAr, nameEn, path, id]);
   if (!r.rows[0]) throw new HttpError(404, 'Product not found', 'not_found');
   res.json({ ok: true });
 }));

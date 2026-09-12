@@ -3,11 +3,18 @@ const express = require('express');
 const config = require('../config');
 const { query } = require('../db/pool');
 const { asyncH, HttpError, str, num } = require('../lib/http');
+const { rand } = require('../lib/ids');
 const ledger = require('../services/ledger');
 
 const router = express.Router();
 const me = (req) => req.user;
-const deepLink = (u, path) => `${config.publicOrigin}/${u.lang || 'ar'}${path}?ref=${u.ref_code}`;
+// A product path that already carries a language segment (e.g. /ar/solutions/…) is
+// language-locked — that product only has an Arabic page, so we keep the path as-is
+// rather than prefixing the partner's own language onto a URL that would 404.
+const deepLink = (u, path) => {
+  const p = /^\/(ar|en)\//.test(path) ? path : `/${u.lang || 'ar'}${path}`;
+  return `${config.publicOrigin}${p}?ref=${u.ref_code}`;
+};
 
 async function programSettings() {
   const r = await query(`SELECT value FROM settings WHERE key='program'`);
@@ -77,23 +84,49 @@ router.get('/links', asyncH(async (req, res) => {
   const u = me(req);
   const base = `${config.publicOrigin}/?ref=${u.ref_code}`;
   const custom = (await query(
-    `SELECT l.id, l.name, l.campaign,
+    `SELECT l.id, l.name, l.campaign, p.path AS product_path, p.name_ar, p.name_en,
        (SELECT COUNT(*) FROM clicks c WHERE c.link_id = l.id) AS clicks
-     FROM links l WHERE l.partner_id = $1 ORDER BY l.created_at`, [u.id])).rows;
+     FROM links l LEFT JOIN products p ON p.id = l.product_id
+     WHERE l.partner_id = $1 ORDER BY l.created_at`, [u.id])).rows;
   const totalClicks = (await query(`SELECT COUNT(*) n FROM clicks WHERE partner_id=$1`, [u.id])).rows[0].n;
   const totalConv = (await query(`SELECT COUNT(*) n FROM conversions WHERE partner_id=$1`, [u.id])).rows[0].n;
   res.json({ ok: true,
     refCode: u.ref_code, couponCode: u.coupon_code, defaultLink: base,
     totals: { clicks: Number(totalClicks), conversions: Number(totalConv) },
-    links: custom.map(l => ({ id: l.id, name: l.name, url: base + (l.campaign ? '&c=' + encodeURIComponent(l.campaign) : ''), clicks: Number(l.clicks) })),
+    // a link tied to a product deep-links to that page; the rest land on the home page
+    links: custom.map(l => {
+      const url = l.product_path
+        ? deepLink(u, l.product_path) + (l.campaign ? '&c=' + encodeURIComponent(l.campaign) : '')
+        : base + (l.campaign ? '&c=' + encodeURIComponent(l.campaign) : '');
+      return { id: l.id, name: l.name, url, clicks: Number(l.clicks),
+        product: l.product_path ? { name_ar: l.name_ar, name_en: l.name_en } : null };
+    }),
   });
 }));
 
 router.post('/links', asyncH(async (req, res) => {
   const u = me(req);
-  const name = str((req.body || {}).name, { required: true, name: 'name', max: 80 });
-  const campaign = (str((req.body || {}).campaign, { name: 'campaign', max: 40 }) || name).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
-  const r = await query(`INSERT INTO links(partner_id, name, campaign) VALUES ($1,$2,$3) RETURNING id`, [u.id, name, campaign]);
+  const b = req.body || {};
+  const name = str(b.name, { required: true, name: 'name', max: 80 });
+  // The campaign tag rides in the URL as &c=…, so it has to be ASCII. An Arabic
+  // name strips to nothing and every such campaign would collapse to the same
+  // slug — which would silently merge their click counts. Fall back to a short
+  // random token so each campaign stays distinguishable.
+  const slugged = (str(b.campaign, { name: 'campaign', max: 40 }) || name)
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+  const campaign = slugged || ('c' + rand(5).toLowerCase());
+  // Optional product: the link then points at that page instead of the home page.
+  // Only a promotable product can be targeted — a retired one must not get fresh links.
+  const slug = str(b.product, { name: 'product', max: 120 });
+  let productId = null;
+  if (slug) {
+    const p = (await query(`SELECT id FROM products WHERE slug=$1 AND promotable`, [slug])).rows[0];
+    if (!p) throw new HttpError(400, 'Unknown product', 'bad_request');
+    productId = p.id;
+  }
+  const r = await query(
+    `INSERT INTO links(partner_id, name, campaign, product_id) VALUES ($1,$2,$3,$4) RETURNING id`,
+    [u.id, name, campaign, productId]);
   res.status(201).json({ ok: true, id: r.rows[0].id });
 }));
 

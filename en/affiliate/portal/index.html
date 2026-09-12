@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=111">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=111">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=111">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=111">
+<link rel="stylesheet" href="/assets/css/nx.css?v=112">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=112">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=112">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=112">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -24,7 +24,7 @@
       <span class="lbl">Dashboard</span>
       <a data-go="overview" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Overview</span></a>
       <a data-go="referrals"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>My referrals</span></a>
-      <a data-go="catalog"><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 21V12h6v9"/></svg><span>Products &amp; services</span></a>
+      <a data-go="solutions"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg><span>Products &amp; solutions</span></a>
       <a data-go="links"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg><span>Links &amp; codes</span></a>
       <a data-go="materials"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Marketing kit</span></a>
       <span class="lbl">Money</span>
@@ -88,9 +88,9 @@
       </section>
 
       <!-- CATALOG -->
-      <section class="ap-view" data-view="catalog">
-        <div class="ap-sh"><div><h2>Products &amp; services</h2><p>Pick what fits each client and copy its direct link — your referral code is embedded in every link.</p></div></div>
-        <div class="ap-cat" data-catalog></div>
+      <section class="ap-view" data-view="solutions">
+        <div class="ap-sh"><div><h2>Products &amp; solutions</h2><p>NX's ready-to-launch platforms — what you promote. Each goes live under your client's own name in days and has a page with a request button that opens the form pre-filled with your code.</p></div></div>
+        <div class="ap-cat ap-cat-sol" data-catalog-solutions></div>
       </section>
 
       <!-- LINKS & CODES -->
@@ -112,7 +112,7 @@
             <div class="ap-fld" style="margin:0"><label>Campaign name</label><input type="text" placeholder="e.g. Instagram campaign"></div>
             <div class="ap-fld" style="margin:0"><label>Product (optional)</label><select><option>All products</option><option>NX Launch</option><option>NX Grow</option><option>FinTech</option><option>IBP Insure</option></select></div>
           </div>
-          <button class="ap-wbtn" style="margin-top:16px" data-toast="Link creation will be enabled when the portal goes live">Create link</button>
+          <button class="ap-wbtn" style="margin-top:16px" type="button" data-create-link>Create link</button>
         </div>
         <div data-links></div>
       </section>
@@ -146,7 +146,7 @@
             </div>
             <div class="ap-wbtns">
               <button class="ap-wbtn" data-open-withdraw><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg> Withdraw</button>
-              <button class="ap-wbtn ghost" data-toast="Statements will be available when the portal goes live"><svg viewBox="0 0 24 24"><path d="M7 3h10l3 4v14H4V7z"/><path d="M9 13l2 2 4-4"/></svg> Statement</button>
+              <button class="ap-wbtn ghost" type="button" data-export="tx"><svg viewBox="0 0 24 24"><path d="M7 3h10l3 4v14H4V7z"/><path d="M9 13l2 2 4-4"/></svg> Statement</button>
             </div>
           </div>
           <div class="ap-nextpay">
@@ -172,12 +172,12 @@
           <div class="ch"><h3>Interface language</h3></div>
           <div class="ap-langset"><button data-lang>العربية</button><button class="on">English</button></div>
           <div class="ch" style="margin-top:20px"><h3>Profile</h3></div>
-          <div class="ap-two"><div class="ap-fld"><label>Full name</label><input type="text" value="Khalid Al-Otaibi"></div><div class="ap-fld"><label>Mobile number</label><input type="tel" value="+9665XXXXXXXX"></div></div>
-          <div class="ap-fld"><label>Email</label><input type="email" value="khalid@rawnaq.sa"></div>
+          <div class="ap-two"><div class="ap-fld"><label>Full name</label><input type="text" data-pf="name" autocomplete="name"></div><div class="ap-fld"><label>Mobile number</label><input type="tel" dir="ltr" data-pf="phone" autocomplete="tel" placeholder="05XXXXXXXX"></div></div>
+          <div class="ap-two"><div class="ap-fld"><label>Email</label><input type="email" dir="ltr" data-pf="email" disabled></div><div class="ap-fld"><label>Company</label><input type="text" data-pf="company" autocomplete="organization"></div></div>
           <div class="ch" style="margin-top:8px"><h3>Payout details</h3></div>
-          <div class="ap-two"><div class="ap-fld"><label>Payout method</label><select><option>Bank transfer (SARIE)</option><option>STC Pay</option></select></div><div class="ap-fld"><label>IBAN</label><input type="text" placeholder="SA00 0000 0000 0000 0000 0000" dir="ltr"></div></div>
-          <div class="ap-fld"><label>Account holder name</label><input type="text" placeholder="As shown on your bank account"></div>
-          <button class="ap-wbtn" data-toast="Settings saved (demo)">Save changes</button>
+          <div class="ap-two"><div class="ap-fld"><label>Payout method</label><select data-pf="payoutMethod"><option value="bank">Bank transfer (SARIE)</option><option value="stcpay">STC Pay</option></select></div><div class="ap-fld"><label>IBAN</label><input type="text" placeholder="SA00 0000 0000 0000 0000 0000" dir="ltr" data-pf="iban"></div></div>
+          <div class="ap-fld"><label>Account holder name</label><input type="text" placeholder="As shown on your bank account" data-pf="accountHolder"></div>
+          <button class="ap-wbtn" type="button" data-save-profile>Save changes</button>
           <div class="ap-note-s" style="margin-top:16px"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Your bank details are used only to pay your commissions; we never ask for payment or card information.</span></div>
         </div>
       </section>
@@ -209,7 +209,7 @@
 
 <div class="ap-demo">Preview mode · <b>sample data</b></div>
 
-<script src="/assets/js/nx-api.js?v=111" defer></script>
-<script src="/assets/js/nx-portal.js?v=111" defer></script>
+<script src="/assets/js/nx-api.js?v=112" defer></script>
+<script src="/assets/js/nx-portal.js?v=112" defer></script>
 </body>
 </html>
