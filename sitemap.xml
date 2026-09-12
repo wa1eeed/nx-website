@@ -403,8 +403,18 @@
   </url>
   <url>
     <loc>https://nx.sa/ar/solutions/plate-market/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/plate-market/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/plate-market/"/>
-    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/plate-market/"/>
+    <lastmod>2026-09-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nx.sa/en/solutions/plate-market/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nx.sa/en/solutions/plate-market/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nx.sa/ar/solutions/plate-market/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nx.sa/en/solutions/plate-market/"/>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>

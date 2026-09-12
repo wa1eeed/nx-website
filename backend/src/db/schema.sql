@@ -171,9 +171,16 @@ ON CONFLICT (slug) DO NOTHING;
 -- NX's own ready-to-launch products (the cards on /{lang}/solutions/). A path that
 -- already carries a language segment is language-locked: deepLink() keeps it as-is
 -- instead of prefixing the partner's language, so an EN partner still gets a live URL.
+-- Keep that mechanism — the next product may well ship in one language first.
 INSERT INTO products(slug, name_ar, name_en, kind, path, commission_pct, sort) VALUES
-  ('solutions/plate-market', 'منصّة مزادات اللوحات المميّزة', 'Plate Auctions Platform', 'solution', '/ar/solutions/plate-market/', 20, 20)
+  ('solutions/plate-market', 'منصّة مزادات اللوحات المميّزة', 'Plate Auctions Platform', 'solution', '/solutions/plate-market/', 20, 20)
 ON CONFLICT (slug) DO NOTHING;
+
+-- The plate platform now has an English page too, so its link should follow the
+-- partner's own language instead of forcing everyone to the Arabic one. Only
+-- rewrites the locked path, so an admin who has since edited it keeps their value.
+UPDATE products SET path = '/solutions/plate-market/'
+ WHERE slug = 'solutions/plate-market' AND path = '/ar/solutions/plate-market/';
 
 -- One-time catalog cleanup (guarded by a settings marker so an admin who later
 -- re-enables one of these keeps their choice). Retires two kinds of entry from the

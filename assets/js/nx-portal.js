@@ -460,8 +460,7 @@
       catalog: [
         ['solutions/plate-market', 'منصّة مزادات اللوحات المميّزة', 'Plate Auctions Platform', 'solution',
           'سوق لوحات كامل باسم عميلك: مزاد لحظي، وبيع مباشر، واستقبال سوم — مع محفظة وضمان للمال حتى نقل الملكية.',
-          'A complete plate marketplace under your client\u2019s name: live auctions, direct sale and offers — with a wallet and funds held until ownership transfers.',
-          '/ar/solutions/plate-market/']
+          'A complete plate marketplace under your client\u2019s name: live auctions, direct sale and offers — with a wallet and funds held until ownership transfers.']
       ].map(p => ({ slug: p[0], name_ar: p[1], name_en: p[2], kind: p[3], d_ar: p[4], d_en: p[5],
         url: ORIGIN + (p[6] || ('/' + LANGSEG + '/' + p[0] + '/')) + '?ref=' + CODE })),
     },
