@@ -908,6 +908,80 @@
       });
     }
 
+    // forgot password → the backend always answers the same, so the page must too:
+    // a message that reveals whether the address is registered would hand anyone a
+    // way to test who has an account here.
+    const forgotForm = document.querySelector('[data-aff-forgot]');
+    if (forgotForm) {
+      forgotForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const msg = forgotForm.querySelector('[data-aff-msg]');
+        const btn = forgotForm.querySelector('button[type=submit]');
+        const addr = (forgotForm.querySelector('[name=email]') || {}).value || '';
+        const setMsg = (cls, text) => { if (msg) { msg.className = 'aff-msg ' + cls; msg.textContent = text; } };
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(addr.trim())) {
+          return setMsg('info', ar ? 'أدخل بريداً إلكترونياً صحيحاً.' : 'Enter a valid email address.');
+        }
+        if (!window.NXApi) return setMsg('info', ar ? 'تعذّر الوصول إلى الخدمة الآن. حاول بعد قليل.' : 'We could not reach the service just now. Please try again shortly.');
+        if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الإرسال…' : 'Sending…'; }
+        try {
+          await window.NXApi.post('/api/auth/forgot', { email: addr.trim() });
+          forgotForm.reset();
+          setMsg('ok', ar
+            ? 'إن كان هذا البريد مسجّلاً لدينا، فقد أرسلنا إليه رابط الاستعادة. تحقّق من بريدك — وراجع مجلد الرسائل غير المرغوبة إن لم يصل.'
+            : 'If that address is registered with us, we have sent it a reset link. Check your inbox — and your spam folder if it has not arrived.');
+        } catch (err) {
+          if (err.status === 429) setMsg('info', ar ? 'محاولات كثيرة. انتظر قليلاً ثم أعد المحاولة.' : 'Too many attempts. Please wait a moment and try again.');
+          else setMsg('info', ar ? 'تعذّر إرسال الطلب الآن. حاول بعد قليل.' : 'Could not send the request just now. Please try again shortly.');
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = btn.dataset.orig; }
+        }
+      });
+    }
+
+    // set a new password from an emailed link
+    const resetForm = document.querySelector('[data-aff-reset]');
+    if (resetForm) {
+      const tok = new URLSearchParams(location.search).get('token') || '';
+      const msg = resetForm.querySelector('[data-aff-msg]');
+      const setMsg = (cls, text) => { if (msg) { msg.className = 'aff-msg ' + cls; msg.textContent = text; } };
+      const dead = () => {
+        setMsg('info', ar
+          ? 'هذا الرابط غير صالح أو انتهت صلاحيته. اطلب رابطاً جديداً من صفحة «نسيت كلمة المرور».'
+          : 'This link is invalid or has expired. Request a new one from the “forgot password” page.');
+        resetForm.querySelectorAll('input, button').forEach(el => { el.disabled = true; });
+      };
+      // Check the link before the visitor types a password twice for nothing.
+      if (!tok) dead();
+      else if (window.NXApi) {
+        window.NXApi.get('/api/auth/reset?token=' + encodeURIComponent(tok))
+          .then(r => { if (!r || !r.valid) dead(); })
+          .catch(() => {});
+      }
+      resetForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = resetForm.querySelector('button[type=submit]');
+        const pw = (resetForm.querySelector('[name=password]') || {}).value || '';
+        const cf = (resetForm.querySelector('[name=confirm]') || {}).value || '';
+        if (pw.length < 8) return setMsg('info', ar ? 'كلمة المرور ٨ أحرف على الأقل.' : 'The password must be at least 8 characters.');
+        if (pw !== cf) return setMsg('info', ar ? 'كلمتا المرور غير متطابقتين.' : 'The two passwords do not match.');
+        if (!window.NXApi) return setMsg('info', ar ? 'تعذّر الوصول إلى الخدمة الآن. حاول بعد قليل.' : 'We could not reach the service just now. Please try again shortly.');
+        if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = ar ? 'جارٍ الحفظ…' : 'Saving…'; }
+        try {
+          await window.NXApi.post('/api/auth/reset', { token: tok, password: pw });
+          setMsg('ok', ar ? 'تم تغيير كلمة المرور. جارٍ تحويلك إلى تسجيل الدخول…' : 'Your password was changed. Taking you to the log-in page…');
+          setTimeout(() => { location.href = '/' + (ar ? 'ar' : 'en') + '/affiliate/login/'; }, 1400);
+          return;
+        } catch (err) {
+          if (err.code === 'bad_token') dead();
+          else if (err.status === 429) setMsg('info', ar ? 'محاولات كثيرة. انتظر قليلاً ثم أعد المحاولة.' : 'Too many attempts. Please wait a moment and try again.');
+          else setMsg('info', err.message || (ar ? 'تعذّر حفظ كلمة المرور.' : 'Could not save the password.'));
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = btn.dataset.orig; }
+        }
+      });
+    }
+
     // login → backend session, then redirect to the portal. No backend → honest placeholder.
     const loginForm = document.querySelector('[data-aff-login]');
     if (loginForm) {

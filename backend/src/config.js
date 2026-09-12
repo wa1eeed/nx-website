@@ -15,6 +15,15 @@ const config = {
   publicOrigin: (process.env.PUBLIC_ORIGIN || 'https://nx.sa').replace(/\/$/, ''),
   cookieDomain: process.env.COOKIE_DOMAIN || undefined,
 
+  // Transactional email (Resend). Without an API key the app still runs and the
+  // reset flow still answers normally — it just cannot deliver, which is logged
+  // loudly rather than surfaced to the visitor (telling them would leak whether
+  // the address exists).
+  resendApiKey: process.env.RESEND_API_KEY || '',
+  mailFrom: process.env.MAIL_FROM || 'NX Partners <no-reply@server.nx.sa>',
+  mailReplyTo: process.env.MAIL_REPLY_TO || 'hello@nx.sa',
+  resetTokenMinutes: parseInt(process.env.RESET_TOKEN_MINUTES || '60', 10),
+
   cookieName: 'nx_sess',
   refCookie: 'nxaff',
   sessionDays: 30,

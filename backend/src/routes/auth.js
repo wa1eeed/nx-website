@@ -6,6 +6,8 @@ const { query } = require('../db/pool');
 const { asyncH, HttpError, str, email: emailV, num } = require('../lib/http');
 const { hashPassword, verifyPassword } = require('../lib/auth');
 const { refCode, couponCode, token, hashIp } = require('../lib/ids');
+const { send, passwordResetMail } = require('../services/mailer');
+const crypto = require('crypto');
 const { requireAuth } = require('../middleware');
 
 const router = express.Router();
@@ -91,5 +93,76 @@ router.post('/logout', asyncH(async (req, res) => {
 }));
 
 router.get('/me', requireAuth, (req, res) => res.json({ ok: true, partner: publicPartner(req.user) }));
+
+// ── password reset ─────────────────────────────────────────────────────────────
+// Tighter than the other auth routes: this one emails a real person, so it is the
+// obvious lever for both spamming an inbox and probing which addresses exist.
+const resetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 8, standardHeaders: true, legacyHeaders: false });
+const sha256 = (v) => crypto.createHash('sha256').update(String(v)).digest('hex');
+
+// POST /api/auth/forgot  { email }
+// ALWAYS answers the same. Whether the address is unknown, pending, suspended, or
+// the mail failed to send, the caller sees one response — otherwise this form
+// becomes a way to enumerate who has an account here.
+router.post('/forgot', resetLimiter, asyncH(async (req, res) => {
+  const answer = () => res.json({ ok: true });
+  // Validated here rather than with emailV(), which throws a 400 on a malformed
+  // address — this route promises one response to every input, including junk.
+  const rawAddr = str((req.body || {}).email, { name: 'email', max: 200 });
+  const addr = rawAddr && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rawAddr) ? rawAddr.toLowerCase() : null;
+  if (!addr) return answer();
+
+  const p = (await query(
+    `SELECT id, name, email, lang, status FROM partners WHERE email = $1`, [addr])).rows[0];
+  // Only an account that could actually log in gets a link. A pending or suspended
+  // partner resetting their password would just hit the same wall afterwards.
+  if (!p || p.status !== 'active') return answer();
+
+  const raw = token(32);
+  const expires = new Date(Date.now() + config.resetTokenMinutes * 60000);
+  await query(
+    `INSERT INTO password_resets(partner_id, token_hash, expires_at, ip_hash) VALUES ($1,$2,$3,$4)`,
+    [p.id, sha256(raw), expires, hashIp(req.ip, config.ipSalt)]);
+
+  const lang = p.lang === 'en' ? 'en' : 'ar';
+  const url = `${config.publicOrigin}/${lang}/affiliate/reset/?token=${encodeURIComponent(raw)}`;
+  const mail = passwordResetMail({ lang, name: p.name, url, minutes: config.resetTokenMinutes });
+  await send({ to: p.email, ...mail });   // never throws; logs on failure
+  answer();
+}));
+
+// POST /api/auth/reset  { token, password }
+// Burns every outstanding token for the partner and every open session: if the
+// reset was prompted by someone else having the account, they are logged out too.
+router.post('/reset', resetLimiter, asyncH(async (req, res) => {
+  const b = req.body || {};
+  const raw = str(b.token, { required: true, name: 'token', max: 200 });
+  const password = str(b.password, { required: true, name: 'password', min: 8, max: 200 });
+
+  const row = (await query(
+    `SELECT pr.id, pr.partner_id FROM password_resets pr
+      JOIN partners p ON p.id = pr.partner_id
+     WHERE pr.token_hash = $1 AND pr.used_at IS NULL AND pr.expires_at > now()
+       AND p.status = 'active'`, [sha256(raw)])).rows[0];
+  if (!row) throw new HttpError(400, 'This reset link is invalid or has expired', 'bad_token');
+
+  const hash = await hashPassword(password);
+  await query(`UPDATE partners SET password_hash = $1 WHERE id = $2`, [hash, row.partner_id]);
+  await query(`UPDATE password_resets SET used_at = now() WHERE partner_id = $1 AND used_at IS NULL`, [row.partner_id]);
+  await query(`DELETE FROM sessions WHERE partner_id = $1`, [row.partner_id]);
+  res.json({ ok: true });
+}));
+
+// GET /api/auth/reset?token=…  — lets the page say "this link is dead" before the
+// visitor types a new password twice for nothing.
+router.get('/reset', resetLimiter, asyncH(async (req, res) => {
+  const raw = str(req.query.token, { name: 'token', max: 200 });
+  if (!raw) return res.json({ ok: true, valid: false });
+  const row = (await query(
+    `SELECT 1 FROM password_resets pr JOIN partners p ON p.id = pr.partner_id
+      WHERE pr.token_hash = $1 AND pr.used_at IS NULL AND pr.expires_at > now()
+        AND p.status = 'active'`, [sha256(raw)])).rows[0];
+  res.json({ ok: true, valid: !!row });
+}));
 
 module.exports = router;

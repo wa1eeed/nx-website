@@ -143,6 +143,21 @@ CREATE TABLE IF NOT EXISTS payouts (
 );
 CREATE INDEX IF NOT EXISTS idx_payouts_partner ON payouts(partner_id);
 
+-- Password-reset tokens. The token itself is never stored: only its SHA-256, so a
+-- leaked database cannot be used to take over accounts. Single use (used_at), short
+-- lived (expires_at), and every outstanding token for a partner is burned when one
+-- of them is redeemed.
+CREATE TABLE IF NOT EXISTS password_resets (
+  id          BIGSERIAL PRIMARY KEY,
+  partner_id  INT NOT NULL REFERENCES partners(id) ON DELETE CASCADE,
+  token_hash  TEXT UNIQUE NOT NULL,
+  expires_at  TIMESTAMPTZ NOT NULL,
+  used_at     TIMESTAMPTZ,
+  ip_hash     TEXT,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_pwreset_partner ON password_resets(partner_id, created_at);
+
 CREATE TABLE IF NOT EXISTS settings (
   key    TEXT PRIMARY KEY,
   value  JSONB NOT NULL

@@ -2581,6 +2581,13 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 .aff-hero-note{font-size:.82rem;line-height:1.6;color:var(--muted);text-align:center;margin:1rem auto 0;max-width:44ch}
 .aff-hero-note a{color:var(--brand);font-weight:600}
 @media(max-width:860px){.aff-auth-grid{grid-template-columns:1fr;gap:30px}.aff-auth-points{display:none}}
+/* recovery pages carry one short form and no pitch — a single centred column */
+.aff-auth-narrow .aff-solo{max-width:470px;margin:clamp(24px,4vw,44px) auto 0;text-align:center}
+.aff-auth-narrow .aff-solo h1{font-size:clamp(1.7rem,3.4vw,2.3rem)}
+.aff-auth-narrow .aff-solo .lede{margin-bottom:1.8rem}
+.aff-auth-narrow .aff-portal-card{text-align:start}
+.aff-forgot{display:block;margin-top:.5rem;font-size:.8rem;color:var(--brand);text-align:end}
+.aff-forgot:hover{text-decoration:underline}
 /* Two entry points in the bar: the primary stays a button, the returning partner's
    link is plain text. Hiding one at medium widths would have cost a returning
    partner their way in. */
