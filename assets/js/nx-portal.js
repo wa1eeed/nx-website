@@ -160,7 +160,7 @@
     'work/ibp': IC.shield, 'work/nqlah': IC.truck, 'work/nx-logistic': IC.box, 'work/iwork': IC.bot,
   };
   // Cover art for product cards — mirrors the card the client sees on /{lang}/solutions/.
-  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=117' };
+  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=118' };
 
   // ---------- toast + copy ----------
   var toastEl;
@@ -680,15 +680,19 @@
   async function bootLive() {
     if (!window.NXApi) return renderDemoFallback();
     var me;
-    try { me = await window.NXApi.get('/api/auth/me'); }
+    try { me = await window.NXApi.get('/api/auth/me' + (isAdmin ? '?scope=admin' : '')); }
     catch (e) {
       if (e.status === 401) return gotoLogin();
       return renderDemoFallback(); // backend unreachable → show demo, not a blank page
     }
     var user = me && me.partner;
     if (!user) return renderDemoFallback();
-    if (isAdmin && user.role !== 'admin') { location.href = '/' + LANGSEG + '/affiliate/portal/'; return; } // logged-in non-admin → their portal
-    if (isPortal && user.role === 'admin') { location.href = '/' + LANGSEG + '/affiliate/admin/'; return; } // admin → the admin console
+    // Each console reads its own session cookie, so an admin and a partner can be
+    // signed in side by side. A mismatch here means the wrong cookie was somehow
+    // used, which is the login page's job to prevent — send them to the right door
+    // rather than silently swapping consoles under them.
+    if (isAdmin && user.role !== 'admin') { location.href = '/' + LANGSEG + '/affiliate/admin-login/'; return; }
+    if (isPortal && user.role === 'admin') { location.href = '/' + LANGSEG + '/affiliate/login/'; return; }
     LIVE = true;
     document.querySelectorAll('.ap-demo').forEach(el => el.remove());
 
@@ -1099,7 +1103,7 @@
   if (logout) logout.addEventListener('click', async function (e) {
     if (!window.NXApi) return; // demo → just follow href
     e.preventDefault();
-    try { await window.NXApi.post('/api/auth/logout'); } catch (er) {}
+    try { await window.NXApi.post('/api/auth/logout' + (isAdmin ? '?scope=admin' : '')); } catch (er) {}
     location.href = logout.getAttribute('href') || ('/' + LANGSEG + '/affiliate/');
   });
 

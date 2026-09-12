@@ -45,9 +45,15 @@ marketing origin (`PUBLIC_ORIGIN`) is allowed via CORS with credentials.
 
 Partners and administrators sign in through **separate pages** —
 `/{lang}/affiliate/login/` and `/{lang}/affiliate/admin-login/` — against the same
-endpoint. The page checks the returned role and, at the wrong door, logs the session
-straight back out and points at the right one. The role decides access; the page
-only decides where you land.
+endpoint, and hold **separate session cookies**: `nx_sess` for a partner,
+`nx_sess_admin` for an administrator. One browser can therefore be signed in to both
+at once, and signing out of one leaves the other alone (`POST /api/auth/logout?scope=admin`).
+
+Which cookie applies is decided by what is being asked for — anything under
+`/api/admin` reads the admin session, everything else the partner's;
+`/api/auth/me?scope=admin` asks about the admin one. The cookie name is **routing,
+not authorization**: `requireAdmin` still checks the role on the account, so a
+partner's token placed in the admin cookie gets a 403.
 
 **Tracking** —
 `GET /r?ref=CODE&c=<campaign>&to=/services/grow/` logs the click, sets a

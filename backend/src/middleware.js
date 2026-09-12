@@ -4,15 +4,28 @@ const { query } = require('./db/pool');
 const { HttpError } = require('./lib/http');
 
 // Attach req.user from the session cookie (if valid + unexpired).
+//
+// There are two cookies, and a browser may hold both: an administrator working the
+// console and a partner account open in the same window are different identities,
+// not two views of one. Which cookie applies is decided by what is being asked for
+// — anything under /api/admin reads the admin session, everything else the
+// partner's — so neither can stand in for the other by accident.
+async function sessionFor(req, cookieName) {
+  const tok = req.cookies && req.cookies[cookieName];
+  if (!tok) return null;
+  const { rows } = await query(
+    `SELECT p.* FROM sessions s JOIN partners p ON p.id = s.partner_id
+     WHERE s.token = $1 AND s.expires_at > now()`, [tok]);
+  return rows[0] || null;
+}
+
 async function loadUser(req, _res, next) {
   try {
-    const tok = req.cookies && req.cookies[config.cookieName];
-    if (tok) {
-      const { rows } = await query(
-        `SELECT p.* FROM sessions s JOIN partners p ON p.id = s.partner_id
-         WHERE s.token = $1 AND s.expires_at > now()`, [tok]);
-      if (rows[0]) req.user = rows[0];
-    }
+    const wantsAdmin = req.path.startsWith('/api/admin')
+      || (req.path === '/api/auth/me' && req.query.scope === 'admin')
+      || (req.path === '/api/auth/logout' && req.query.scope === 'admin');
+    req.sessionScope = wantsAdmin ? 'admin' : 'partner';
+    req.user = await sessionFor(req, wantsAdmin ? config.adminCookieName : config.cookieName);
   } catch (e) { /* ignore — treated as anonymous */ }
   next();
 }

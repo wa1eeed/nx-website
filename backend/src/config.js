@@ -26,7 +26,10 @@ const config = {
   // Where the "a request came in" alert goes. Comma-separated for a team inbox.
   mailAdmin: (process.env.MAIL_ADMIN || 'hello@nx.sa').split(',').map(x => x.trim()).filter(Boolean),
 
+  // Two session cookies, so one browser can hold a partner session and an admin
+  // session at once. They are separate identities, not two views of one.
   cookieName: 'nx_sess',
+  adminCookieName: 'nx_sess_admin',
   refCookie: 'nxaff',
   sessionDays: 30,
   attributionWindowDays: parseInt(process.env.ATTRIBUTION_WINDOW_DAYS || '60', 10),

@@ -1031,22 +1031,21 @@
           const r = await window.NXApi.post('/api/auth/login', { email: g('email'), password: g('password') });
           const adminUrl = '/' + (ar ? 'ar' : 'en') + '/affiliate/admin/';
           const isAdmin = !!(r && r.partner && r.partner.role === 'admin');
-          // Two doors, and each one only opens onto what it is for. Signing in at the
-          // wrong door still authenticated you, so the session is dropped rather than
-          // quietly forwarding you somewhere you did not ask to go.
+          // The server issues the cookie that matches the ACCOUNT's role — an admin
+          // session and a partner session live in separate cookies, so a browser can
+          // hold both at once. That makes the door a signpost rather than a gate:
+          // sign in at the wrong one and you are already signed in correctly, so say
+          // where you are actually going instead of throwing the session away.
           const adminDoor = loginForm.hasAttribute('data-aff-admin');
+          const dest = isAdmin ? adminUrl : portalUrl;
           if (adminDoor !== isAdmin) {
-            try { await window.NXApi.post('/api/auth/logout'); } catch (e2) {}
-            const other = adminDoor
-              ? '/' + (ar ? 'ar' : 'en') + '/affiliate/login/'
-              : '/' + (ar ? 'ar' : 'en') + '/affiliate/admin-login/';
-            setMsg('info', adminDoor
-              ? (ar ? 'هذا الحساب ليس حساب إدارة. ادخل من صفحة دخول المسوّقين.' : 'This is not an administrator account. Use the partner log-in page.')
-              : (ar ? 'هذا حساب إدارة. ادخل من صفحة دخول الإدارة.' : 'This is an administrator account. Use the admin sign-in page.'));
-            setTimeout(() => { location.href = other; }, 1800);
+            setMsg('ok', isAdmin
+              ? (ar ? 'هذا حساب إدارة — نأخذك إلى لوحة الإدارة.' : 'This is an administrator account — taking you to the console.')
+              : (ar ? 'هذا حساب مسوّق — نأخذك إلى لوحة الشريك.' : 'This is a partner account — taking you to the partner dashboard.'));
+            setTimeout(() => { location.href = dest; }, 1500);
             return;
           }
-          location.href = isAdmin ? adminUrl : portalUrl;
+          location.href = dest;
           return;
         } catch (err) {
           if (err.status === 401) setMsg('info', ar ? 'البريد أو كلمة المرور غير صحيحة.' : 'Invalid email or password.');

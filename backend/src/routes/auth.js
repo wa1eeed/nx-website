@@ -13,8 +13,12 @@ const { requireAuth } = require('../middleware');
 const router = express.Router();
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30, standardHeaders: true, legacyHeaders: false });
 
-function setSessionCookie(res, tok) {
-  res.cookie(config.cookieName, tok, {
+// An admin signs in to the admin cookie, a partner to the partner cookie, so the
+// two can be held at once without either overwriting the other.
+const cookieFor = (role) => (role === 'admin' ? config.adminCookieName : config.cookieName);
+
+function setSessionCookie(res, tok, role) {
+  res.cookie(cookieFor(role), tok, {
     httpOnly: true, sameSite: 'lax', secure: config.secureCookies,
     domain: config.cookieDomain, path: '/', maxAge: config.sessionDays * 864e5,
   });
@@ -81,14 +85,18 @@ router.post('/login', authLimiter, asyncH(async (req, res) => {
     `INSERT INTO sessions(token, partner_id, expires_at, ip_hash, ua)
      VALUES ($1,$2, now() + ($3 || ' days')::interval, $4, $5)`,
     [tok, p.id, String(config.sessionDays), hashIp(req.ip, config.ipSalt), String(req.get('user-agent') || '').slice(0, 300)]);
-  setSessionCookie(res, tok);
+  setSessionCookie(res, tok, p.role);
   res.json({ ok: true, partner: publicPartner(p) });
 }));
 
+// Signing out of one console must not sign you out of the other, so only the
+// cookie for the scope being left is cleared. ?scope=admin leaves the console;
+// anything else leaves the partner portal.
 router.post('/logout', asyncH(async (req, res) => {
-  const tok = req.cookies && req.cookies[config.cookieName];
+  const name = req.query.scope === 'admin' ? config.adminCookieName : config.cookieName;
+  const tok = req.cookies && req.cookies[name];
   if (tok) await query('DELETE FROM sessions WHERE token = $1', [tok]);
-  res.clearCookie(config.cookieName, { domain: config.cookieDomain, path: '/' });
+  res.clearCookie(name, { domain: config.cookieDomain, path: '/' });
   res.json({ ok: true });
 }));
 
