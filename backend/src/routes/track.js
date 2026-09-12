@@ -144,11 +144,21 @@ router.post('/track/lead', asyncH(async (req, res) => {
   if (!bodyCode && !cookieRef && !allowDirect) return res.status(200).json({ ok: true, attributed: false });
 
   const email = b.email ? String(b.email).toLowerCase().slice(0, 200) : null;
-  // A code submitted on the form carries its own evidence, so it is resolved against
-  // both code kinds without demanding a prior click. A code known only from the
-  // cookie came from a click we logged ourselves, so the window check still applies.
+
+  // Two kinds of code reach this route through the same field, and they are not
+  // equally good evidence:
+  //   typed  — the visitor entered it on the form themselves. The deliberate act is
+  //            the evidence, so no prior click is required.
+  //   stored — the browser recalled it from an earlier visit. That proves nothing on
+  //            its own: a code can sit in a browser for months, and the visitor may
+  //            arrive today with no referral involved at all. It must still satisfy
+  //            the logged-click-inside-the-attribution-window rule, which is exactly
+  //            what the program terms promise.
+  // Anything that does not say which it is, is treated as stored — the safe reading.
+  const typed = b.ref_source === 'typed';
   let attr = null;
-  if (bodyCode) attr = await attributeCode({ code: bodyCode, clientEmail: email });
+  if (bodyCode && typed) attr = await attributeCode({ code: bodyCode, clientEmail: email });
+  else if (bodyCode) attr = await attribute({ refCode: bodyCode, coupon: null, clientEmail: email });
   else if (cookieRef) attr = await attribute({ refCode: cookieRef, clientEmail: email });
   // unknown / expired / self-referral → still record it, just not against a partner
   if (!attr && !allowDirect) return res.status(200).json({ ok: true, attributed: false });
@@ -164,12 +174,19 @@ router.post('/track/lead', asyncH(async (req, res) => {
   const meta = sanitizeMeta(b.meta);
   const ipHash = hashIp(req.ip, config.ipSalt);
 
-  // Double-submit guard: the same recipient + same email within 10 min counts once.
+  // Double-submit guard: a form posted twice in quick succession should count once.
+  // It is keyed on the product too — the same person asking about a second product
+  // minutes later is a new request, not a double click, and swallowing it silently
+  // loses a real lead.
   if (email) {
     const dup = await query(
       `SELECT 1 FROM leads WHERE partner_id IS NOT DISTINCT FROM $1 AND email=$2
-         AND created_at > now() - interval '10 minutes' LIMIT 1`, [partnerId, email]);
-    if (dup.rows[0]) return res.status(200).json({ ok: true, attributed: !!attr, duplicate: true });
+         AND service IS NOT DISTINCT FROM $3
+         AND created_at > now() - interval '10 minutes' LIMIT 1`, [partnerId, email, service]);
+    if (dup.rows[0]) {
+      console.warn('[lead] suppressed a duplicate within 10 minutes:', email, service || '(no service)');
+      return res.status(200).json({ ok: true, attributed: !!attr, duplicate: true });
+    }
   }
 
   await query(

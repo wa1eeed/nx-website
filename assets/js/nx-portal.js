@@ -160,7 +160,7 @@
     'work/ibp': IC.shield, 'work/nqlah': IC.truck, 'work/nx-logistic': IC.box, 'work/iwork': IC.bot,
   };
   // Cover art for product cards — mirrors the card the client sees on /{lang}/solutions/.
-  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=116' };
+  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=117' };
 
   // ---------- toast + copy ----------
   var toastEl;

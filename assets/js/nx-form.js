@@ -380,7 +380,11 @@
         method: 'POST', credentials: 'include', mode: 'cors', keepalive: true,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ref: ref, direct: !!data.direct, name: data.name || '', email: data.email || '',
+          ref: ref,
+          // This form never asks for a code — whatever it has was recalled from the
+          // browser, which on its own proves nothing about today's visit.
+          ref_source: data.ref_source || 'stored',
+          direct: !!data.direct, name: data.name || '', email: data.email || '',
           phone: data.phone || '', company: data.company || '', service: data.service || '',
           note: data.note || '', meta: data.meta || {},
           source_page: data.source_page || location.pathname,

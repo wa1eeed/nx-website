@@ -165,6 +165,10 @@
     return m ? decodeURIComponent(m[1]) : '';
   }
 
+  // What the browser recalled when the form opened. Whatever is submitted is only
+  // "typed" if it differs from this — a prefilled value the visitor never touched is
+  // still just a memory of an old visit, and the backend weighs the two differently.
+  var prefilled = '';
   function open(kind) {
     lastFocus = document.activeElement;
     var sel = box.querySelector('#nxr-kind');
@@ -172,6 +176,7 @@
     var ref = currentRef();
     if (ref && !refIn.value) {
       refIn.value = ref;
+      prefilled = ref;
       refHint.textContent = T.refFound.replace('%s', ref);
     }
     box.hidden = false;
@@ -233,11 +238,12 @@
       phone: form.phone.value.trim(), company: form.company.value.trim(),
       details: lines.join('\n'), ref: (refIn.value || '').trim(),
     };
+    data.ref_source = (data.ref && data.ref !== prefilled) ? 'typed' : 'stored';
     var payload = api && api.enrich ? api.enrich(data) : data;
 
     if (api && api.toPartners) {
       api.toPartners(Object.assign({}, payload, {
-        service: SERVICE, note: note, direct: true,
+        service: SERVICE, note: note, direct: true, ref_source: data.ref_source,
         meta: { form: 'product', product: PRODUCT, kind: kind, kind_label: T.kinds[kind] || '' },
       }));
     }
