@@ -645,6 +645,35 @@
     }
   }
 
+  // ---------- Program terms: keep the figures honest ----------
+  // The terms page states a rate, a window, a minimum and a schedule. Those live in
+  // the admin's program settings, so the page reads them at load rather than
+  // hard-coding numbers that would quietly become false the day someone edits them.
+  // The markup ships with the seeded defaults, so the page is still correct if the
+  // API is unreachable.
+  (function () {
+    var slots = document.querySelectorAll('[data-term]');
+    if (!slots.length || !window.NXApi || !window.NXApi.base) return;
+    var ar = document.documentElement.lang === 'ar';
+    var n = function (v) { return Number(v).toLocaleString(ar ? 'ar-EG' : 'en-US'); };
+    window.NXApi.get('/api/program').then(function (res) {
+      var g = res && res.program; if (!g) return;
+      var sched = ar
+        ? { monthly: 'شهري', biweekly: 'كل أسبوعين', quarterly: 'ربع سنوي' }
+        : { monthly: 'monthly', biweekly: 'every two weeks', quarterly: 'quarterly' };
+      var text = {
+        base: g.base_pct != null ? n(g.base_pct) + '٪'.replace('٪', ar ? '٪' : '%') : null,
+        window: g.attribution_window_days != null ? n(g.attribution_window_days) : null,
+        min: g.min_payout != null ? (ar ? n(g.min_payout) : 'SAR ' + n(g.min_payout)) : null,
+        schedule: sched[g.payout_schedule] || null,
+      };
+      slots.forEach(function (el) {
+        var v = text[el.dataset.term];
+        if (v) el.textContent = v;
+      });
+    }).catch(function () { /* keep the shipped defaults */ });
+  })();
+
   // ---------- Affiliate / NX Partners landing (scoped to .p-affiliate) ----------
   if (document.body.classList.contains('p-affiliate')) {
     const ar = document.documentElement.lang === 'ar';
