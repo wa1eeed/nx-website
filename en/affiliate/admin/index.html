@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=114">
-<link rel="stylesheet" href="/assets/css/nx-portal.css?v=114">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=114">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=114">
+<link rel="stylesheet" href="/assets/css/nx.css?v=115">
+<link rel="stylesheet" href="/assets/css/nx-portal.css?v=115">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=115">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=115">
 <meta name="theme-color" content="#0A1A2F">
 <meta name="nx-api" content="https://api.nx.sa">
 </head>
@@ -153,8 +153,9 @@
     <p class="sub">Enter the deal value to compute the partner's commission. An approved deal is created and the commission is added to their balance right away.</p>
     <form>
       <div class="ap-fld"><label>Client</label><input type="text" data-won-client disabled></div>
-      <div class="ap-fld" style="margin-bottom:6px"><label>Deal value (SAR)</label><input type="number" min="1" placeholder="e.g. 24000" data-won-deal></div>
-      <div class="ap-note-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Commission is computed from the product rate tied to the service. This moves no money — the transfer happens later via the bank.</span></div>
+      <div class="ap-fld" data-won-dealwrap><label>Deal value (SAR)</label><input type="number" min="1" placeholder="e.g. 24000" data-won-deal></div>
+      <div class="ap-fld" style="margin-bottom:6px"><label>Message to the client <span style="color:var(--faint);font-weight:400">— optional</span></label><textarea rows="3" placeholder="Included in the notification email the client receives" data-won-message></textarea></div>
+      <div class="ap-note-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span data-won-note>Commission is computed from the product rate tied to the service. The client is emailed a confirmation and the partner is emailed about their commission. This moves no money.</span></div>
       <div class="ap-mact">
         <button type="submit" class="ap-wbtn" style="flex:1">Confirm &amp; credit commission</button>
         <button type="button" class="ap-wbtn ghost" data-close style="background:var(--canvas);color:var(--ink-2);border-color:var(--line)">Cancel</button>
@@ -208,7 +209,7 @@
 
 <div class="ap-demo">Preview mode · <b>sample data</b></div>
 
-<script src="/assets/js/nx-api.js?v=114" defer></script>
-<script src="/assets/js/nx-portal.js?v=114" defer></script>
+<script src="/assets/js/nx-api.js?v=115" defer></script>
+<script src="/assets/js/nx-portal.js?v=115" defer></script>
 </body>
 </html>

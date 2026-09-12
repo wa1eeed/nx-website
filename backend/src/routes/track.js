@@ -6,6 +6,7 @@ const { asyncH, HttpError, str, num } = require('../lib/http');
 const { sign, unsign, safeEqual } = require('../lib/auth');
 const { hashIp } = require('../lib/ids');
 const { recordClick, attribute, attributeCode } = require('../services/attribution');
+const { send, newLeadMail } = require('../services/mailer');
 
 // Read the ref code from the signed first-party attribution cookie (set by /r
 // and /track/click), if still inside the attribution window. Returns '' if none.
@@ -175,7 +176,24 @@ router.post('/track/lead', asyncH(async (req, res) => {
     `INSERT INTO leads(partner_id, name, email, phone, company, service, via, source_page, ip_hash, note, meta)
      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
     [partnerId, name, email, phone, company, service, via, sourcePage, ipHash, note, meta]);
+
+  // Tell the team a request landed. Deliberately after the row is committed and
+  // deliberately not awaited into the response: a mail outage must never cost a
+  // visitor their submission or leave them staring at a spinner.
+  notifyAdminOfLead({ partnerId, lead: { name, email, phone, company, service, source_page: sourcePage, note } })
+    .catch(e => console.error('[notify] new-lead alert failed:', e.message));
+
   res.status(201).json({ ok: true, attributed: !!attr });
 }));
+
+async function notifyAdminOfLead({ partnerId, lead }) {
+  if (!config.mailAdmin.length) return;
+  const partner = partnerId
+    ? (await query(`SELECT name, ref_code FROM partners WHERE id=$1`, [partnerId])).rows[0]
+    : null;
+  const adminUrl = `${config.publicOrigin}/ar/affiliate/admin/#leads`;
+  const mail = newLeadMail({ lead, partner, adminUrl });
+  for (const to of config.mailAdmin) await send({ to, ...mail });
+}
 
 module.exports = router;

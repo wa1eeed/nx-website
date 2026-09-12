@@ -23,6 +23,8 @@ const config = {
   mailFrom: process.env.MAIL_FROM || 'NX Partners <no-reply@server.nx.sa>',
   mailReplyTo: process.env.MAIL_REPLY_TO || 'hello@nx.sa',
   resetTokenMinutes: parseInt(process.env.RESET_TOKEN_MINUTES || '60', 10),
+  // Where the "a request came in" alert goes. Comma-separated for a team inbox.
+  mailAdmin: (process.env.MAIL_ADMIN || 'hello@nx.sa').split(',').map(x => x.trim()).filter(Boolean),
 
   cookieName: 'nx_sess',
   refCookie: 'nxaff',

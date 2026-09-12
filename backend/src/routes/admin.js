@@ -3,6 +3,8 @@ const express = require('express');
 const { query, tx } = require('../db/pool');
 const { asyncH, HttpError, str, num, oneOf } = require('../lib/http');
 const ledger = require('../services/ledger');
+const config = require('../config');
+const { send, leadDecisionMail, commissionMail } = require('../services/mailer');
 
 const router = express.Router();
 
@@ -119,7 +121,7 @@ router.post('/leads/:id/:action', asyncH(async (req, res) => {
     if (action === 'lost') {
       if (lead.status === 'won') return { err: [409, 'A won lead cannot be marked lost — reverse its conversion instead', 'conflict'] };
       await db.query(`UPDATE leads SET status='lost', decided_at=now() WHERE id=$1`, [id]);
-      return { ok: true, status: 'lost' };
+      return { ok: true, status: 'lost', lead, notify: 'client' };
     }
     if (action === 'reopen') {
       if (lead.status === 'won') return { err: [409, 'A won lead cannot be reopened here — reverse its conversion first', 'conflict'] };
@@ -135,7 +137,7 @@ router.post('/leads/:id/:action', asyncH(async (req, res) => {
     // create no conversion and credit no ledger — there is nobody to pay.
     if (!lead.partner_id) {
       await db.query(`UPDATE leads SET status='won', deal_value=$1, decided_at=now() WHERE id=$2`, [dealValue, id]);
-      return { ok: true, status: 'won', commission: 0, direct: true };
+      return { ok: true, status: 'won', commission: 0, direct: true, lead, notify: 'client' };
     }
 
     const slug = (b.product && String(b.product)) || SERVICE_TO_SLUG[lead.service] || null;
@@ -151,12 +153,38 @@ router.post('/leads/:id/:action', asyncH(async (req, res) => {
     await ledger.post(db, { partnerId: lead.partner_id, type: 'commission', amount: commission,
       refType: 'lead', refId: id, memo: 'Lead won — commission credited' });
     await db.query(`UPDATE leads SET status='won', conversion_id=$1, deal_value=$2, decided_at=now() WHERE id=$3`, [conv.id, dealValue, id]);
-    return { ok: true, status: 'won', commission };
+    const partner = (await db.query(`SELECT name, email, lang FROM partners WHERE id=$1`, [lead.partner_id])).rows[0];
+    return { ok: true, status: 'won', commission, lead, partner, notify: 'client+partner' };
   });
 
   if (out.err) throw new HttpError(out.err[0], out.err[1], out.err[2]);
-  res.json(out);
+
+  // Mail after the transaction commits, and never blocking the response: the
+  // money is already booked, and a mail outage must not make the admin think the
+  // decision failed and click again.
+  notifyLeadDecision(out, str(b.message, { name: 'message', max: 1500 }))
+    .catch(e => console.error('[notify] lead decision failed:', e.message));
+
+  const { lead, partner, notify, ...body } = out;
+  res.json(body);
 }));
+
+// The client hears what was decided (with the admin's own words, if they wrote
+// any), and a partner whose client paid hears what they earned.
+async function notifyLeadDecision(out, message) {
+  if (!out.notify || !out.lead) return;
+  const lead = out.lead;
+  if (lead.email) {
+    const lang = (lead.meta && lead.meta.language) === 'en' ? 'en' : 'ar';
+    await send({ to: lead.email, ...leadDecisionMail({ lang, lead, status: out.status, message }) });
+  }
+  if (out.notify === 'client+partner' && out.partner && out.partner.email) {
+    const portalUrl = `${config.publicOrigin}/${out.partner.lang === 'en' ? 'en' : 'ar'}/affiliate/portal/`;
+    await send({ to: out.partner.email, ...commissionMail({
+      lang: out.partner.lang, partner: out.partner, clientName: lead.name,
+      service: lead.service, amount: out.commission, portalUrl }) });
+  }
+}
 
 router.get('/offers', asyncH(async (_req, res) => {
   const rows = (await query(`SELECT id, slug, name_ar, name_en, kind, path, commission_pct, promotable, sort FROM products ORDER BY sort, id`)).rows;

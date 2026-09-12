@@ -81,6 +81,25 @@ face to face. Both paths still require an active partner and block self-referral
 conversion and credits the commission; for a direct one it just closes the lead
 with the deal value on record — there is nobody to pay.
 
+## Email
+Transactional mail goes through **Resend** over plain `fetch` — no SDK. Configure
+`RESEND_API_KEY`, `MAIL_FROM` (its domain must be **Verified** in Resend),
+`MAIL_REPLY_TO` and `MAIL_ADMIN`. Without a key the app still boots and every flow
+still answers normally; it just logs instead of delivering.
+
+Four messages, each in the recipient's own language:
+
+| When | To | Carries |
+|---|---|---|
+| A request arrives (`POST /track/lead`) | `MAIL_ADMIN` | client details, which partner (or *Direct*), a link to the queue |
+| A lead is marked won or lost | the client | the outcome, plus whatever the admin typed in `message` — that is the "reply" |
+| A lead is marked won **and** has a partner | the partner | the client, the product, and the commission credited |
+| A password reset is requested | the partner | a single-use link |
+
+`send()` never throws at the caller and notifications are never awaited into a
+response: a mail outage must not cost a visitor their submission, and must not make
+an admin think a decision failed and click it twice.
+
 ## How money is accounted
 Balances derive from an **append-only `ledger`**: `commission` credits on
 conversion *approval*, `reversal` debits on reversal, `payout` debits when a

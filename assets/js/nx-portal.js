@@ -51,7 +51,12 @@
     mForm: 'مصدر الطلب', formContact: 'نموذج التواصل', formProduct: 'نموذج طلب منتج',
     noMatch: 'لا توجد طلبات بهذا التصنيف.',
     savedProfile: 'تم حفظ بياناتك', savedSettings: 'تم حفظ إعدادات البرنامج',
-    confirmReverse: 'استرجاع هذه العمولة؟ سيُخصم مبلغها من رصيد المسوّق.'
+    confirmReverse: 'استرجاع هذه العمولة؟ سيُخصم مبلغها من رصيد المسوّق.',
+    lostTitle: 'إغلاق الطلب', lostSub: 'يُغلق الطلب بلا عمولة، ويصل العميل إشعار بذلك. اكتب سبباً أو رسالة إن أردت.',
+    lostConfirm: 'أغلِق الطلب', wonTitle: 'تأكيد عميل مدفوع',
+    wonSub: 'أدخل قيمة الصفقة لاحتساب عمولة المسوّق. تُنشأ صفقة معتمدة وتُضاف العمولة إلى رصيده مباشرةً.',
+    wonConfirm: 'تأكيد واحتساب العمولة',
+    lostNote: 'يصل العميل إشعار بإغلاق طلبه يتضمّن رسالتك إن كتبتها. لا عمولة على طلب مغلق.'
   } : {
     clicks: 'clicks', convs: 'conv.', rate: 'rate', copied: 'Copied', copy: 'Copy', download: 'Download',
     paid: 'Paid', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', reversed: 'Reversed',
@@ -78,7 +83,12 @@
     mForm: 'Came from', formContact: 'Contact form', formProduct: 'Product request form',
     noMatch: 'No requests in this view.',
     savedProfile: 'Your details were saved', savedSettings: 'Program settings saved',
-    confirmReverse: 'Reverse this commission? Its amount is debited from the partner’s balance.'
+    confirmReverse: 'Reverse this commission? Its amount is debited from the partner’s balance.',
+    lostTitle: 'Close the request', lostSub: 'The request closes with no commission, and the client is emailed about it. Add a reason or a message if you like.',
+    lostConfirm: 'Close the request', wonTitle: 'Confirm paid client',
+    wonSub: 'Enter the deal value to compute the partner’s commission. An approved deal is created and the commission is added to their balance right away.',
+    wonConfirm: 'Confirm & credit commission',
+    lostNote: 'The client is emailed that their request was closed, including your message if you wrote one. A closed request earns no commission.'
   };
   var kindLabel = { service: T.service, solution: T.solution, platform: T.platform };
   var SERVICE_LABELS = { launch: 'NX Launch', grow: 'NX Grow', auto: 'NX 360', connect: 'NX Connect', scale: 'NX Scale',
@@ -140,7 +150,7 @@
     'work/ibp': IC.shield, 'work/nqlah': IC.truck, 'work/nx-logistic': IC.box, 'work/iwork': IC.bot,
   };
   // Cover art for product cards — mirrors the card the client sees on /{lang}/solutions/.
-  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=114' };
+  var SHOT_BY_SLUG = { 'solutions/plate-market': '/assets/images/plate-market-plate.svg?v=115' };
 
   // ---------- toast + copy ----------
   var toastEl;
@@ -408,7 +418,7 @@
       if (x.status === 'won') acts = '<span class="amt pos">' + fmt(x.commission) + ' ' + CUR + '</span>';
       else if (x.status === 'lost') acts = live ? '<button class="ap-mini-btn" data-lead-reopen="' + x.id + '">' + T.reopen + '</button>' : '—';
       else acts = live
-        ? '<button class="ap-mini-btn" data-lead-won="' + x.id + '" data-lead-client="' + esc(x.client_name) + '">' + T.markWon + '</button> <button class="ap-mini-btn" style="color:var(--ap-bad)" data-lead-lost="' + x.id + '">' + T.markLost + '</button>'
+        ? '<button class="ap-mini-btn" data-lead-won="' + x.id + '" data-lead-client="' + esc(x.client_name) + '">' + T.markWon + '</button> <button class="ap-mini-btn" style="color:var(--ap-bad)" data-lead-lost="' + x.id + '" data-lead-client="' + esc(x.client_name) + '">' + T.markLost + '</button>'
         : '<button class="ap-mini-btn" data-act="' + (ar ? 'تأكيد الدفع (معاينة)' : 'Confirm paid (demo)') + '">' + T.markWon + '</button>';
       var email = x.email ? '<div style="font-size:.72rem;color:var(--muted)">' + esc(x.email) + '</div>' : '';
       var who = x.partner
@@ -799,12 +809,27 @@
     try { var ld = await window.NXApi.get('/api/admin/leads'); renderAdminLeads(ld.leads, true); } catch (e) {}
     try { var ov = await window.NXApi.get('/api/admin/overview'); renderNeedsAction(ov.needsAction); } catch (e) {}
   }
-  // record-deal modal (admin): mark a lead won → enter deal value → commission
-  var wonModal, currentWonId = null;
-  function openWon(client) {
+  // decision modal (admin): one panel for both outcomes. "Won" needs the deal value
+  // to compute the commission; "lost" needs none. Both offer a message, which is
+  // what the client reads inside their notification email — the admin's reply.
+  var wonModal, currentWonId = null, currentAction = 'won';
+  function openDecision(action, id, client) {
     wonModal = wonModal || $('[data-won-modal]'); if (!wonModal) return;
-    var ci = wonModal.querySelector('[data-won-client]'); if (ci) ci.value = client;
-    var di = wonModal.querySelector('[data-won-deal]'); if (di) di.value = '';
+    currentAction = action; currentWonId = id;
+    var won = action === 'won';
+    var q = function (sel) { return wonModal.querySelector(sel); };
+    q('h3').textContent = won ? T.wonTitle : T.lostTitle;
+    q('p.sub').textContent = won ? T.wonSub : T.lostSub;
+    var note = q('[data-won-note]');
+    if (note) note.textContent = won
+      ? (ar ? 'تُحتسب العمولة حسب نسبة المنتج المرتبط بالخدمة. يصل العميل إشعار بتأكيد طلبه، ويصل المسوّق إشعار بعمولته. لا تُحرّك هذه الخطوة أي أموال.'
+            : 'Commission is computed from the product rate tied to the service. The client is emailed a confirmation and the partner is emailed about their commission. This moves no money.')
+      : T.lostNote;
+    var wrap = q('[data-won-dealwrap]'); if (wrap) wrap.hidden = !won;
+    q('button[type=submit]').textContent = won ? T.wonConfirm : T.lostConfirm;
+    var ci = q('[data-won-client]'); if (ci) ci.value = client || '';
+    var di = q('[data-won-deal]'); if (di) di.value = '';
+    var mi = q('[data-won-message]'); if (mi) mi.value = '';
     wonModal.classList.add('on');
   }
   function setupWonModal() {
@@ -814,13 +839,19 @@
     var f = wonModal.querySelector('form');
     if (f) f.addEventListener('submit', async function (e) {
       e.preventDefault();
-      var deal = parseFloat((wonModal.querySelector('[data-won-deal]') || {}).value);
-      if (!deal || deal <= 0) return toast(ar ? 'أدخل قيمة الصفقة' : 'Enter the deal value');
       if (!currentWonId) return;
+      var body = { message: ((wonModal.querySelector('[data-won-message]') || {}).value || '').trim() };
+      if (currentAction === 'won') {
+        var deal = parseFloat((wonModal.querySelector('[data-won-deal]') || {}).value);
+        if (!deal || deal <= 0) return toast(ar ? 'أدخل قيمة الصفقة' : 'Enter the deal value');
+        body.deal_value = deal;
+      }
       try {
-        var r = await window.NXApi.post('/api/admin/leads/' + currentWonId + '/won', { deal_value: deal });
+        var r = await window.NXApi.post('/api/admin/leads/' + currentWonId + '/' + currentAction, body);
         wonModal.classList.remove('on');
-        toast(ar ? ('تم — عمولة ' + fmt(r.commission) + ' ' + CUR) : ('Done — ' + fmt(r.commission) + ' ' + CUR + ' commission'));
+        toast(currentAction === 'won'
+          ? (ar ? ('تم — عمولة ' + fmt(r.commission) + ' ' + CUR) : ('Done — ' + fmt(r.commission) + ' ' + CUR + ' commission'))
+          : (ar ? 'تم إغلاق الطلب' : 'Request closed'));
         await refreshAdminLeads();
       } catch (er) { toast(er.message); }
     });
@@ -994,9 +1025,9 @@
       var pp = e.target.closest('[data-pay-paid]');
       if (pp) { try { await window.NXApi.post('/api/admin/payouts/' + pp.dataset.payPaid + '/paid'); toast(ar ? 'تم التحديد كمدفوعة' : 'Marked paid'); renderPayouts((await window.NXApi.get('/api/admin/payouts')).payouts, true); } catch (er) { toast(er.message); } return; }
       var lw = e.target.closest('[data-lead-won]');
-      if (lw) { currentWonId = lw.dataset.leadWon; openWon(lw.dataset.leadClient || ''); return; }
+      if (lw) { openDecision('won', lw.dataset.leadWon, lw.dataset.leadClient || ''); return; }
       var ll = e.target.closest('[data-lead-lost]');
-      if (ll) { try { await window.NXApi.post('/api/admin/leads/' + ll.dataset.leadLost + '/lost'); toast(ar ? 'تم الإغلاق' : 'Marked lost'); await refreshAdminLeads(); } catch (er) { toast(er.message); } return; }
+      if (ll) { openDecision('lost', ll.dataset.leadLost, ll.dataset.leadClient || ''); return; }
       var lr = e.target.closest('[data-lead-reopen]');
       if (lr) { try { await window.NXApi.post('/api/admin/leads/' + lr.dataset.leadReopen + '/reopen'); toast(ar ? 'أُعيد فتحه' : 'Reopened'); await refreshAdminLeads(); } catch (er) { toast(er.message); } return; }
       // deals: approve / reject / reverse. Reversal takes money back off a partner's
