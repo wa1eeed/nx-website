@@ -235,3 +235,29 @@ html[dir="rtl"] .cx-tile:hover .cx-tile-go svg { transform: scaleX(-1) translate
 .cx-cap-n { display: block; font-size: .7rem; font-weight: 700; color: var(--gold); margin-bottom: .35rem; }
 /* the catalogue is not inside a .cx-anim block, so it must never start hidden */
 .cx-ready .cx-cat .cx-cap { opacity: 1; transform: none; }
+
+
+/* ── sideways links between the solutions ────────────────── */
+.cx-rels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 1.2rem; }
+@media (max-width: 760px) { .cx-rels { grid-template-columns: 1fr; } }
+.cx-rel {
+  display: block; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 18px 20px; color: inherit;
+  transition: border-color .25s, box-shadow .25s, transform .25s cubic-bezier(.4, 0, .2, 1);
+}
+.cx-rel:hover { border-color: #CFE0F2; box-shadow: var(--shadow-m); transform: translateY(-3px); }
+.cx-rel-k { display: block; font-size: .78rem; font-weight: 700; color: var(--hi); margin-bottom: .3rem; }
+.cx-rel-t { display: block; font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+
+/* The closing band's single call to action. Scoped through .cx-close-act
+   because the band already styles its own anchors — a bare .cx-close-cta loses
+   to `.cx-close-act a` and the button comes out navy-on-translucent-white. */
+.cx-close-act .cx-close-cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: #fff; color: var(--brand); border: 0;
+  border-radius: 10px; padding: .8rem 1.4rem; font-size: .92rem; font-weight: 700;
+  transition: transform .25s cubic-bezier(.4, 0, .2, 1), box-shadow .25s;
+}
+.cx-close-act .cx-close-cta:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 12px 26px -10px rgba(0, 0, 0, .45); }
+.cx-close-act .cx-close-cta svg { width: 16px; height: 16px; }
+html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
