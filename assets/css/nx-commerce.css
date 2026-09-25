@@ -1,0 +1,237 @@
+/* ============================================================
+   NX Commerce Infrastructure — the hub and its ten solution pages.
+   Everything is scoped to .cx so it cannot leak into the rest of the
+   site, and it borrows the site's own tokens rather than inventing a
+   second palette: the source designs used a mint accent, this uses
+   NX's blue, with gold reserved for money exactly as the partner
+   portal already uses it.
+   ============================================================ */
+.cx {
+  --cx-ink: var(--ink);
+  --cx-deep: #081426;          /* one step darker than --ink, for hero ground */
+  --cx-line-d: rgba(255, 255, 255, .12);
+  --cx-dim: #9FB2C9;           /* body text on the dark ground */
+  --cx-seller: var(--hi);      /* the party who earns the most */
+  --cx-platform: var(--gold);  /* the platform's own cut — money is gold here */
+  --cx-third: var(--sky);      /* a third party in the split */
+}
+
+/* ── dark sections ───────────────────────────────────────── */
+.cx-dark { background: var(--cx-deep); color: #fff; position: relative; overflow: hidden; }
+.cx-dark::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 78% 0%, rgba(44, 116, 179, .28), transparent 70%),
+    radial-gradient(40% 40% at 10% 100%, rgba(32, 82, 149, .22), transparent 70%);
+}
+/* the faint hex lattice from the source designs, as one tiled SVG */
+.cx-mesh {
+  position: absolute; inset: 0; opacity: .5; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='64' viewBox='0 0 56 64'%3E%3Cpath d='M28 1 54 16v32L28 63 2 48V16z' fill='none' stroke='%23ffffff' stroke-opacity='.05'/%3E%3C/svg%3E");
+}
+.cx-dark .wrap { position: relative; z-index: 1; }
+
+.cx-eyebrow {
+  display: inline-flex; align-items: center; gap: .5rem; font-size: .74rem; font-weight: 600;
+  letter-spacing: .02em; color: #BFE0FF; background: rgba(91, 163, 223, .14);
+  border: 1px solid rgba(91, 163, 223, .3); border-radius: 999px; padding: .38rem .9rem;
+}
+.cx-kicker { display: block; font-size: .92rem; font-weight: 700; color: var(--sky); margin: 1.2rem 0 .5rem; }
+.cx-dark h1 { font-size: clamp(1.9rem, 4.2vw, 3rem); line-height: 1.25; letter-spacing: -.02em; margin: 0; }
+.cx-dark h1 b { color: var(--sky); font-weight: inherit; display: block; }
+.cx-lede { color: var(--cx-dim); font-size: 1.02rem; line-height: 1.85; margin: 1.1rem 0 0; max-width: 46ch; }
+.cx-cta { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.cx-fineprint { font-size: .76rem; color: #7E93AC; margin-top: 1.1rem; }
+
+/* The site's ghost button is built for light sections: a white surface with
+   dark text. On the dark hero that made a white button with white text — an
+   invisible CTA. Restate it for this ground instead of patching it inline. */
+.cx-dark .btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .32); }
+.cx-dark .btn-ghost:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .55); color: #fff; }
+
+/* ── hero: copy beside a living phone ────────────────────── */
+.cx-hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+@media (max-width: 900px) { .cx-hero-grid { grid-template-columns: 1fr; } }
+
+.cx-phone {
+  width: min(300px, 100%); margin-inline: auto; background: #fff; border-radius: 26px;
+  padding: 16px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .65); position: relative;
+  color: var(--ink);
+}
+.cx-phone-top { display: flex; align-items: center; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-bottom: .6rem; }
+.cx-phone-top .cx-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--canvas); display: grid; place-items: center; }
+.cx-phone-top .cx-dot svg { width: 12px; height: 12px; stroke: var(--muted); fill: none; stroke-width: 1.8; }
+.cx-amount-label { font-size: .7rem; color: var(--muted); margin-bottom: .1rem; }
+.cx-amount { font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; }
+.cx-amount .cx-cur { font-size: .82rem; font-weight: 600; color: var(--muted); margin-inline-start: .3rem; }
+.cx-rows { margin-top: .9rem; border-top: 1px solid var(--line); }
+.cx-rows div { display: flex; justify-content: space-between; font-size: .78rem; padding: .48rem 0; border-bottom: 1px solid var(--line-2); }
+.cx-rows div span:first-child { color: var(--muted); }
+.cx-rows div span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
+.cx-phone-btn { margin-top: 1rem; background: var(--brand); color: #fff; text-align: center; border-radius: 12px; padding: .72rem; font-size: .84rem; font-weight: 700; }
+
+/* the toast that slides in over the phone — the moment of the sale */
+.cx-toast {
+  position: absolute; inset-inline-start: -22px; top: 46%; background: #fff; color: var(--ink);
+  border-radius: 12px; padding: .55rem .8rem; font-size: .74rem; font-weight: 600;
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, .4); display: flex; align-items: center; gap: .45rem;
+  transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+.cx-toast i { width: 20px; height: 20px; border-radius: 50%; background: rgba(44, 116, 179, .12); display: grid; place-items: center; flex-shrink: 0; }
+.cx-toast i svg { width: 11px; height: 11px; stroke: var(--hi); fill: none; stroke-width: 2.6; }
+.cx-ready .cx-toast { opacity: 0; transform: translateY(8px) scale(.96); }
+.cx-ready .cx-anim.on .cx-toast { opacity: 1; transform: none; }
+@media (max-width: 460px) {
+  .cx-toast { position: static; margin-bottom: .7rem; box-shadow: none; border: 1px solid var(--line); }
+}
+
+/* ── the story rail: five stations lighting up in order ───── */
+.cx-story-head { text-align: center; max-width: 60ch; margin-inline: auto; }
+.cx-rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 34px; position: relative; }
+.cx-rail::before {
+  content: ""; position: absolute; top: 9px; inset-inline: 6%; height: 2px;
+  background: var(--line); z-index: 0;
+}
+.cx-rail::after {
+  content: ""; position: absolute; top: 9px; inset-inline-start: 6%; height: 2px; width: 0;
+  background: linear-gradient(90deg, var(--brand), var(--hi)); z-index: 1;
+  transition: width 2.6s cubic-bezier(.4, 0, .2, 1);
+}
+.cx-ready .cx-rail::after { width: 0; }
+.cx-ready .cx-anim.on .cx-rail::after { width: 88%; }
+@media (max-width: 860px) { .cx-rail { grid-template-columns: repeat(2, 1fr); } .cx-rail::before, .cx-rail::after { display: none; } }
+@media (max-width: 480px) { .cx-rail { grid-template-columns: 1fr; } }
+
+.cx-stop { position: relative; z-index: 2; text-align: center; }
+.cx-stop .cx-when {
+  display: inline-flex; align-items: center; gap: .4rem; font-size: .7rem; font-weight: 700;
+  color: var(--muted); margin-bottom: .6rem;
+}
+.cx-stop .cx-when i {
+  font-style: normal; width: 18px; height: 18px; border-radius: 50%; background: var(--line);
+  color: var(--muted); font-size: .64rem; display: grid; place-items: center;
+  transition: background .5s ease, color .5s ease;
+}
+.cx-stop.lit .cx-when i { background: var(--hi); color: #fff; }
+
+/* the station itself: a dark tile, as in the source designs, so the gold
+   figure it carries reads as the thing that changed at that moment. */
+.cx-stop .cx-box {
+  background: var(--cx-deep); border-radius: var(--r); padding: 18px 12px 16px;
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .5s ease;
+}
+.cx-stop.lit .cx-box { box-shadow: 0 18px 38px -18px rgba(20, 66, 114, .75); }
+.cx-stop .cx-bulb {
+  width: 40px; height: 40px; border-radius: 12px; margin: 0 auto .7rem; display: grid; place-items: center;
+  background: rgba(91, 163, 223, .14); border: 1px solid rgba(91, 163, 223, .26);
+  transform: scale(.82); opacity: .5;
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .5s ease, background .5s ease;
+}
+.cx-stop .cx-bulb svg { width: 19px; height: 19px; stroke: var(--sky); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.cx-stop.lit .cx-bulb { transform: none; opacity: 1; background: rgba(91, 163, 223, .24); }
+.cx-stop .cx-tag { font-size: .7rem; color: var(--cx-dim); margin-bottom: .25rem; }
+.cx-stop .cx-big { font-size: 1.02rem; font-weight: 800; color: var(--gold); letter-spacing: -.01em; }
+.cx-stop .cx-txt { font-size: .78rem; color: var(--ink-2); line-height: 1.6; margin-top: .6rem; }
+.cx-stop { transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
+.cx-ready .cx-stop { opacity: 0; transform: translateY(14px); }
+.cx-ready .cx-stop.lit { opacity: 1; transform: none; }
+
+/* ── the money split: every riyal finding its way ─────────── */
+.cx-money { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 56px); align-items: center; }
+@media (max-width: 900px) { .cx-money { grid-template-columns: 1fr; } }
+.cx-board { background: rgba(255, 255, 255, .05); border: 1px solid var(--cx-line-d); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 30px); }
+.cx-board-top { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid var(--cx-line-d); }
+.cx-board-top .cx-t { font-size: .84rem; color: var(--cx-dim); }
+.cx-board-top .cx-v { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cx-board-top .cx-v em { font-style: normal; font-size: .72rem; font-weight: 500; color: var(--cx-dim); margin-inline-start: .3rem; }
+
+.cx-share { margin-top: 18px; }
+.cx-share-hd { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .45rem; }
+.cx-share-hd b { font-variant-numeric: tabular-nums; }
+.cx-share-hd b em { font-style: normal; font-size: .68rem; font-weight: 500; color: var(--cx-dim); margin-inline-start: .25rem; }
+.cx-bar { height: 10px; border-radius: 99px; background: rgba(255, 255, 255, .09); overflow: hidden; }
+.cx-bar i {
+  display: block; height: 100%; width: 100%; border-radius: 99px;
+  transition: width 1.3s cubic-bezier(.22, 1, .36, 1);
+}
+.cx-share[data-who="seller"] .cx-bar i { background: linear-gradient(90deg, var(--cx-seller), var(--sky)); }
+.cx-share[data-who="platform"] .cx-bar i { background: var(--cx-platform); }
+.cx-share[data-who="third"] .cx-bar i { background: var(--cx-third); }
+.cx-share[data-who="fourth"] .cx-bar i { background: #7C8DB5; }
+
+/* ── capability cards ─────────────────────────────────────── */
+.cx-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+/* not every solution lists eight capabilities — six sit in three columns in the
+   source rather than as a row of four and an orphaned pair */
+.cx-caps[data-n="6"] { grid-template-columns: repeat(3, 1fr); }
+.cx-caps[data-n="3"] { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1040px) { .cx-caps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .cx-caps { grid-template-columns: 1fr; } }
+.cx-cap {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 20px;
+  transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease;
+}
+.cx-ready .cx-cap { opacity: 0; transform: translateY(16px); }
+.cx-ready .cx-anim.on .cx-cap { opacity: 1; transform: none; }
+.cx-cap:hover { box-shadow: var(--shadow-m); }
+.cx-cap .cx-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgba(44, 116, 179, .1); margin-bottom: 12px; }
+.cx-cap .cx-ic svg { width: 18px; height: 18px; stroke: var(--hi); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.cx-cap h3 { font-size: .94rem; font-weight: 700; line-height: 1.45; margin: 0 0 .5rem; }
+.cx-cap p { font-size: .82rem; line-height: 1.7; color: var(--ink-2); margin: 0; }
+
+/* ── audience chips + revenue lines ──────────────────────── */
+.cx-chips { display: flex; flex-wrap: wrap; gap: .55rem; }
+.cx-chip { font-size: .84rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: .5rem 1rem; }
+.cx-earn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 1rem; }
+@media (max-width: 760px) { .cx-earn { grid-template-columns: 1fr; } }
+.cx-earn div { display: flex; align-items: center; gap: .6rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-sm); padding: .85rem 1rem; font-size: .86rem; }
+.cx-earn svg { width: 16px; height: 16px; stroke: var(--hi); fill: none; stroke-width: 2.4; flex-shrink: 0; }
+.cx-startnote { font-size: .8rem; color: var(--muted); margin-top: 1.1rem; }
+
+/* ── closing band ────────────────────────────────────────── */
+.cx-close { background: var(--grad); color: #fff; border-radius: var(--r-lg); padding: clamp(30px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.cx-close h2 { font-size: clamp(1.3rem, 2.6vw, 1.9rem); margin: 0 0 .5rem; }
+.cx-close p { margin: 0; color: rgba(255, 255, 255, .82); font-size: .94rem; line-height: 1.7; max-width: 52ch; }
+.cx-close-act { display: flex; gap: .6rem; flex-wrap: wrap; }
+.cx-close-act a { background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .3); color: #fff; border-radius: 10px; padding: .7rem 1.1rem; font-size: .88rem; font-weight: 600; white-space: nowrap; }
+.cx-close-act a:hover { background: rgba(255, 255, 255, .22); }
+
+/* Motion is explanation here, not decoration — but never at the cost of
+   someone who asked the system to stop moving things. */
+.cx-ready .cx-bar i { width: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-ready .cx-stop, .cx-ready .cx-cap, .cx-ready .cx-toast { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .cx-ready .cx-rail::after { width: 88% !important; transition: none !important; }
+  .cx-bar i { transition: none !important; }
+}
+
+
+/* ── the family page: ten solutions over one stack ───────── */
+.cx-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; margin-top: 1.8rem; }
+.cx-tile {
+  display: flex; flex-direction: column; gap: .5rem; position: relative; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 26px 24px; color: inherit;
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1), box-shadow .3s, border-color .3s;
+}
+.cx-tile::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--grad);
+  transform: scaleX(0); transform-origin: right; transition: transform .35s ease;
+}
+.cx-tile:hover { transform: translateY(-5px); box-shadow: var(--shadow-l); border-color: #CFE0F2; }
+.cx-tile:hover::before { transform: scaleX(1); }
+.cx-tile-k { font-size: .78rem; font-weight: 700; color: var(--hi); letter-spacing: .01em; }
+.cx-tile h3 { font-size: 1.04rem; font-weight: 800; line-height: 1.5; letter-spacing: -.012em; margin: 0; flex: 1; }
+.cx-tile-go { margin-top: .6rem; font-size: .82rem; font-weight: 700; color: var(--brand-2); display: inline-flex; align-items: center; gap: .45rem; }
+.cx-tile-go svg { width: 16px; height: 16px; stroke-width: 2; fill: none; transition: transform .25s; }
+html[dir="rtl"] .cx-tile-go svg { transform: scaleX(-1); }
+html[dir="rtl"] .cx-tile:hover .cx-tile-go svg { transform: scaleX(-1) translateX(4px); }
+.cx-tile:hover .cx-tile-go svg { transform: translateX(4px); }
+
+/* the catalogue reuses the capability card, plus the number the source prints */
+.cx-cat .cx-cap { position: relative; }
+.cx-cap-n { display: block; font-size: .7rem; font-weight: 700; color: var(--gold); margin-bottom: .35rem; }
+/* the catalogue is not inside a .cx-anim block, so it must never start hidden */
+.cx-ready .cx-cat .cx-cap { opacity: 1; transform: none; }
