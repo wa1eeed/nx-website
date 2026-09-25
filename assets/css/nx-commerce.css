@@ -261,3 +261,31 @@ html[dir="rtl"] .cx-tile:hover .cx-tile-go svg { transform: scaleX(-1) translate
 .cx-close-act .cx-close-cta:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 12px 26px -10px rgba(0, 0, 0, .45); }
 .cx-close-act .cx-close-cta svg { width: 16px; height: 16px; }
 html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
+
+
+/* ── the volume switch on the money board ────────────────── */
+/* The switch does nothing without the engine, so it only exists once the
+   engine has started — the same gate the hidden sections use. A control that
+   looks pressable and is not is worse than no control. */
+.cx-scales { display: none; }
+.cx-ready .cx-scales { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 18px; }
+.cx-scale {
+  font: inherit; font-size: .78rem; font-weight: 600; cursor: pointer;
+  color: var(--cx-dim); background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--cx-line-d); border-radius: 999px; padding: .42rem .9rem;
+  transition: background .25s, color .25s, border-color .25s;
+}
+.cx-scale:hover { color: #fff; border-color: rgba(255, 255, 255, .3); }
+.cx-scale[aria-pressed="true"] { background: var(--hi); border-color: var(--hi); color: #fff; }
+.cx-scale:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+
+/* a highlight that rides the bar as it fills, so the money reads as moving
+   rather than as a length that simply became longer */
+.cx-bar i { position: relative; overflow: hidden; }
+.cx-bar i u {
+  position: absolute; inset: 0 auto 0 0; width: 46px; text-decoration: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
+  animation: cx-ride 1.3s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes cx-ride { from { transform: translateX(-46px); } to { transform: translateX(var(--cx-ride, 900px)); } }
+@media (prefers-reduced-motion: reduce) { .cx-bar i u { display: none; } }

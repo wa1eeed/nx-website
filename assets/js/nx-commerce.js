@@ -90,6 +90,58 @@
     });
   }
 
+
+  /* ── the money board, made answerable ──────────────────────
+     The split was a single illustrative transaction. The same percentages at
+     100 or 1,000 transactions answer the question the page actually raises —
+     what does this earn at volume — and it is arithmetic on figures already
+     on the page, not a new claim. Switching replays the fill, so the bars
+     stay the thing that carries the meaning. */
+  document.querySelectorAll('.cx-board').forEach(function (board) {
+    var buttons = board.querySelectorAll('.cx-scale');
+    if (!buttons.length) return;
+    var total = board.querySelector('.cx-board-top [data-count]');
+    var baseTotal = parseFloat(board.getAttribute('data-total'));
+    var rows = board.querySelectorAll('.cx-share');
+    // The board's caption names one transaction ("an order in the marketplace").
+    // Left alone at ×1,000 it would sit beside 1,000,000 and read as if a single
+    // order were worth a million, so it takes the scale's own wording instead.
+    var caption = board.querySelector('.cx-board-top .cx-t');
+    var baseCaption = caption ? caption.textContent : '';
+
+    function apply(mult, label) {
+      if (caption) caption.textContent = mult === 1 ? baseCaption : label;
+      if (total) {
+        total.setAttribute('data-count', baseTotal * mult);
+        if (still) total.textContent = fmt(baseTotal * mult, 0);
+        else countUp(total, baseTotal * mult, 900);
+      }
+      rows.forEach(function (row) {
+        var el = row.querySelector('[data-count]');
+        var to = parseFloat(row.getAttribute('data-base')) * mult;
+        el.setAttribute('data-count', to);
+        if (still) el.textContent = fmt(to, to % 1 === 0 ? 0 : 1);
+        else countUp(el, to, 900);
+        // re-run the fill from zero so the eye follows the money again
+        var bar = row.querySelector('.cx-bar i');
+        if (bar) {
+          bar.style.transition = 'none';
+          bar.style.width = '0';
+          bar.getBoundingClientRect();          // force the reset to take
+          bar.style.transition = '';
+          requestAnimationFrame(function () { bar.style.width = row.getAttribute('data-pct') + '%'; });
+        }
+      });
+    }
+
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        buttons.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+        apply(parseFloat(b.getAttribute('data-mult')) || 1, b.textContent.trim());
+      });
+    });
+  });
+
   if (still || !('IntersectionObserver' in window)) {
     blocks.forEach(play);
     return;

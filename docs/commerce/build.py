@@ -48,10 +48,12 @@ def with_engine(foot, ver):
 LANG = {
     'ar': dict(home='الرئيسية', solutions='الحلول', other='en',
                explore='استعرض الحل', browse='استعرض الحلول العشرة',
-               related='حلول أخرى في نظام البيع الذكي', contact='تواصل معنا'),
+               related='حلول أخرى في نظام البيع الذكي', contact='تواصل معنا',
+               scales=['عملية واحدة', '100 عملية', '1,000 عملية']),
     'en': dict(home='Home', solutions='Solutions', other='ar',
                explore='Explore the solution', browse='Browse the ten solutions',
-               related='More in Commerce Infrastructure', contact='Contact us'),
+               related='More in Commerce Infrastructure', contact='Contact us',
+               scales=['One transaction', '100 transactions', '1,000 transactions']),
 }
 
 
@@ -204,11 +206,23 @@ def stops(items):
 def shares(items):
     out = ''
     for s in items:
-        out += f'''<div class="cx-share" data-who="{s['who']}" data-pct="{s['pct']}">
+        # data-base is what one transaction pays this party; the scale buttons
+        # multiply it. The percentages are the page's own, so nothing here
+        # claims anything the static version did not already claim.
+        out += f'''<div class="cx-share" data-who="{s['who']}" data-pct="{s['pct']}" data-base="{s['value']}">
               <div class="cx-share-hd"><span>{s['label']}</span><b><span data-count="{s['value']}">{s['value']:,}</span><em>{s['cur']}</em></b></div>
-              <div class="cx-bar"><i></i></div>
+              <div class="cx-bar"><i><u></u></i></div>
             </div>'''
     return out
+
+
+def scales(d, lang):
+    L = LANG[lang]
+    out = ''
+    for i, (label, mult) in enumerate(zip(L['scales'], (1, 100, 1000))):
+        on = ' aria-pressed="true"' if i == 0 else ' aria-pressed="false"'
+        out += f'<button type="button" class="cx-scale" data-mult="{mult}"{on}>{label}</button>'
+    return f'<div class="cx-scales" role="group">{out}</div>'
 
 
 def caps(ids):
@@ -268,7 +282,8 @@ def page(d, _ver, lang='ar'):
   <div class="cx-mesh"></div>
   <div class="wrap">
     <div class="cx-money">
-      <div class="cx-board">
+      <div class="cx-board" data-total="{d['money']['total']}">
+        {scales(d, lang)}
         <div class="cx-board-top">
           <span class="cx-t">{d['money']['totalLabel']}</span>
           <span class="cx-v"><span data-count="{d['money']['total']}">{d['money']['total']:,}</span><em>{d['money']['cur']}</em></span>
