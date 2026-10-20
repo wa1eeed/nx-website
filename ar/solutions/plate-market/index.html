@@ -573,6 +573,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 /* الهيرو: سؤال داكن، ثم سطر الدعوة بلون العلامة */
 .pm .pm-hero h1 .pm-h1-b{display:block;margin-top:.3em;color:#2C74B3;font-size:.76em;letter-spacing:-.8px}
 
+/* ── التطبيق: الفيديو نفسه يعرض الجوال، فلا إطار فوق إطار ── */
+.pm-app{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:clamp(26px,4vw,52px);align-items:center;margin-top:34px}
+@media(max-width:820px){.pm-app{grid-template-columns:1fr;justify-items:center}}
+.pm-phone{margin:0;width:100%;max-width:300px}
+.pm-phone-body{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#EDEFE9;box-shadow:0 2px 4px rgba(10,26,47,.04),0 30px 60px -28px rgba(10,26,47,.45)}
+.pm-phone-play{display:block;width:100%;height:100%;position:relative;overflow:hidden;border:0;padding:0;cursor:pointer;background:#EDEFE9}
+.pm-phone-play img,.pm-phone-body video{width:100%;height:100%;object-fit:cover;display:block}
+.pm-play-btn{position:absolute;inset:0;margin:auto;width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.45);transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.pm-phone-play:hover .pm-play-btn{transform:scale(1.07)}
+.pm-play-btn svg{width:26px;height:26px;fill:#0A1A2F;margin-inline-start:3px}
+.pm-play-cap{position:absolute;inset-inline:12px;bottom:12px;display:flex;align-items:center;justify-content:center;gap:.45rem;font-size:.74rem;font-weight:700;color:#fff;background:rgba(10,15,20,.62);border-radius:999px;padding:.4rem .8rem;backdrop-filter:blur(6px)}
+.pm-play-cap em{font-style:normal;font-weight:600;opacity:.75}
+.pm-phone-play:focus-visible{outline:3px solid #5BA3DF;outline-offset:3px}
+.pm-app-list{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.pm-app-list li{display:flex;align-items:flex-start;gap:.65rem;font-size:.95rem;line-height:1.8;color:#3A4A60}
+.pm-app-list svg{width:17px;height:17px;flex:none;margin-top:.42rem;fill:none;stroke:#2E9E63;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pm-app-list b{color:#0A1A2F;font-weight:700}
+.pm-app-note{font-size:.84rem;color:#5B6878;line-height:1.8;margin-top:1.3rem}
+/* المنصتان مكتوبتان لا مستنتجتين من سطر في القائمة — وبالاسم لا بشارة متجر:
+   الشارة تَعِد بصفحة في المتجر، وهذه نسخة عرض */
+.pm-os{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.pm-os span{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:600;color:#0A1A2F;background:var(--face);border:1px solid var(--line);border-radius:999px;padding:.34rem .8rem}
+.pm-os svg{width:14px;height:14px;fill:#0A1A2F;flex:none}
+@media(prefers-reduced-motion:reduce){.pm-play-btn{transition:none}}
+
 
 /* ── الأمثلة التوضيحية: تقرأ كلقطة منتج لا كإطار سلكي ──
    الإطار كان 2px أسود، والشريط العلوي نقطة رمادية واحدة — الاثنان
@@ -1242,6 +1267,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     
 <!-- ══ ١٣ · اللحظية ══ -->
+
+    <section id="app">
+      <div class="pm-wrap">
+        <div class="pm-sec-head">
+          <div class="pm-band"></div>
+          <div>
+            <h2>التطبيق على آيفون وأندرويد</h2>
+            <p>نفس السوق في جيب عميلك. المزايدة لحظة ما تجي على جواله، لا بعد ما يفتح المتصفح ويشوف إنه خسر.</p>
+            <div class="pm-os">
+              <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.14-.42 2.2-1.26 3.02-.9.9-1.9 1.4-3 1.32-.08-1.07.42-2.2 1.24-3 .83-.82 1.96-1.3 3.02-1.34zM20.5 17.3c-.5 1.16-.74 1.68-1.4 2.7-.9 1.42-2.2 3.2-3.8 3.2-1.4.02-1.76-.92-3.68-.9-1.92.01-2.32.92-3.72.9-1.6-.02-2.82-1.62-3.74-3.04-2.56-4-2.83-8.68-1.25-11.18 1.12-1.76 2.9-2.8 4.56-2.8 1.7 0 2.76.94 4.16.94 1.36 0 2.18-.94 4.14-.94 1.48 0 3.04.8 4.16 2.2-3.66 2-3.06 7.22.57 8.92z"/></svg>iOS</span>
+              <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 00-.14-.52.38.38 0 00-.52.14l-1.86 3.22a11.4 11.4 0 00-9.84 0L5.22 5.92a.38.38 0 00-.52-.14.38.38 0 00-.14.52L6.4 9.48A10.8 10.8 0 001 18h22a10.8 10.8 0 00-5.4-8.52zM7 15.25a1.1 1.1 0 110-2.2 1.1 1.1 0 010 2.2zm10 0a1.1 1.1 0 110-2.2 1.1 1.1 0 010 2.2z"/></svg>Android</span>
+              <span>حساب واحد مع الموقع</span>
+            </div>
+          </div>
+        </div>
+        <div class="pm-app">
+          <figure class="pm-phone">
+            <div class="pm-phone-body">
+              <button type="button" class="pm-phone-play" data-src="/assets/video/plate-app-9x16.mp4"
+                      aria-label="شغّل الفيديو">
+                <img src="/assets/images/video/plate-app-poster.jpg" alt="لقطة من تطبيق مزادات اللوحات على الجوال"
+                     width="540" height="960" loading="lazy" decoding="async">
+                <span class="pm-play-btn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </span>
+                <span class="pm-play-cap">شغّل الفيديو<em>1:37</em></span>
+              </button>
+            </div>
+          </figure>
+          <div class="pm-app-tx">
+            <ul class="pm-app-list">
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>إشعار فوري عند كل مزايدة. </b>تجاوزك مزايد، أو وصلك سوم، أو قرب ينتهي مزادك — يوصله وهو برا.</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>مزايدة بضغطتين. </b>العداد والرصيد والعربون في شاشة وحدة، بلا تنقل بين صفحات.</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>محفظته معه. </b>الرصيد والمحجوز وكشف الحساب، يفتحه ويتأكد بنفسه.</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>يتابع لوحاته وعروضه. </b>اللي عارضه واللي زايد عليه واللي ربحه، كله في مكان واحد.</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>عربي وإنجليزي ويقرأ الاتجاهين. </b>وبنفس حسابه على الموقع — ما فيه حساب ثاني ولا تسجيل من جديد.</span></li>
+            </ul>
+            <p class="pm-app-note">الفيديو مثال من نسخة التطبيق. التصميم النهائي يحمل اسمك ولونك مثل باقي المنصة، ويُنشر على المتجرين باسمك.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 <section id="live">
   <div class="pm-wrap">
     <div class="pm-sec-head pm-gold">
@@ -2198,6 +2265,19 @@ function tick(){
 }
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(tick,1000);
 tick();
+
+  /* the app film: the poster is the button, and nothing downloads until it is
+     pressed — seven megabytes is too much to spend on a maybe */
+  document.querySelectorAll('.pm-phone-play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = document.createElement('video');
+      v.src = btn.getAttribute('data-src');
+      v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('aria-label', btn.getAttribute('aria-label') || '');
+      btn.replaceWith(v);
+      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); });
+    });
+  });
 </script>
 </body>
 </html>
