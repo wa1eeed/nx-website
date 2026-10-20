@@ -602,78 +602,103 @@
     show(0); run();
   });
 
-  // ---------- Hero: the three layers ----------
-  // A deck that assembles itself, then lets you pull any layer out to read it.
-  // Pointer lifts, click pins, and the keyboard gets the same behaviour through
-  // focus — the layers are real buttons, not divs with listeners.
-  const nxs = document.querySelector('.nxs');
-  if (nxs) {
-    // Only now may the stylesheet hide a layer. Without this the deck would
-    // stay invisible for anyone whose JS never arrives, which is the whole
-    // picture gone to save an animation.
+  // ---------- Hero: the load, and the system holding ----------
+  // The page claims its systems work under real pressure and keep working as
+  // the business grows. So the visitor applies the pressure: four steps from a
+  // single customer to a campaign peak. Requests climb two thousandfold, the
+  // response line moves by fifteen milliseconds, and uptime holds — which is
+  // the argument the copy makes, made in the one way a picture can make it.
+  //
+  // The figures are illustrative and the card says so. They are consistent
+  // with each other rather than impressive: latency rises with load, just far
+  // less than load does.
+  const nxl = document.querySelector('.nxl');
+  if (nxl) {
     document.documentElement.classList.add('js');
 
-    const deck = nxs.querySelector('.nxs-deck');
-    const layers = Array.from(nxs.querySelectorAll('.nxs-layer'));
-    const gates = Array.from(nxs.querySelectorAll('.nxs-gw'));
+    const LEVELS = [
+      { rps: 12,     ms: 48, up: '100',   amp: 0.10, lat: 0.12 },
+      { rps: 1240,   ms: 51, up: '100',   amp: 0.34, lat: 0.13 },
+      { rps: 9800,   ms: 58, up: '100',   amp: 0.66, lat: 0.15 },
+      { rps: 24500,  ms: 63, up: '99.99', amp: 0.92, lat: 0.17 }
+    ];
+    const bars = Array.from(nxl.querySelectorAll('.nxl-bars i'));
+    const lat = nxl.querySelector('.nxl-lat');
+    const steps = Array.from(nxl.querySelectorAll('.nxl-step'));
+    const stat = (k) => nxl.querySelector(`[data-k="${k}"]`);
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let pinned = null;
+    let at = 0, jitter = null;
 
-    const clear = () => {
-      deck.classList.remove('on');
-      layers.forEach(l => { l.classList.remove('lift'); l.setAttribute('aria-pressed', 'false'); });
+    const fmt = (n) => n.toLocaleString('en-US');
+
+    // count a figure up or down so the change is legible rather than a jump
+    const roll = (el, to, suffix) => {
+      if (!el) return;
+      const from = parseFloat((el.firstChild.textContent || '0').replace(/,/g, '')) || 0;
+      if (reduce) { el.firstChild.textContent = fmt(to); return; }
+      const t0 = performance.now(), ms = 520;
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - p, 3);
+        el.firstChild.textContent = fmt(Math.round(from + (to - from) * e));
+        if (p < 1) requestAnimationFrame(tick);
+        else el.firstChild.textContent = fmt(to);
+      };
+      requestAnimationFrame(tick);
     };
-    const lift = (i) => {
-      deck.classList.add('on');
-      layers.forEach((l, k) => {
-        l.classList.toggle('lift', k === i);
-        l.setAttribute('aria-pressed', String(k === i && pinned === i));
+
+    // a little noise per bar, so it reads as traffic rather than a bar chart
+    const draw = (amp) => {
+      bars.forEach((b, i) => {
+        const n = 0.62 + 0.38 * Math.abs(Math.sin(i * 12.9898 + Date.now() / 1400));
+        b.style.height = Math.max(4, amp * n * 100).toFixed(1) + '%';
       });
     };
-    const drop = () => { if (pinned === null) clear(); };
 
-    layers.forEach((l, i) => {
-      l.addEventListener('pointerenter', () => { if (pinned === null) lift(i); });
-      l.addEventListener('focus', () => { if (pinned === null) lift(i); });
-      l.addEventListener('blur', drop);
-      l.addEventListener('click', () => {
-        pinned = pinned === i ? null : i;
-        if (pinned === null) clear(); else lift(i);
-      });
-    });
-    deck.addEventListener('pointerleave', drop);
-
-    // `animation-fill-mode: both` keeps holding every property the keyframes
-    // touched, which no later rule can override — so the entry animation is
-    // taken off once it has played, and the deck keeps its resting transform
-    // from the cascade instead.
-    const settled = () => { nxs.classList.remove('in'); nxs.classList.add('built'); };
-    const build = () => {
-      nxs.classList.add('in');
-      const last = layers[layers.length - 1];
-      let done = false;
-      const finish = () => { if (!done) { done = true; settled(); } };
-      last.addEventListener('animationend', finish, { once: true });
-      setTimeout(finish, 1600);          // in case the animation never fires
-      gates.forEach((g, i) => setTimeout(() => g.classList.add('ok'), 900 + i * 320));
+    const apply = (i) => {
+      at = i;
+      const L = LEVELS[i];
+      steps.forEach((s, k) => s.setAttribute('aria-pressed', String(k === i)));
+      draw(L.amp);
+      if (lat) lat.style.bottom = (L.lat * 100).toFixed(1) + '%';
+      roll(stat('rps'), L.rps);
+      const msEl = stat('ms');
+      if (msEl) roll(msEl, L.ms);
+      const upEl = stat('up');
+      if (upEl) upEl.firstChild.textContent = L.up;
     };
-    if (reduce) { nxs.classList.add('built'); gates.forEach(g => g.classList.add('ok')); }
-    else if ('IntersectionObserver' in window) {
+
+    steps.forEach((s, i) => s.addEventListener('click', () => apply(i)));
+
+    const start = () => {
+      apply(0);
+      if (reduce) { apply(LEVELS.length - 1); return; }
+      if (jitter) return;
+
+      // At rest the chart is a row of stubs, and the first thing a visitor
+      // sees should be the argument rather than the starting line. So it
+      // climbs through the levels once, by itself, and then stops and leaves
+      // the control where the visitor can take it back.
+      let step = 1;
+      const climb = setInterval(() => {
+        apply(step);
+        if (++step >= LEVELS.length) clearInterval(climb);
+      }, 850);
+      // any click hands control straight back
+      steps.forEach(b => b.addEventListener('click', () => clearInterval(climb), { once: true }));
+
+      // and the traffic keeps moving at whatever level is selected
+      jitter = setInterval(() => {
+        if (document.hidden) return;
+        draw(LEVELS[at].amp);
+      }, 1500);
+    };
+
+    if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(es => es.forEach(e => {
-        if (e.isIntersecting) { build(); io.disconnect(); }
+        if (e.isIntersecting) { start(); io.disconnect(); }
       }), { threshold: 0.25 });
-      io.observe(nxs);
-    } else build();
-
-    const live = nxs.querySelector('[data-count]');
-    if (live) {
-      let n = parseInt(live.textContent.replace(/\D/g, ''), 10) || 128540;
-      setInterval(() => {
-        if (document.hidden) return;              // nobody is watching
-        n += 3 + Math.floor(Math.random() * 9);
-        live.textContent = n.toLocaleString('en-US');
-      }, 1700);
-    }
+      io.observe(nxl);
+    } else start();
   }
 
   // ---------- Program terms: keep the figures honest ----------
