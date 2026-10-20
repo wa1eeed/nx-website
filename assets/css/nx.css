@@ -2623,92 +2623,78 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 @media(prefers-reduced-motion:reduce){.aff-hero h1 .g{animation:none}.aff-feed{display:none!important}.aff-dash{transform:none!important}.aff-flow.run .aff-step .n{animation:none}}
 
 /* ============================================================
-   Hero: what is running, right now, across what we build.
+   Hero: pick a sector, see the platform we built in it.
 
-   A single chart said one thing about the practice and made it
-   look narrow. This shows work arriving from insurance,
-   healthcare, logistics, commerce, property and the government
-   integrations at the same time — the range is the picture
-   rather than a claim written under one.
+   What stood here wore a "live" badge, aged its timestamps by the
+   second and ran a counter upward — telemetry from systems we do
+   not read, which a note calling it illustrative does not take
+   back. Everything here is checkable instead: six platforms that
+   exist, the capabilities their own case studies list, and a link
+   to each. The motion is in the switching.
    ============================================================ */
-.nxv{position:relative;width:100%;max-width:478px;margin-inline:auto}
+.nxv{position:relative;width:100%;max-width:468px;margin-inline:auto}
 .nxv-card{
   background:var(--surface);border:1px solid #DFE6EF;border-radius:18px;overflow:hidden;
   box-shadow:0 2px 4px rgba(10,26,47,.04),0 32px 64px -30px rgba(20,66,114,.52);
 }
 .nxv-head{
-  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-  padding:.75rem 1rem;border-bottom:1px solid var(--line);
+  display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;
+  padding:.78rem 1rem;border-bottom:1px solid var(--line);
   background:linear-gradient(180deg,#FAFCFE,#F4F7FB);
 }
-.nxv-ttl{font-size:.8rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
-.nxv-live{
-  display:inline-flex;align-items:center;gap:.36rem;font-size:.66rem;font-weight:700;
-  color:#15663A;background:#E6F5EC;border-radius:999px;padding:.22rem .6rem;flex:none;
-}
-.nxv-live i{width:6px;height:6px;border-radius:50%;background:#2E9E63;animation:nxvPulse 1.7s ease-in-out infinite}
-@keyframes nxvPulse{0%,100%{opacity:1}50%{opacity:.25}}
+.nxv-ttl{font-size:.82rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.nxv-meta{font-size:.66rem;color:#5B6878}
 
-/* the sectors, lighting as their work arrives */
-.nxv-chips{display:flex;flex-wrap:wrap;gap:5px;padding:11px 14px 0}
+.nxv-chips{display:flex;flex-wrap:wrap;gap:5px;padding:12px 14px 0}
 .nxv-chip{
-  font-size:.64rem;font-weight:600;color:#5B6878;background:#F1F5F9;
-  border:1px solid transparent;border-radius:999px;padding:.2rem .55rem;
-  transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s ease;
+  appearance:none;border:1px solid transparent;cursor:pointer;font:inherit;
+  font-size:.68rem;font-weight:600;color:#5B6878;background:#F1F5F9;
+  border-radius:999px;padding:.26rem .68rem;
+  transition:background .25s ease,color .25s ease,border-color .25s ease;
 }
-.nxv-chip.on{background:rgba(44,116,179,.13);border-color:rgba(44,116,179,.28);color:var(--brand);transform:translateY(-1px)}
+.nxv-chip:hover{color:var(--ink);background:#E8EFF7}
+.nxv-chip[aria-selected="true"]{background:var(--brand);color:#fff;border-color:transparent}
+.nxv-chip:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
 
-/* the stream */
-.nxv-feed{list-style:none;margin:10px 0 0;padding:0;height:216px;overflow:hidden;position:relative}
-.nxv-row{
-  display:flex;align-items:center;gap:.6rem;padding:.5rem 14px;
-  border-top:1px solid var(--line-2);
-}
-.nxv-row:first-child{border-top:0}
-.nxv-row.new{animation:nxvIn .55s cubic-bezier(.22,1,.36,1) both}
-@keyframes nxvIn{
-  0%{opacity:0;transform:translateY(-14px)}
-  60%{background:rgba(44,116,179,.09)}
-  100%{opacity:1;transform:none;background:transparent}
-}
-.nxv-ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;background:#EEF3F9}
-.nxv-ic svg{width:15px;height:15px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke:var(--brand-2)}
-.nxv-row[data-s="ins"]   .nxv-ic{background:#EAF2FB}
-.nxv-row[data-s="health"] .nxv-ic{background:#E9F6F0}
-.nxv-row[data-s="health"] .nxv-ic svg{stroke:#1C7A55}
-.nxv-row[data-s="log"]   .nxv-ic{background:#F4F1FB}
-.nxv-row[data-s="log"]   .nxv-ic svg{stroke:#5B4A9E}
-.nxv-row[data-s="shop"]  .nxv-ic{background:#FBF4E7}
-.nxv-row[data-s="shop"]  .nxv-ic svg{stroke:#8A6D1F}
-.nxv-row[data-s="gov"]   .nxv-ic{background:#EDF1F6}
-.nxv-row[data-s="gov"]   .nxv-ic svg{stroke:#3A4A60}
-.nxv-row[data-s="prop"]  .nxv-ic{background:#FBEFEF}
-.nxv-row[data-s="prop"]  .nxv-ic svg{stroke:#9B3B3B}
-.nxv-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35}
-.nxv-tx b{font-size:.76rem;font-weight:600;color:var(--ink);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.nxv-tx em{font-style:normal;font-size:.65rem;color:#5B6878}
-.nxv-ago{font-size:.63rem;color:#5B6878;flex:none;font-variant-numeric:tabular-nums}
+.nxv-panels{padding:14px 16px 16px;min-height:198px}
+.nxv-panel{animation:nxvIn .4s cubic-bezier(.22,1,.36,1) both}
+.nxv-panel[hidden]{display:none}
+@keyframes nxvIn{from{opacity:0;transform:translateY(8px)}}
 
-.nxv-foot{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
-  border-top:1px solid var(--line);
+.nxv-pt{display:flex;align-items:center;gap:.6rem;padding-bottom:.7rem;border-bottom:1px solid var(--line-2)}
+.nxv-ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:#EDF3FA}
+.nxv-ic svg{width:19px;height:19px;fill:none;stroke:var(--brand-2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nxv-nm{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.nxv-nm b{font-size:.92rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.nxv-nm em{font-style:normal;font-size:.68rem;color:#5B6878}
+
+.nxv-rows{list-style:none;margin:.7rem 0 0;padding:0;display:grid;gap:.46rem}
+.nxv-rows li{display:flex;align-items:flex-start;gap:.5rem;font-size:.78rem;color:var(--ink-2);line-height:1.6}
+.nxv-rows li:nth-child(1){animation:nxvRow .45s ease both .06s}
+.nxv-rows li:nth-child(2){animation:nxvRow .45s ease both .14s}
+.nxv-rows li:nth-child(3){animation:nxvRow .45s ease both .22s}
+@keyframes nxvRow{from{opacity:0;transform:translateY(6px)}}
+.nxv-rows svg{width:15px;height:15px;flex:none;margin-top:.18rem;fill:none;stroke:#2E9E63;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+.nxv-go{
+  display:inline-flex;align-items:center;gap:.4rem;margin-top:.95rem;
+  font-size:.76rem;font-weight:700;color:var(--brand);text-decoration:none;
+  transition:gap .22s ease,color .22s ease;
 }
-.nxv-foot span{background:var(--surface);padding:.55rem .7rem;font-size:.63rem;color:#5B6878;text-align:center}
-.nxv-foot b{
-  display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;
-  font-size:.95rem;font-weight:600;color:var(--ink);
-}
-.nxv-note{font-size:.69rem;color:#5B6878;text-align:center;line-height:1.7;margin:.7rem 0 0}
+.nxv-go svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html[dir="rtl"] .nxv-go svg{transform:scaleX(-1)}
+.nxv-go:hover{gap:.62rem;color:var(--hi)}
+.nxv-go:focus-visible{outline:2px solid var(--hi);outline-offset:3px;border-radius:6px}
 
 @media(max-width:860px){
   .nxv{max-width:420px}
-  .nxv-feed{height:192px}
+  .nxv-panels{min-height:0}
   .p-home .stage{min-height:0}
 }
 @media(prefers-reduced-motion:reduce){
-  .nxv-row.new{animation:none}
-  .nxv-live i{animation:none}
-  .nxv-chip{transition:none}
+  .nxv-panel,.nxv-rows li{animation:none!important}
+  .nxv-chip,.nxv-go{transition:none}
+}
 }
 }
 }

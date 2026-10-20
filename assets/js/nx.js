@@ -602,71 +602,58 @@
     show(0); run();
   });
 
-  // ---------- Hero: what is running across what we build ----------
-  // Work arrives from insurance, healthcare, logistics, commerce, property and
-  // the government integrations, one event at a time, oldest dropping off the
-  // bottom. The sector chip for each arrival lights, so the range registers
-  // even for someone who never reads a single row.
-  //
-  // The events are illustrative and the card says so underneath.
+  // ---------- Hero: the sector picker ----------
+  // A real tablist: arrow keys that respect RTL, roving tabindex, one panel in
+  // the accessible tree at a time. It advances on its own until someone
+  // touches it, then stops for good — an auto-rotation that keeps stealing the
+  // panel back from a reader is worse than no rotation at all.
   const nxv = document.querySelector('.nxv');
   if (nxv) {
-    const feed = nxv.querySelector('.nxv-feed');
     const chips = Array.from(nxv.querySelectorAll('.nxv-chip'));
-    const ops = nxv.querySelector('[data-k="ops"]');
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (feed) {
-      // the full set, kept as templates so rows can be recycled forever
-      const pool = Array.from(feed.children).map(n => n.cloneNode(true));
-      const NOW = pool[0].querySelector('.nxv-ago').textContent;
-      const UNIT = document.documentElement.lang === 'ar' ? 'ث' : 's';
-      let next = 0, count = 0, timer = null;
+    const panels = Array.from(nxv.querySelectorAll('.nxv-panel'));
+    if (chips.length && chips.length === panels.length) {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let at = 0, timer = null, taken = false;
 
-      const light = (sector) => chips.forEach(c => c.classList.toggle('on', c.dataset.s === sector));
+      const show = (i, focus) => {
+        at = i;
+        chips.forEach((c, k) => {
+          c.setAttribute('aria-selected', String(k === i));
+          c.tabIndex = k === i ? 0 : -1;
+          panels[k].hidden = k !== i;
+        });
+        if (focus) chips[i].focus();
+      };
 
-      // "now" on arrival, then a plain second count as it slides down — unit-less
-      // rather than inventing a phrase for "seconds ago" in two languages for a
-      // label nobody reads twice.
-      const age = () => Array.from(feed.children).forEach(row => {
-        const t = row.querySelector('.nxv-ago');
-        if (!t) return;
-        const n = parseInt(row.dataset.age || '0', 10);
-        t.textContent = n === 0 ? NOW : n + UNIT;
-        row.dataset.age = String(n + 4);
+      const stop = () => { if (timer) { clearInterval(timer); timer = null; } taken = true; };
+
+      chips.forEach((c, i) => {
+        c.addEventListener('click', () => { stop(); show(i, false); });
+        c.addEventListener('keydown', (ev) => {
+          const rtl = getComputedStyle(nxv).direction === 'rtl';
+          let go = null;
+          if (ev.key === 'ArrowRight') go = rtl ? at - 1 : at + 1;
+          else if (ev.key === 'ArrowLeft') go = rtl ? at + 1 : at - 1;
+          else if (ev.key === 'Home') go = 0;
+          else if (ev.key === 'End') go = chips.length - 1;
+          if (go === null) return;
+          ev.preventDefault();
+          stop();
+          show((go + chips.length) % chips.length, true);
+        });
       });
 
-      const arrive = () => {
-        const row = pool[next % pool.length].cloneNode(true);
-        next++;
-        row.dataset.age = '0';
-        row.classList.add('new');
-        feed.insertBefore(row, feed.firstElementChild);
-        while (feed.children.length > 4) feed.removeChild(feed.lastElementChild);
-        light(row.dataset.s);
-        age();
-        if (ops) {
-          count += 1 + Math.floor(Math.random() * 4);
-          ops.textContent = count.toLocaleString('en-US');
-        }
-      };
-
-      const start = () => {
-        if (timer) return;
-        while (feed.children.length > 4) feed.removeChild(feed.lastElementChild);
-        Array.from(feed.children).forEach((r, i) => { r.dataset.age = String(i * 5); });
-        age();
-        if (ops) { count = 1284; ops.textContent = count.toLocaleString('en-US'); }
-        if (reduce) { light(feed.firstElementChild.dataset.s); return; }
-        timer = setInterval(() => { if (!document.hidden) arrive(); }, 2600);
-        arrive();
-      };
-
-      if ('IntersectionObserver' in window) {
+      if (!reduce && 'IntersectionObserver' in window) {
         const io = new IntersectionObserver(es => es.forEach(e => {
-          if (e.isIntersecting) { start(); io.disconnect(); }
-        }), { threshold: 0.2 });
+          if (!e.isIntersecting || taken || timer) return;
+          timer = setInterval(() => {
+            if (document.hidden || taken) return;
+            show((at + 1) % chips.length, false);
+          }, 4200);
+          io.disconnect();
+        }), { threshold: 0.3 });
         io.observe(nxv);
-      } else start();
+      }
     }
   }
 
