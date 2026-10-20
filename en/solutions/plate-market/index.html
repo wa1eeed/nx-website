@@ -16,7 +16,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=134">
+<link rel="stylesheet" href="/assets/css/nx.css?v=135">
 <link rel="stylesheet" href="/assets/css/nx-request.css?v=118">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
@@ -662,6 +662,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-adm-deal .pm-amt i,
 .pm .pm-adm-btns .pm-b,
 .pm .pm-adm-tbl{font-size:10px}
+
+/* ── لوحات العرض: الهندسات الخمس كما في المرجع ── */
+.pm-plates{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.pm-plates .pm-pl-wide{grid-column:1 / -1}
+@media(max-width:760px){.pm-plates{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="p-work">
@@ -1270,11 +1275,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p>In a market whose product is the plate, how it is drawn is the product photo. Three types and three editions give five geometries: the long plate is one continuous face with an emblem at its centre, while the standard, sport and motorcycle plates give every letter and digit its own recessed cell, exactly as they are made. All of them are SVG vector SVG, crisp from the thumbnail on a card to full screen.</p>
       </div>
     </div>
-    <div class="pm-grid3" style="gap:20px">
-      <div><div id="p-long" style="background:#EFF0ED;border-radius:12px;padding:22px 14px"></div><p class="pm-cap">Long (the default) — 930×200, a continuous face with no dividers and an emblem at the centre</p></div>
-      <div><div id="p-standard" style="background:#EFF0ED;border-radius:12px;padding:14px"></div><p class="pm-cap">Standard — 460×230, a separate cell for every letter and digit</p></div>
-      <div><div id="p-sport" style="background:#EFF0ED;border-radius:12px;padding:22px 14px"></div><p class="pm-cap">Sport — 760×200, a single Latin row, so the two Arabic fields are hidden from the form</p></div>
-    </div>
+    <div class="pm-plates"><div class="pm-pl-wide"><div id="p-long" style="background:#EFF0ED;border-radius:12px;padding:22px 14px"></div><p class="pm-cap">Long (the default) — 930×200, a continuous face with no dividers and an emblem at the centre</p></div><div class="pm-pl-wide"><div id="p-transport" style="background:#EFF0ED;border-radius:12px;padding:22px 14px"></div><p class="pm-cap">Private transport — 930×200, separate cells and a blue country block with black text</p></div><div class="pm-pl-wide"><div id="p-sport" style="background:#EFF0ED;border-radius:12px;padding:22px 14px"></div><p class="pm-cap">Sport — 760×200, a single Latin row, so the two Arabic fields are hidden from the form</p></div><div class=""><div id="p-standard" style="background:#EFF0ED;border-radius:12px;padding:14px"></div><p class="pm-cap">Standard — 460×230, a separate cell for every letter and digit</p></div><div class=""><div id="p-moto" style="background:#EFF0ED;border-radius:12px;padding:14px"></div><p class="pm-cap">Motorcycle — 430×195, separate cells and no centre emblem</p></div></div>
     
   </div>
 </section>
@@ -1676,7 +1677,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </footer>
 
-<script src="/assets/js/nx.js?v=134" defer></script>
+<script src="/assets/js/nx.js?v=135" defer></script>
 <script src="/assets/js/nx-form.js?v=118" defer></script>
 <script src="/assets/js/nx-request.js?v=118" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
@@ -1880,6 +1881,8 @@ document.getElementById('m-plate').innerHTML=plateSVG(HERO);
 document.getElementById('p-standard').innerHTML=plateSVG({format:'standard',ar:['ا','ب','ح'],lat:['A','B','J'],num:'1'});
 document.getElementById('p-long').innerHTML=plateSVG({format:'long',ar:['ر','س','م'],lat:['R','S','Z'],num:'4040',emblem:'palm-swords'});
 document.getElementById('p-sport').innerHTML=plateSVG({format:'sport',lat:['K','K','K'],num:'999'});
+  document.getElementById('p-transport').innerHTML=plateSVG({format:'long',type:'transport',ar:['ص','ع','ى'],lat:['X','E','V'],num:'7171',emblem:'palm-swords'});
+  document.getElementById('p-moto').innerHTML=plateSVG({type:'motorcycle',ar:['ق','و','ل'],lat:['G','U','L'],num:'22'});
 
 /* ── Selling modes: each with its own colour and button ── */
 const MODE={
