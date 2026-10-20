@@ -17,7 +17,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=133">
+<link rel="stylesheet" href="/assets/css/nx.css?v=134">
 <link rel="stylesheet" href="/assets/css/nx-request.css?v=118">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
@@ -615,6 +615,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm-app-list b{color:#0A1A2F;font-weight:700}
 .pm-app-note{font-size:.84rem;color:#5B6878;line-height:1.8;margin-top:1.3rem}
 @media(prefers-reduced-motion:reduce){.pm-play-btn{transition:none}}
+
+/* ── الأمثلة التوضيحية: تقرأ كلقطة منتج لا كإطار سلكي ──
+   الإطار كان 2px أسود، والشريط العلوي نقطة رمادية واحدة — الاثنان
+   يجعلان اللقطة تبدو رسماً تخطيطياً. وأصغر النصوص كانت 8px. */
+.pm .pm-screen{
+  border:1px solid #D4DCE6;
+  border-radius:16px;
+  box-shadow:0 1px 2px rgba(10,26,47,.05),0 40px 72px -36px rgba(10,26,47,.58);
+}
+.pm .pm-screen .pm-bar{
+  padding:11px 15px;
+  background:linear-gradient(180deg,#1C2836,#131B24);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:12px;
+}
+/* ثلاث نقاط بألوانها كما في المتصفح، بدل نقطة رمادية واحدة */
+.pm .pm-screen .pm-bar .pm-dot{position:relative;width:10px;height:10px;background:#E8766C}
+.pm .pm-screen .pm-bar .pm-dot::before,
+.pm .pm-screen .pm-bar .pm-dot::after{
+  content:"";position:absolute;top:0;width:10px;height:10px;border-radius:50%;
+}
+.pm .pm-screen .pm-bar .pm-dot::before{inset-inline-start:14px;background:#E6B860}
+.pm .pm-screen .pm-bar .pm-dot::after{inset-inline-start:28px;background:#7FC08A}
+.pm .pm-screen .pm-bar code{
+  margin-inline-start:34px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.09);padding:3px 11px;border-radius:7px;
+}
+
+/* أرضية فاتحة جداً خلف جسم اللقطة، كما يبدو تطبيق حقيقي */
+.pm .pm-screen .pm-body{background:#FBFCFD}
+
+/* أصغر النصوص كانت 8px — ترفع إلى حد يُقرأ بلا كسر التخطيط */
+.pm .pm-adm-fil span b,
+.pm .pm-adm-tbl .pm-hold,
+.pm .pm-adm-tbl .pm-num i,
+.pm .pm-adm-side button b,
+.pm .pm-adm-grp,
+.pm .pm-adm-two .pm-s,
+.pm .pm-adm-note,
+.pm .pm-adm-deal .pm-tg,
+.pm .pm-adm-deal .pm-ft p,
+.pm .pm-adm-tbl th{font-size:9.5px}
+.pm .pm-adm-role,
+.pm .pm-adm-two .pm-k,
+.pm .pm-adm-kpis .pm-r,
+.pm .pm-adm-deal .pm-amt i,
+.pm .pm-adm-btns .pm-b,
+.pm .pm-adm-tbl{font-size:10px}
 </style>
 </head>
 <body class="p-work">
@@ -1629,7 +1677,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </footer>
 
-<script src="/assets/js/nx.js?v=133" defer></script>
+<script src="/assets/js/nx.js?v=134" defer></script>
 <script src="/assets/js/nx-form.js?v=118" defer></script>
 <script src="/assets/js/nx-request.js?v=118" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
