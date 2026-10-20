@@ -584,20 +584,11 @@ def page(d, _ver, lang='ar'):
     head = retarget(head, d, ver, lang)
     crumb = (f'<a href="/{lang}/">{L["home"]}</a> / <a href="/{lang}/solutions/">{L["solutions"]}</a> / '
              f'<a href="/{lang}/solutions/commerce/">{D.HUB["crumb"]}</a> / {d["crumb"]}')
-    # A page that runs the live panel gets a light hero. The panel is a product
-    # surface — white, bordered, shadowed — and it reads as one only on a ground
-    # it can sit above; on the navy slab it was just another dark rectangle, and
-    # every word of the copy had to fight the background to stay legible.
-    lit = bool(d.get('hero'))
-    hcls = 'phero cx-anim cx-hero-lit' if lit else 'phero cx-dark cx-anim'
-    mesh = '' if lit else '<div class="cx-mesh"></div>'
-    cstyle = '' if lit else ' style="color:#8FA6C0"'
     return f'''{head}<main id="main" class="cx">
 
-<header class="{hcls}" style="padding-bottom:clamp(48px,6vw,80px)">
-  {mesh}
+<header class="phero cx-anim cx-hero-lit" style="padding-bottom:clamp(48px,6vw,80px)">
   <div class="wrap">
-    <div class="crumb rv in"{cstyle}>{crumb}</div>
+    <div class="crumb rv in">{crumb}</div>
     <div class="cx-hero-grid" style="margin-top:clamp(20px,3vw,34px)">
       <div class="rv in">
         <span class="cx-eyebrow">{d['badge']}</span>
@@ -713,10 +704,9 @@ def hub(_ver, lang='ar'):
           </div>'''
     return f'''{head}<main id="main" class="cx">
 
-<header class="phero cx-dark" style="padding-bottom:clamp(48px,6vw,80px)">
-  <div class="cx-mesh"></div>
+<header class="phero cx-hero-lit" style="padding-bottom:clamp(48px,6vw,80px)">
   <div class="wrap">
-    <div class="crumb rv in" style="color:#8FA6C0"><a href="/{lang}/">{L['home']}</a> / <a href="/{lang}/solutions/">{L['solutions']}</a> / {D.HUB['crumb']}</div>
+    <div class="crumb rv in"><a href="/{lang}/">{L['home']}</a> / <a href="/{lang}/solutions/">{L['solutions']}</a> / {D.HUB['crumb']}</div>
     <div class="rv in" style="margin-top:clamp(20px,3vw,34px);max-width:52rem">
       <span class="cx-eyebrow">{D.HUB['badge']}</span>
       <span class="cx-kicker">{D.HUB['kicker']}</span>

@@ -46,20 +46,16 @@
 .cx-cta { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.8rem; }
 .cx-fineprint { font-size: .76rem; color: #7E93AC; margin-top: 1.1rem; }
 
-/* The site's ghost button is built for light sections: a white surface with
-   dark text. On the dark hero that made a white button with white text — an
-   invisible CTA. Restate it for this ground instead of patching it inline. */
-.cx-dark .btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .32); }
-.cx-dark .btn-ghost:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .55); color: #fff; }
 
 /* ── hero: copy beside a living phone ────────────────────── */
 .cx-hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
 @media (max-width: 900px) { .cx-hero-grid { grid-template-columns: 1fr; } }
 
 .cx-phone {
-  width: min(300px, 100%); margin-inline: auto; background: #fff; border-radius: 26px;
-  padding: 16px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .65); position: relative;
-  color: var(--ink);
+  width: min(300px, 100%); margin-inline: auto; background: var(--surface); border-radius: 24px;
+  padding: 16px; position: relative; color: var(--ink);
+  border: 1px solid #E1E8F0;
+  box-shadow: 0 2px 4px rgba(10, 26, 47, .03), 0 30px 60px -28px rgba(20, 66, 114, .45);
 }
 .cx-phone-top { display: flex; align-items: center; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-bottom: .6rem; }
 .cx-phone-top .cx-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--canvas); display: grid; place-items: center; }
@@ -75,9 +71,9 @@
 
 /* the toast that slides in over the phone — the moment of the sale */
 .cx-toast {
-  position: absolute; inset-inline-start: -22px; top: 46%; background: #fff; color: var(--ink);
-  border-radius: 12px; padding: .55rem .8rem; font-size: .74rem; font-weight: 600;
-  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, .4); display: flex; align-items: center; gap: .45rem;
+  position: absolute; inset-inline-start: -22px; top: 46%; background: var(--surface); color: var(--ink);
+  border: 1px solid #E1E8F0; border-radius: 12px; padding: .55rem .8rem; font-size: .74rem; font-weight: 600;
+  box-shadow: 0 16px 34px -16px rgba(20, 66, 114, .4); display: flex; align-items: center; gap: .45rem;
   transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
 }
 .cx-toast i { width: 20px; height: 20px; border-radius: 50%; background: rgba(44, 116, 179, .12); display: grid; place-items: center; flex-shrink: 0; }
@@ -420,12 +416,6 @@ html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
    back out of the contract. The opt-out has to outrank the contract rule, not
    merely follow it — `:not([class])` carries attribute specificity, so a bare
    `.cx-dark .cx-phone span` lost and the card's own text went pale on white. */
-.cx .cx-dark .cx-phone p,
-.cx .cx-dark .cx-phone span,
-.cx .cx-dark .cx-phone div:not(.cx-phone-btn),
-.cx .cx-dark .cx-toast { color: var(--ink); }
-.cx .cx-dark .cx-phone .cx-rows div span:first-child,
-.cx .cx-dark .cx-phone .cx-amount-label { color: var(--ink-2); }
 
 /* #6B7888 clears 4.5:1 on white and fails on every tinted ground the page
    uses, so the small print that sits on those grounds takes the darker ink. */
