@@ -17,7 +17,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=135">
+<link rel="stylesheet" href="/assets/css/nx.css?v=137">
 <link rel="stylesheet" href="/assets/css/nx-request.css?v=118">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
@@ -1678,7 +1678,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </footer>
 
-<script src="/assets/js/nx.js?v=135" defer></script>
+<script src="/assets/js/nx.js?v=137" defer></script>
 <script src="/assets/js/nx-form.js?v=118" defer></script>
 <script src="/assets/js/nx-request.js?v=118" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
@@ -1834,7 +1834,7 @@ function plateSVG(o){
 
   /* كتلة الدولة: رمز النخلة والسيفين ثم K S A رأسيا تحته */
   const es=stripW*0.70;
-  if(g.blue) face.push(`<rect x="${stripX.toFixed(1)}" y="${iY}" width="${stripW.toFixed(1)}" height="${iH.toFixed(1)}" rx="${(iH*0.08).toFixed(1)}" fill="#0E3A6E"/>`);
+  if(g.blue) face.push(`<rect x="${stripX.toFixed(1)}" y="${iY}" width="${stripW.toFixed(1)}" height="${iH.toFixed(1)}" rx="${(iH*0.08).toFixed(1)}" fill="#2B7CC9"/>`);
   else if(g.cells) face.push(`<rect x="${stripX.toFixed(1)}" y="${(iY+iH*0.04).toFixed(1)}" width="${stripW.toFixed(1)}" height="${(iH*0.92).toFixed(1)}" rx="${(stripW*0.16).toFixed(1)}" fill="#EFEFEB" stroke="#DADAD4" stroke-width="${hair}"/>`);
   const country = emblemArt(stripX+stripW/2, iY+iH*0.25, es, '#141518', 'palm-swords')
     + ['K','S','A'].map((c,i)=>`<text x="${(stripX+stripW/2).toFixed(1)}" y="${(iY+iH*(0.55+i*0.15)).toFixed(1)}" font-family="${FL}" font-size="${(stripW*0.30).toFixed(1)}" font-weight="700" fill="#141518" text-anchor="middle">${c}</text>`).join('');
@@ -1876,11 +1876,11 @@ const HERO={ar:['ل','و','ح'],lat:['L','U','J'],num:'2030',emblem:'vision-2030
   const e=document.getElementById(id); if(e) e.innerHTML=plateSVG({...HERO,emboss:true});
 });
 document.getElementById('m-plate').innerHTML=plateSVG(HERO);
-document.getElementById('p-standard').innerHTML=plateSVG({format:'standard',ar:['ا','ب','ح'],lat:['A','B','J'],num:'1'});
-document.getElementById('p-long').innerHTML=plateSVG({format:'long',ar:['ر','س','م'],lat:['R','S','Z'],num:'4040',emblem:'palm-swords'});
-document.getElementById('p-sport').innerHTML=plateSVG({format:'sport',lat:['K','K','K'],num:'999'});
-  document.getElementById('p-transport').innerHTML=plateSVG({format:'long',type:'transport',ar:['ص','ع','ى'],lat:['X','E','V'],num:'7171',emblem:'palm-swords'});
-  document.getElementById('p-moto').innerHTML=plateSVG({type:'motorcycle',ar:['ق','و','ل'],lat:['G','U','L'],num:'22'});
+document.getElementById('p-standard').innerHTML=plateSVG({format:'standard',ar:['ا','ب','ح'],lat:['A','B','J'],num:'1',emboss:true});
+document.getElementById('p-long').innerHTML=plateSVG({format:'long',ar:['ر','س','م'],lat:['R','S','Z'],num:'4040',emblem:'palm-swords',emboss:true});
+document.getElementById('p-sport').innerHTML=plateSVG({format:'sport',lat:['K','K','K'],num:'999',emboss:true});
+  document.getElementById('p-transport').innerHTML=plateSVG({format:'long',type:'transport',ar:['ص','ع','ى'],lat:['X','E','V'],num:'7171',emblem:'palm-swords',emboss:true});
+  document.getElementById('p-moto').innerHTML=plateSVG({type:'motorcycle',ar:['ق','و','ل'],lat:['G','U','L'],num:'22',emboss:true});
 
 /* ── طرق البيع: لكل لونه وزره ── */
 const MODE={
