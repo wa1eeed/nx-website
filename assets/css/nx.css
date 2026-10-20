@@ -2625,93 +2625,92 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 /* ============================================================
    Hero: the three layers, stacked.
 
-   What stood here was a six-node ring of sector names around a
-   core. It said "we work in six sectors" — which the sectors
-   section immediately below says better — and it said it as a
-   diagram with nothing moving through it.
-
-   The page's own lede names three things: the front your customer
+   The page's lede names three things — the front your customer
    sees, the system you run the day on, and the wiring to the
-   government gateways. So the hero is those three, as a deck that
-   assembles itself and lets you pull any layer out to look at.
+   government gateways — so the hero is those three as a deck you
+   can pull apart.
+
+   Every layer carries real words and real numbers. The first
+   version filled the front two with grey bars standing in for a
+   storefront and a table, which is what a loading skeleton looks
+   like, so the whole thing read as an unfinished wireframe.
    ============================================================ */
-.nxs{position:relative;width:100%;max-width:440px;margin-inline:auto}
-.nxs-deck{position:relative;height:392px;transform-style:preserve-3d;transform:rotateX(10deg)}
+.nxs{position:relative;width:100%;max-width:468px;margin-inline:auto}
+.nxs-deck{position:relative;height:408px;transform-style:preserve-3d;transform:rotateX(8deg)}
 
 .nxs-layer{
   position:absolute;inset-inline:0;top:0;appearance:none;border:0;background:none;padding:0;
   cursor:pointer;text-align:start;transform-style:preserve-3d;
   transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .4s ease,filter .4s ease;
 }
-.nxs-layer[data-l="2"]{transform:translateY(0) translateZ(-48px)}
-.nxs-layer[data-l="1"]{transform:translateY(94px) translateZ(-4px)}
-.nxs-layer[data-l="0"]{transform:translateY(188px) translateZ(40px)}
-/* pulling one layer out: it comes forward, the others fall back and fade,
-   so a visitor can actually read the one they pointed at */
-.nxs-deck.on .nxs-layer{opacity:.3;filter:saturate(.5)}
+.nxs-layer[data-l="2"]{transform:translateY(0) translateZ(-40px)}
+.nxs-layer[data-l="1"]{transform:translateY(104px) translateZ(-2px)}
+.nxs-layer[data-l="0"]{transform:translateY(212px) translateZ(34px)}
+.nxs-deck.on .nxs-layer{opacity:.26;filter:saturate(.45)}
 .nxs-deck.on .nxs-layer.lift{opacity:1;filter:none;z-index:3}
-.nxs-deck.on .nxs-layer[data-l="2"].lift{transform:translateY(40px) translateZ(96px)}
-.nxs-deck.on .nxs-layer[data-l="1"].lift{transform:translateY(94px) translateZ(96px)}
-.nxs-deck.on .nxs-layer[data-l="0"].lift{transform:translateY(148px) translateZ(96px)}
+.nxs-deck.on .nxs-layer[data-l="2"].lift{transform:translateY(50px) translateZ(104px)}
+.nxs-deck.on .nxs-layer[data-l="1"].lift{transform:translateY(112px) translateZ(104px)}
+.nxs-deck.on .nxs-layer[data-l="0"].lift{transform:translateY(174px) translateZ(104px)}
 .nxs-layer:focus-visible{outline:2px solid var(--hi);outline-offset:6px;border-radius:18px}
 
-.nxs-tag{
-  display:flex;align-items:center;gap:.45rem;font-size:.74rem;font-weight:700;color:var(--ink-2);
-  margin-bottom:.45rem;
-}
-.nxs-tag i{
-  font-style:normal;font-family:var(--mono);font-size:.64rem;font-weight:600;color:#fff;
-  background:var(--brand);border-radius:5px;padding:.08rem .3rem;
-}
 .nxs-face{
   display:block;background:var(--surface);border:1px solid #E1E8F0;border-radius:16px;
-  padding:12px 14px;min-height:104px;
-  box-shadow:0 2px 4px rgba(10,26,47,.03),0 26px 50px -26px rgba(20,66,114,.5);
+  padding:0 0 13px;overflow:hidden;
+  box-shadow:0 2px 4px rgba(10,26,47,.04),0 28px 54px -26px rgba(20,66,114,.52);
 }
-.nxs-cap{display:block;font-size:.68rem;color:#5B6878;margin-top:.6rem}
+/* the label lives in the card, as a header, not floating above it */
+.nxs-head{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.55rem .9rem;border-bottom:1px solid var(--line);background:#FAFBFD;margin-bottom:11px;
+}
+.nxs-head i{font-style:normal;font-size:.76rem;font-weight:700;color:var(--ink)}
+.nxs-head em{font-style:normal;font-size:.66rem;color:#5B6878}
 
-/* 01 — the front */
-.nxs-bar{display:flex;gap:4px;margin-bottom:9px}
-.nxs-bar i{height:6px;border-radius:3px;background:#E7EBF0}
-.nxs-bar i:first-child{width:34px;background:var(--brand)}
-.nxs-bar i:nth-child(2){width:22px}
-.nxs-bar i:last-child{width:16px}
-.nxs-hl{display:block;height:9px;width:62%;border-radius:4px;background:linear-gradient(90deg,#CFE0F2,#EAF1F8);margin-bottom:10px}
-.nxs-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.nxs-tiles i{height:32px;border-radius:9px;background:linear-gradient(160deg,#F2F6FA,#E6EDF5)}
+/* 01 — what the customer sees */
+.nxs-items{display:grid;gap:7px;padding-inline:14px}
+.nxs-item{display:flex;align-items:center;gap:.6rem}
+.nxs-item i{
+  width:34px;height:34px;border-radius:9px;flex:none;
+  background:linear-gradient(145deg,#E9F0F7,#D8E5F1);
+}
+.nxs-item b{flex:1;font-size:.76rem;font-weight:600;color:var(--ink)}
+.nxs-item em{
+  font-style:normal;font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:.74rem;font-weight:600;color:var(--ink);
+}
 .nxs-buy{
-  display:inline-block;margin-top:10px;font-size:.68rem;font-weight:700;color:#fff;
-  background:var(--brand);border-radius:8px;padding:.3rem .7rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  margin:11px 14px 0;font-size:.73rem;font-weight:700;color:#fff;
+  background:var(--brand);border-radius:10px;padding:.46rem .8rem;
+}
+.nxs-buy u{
+  text-decoration:none;font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-weight:600;opacity:.92;
 }
 
-/* 02 — the system */
-.nxs-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+/* 02 — the system you run the day on */
+.nxs-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding-inline:14px}
 .nxs-kpis em{
   font-style:normal;display:flex;flex-direction:column;gap:.1rem;font-size:.62rem;color:#5B6878;
-  border:1px solid var(--line);border-radius:9px;padding:.4rem .5rem;
+  border:1px solid var(--line);border-radius:9px;padding:.38rem .5rem;
 }
 .nxs-kpis b{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.95rem;color:var(--ink)}
-.nxs-rows{display:grid;gap:5px;margin-top:9px}
-.nxs-rows i{height:8px;border-radius:4px;background:#EDF1F6}
-.nxs-rows i:nth-child(1){width:100%}
-.nxs-rows i:nth-child(2){width:78%}
-.nxs-rows i:nth-child(3){width:88%}
 
 /* 03 — the gateways, each one checked in turn */
-.nxs-gws{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.nxs-gws{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-inline:14px}
 .nxs-gw{
-  display:flex;align-items:center;justify-content:space-between;gap:.4rem;
-  font-size:.72rem;font-weight:600;color:var(--ink);
-  border:1px solid var(--line);border-radius:9px;padding:.4rem .55rem;
+  display:flex;align-items:center;justify-content:center;gap:.3rem;
+  font-size:.7rem;font-weight:600;color:var(--ink);
+  border:1px solid var(--line);border-radius:9px;padding:.42rem .3rem;
   transition:border-color .35s ease,background .35s ease;
 }
 .nxs-gw u{
-  width:14px;height:14px;border-radius:50%;flex:none;background:#EDF1F6;position:relative;
+  width:13px;height:13px;border-radius:50%;flex:none;background:#EDF1F6;position:relative;
   transition:background .35s ease;
 }
 .nxs-gw u::after{
   content:"";position:absolute;inset:0;margin:auto;width:6px;height:3px;
-  border-inline-start:1.6px solid #fff;border-bottom:1.6px solid #fff;
+  border-inline-start:1.7px solid #fff;border-bottom:1.7px solid #fff;
   transform:rotate(-45deg) scale(0);transform-origin:center;
   transition:transform .3s cubic-bezier(.22,1,.36,1);
 }
@@ -2719,16 +2718,15 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 .nxs-gw.ok u{background:#2E9E63}
 .nxs-gw.ok u::after{transform:rotate(-45deg) scale(1)}
 
-.nxs-note{font-size:.72rem;color:#5B6878;text-align:center;margin:.4rem 0 0}
+.nxs-note{font-size:.72rem;color:#5B6878;text-align:center;margin:.5rem 0 0}
 .nxs-live{
-  display:flex;align-items:center;justify-content:center;gap:.45rem;margin-top:.8rem;
+  display:flex;align-items:center;justify-content:center;gap:.45rem;margin-top:.7rem;
   font-size:.74rem;color:var(--ink-2);
 }
 .nxs-live .dot{width:7px;height:7px;border-radius:50%;background:#2E9E63;animation:nxsPulse 1.8s ease-in-out infinite}
 .nxs-live b{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
 @keyframes nxsPulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* arriving: the deck builds itself, back layer first */
 /* hidden until the deck is told to build; `built` releases it afterwards so
    the finished animation stops holding opacity and the dim can take over */
 html.js .nxs:not(.in):not(.built) .nxs-layer{opacity:0}
@@ -2738,10 +2736,8 @@ html.js .nxs:not(.in):not(.built) .nxs-layer{opacity:0}
 .nxs.in .nxs-layer[data-l="0"]{animation-delay:.39s}
 @keyframes nxsIn{from{transform:translateY(150px) translateZ(-120px)}}
 
-/* On a phone the 3D deck becomes three plain cards: a tilted stack at 375px
-   is unreadable, and a layer that lifts has nowhere to lift to. */
 @media(max-width:860px){
-  .nxs{max-width:380px}
+  .nxs{max-width:400px}
   .nxs-deck{height:auto;transform:none;display:grid;gap:12px}
   .nxs-layer{position:static;transform:none!important;opacity:1!important;filter:none!important}
   .nxs-deck.on .nxs-layer{opacity:1}
@@ -2751,4 +2747,5 @@ html.js .nxs:not(.in):not(.built) .nxs-layer{opacity:0}
   .nxs-layer,.nxs-gw,.nxs-gw u::after{transition:none!important;animation:none!important}
   html.js .nxs:not(.in):not(.built) .nxs-layer{opacity:1}
   .nxs-live .dot{animation:none}
+}
 }
