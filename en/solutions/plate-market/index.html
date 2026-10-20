@@ -16,7 +16,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=137">
+<link rel="stylesheet" href="/assets/css/nx.css?v=139">
 <link rel="stylesheet" href="/assets/css/nx-request.css?v=118">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
@@ -250,11 +250,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-browser .pm-chrome i{width:10px;height:10px;border-radius:50%;background:#3A4A60;display:block}
 .pm .pm-browser .pm-url{margin-inline-start:12px;flex:1;background:#1B3050;color:#AEBCCC;font-size:12px;padding:5px 12px;border-radius:7px;direction:ltr;text-align:left}
 .pm .pm-browser .pm-view{padding:22px;background:#F8FAFC;min-height:380px}
-.pm .pm-phones{display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
-.pm .pm-phone{width:288px;border:10px solid var(--ink);border-radius:36px;background:#fff;overflow:hidden;box-shadow:0 40px 60px -46px rgba(10,26,47,.9)}
-.pm .pm-phone .pm-notch{height:26px;background:var(--ink);border-radius:0 0 14px 14px;width:120px;margin:0 auto}
-.pm .pm-phone .pm-pv{padding:12px}
-.pm .pm-phone .pm-hdr{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--ink-50);padding-bottom:10px;border-bottom:1px solid var(--line-soft);margin-bottom:12px}
+
+
+
+
+
 .pm .pm-mrow{border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;gap:10px;margin-bottom:10px;background:#FBFCFD}
 .pm .pm-mrow .pm-pl{flex:0 0 62%}
 .pm .pm-mrow .pm-pl svg{width:100%;height:auto;display:block}
@@ -595,25 +595,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 /* Hero: a dark question, then the call line in the brand colour */
 .pm .pm-hero h1 .pm-h1-b{display:block;margin-top:.3em;color:#2C74B3;font-size:.76em;letter-spacing:-.8px}
 
-/* ── التطبيق: الفيديو نفسه يعرض الجوال، فلا إطار فوق إطار ── */
-.pm-app{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:clamp(26px,4vw,52px);align-items:center;margin-top:34px}
-@media(max-width:820px){.pm-app{grid-template-columns:1fr;justify-items:center}}
-.pm-phone{margin:0;width:100%;max-width:300px}
-.pm-phone-body{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#EDEFE9;box-shadow:0 2px 4px rgba(10,26,47,.04),0 30px 60px -28px rgba(10,26,47,.45)}
-.pm-phone-play{display:block;width:100%;height:100%;position:relative;overflow:hidden;border:0;padding:0;cursor:pointer;background:#EDEFE9}
-.pm-phone-play img,.pm-phone-body video{width:100%;height:100%;object-fit:cover;display:block}
-.pm-play-btn{position:absolute;inset:0;margin:auto;width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.45);transition:transform .25s cubic-bezier(.22,1,.36,1)}
-.pm-phone-play:hover .pm-play-btn{transform:scale(1.07)}
-.pm-play-btn svg{width:26px;height:26px;fill:#0A1A2F;margin-inline-start:3px}
-.pm-play-cap{position:absolute;inset-inline:12px;bottom:12px;display:flex;align-items:center;justify-content:center;gap:.45rem;font-size:.74rem;font-weight:700;color:#fff;background:rgba(10,15,20,.62);border-radius:999px;padding:.4rem .8rem;backdrop-filter:blur(6px)}
-.pm-play-cap em{font-style:normal;font-weight:600;opacity:.75}
-.pm-phone-play:focus-visible{outline:3px solid #5BA3DF;outline-offset:3px}
-.pm-app-list{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
-.pm-app-list li{display:flex;align-items:flex-start;gap:.65rem;font-size:.95rem;line-height:1.8;color:#3A4A60}
-.pm-app-list svg{width:17px;height:17px;flex:none;margin-top:.42rem;fill:none;stroke:#2E9E63;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.pm-app-list b{color:#0A1A2F;font-weight:700}
-.pm-app-note{font-size:.84rem;color:#5B6878;line-height:1.8;margin-top:1.3rem}
-@media(prefers-reduced-motion:reduce){.pm-play-btn{transition:none}}
 
 /* ── الأمثلة التوضيحية: تقرأ كلقطة منتج لا كإطار سلكي ──
    الإطار كان 2px أسود، والشريط العلوي نقطة رمادية واحدة — الاثنان
@@ -1281,39 +1262,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </section>
 
 
-    <!-- ══ التطبيق ══ -->
-    <section id="app">
-      <div class="pm-wrap">
-        <div class="pm-sec-head">
-          <div class="pm-band"></div>
-          <div>
-            <h2>The app, on iPhone and Android</h2>
-            <p>The same market in your customer’s pocket. The bid reaches their phone the moment it lands, not after they open a browser and find out they lost.</p>
-          </div>
-        </div>
-        <div class="pm-app">
-          <figure class="pm-phone">
-            <div class="pm-phone-body">
-              <button type="button" class="pm-phone-play" data-src="/assets/video/plate-app-9x16.mp4"
-                      aria-label="Play the film">
-                <img src="/assets/images/video/plate-app-poster.jpg" alt="A screen from the plate auctions mobile app"
-                     width="540" height="960" loading="lazy" decoding="async">
-                <span class="pm-play-btn" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </span>
-                <span class="pm-play-cap">Play the film<em>1:37</em></span>
-              </button>
-            </div>
-          </figure>
-          <div class="pm-app-tx">
-            <ul class="pm-app-list">
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>A push on every bid. </b>Outbid, a new offer, an auction about to close — it reaches them wherever they are.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Bidding in two taps. </b>Countdown, balance and deposit on one screen, with no jumping between pages.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Their wallet travels with them. </b>Balance, held funds and the statement, checked without calling you.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Both platforms, one account. </b>iPhone and Android, signed in with the same account as the website.</span></li>
-            </ul>
-            <p class="pm-app-note">The film is an example of the app build. The finished design carries your name and your colours, like the rest of the platform.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    
 <!-- ══ 13 · REALTIME ══ -->
 <section id="live">
   <div class="pm-wrap">
@@ -1398,33 +1347,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </section>
 
-<!-- ══ 17 · FAQ ══ -->
-<section id="faq">
-  <div class="pm-wrap">
-    <div class="pm-sec-head">
-      <div class="pm-band"></div>
-      <div><h2>Questions everyone considering a launch asks</h2></div>
-    </div>
-    <div class="pm-faq" style="max-width:920px">
-      <details open><summary>Do I need a technical team to run it?</summary>
-        <p>No. Everything you change after launch — commission, deposits, windows, pages, logo, FAQ — is set from the console. Hosting and updates are on us.</p></details>
-      <details><summary>Does the money pass through my own account?</summary>
-        <p>Yes. You connect the gateway to your merchant account, and collecting from buyers and paying sellers both happen under your name. The platform records, reconciles and invoices; it never holds your money.</p></details>
-      <details><summary>What if the buyer defaults after winning the plate?</summary>
-        <p>Because they bid against a deposit already held, you have two options in one tap: forfeit the share you set, and re-award to the next bidder with a full payment window. The seller loses neither their plate nor their time.</p></details>
-      <details><summary>And if a dispute breaks out between a seller and a buyer?</summary>
-        <p>The money stays held with you until you verify the transfer of ownership. Either side can raise a query, which freezes the release until you rule — release to the seller or refund to the buyer — and both are written to the log under the name of whoever decided.</p></details>
-      <details><summary>Is my customer data mine?</summary>
-        <p>Yes, and the database can sit on your own server if you want. Their accounts, wallets and records are yours alone, and exportable whenever you like.</p></details>
-      <details><summary>Does it work on mobile?</summary>
-        <p>It was designed mobile-first, because most bidding happens there. A fixed bid bar within thumb reach, wide row cards that show three plates on screen rather than one, and admin tables that turn into cards you read with no horizontal scrolling.</p></details>
-      <details><summary>Can I start without a payment gateway?</summary>
-        <p>Yes. Enable bank transfer alone with your accounts and IBAN: the buyer transfers, attaches their reference, and you confirm it after reconciling. Cards can be added later with no downtime.</p></details>
-      <details><summary>Does it suit anything other than plates?</summary>
-        <p>The architecture suits any unique item sold one at a time: premium mobile numbers, watches, collectibles. What changes is how the item is drawn and which fields it carries.</p></details>
-    </div>
-  </div>
-</section>
+
 
 <!-- ══ 18 · SYSTEM SHOTS ══ -->
 <section id="gallery">
@@ -1555,61 +1478,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
     </div>
 
-    <h3 style="font-size:21px;margin:52px 0 8px">And on mobile</h3>
-    <p style="color:var(--ink-70);max-width:70ch;margin-bottom:28px">Most bidding happens on a phone, and in the final seconds a bidder cannot afford to scroll looking for the button.</p>
-    <div class="pm-phones">
-      <div>
-        <div class="pm-phone">
-          <div class="pm-notch"></div>
-          <div class="pm-pv">
-            <div class="pm-hdr"><span>Market</span><span>47 plates</span></div>
-            <div style="display:flex;gap:6px;margin-bottom:10px"><span class="pm-pill pm-gold" style="font-size:11px">Auction</span><span class="pm-pill" style="font-size:11px">All</span><span class="pm-pill" style="font-size:11px">2 filters</span></div>
-            <div id="m-rows"></div>
-          </div>
-        </div>
-        <p class="pm-cap" style="text-align:center">Market — a wide row showing three plates above the fold</p>
-      </div>
-      <div>
-        <div class="pm-phone">
-          <div class="pm-notch"></div>
-          <div class="pm-pv">
-            <div class="pm-hdr"><span class="pm-pill pm-gold pm-live" style="font-size:10px"><i></i> Live auction</span><span>9 watching</span></div>
-            <div style="background:#F1F2EF;border-radius:10px;padding:10px" id="m-plate"></div>
-            <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:flex-end">
-              <div><div style="font-size:11px;color:var(--ink-50)">Current bid</div><div class="pm-money" style="font-size:22px">148,000</div></div>
-              <span class="pm-pill pm-green" style="font-size:10px">Reserve met</span>
-            </div>
-            <div class="pm-cd pm-sm" style="margin-top:10px" data-cd="2:07:41:18">
-              <span><b>02</b><span>ي</span></span><span><b>07</b><span>س</span></span><span><b>41</b><span>د</span></span><span><b>18</b><span>ث</span></span>
-            </div>
-            <p style="font-size:11.5px;color:var(--ink-50);margin-top:10px">Your deposit 7,400 · commission 3,700 · available balance 41,600</p>
-            <div class="pm-bidbar"><div class="pm-amt"><span class="pm-money" style="font-size:15px">150,000</span></div><span class="pm-go">Bid</span></div>
-          </div>
-        </div>
-        <p class="pm-cap" style="text-align:center">Plate page — the bid bar is fixed within thumb reach</p>
-      </div>
-      <div>
-        <div class="pm-phone">
-          <div class="pm-notch"></div>
-          <div class="pm-pv">
-            <div class="pm-hdr"><span>My account</span><span style="direction:ltr">U26-00003</span></div>
-            <div style="border:1px solid var(--line);border-radius:12px;padding:12px;background:#FBFCFD">
-              <div style="font-size:11.5px;color:var(--ink-50)">Available in your wallet</div>
-              <div class="pm-money" style="font-size:26px">41,600</div>
-              <div style="font-size:11px;color:var(--ink-30)">of 49,000 — 7,400 held</div>
-              <div class="pm-split" style="height:9px"><i style="width:85%;background:var(--green)"></i><i style="width:15%;background:var(--gold-fill)"></i></div>
-            </div>
-            <h4 style="font-size:12.5px;margin:14px 0 8px">Needs your action</h4>
-            <div style="border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:11.5px">
-              <div style="padding:9px 10px;border-bottom:1px solid var(--line-soft)"><span class="pm-pill pm-red" style="font-size:10px">You were outbid</span><div style="margin-top:5px">L U J 2030 — by 6,000</div></div>
-              <div style="padding:9px 10px;border-bottom:1px solid var(--line-soft)"><span class="pm-pill pm-gold" style="font-size:10px">Awaiting your payment</span><div style="margin-top:5px">N U R 77 — 38,950 due</div></div>
-              <div style="padding:9px 10px"><span class="pm-pill pm-sky" style="font-size:10px">Offer received</span><div style="margin-top:5px">R S M 4040 — 62,000 awaiting your reply</div></div>
-            </div>
-          </div>
-        </div>
-        <p class="pm-cap" style="text-align:center">My account — what needs action first, then the numbers</p>
-      </div>
-    </div>
+    
   </div>
 </section>
 
@@ -1630,6 +1499,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </footer>
   </div>
 </section>
+<!-- ══ 17 · FAQ ══ -->
+<section id="faq">
+  <div class="pm-wrap">
+    <div class="pm-sec-head">
+      <div class="pm-band"></div>
+      <div><h2>Questions everyone considering a launch asks</h2></div>
+    </div>
+    <div class="pm-faq" style="max-width:920px">
+      <details open><summary>Do I need a technical team to run it?</summary>
+        <p>No. Everything you change after launch — commission, deposits, windows, pages, logo, FAQ — is set from the console. Hosting and updates are on us.</p></details>
+      <details><summary>Does the money pass through my own account?</summary>
+        <p>Yes. You connect the gateway to your merchant account, and collecting from buyers and paying sellers both happen under your name. The platform records, reconciles and invoices; it never holds your money.</p></details>
+      <details><summary>What if the buyer defaults after winning the plate?</summary>
+        <p>Because they bid against a deposit already held, you have two options in one tap: forfeit the share you set, and re-award to the next bidder with a full payment window. The seller loses neither their plate nor their time.</p></details>
+      <details><summary>And if a dispute breaks out between a seller and a buyer?</summary>
+        <p>The money stays held with you until you verify the transfer of ownership. Either side can raise a query, which freezes the release until you rule — release to the seller or refund to the buyer — and both are written to the log under the name of whoever decided.</p></details>
+      <details><summary>Is my customer data mine?</summary>
+        <p>Yes, and the database can sit on your own server if you want. Their accounts, wallets and records are yours alone, and exportable whenever you like.</p></details>
+      <details><summary>Does it work on mobile?</summary>
+        <p>It was designed mobile-first, because most bidding happens there. A fixed bid bar within thumb reach, wide row cards that show three plates on screen rather than one, and admin tables that turn into cards you read with no horizontal scrolling.</p></details>
+      <details><summary>Can I start without a payment gateway?</summary>
+        <p>Yes. Enable bank transfer alone with your accounts and IBAN: the buyer transfers, attaches their reference, and you confirm it after reconciling. Cards can be added later with no downtime.</p></details>
+      <details><summary>Does it suit anything other than plates?</summary>
+        <p>The architecture suits any unique item sold one at a time: premium mobile numbers, watches, collectibles. What changes is how the item is drawn and which fields it carries.</p></details>
+    </div>
+  </div>
+</section>
+
 
 <!-- Request form — the shared component (assets/js/nx-request.js) builds it from these attributes -->
 <div data-nx-request
@@ -1677,7 +1574,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </footer>
 
-<script src="/assets/js/nx.js?v=137" defer></script>
+<script src="/assets/js/nx.js?v=139" defer></script>
 <script src="/assets/js/nx-form.js?v=118" defer></script>
 <script src="/assets/js/nx-request.js?v=118" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
@@ -1822,9 +1719,16 @@ function plateSVG(o){
     const size=T/m.H, base=y+rowH/2-T/2+m.A*size;
     chars.forEach((ch,i)=>{
       const cx=x+unit*(i+0.5);
-      if(g.cells) face.push(`<rect x="${(cx-cw/2).toFixed(1)}" y="${(y+chY).toFixed(1)}" width="${cw.toFixed(1)}" height="${chH.toFixed(1)}" rx="${(chH*0.12).toFixed(1)}" fill="#EFEFEB" stroke="#DADAD4" stroke-width="${hair}"/>`);
       ink.push(`<text x="${cx.toFixed(1)}" y="${base.toFixed(1)}" font-family="${fam}" font-size="${size.toFixed(1)}" font-weight="700" fill="#141518" text-anchor="middle">${ch}</text>`);
     });
+  }
+  /* خانة واحدة لكل مجموعة — الأرقام في خانة والحروف في أخرى، تمتدان الصفين
+     كما في اللوحة المصنوعة. وكانت خانة لكل محرف، فتُقرأ مربعات متناثرة. */
+  if(g.cells){
+    const cT=iY+padY*0.5, cH=iH-padY, rx=Math.min(cH*0.13, iH*0.11), gp=unit*0.06;
+    const grp=(gx,n)=>{ if(!n) return;
+      face.push(`<rect x="${(gx+gp).toFixed(1)}" y="${cT.toFixed(1)}" width="${(unit*n-2*gp).toFixed(1)}" height="${cH.toFixed(1)}" rx="${rx.toFixed(1)}" fill="#F3F3EF" stroke="#D9D9D3" stroke-width="${hair}"/>`); };
+    grp(nX,nD); grp(lX,nL);
   }
   if(g.rows===1){ put(dg,nX,rT,FL,M[0]); put(lat,lX,rT,FL,M[1]); }
   else{
@@ -1836,10 +1740,13 @@ function plateSVG(o){
 
   /* National block: the palm-and-swords emblem, then K S A below it vertically */
   const es=stripW*0.70;
-  if(g.blue) face.push(`<rect x="${stripX.toFixed(1)}" y="${iY}" width="${stripW.toFixed(1)}" height="${iH.toFixed(1)}" rx="${(iH*0.08).toFixed(1)}" fill="#2B7CC9"/>`);
+  if(g.blue) face.push(`<rect x="${stripX.toFixed(1)}" y="${iY}" width="${stripW.toFixed(1)}" height="${iH.toFixed(1)}" rx="${(iH*0.08).toFixed(1)}" fill="#2E6FC4"/>`);
   else if(g.cells) face.push(`<rect x="${stripX.toFixed(1)}" y="${(iY+iH*0.04).toFixed(1)}" width="${stripW.toFixed(1)}" height="${(iH*0.92).toFixed(1)}" rx="${(stripW*0.16).toFixed(1)}" fill="#EFEFEB" stroke="#DADAD4" stroke-width="${hair}"/>`);
-  const country = emblemArt(stripX+stripW/2, iY+iH*0.25, es, '#141518', 'palm-swords')
-    + ['K','S','A'].map((c,i)=>`<text x="${(stripX+stripW/2).toFixed(1)}" y="${(iY+iH*(0.55+i*0.15)).toFixed(1)}" font-family="${FL}" font-size="${(stripW*0.30).toFixed(1)}" font-weight="700" fill="#141518" text-anchor="middle">${c}</text>`).join('');
+  /* كتلة النقل الخاص بيضاء على أزرق — كما في المنصة نفسها — وتحتها معلمها */
+  const cInk = g.blue ? '#FFFFFF' : '#141518';
+  const country = emblemArt(stripX+stripW/2, iY+iH*0.25, es, cInk, 'palm-swords')
+    + ['K','S','A'].map((c,i)=>`<text x="${(stripX+stripW/2).toFixed(1)}" y="${(iY+iH*(0.55+i*0.15)).toFixed(1)}" font-family="${FL}" font-size="${(stripW*0.30).toFixed(1)}" font-weight="700" fill="${cInk}" text-anchor="middle">${c}</text>`).join('')
+    + (g.blue ? `<path d="M${(stripX+stripW/2-stripW*0.17).toFixed(1)} ${(iY+iH*0.86).toFixed(1)} L${(stripX+stripW/2+stripW*0.17).toFixed(1)} ${(iY+iH*0.86).toFixed(1)} L${(stripX+stripW/2).toFixed(1)} ${(iY+iH*0.95).toFixed(1)} Z" fill="#FFFFFF"/>` : '');
 
   /* The whole plate: a thin border and a white face — in all five geometries without exception */
   const plateBase=`<rect x="0" y="0" width="${W}" height="${H}" rx="${(H*0.10).toFixed(1)}" fill="#141518"/>`;
@@ -1877,7 +1784,6 @@ const HERO={ar:['ل','و','ح'],lat:['L','U','J'],num:'2030',emblem:'vision-2030
 ['hero-plate','listing-plate','new-plate'].forEach(id=>{
   const e=document.getElementById(id); if(e) e.innerHTML=plateSVG({...HERO,emboss:true});
 });
-document.getElementById('m-plate').innerHTML=plateSVG(HERO);
 document.getElementById('p-standard').innerHTML=plateSVG({format:'standard',ar:['ا','ب','ح'],lat:['A','B','J'],num:'1',emboss:true});
 document.getElementById('p-long').innerHTML=plateSVG({format:'long',ar:['ر','س','م'],lat:['R','S','Z'],num:'4040',emblem:'palm-swords',emboss:true});
 document.getElementById('p-sport').innerHTML=plateSVG({format:'sport',lat:['K','K','K'],num:'999',emboss:true});
@@ -1949,17 +1855,6 @@ const visitorCards=[
 ];
 document.getElementById('market-cards').innerHTML=visitorCards.map(listingHTML).join('');
 document.getElementById('market-cards-2').innerHTML=cards.map(cardHTML).join('');
-
-document.getElementById('m-rows').innerHTML=cards.slice(0,3).map(c=>{
-  const M=MODE[c.m];
-  return `<div class="pm-mrow"><div class="pm-pl">${plateSVG(c)}
-    <div class="pm-tg"><span><i style="background:${M.color}"></i>${M.label}</span><span><i style="background:#9AA6B6"></i>Private</span></div></div>
-   <div class="pm-rt">
-    <div>${c.cd?`<div class="pm-cd pm-sm" data-cd="${c.cd}"><span><b>00</b><span>ي</span></span><span><b>00</b><span>س</span></span><span><b>00</b><span>د</span></span><span><b>00</b><span>ث</span></span></div>`:`<div style="font-size:10.5px;color:var(--ink-50)">${c.m==='direct'?'Available to buy now':(c.till||'')}</div>`}</div>
-    <div><div style="font-size:10px;color:var(--ink-50)">${c.note}</div><div class="pm-money" style="font-size:15px">${c.price}</div>
-     <div class="pm-go ${M.cls}">${M.cta}</div></div>
-   </div></div>`;
-}).join('');
 
 /* ── Showcase rail ── */
 /* The three mode cards in the strip: the same design as a listing card */
@@ -2346,20 +2241,6 @@ function tick(){
 }
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(tick,1000);
 tick();
-
-
-  /* the app film: the poster is the button, and nothing downloads until it is
-     pressed — seven megabytes is too much to spend on a maybe */
-  document.querySelectorAll('.pm-phone-play').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var v = document.createElement('video');
-      v.src = btn.getAttribute('data-src');
-      v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
-      v.setAttribute('aria-label', btn.getAttribute('aria-label') || '');
-      btn.replaceWith(v);
-      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); });
-    });
-  });
 </script>
 </body>
 </html>
