@@ -1541,7 +1541,12 @@ const PROBE=HAS_DOM?(function(){
   const NS='http://www.w3.org/2000/svg';
   const sv=document.createElementNS(NS,'svg');
   sv.setAttribute('aria-hidden','true');
-  sv.setAttribute('style','position:absolute;left:-9999px;top:0;width:10px;height:10px;overflow:hidden;pointer-events:none');
+  /* a zero box at the origin, not parked off to the side: at left:-9999px it
+     stretches documentElement.scrollWidth to 10374 on a 375px screen. The body
+     clips so nothing scrolls, but every measurement of the page then reads that
+     number instead of the truth. Text still lays out inside a zero box, which is
+     all getComputedTextLength needs. */
+  sv.setAttribute('style','position:absolute;top:0;inset-inline-start:0;width:0;height:0;overflow:hidden;pointer-events:none');
   const t=document.createElementNS(NS,'text');
   t.setAttribute('font-size','100'); t.setAttribute('font-weight','700');
   t.setAttribute('x','0'); t.setAttribute('y','0');
