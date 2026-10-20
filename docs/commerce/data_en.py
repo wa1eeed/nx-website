@@ -53,70 +53,123 @@ ATITLE = 'Who is this for?'
 SAR = 'SAR'
 
 
-MARKETPLACE = dict(
-    slug='marketplace',
-    crumb='Multi-vendor marketplace',
-    title='Multi-Vendor Marketplace Platform | NX Solutions',
-    desc='Launch your multi-vendor marketplace under your own brand: seller onboarding, split payments at checkout, platform commission, balances and payouts.',
-    badge='Marketplace-as-a-Service',
-    kicker='NX Marketplace Engine',
-    h1=['Your multi-vendor marketplace,', 'ready to launch'],
-    lede='Rather than building a marketplace from scratch for every idea, start from an engine '
-         'that already runs under your brand: seller onboarding, payment, money splitting, '
-         'commission, seller balances and payouts. You focus on the market; we handle the '
-         'infrastructure.',
-    cta1='Book a demo', cta2='Watch the story', fineprint=FINE,
-
-    phone=dict(
-        title='Seller dashboard', toast='New 1,000 SAR order distributed',
-        amountRaw=8450, cur=SAR, amountLabel='Seller balance',
-        rows=[('Total sales', '12,300 SAR'), ('Platform commission', '1,230 SAR'),
-              ('Payable', '620 SAR'), ('In settlement', '2,000 SAR')],
-        btn='Withdraw earnings',
-    ),
-
-    story=dict(
-        eyebrow=EYE,
-        title='Story: Sarah launches a car-parts marketplace',
-        sub='Sarah runs a network of car-parts shops and wants to bring them together into one '
-            'online marketplace under her own name.',
-        stops=[
-            dict(when='Day 1', icon='shop', tag='Marketplace launched', big='Sarah’s brand',
-                 cap='Sarah launches her marketplace from a ready template with her own identity.'),
-            dict(when='Day 3', icon='id', tag='Seller in verification', big='KYB',
-                 cap='A parts shop signs up, uploads its commercial registration and follows the verification status inside the platform.'),
-            dict(when='Day 4', icon='check', tag='Sub-account live', big='Sub-merchant',
-                 cap='Sarah’s team approves the seller, who becomes an independent sub-account and starts selling.'),
-            dict(when='Day 10', icon='card', tag='New order', big='1,000 SAR',
-                 cap='A customer buys a set of parts and pays once.'),
-            dict(when='At payment', icon='split', tag='Automatic split', big='900 / 70 / 30',
-                 cap='900 to the seller, 70 platform commission, 30 to the partner — with no manual transfer.'),
-        ],
-    ),
-
-    money=dict(
-        eyebrow=MEYE, title='Every riyal knows where it is going, the moment it is paid',
-        sub='The percentages are illustrative and are configured to your business model.',
-        totalLabel='Marketplace order', total=1000, cur=SAR,
-        shares=[dict(who='seller', label='Seller', value=900, pct=90, cur=SAR),
-                dict(who='platform', label='Platform commission', value=70, pct=7, cur=SAR),
-                dict(who='third', label='Partner', value=30, pct=3, cur=SAR)],
-    ),
-
-    caps=dict(eyebrow=CEYE, title=CTITLE,
-              ids=['kyc', 'sub', 'split', 'comm', 'ledger', 'payout', 'refund', 'fees']),
-
-    audience=dict(title=ATITLE,
-                  chips=['Car parts', 'Local producers and home businesses', 'Electronics',
-                         'B2B restaurant supplies', 'Fashion', 'Homeware']),
-
-    earn=dict(title='How your marketplace earns',
-              items=['Commission on every order', 'Subscription plans for sellers',
-                     'Flexible fees by category or plan']),
-
-    close=dict(h2='Your marketplace idea is ready. So is the engine.',
-               p='Book a demo and we will map out the money-distribution model for your platform with you.'),
-)
+MARKETPLACE = {'slug': 'marketplace',
+ 'crumb': 'Custom branded marketplace',
+ 'title': 'Custom Marketplace Workflows and Integrations | NX Marketplace Engine',
+ 'desc': 'A multi-vendor marketplace solution for specific business requirements. NX tailors interfaces, '
+         'workflows and permissions, with integrations assessed within your project scope.',
+ 'badge': 'A solution tailored to your operations',
+ 'kicker': 'NX Marketplace Engine',
+ 'h1': ['A multi-vendor marketplace,', 'tailored to how you operate.'],
+ 'lede': 'When your marketplace needs a distinct selling experience, specific permissions or connections to '
+         'existing systems, NX delivers a tailored solution under your brand. Your requirements shape the '
+         'interfaces, workflows and operating rules we configure and test.',
+ 'cta1': 'Discuss your project',
+ 'cta2': 'See our delivery approach',
+ 'fineprint': 'Customisation, integrations and launch timing are agreed after reviewing your requirements.',
+ 'phone': {'title': 'Illustrative project scope',
+           'toast': 'Your requirements',
+           'amount': 'Your marketplace',
+           'cur': '',
+           'amountLabel': 'Tailored solution',
+           'rows': [('Interfaces', 'Your brand'),
+                    ('Workflows', 'Your operations'),
+                    ('Permissions', 'By role'),
+                    ('Integrations', 'Agreed scope')],
+           'btn': 'Your project scope'},
+ 'story': {'eyebrow': 'Project journey',
+           'title': 'From specific requirements to a connected solution',
+           'sub': 'Illustrative example: an automotive parts company needs specific seller approval rules '
+                  'and team permissions, and wants to connect its existing systems. We use those operational '
+                  'and integration requirements to define the project scope.',
+           'stops': [{'when': 'Discovery',
+                      'icon': 'users',
+                      'tag': 'Understand the business',
+                      'big': 'Clear objectives',
+                      'cap': 'We discuss your customers, sellers and the way your company needs to sell.'},
+                     {'when': 'Scope',
+                      'icon': 'link',
+                      'tag': 'Requirements and integrations',
+                      'big': 'An agreed scope',
+                      'cap': 'We define interfaces, roles and operating rules, then assess connections to '
+                             'systems and providers.'},
+                     {'when': 'Configuration',
+                      'icon': 'shop',
+                      'tag': 'Tailor the experience',
+                      'big': 'Under your brand',
+                      'cap': 'We prepare customer, seller and administration workflows around the agreed '
+                             'requirements.'},
+                     {'when': 'Testing',
+                      'icon': 'check',
+                      'tag': 'Review the sales journey',
+                      'big': 'Before launch',
+                      'cap': 'We test the included workflows, permissions and integrations with your team.'},
+                     {'when': 'Launch',
+                      'icon': 'bolt',
+                      'tag': 'Begin operating',
+                      'big': 'Your marketplace',
+                      'cap': 'We launch after readiness checks and approval of the launch requirements.'}]},
+ 'money': {'eyebrow': 'Commission rule example',
+           'title': 'Define the split around your business model',
+           'sub': 'An arithmetic illustration, not service pricing or payment processing fees. Commission '
+                  'and settlement rules are agreed in scope; execution depends on the provider and available '
+                  'integration.',
+           'totalLabel': 'Marketplace order',
+           'total': 1000,
+           'cur': 'SAR',
+           'shares': [{'who': 'seller', 'label': 'Seller', 'value': 900, 'pct': 90, 'cur': 'SAR'},
+                      {'who': 'platform',
+                       'label': 'Platform commission',
+                       'value': 70,
+                       'pct': 7,
+                       'cur': 'SAR'},
+                      {'who': 'third', 'label': 'Partner', 'value': 30, 'pct': 3, 'cur': 'SAR'}]},
+ 'caps': {'eyebrow': 'What we define with you',
+          'title': 'A marketplace shaped around your requirements',
+          'items': [('Requirements discovery',
+                     'users',
+                     'Define your audience, sales model and launch priorities before agreeing the project '
+                     'scope.'),
+                    ('Branded interfaces',
+                     'shop',
+                     'Tailor the marketplace experience and identity within the agreed scope.'),
+                    ('Business workflows',
+                     'bolt',
+                     'Define customer and seller journeys, including the review stages your operations '
+                     'need.'),
+                    ('Roles and permissions',
+                     'lock',
+                     'Agree the responsibilities and access your administrators and sellers need.'),
+                    ('Seller management',
+                     'id',
+                     'Prepare seller registration, information review and the required approval rules.'),
+                    ('Commission rules',
+                     'scale',
+                     'Define how the marketplace and participating parties earn their share.'),
+                    ('Project integrations',
+                     'link',
+                     'Assess connections to your systems and service providers. Each integration depends on '
+                     'availability and confirmed requirements.'),
+                    ('Testing and launch',
+                     'check',
+                     'Review agreed journeys and integrations before approving launch readiness.')]},
+ 'audience': {'title': 'When is Marketplace Engine the right fit?',
+              'chips': ['Requirements beyond ready settings',
+                        'Business-specific selling journeys',
+                        'Distinct operating roles',
+                        'Systems that need integration']},
+ 'earn': {'title': 'How does this differ from Market Builder?',
+          'items': ['Starts with your business requirements',
+                    'Tailors interfaces, workflows and permissions',
+                    'Scopes and tests the agreed integrations'],
+          'note': 'NX delivers both routes. <strong>Marketplace Engine</strong> suits specific requirements. '
+                  'If the ready platform and templates meet your needs, explore <a '
+                  'href="/en/solutions/commerce/market-builder/"><strong>Market Builder</strong></a> for '
+                  'configuration within its available capabilities.'},
+ 'close': {'h2': 'Let’s define what your marketplace needs',
+           'p': 'Tell us about your marketplace and existing systems. We will discuss requirements and '
+                'integrations to prepare a scope and proposal for your project.',
+           'cta': 'Discuss your project'}}
 
 
 PAY_SAAS = dict(
@@ -642,69 +695,124 @@ EXPERTS = dict(
 )
 
 
-MARKET_BUILDER = dict(
-    slug='market-builder',
-    crumb='Marketplace builder',
-    title='Build a Multi-Vendor Marketplace, No Code | NX Solutions',
-    desc='Let anyone launch their own marketplace: a ready template, their own domain and seller invitations — with onboarding, payments and splits handled for them.',
-    badge='Multi-vendor Commerce Builder',
-    kicker='NX Market Builder',
-    h1=['Don’t just build a store,', 'build a whole marketplace'],
-    lede='A platform that lets anyone launch their own marketplace: they register, pick a template, '
-         'connect their domain, then invite sellers. The infrastructure behind it handles everything '
-         'else — seller onboarding, payments, sub-accounts, splits, commissions, balances and payouts.',
-    cta1='Book a demo', cta2='Watch the story', fineprint=FINE,
-
-    phone=dict(
-        title='Create a new marketplace', toast='Domain connected',
-        amount='Khaled’s Market', cur='', amountLabel='Marketplace name',
-        rows=[('Domain', 'market.client.com'), ('Template', 'Restaurant supplies'),
-              ('Sellers invited', '12'), ('Payments', 'Enabled')],
-        btn='Launch the marketplace',
-    ),
-
-    story=dict(
-        eyebrow=EYE,
-        title='Story: Khaled launches his marketplace without a technical team',
-        sub='Khaled has an idea for a restaurant-supplies marketplace bringing suppliers and buyers '
-            'together, and no technical team of his own.',
-        stops=[
-            dict(when='Step 1', icon='users', tag='Registration', big='New account',
-                 cap='Khaled signs up on the marketplace-builder platform.'),
-            dict(when='Step 2', icon='shop', tag='Pick a template', big='B2B',
-                 cap='He chooses a marketplace template for suppliers and buyers.'),
-            dict(when='Step 3', icon='link', tag='Connect the domain', big='Khaled’s domain',
-                 cap='He connects his own domain and branding.'),
-            dict(when='Step 4', icon='id', tag='Invite sellers', big='12 suppliers',
-                 cap='Suppliers register and go through verification inside the marketplace.'),
-            dict(when='Launch', icon='split', tag='First order', big='Split automatically',
-                 cap='The first transaction is split between the supplier, Khaled’s commission and the platform fee.'),
-        ],
-    ),
-
-    money=dict(
-        eyebrow=MEYE, title='Every riyal knows where it is going, the moment it is paid',
-        sub='The percentages are illustrative, and each marketplace owner sets their own commission.',
-        totalLabel='Order in Khaled’s marketplace', total=1000, cur=SAR,
-        shares=[dict(who='seller', label='Supplier', value=900, pct=90, cur=SAR),
-                dict(who='platform', label='Marketplace owner’s commission', value=80, pct=8, cur=SAR),
-                dict(who='third', label='Platform fee', value=20, pct=2, cur=SAR)],
-    ),
-
-    caps=dict(eyebrow=CEYE, title=CTITLE,
-              ids=['kyc', 'sub', 'split', 'comm', 'fees', 'ledger', 'payout', 'token']),
-
-    audience=dict(title=ATITLE,
-                  chips=['Restaurant supplies', 'Home businesses', 'Local services',
-                         'Agricultural produce', 'Handicrafts', 'Community and campus markets']),
-
-    earn=dict(title='How your marketplace earns',
-              items=['Commission on every order', 'Subscriptions for sellers',
-                     'Listing or promotion fees']),
-
-    close=dict(h2='Start your marketplace without a technical team',
-               p='Book a demo and we will map out the money-distribution model for your platform with you.'),
-)
+MARKET_BUILDER = {'slug': 'market-builder',
+ 'crumb': 'Ready marketplace solution',
+ 'title': 'Ready Marketplace Solution | NX Market Builder',
+ 'desc': 'NX configures a multi-vendor marketplace under your brand using a ready platform and templates, '
+         'with seller management, commissions and financial reporting.',
+ 'badge': 'A ready solution, configured by NX',
+ 'kicker': 'NX Market Builder',
+ 'h1': ['Your own multi-vendor marketplace,', 'built on a ready solution.'],
+ 'lede': 'NX provides the technology to bring your sellers into one marketplace: a branded storefront, your '
+         'own domain, seller management, commissions and balances. We configure the ready platform and '
+         'templates around your needs, giving your team one place to manage the business.',
+ 'cta1': 'Request a solution demo',
+ 'cta2': 'Explore the solution',
+ 'fineprint': 'We review the fit for your business, then agree the configuration and launch scope.',
+ 'phone': {'title': 'Illustrative solution preview',
+           'toast': 'Your marketplace brand',
+           'amount': 'Your marketplace',
+           'cur': '',
+           'amountLabel': 'Multi-vendor platform',
+           'rows': [('Storefront', 'Your brand'),
+                    ('Domain', 'market.client.com'),
+                    ('Sellers', 'One platform'),
+                    ('Configured by', 'NX')],
+           'btn': 'Marketplace management'},
+ 'story': {'eyebrow': 'What NX delivers',
+           'title': 'One platform connecting your marketplace',
+           'sub': 'Illustrative example: a business bringing restaurant suppliers together needs a branded '
+                  'marketplace. NX configures the ready solution to connect its selling experience with '
+                  'seller and revenue management, using the available capabilities.',
+           'stops': [{'when': 'Storefront',
+                      'icon': 'shop',
+                      'tag': 'Your brand presence',
+                      'big': 'Your own market',
+                      'cap': 'We configure an available template with your brand and domain.'},
+                     {'when': 'Sellers',
+                      'icon': 'users',
+                      'tag': 'Marketplace participants',
+                      'big': 'Multiple sellers',
+                      'cap': 'The solution supports seller registration, details and onboarding status.'},
+                     {'when': 'Administration',
+                      'icon': 'id',
+                      'tag': 'Your operating team',
+                      'big': 'One place to manage',
+                      'cap': 'Seller oversight and approval rules come together in one administration '
+                             'experience.'},
+                     {'when': 'Revenue',
+                      'icon': 'chart',
+                      'tag': 'Financial visibility',
+                      'big': 'Commissions and balances',
+                      'cap': 'Financial reports show the marketplace share and amounts due to sellers.'},
+                     {'when': 'Payment support',
+                      'icon': 'card',
+                      'tag': 'Supporting capabilities',
+                      'big': 'Part of the solution',
+                      'cap': 'We review payment and settlement activation with the available provider.'}]},
+ 'money': {'eyebrow': 'Revenue within the solution',
+           'title': 'A clear view of your marketplace share',
+           'sub': 'Commission and seller balance tracking support day-to-day marketplace management. The '
+                  'split shown is an arithmetic example; actual rates and payment arrangements depend on the '
+                  'configuration scope and provider.',
+           'totalLabel': 'Illustrative order value',
+           'total': 1000,
+           'cur': 'SAR',
+           'shares': [{'who': 'seller', 'label': 'Supplier', 'value': 900, 'pct': 90, 'cur': 'SAR'},
+                      {'who': 'platform',
+                       'label': 'Marketplace owner’s commission',
+                       'value': 80,
+                       'pct': 8,
+                       'cur': 'SAR'},
+                      {'who': 'third',
+                       'label': 'Other share in this example',
+                       'value': 20,
+                       'pct': 2,
+                       'cur': 'SAR'}]},
+ 'caps': {'eyebrow': 'Solution capabilities',
+          'title': 'The technology behind your marketplace',
+          'items': [('Branded storefront',
+                     'shop',
+                     'We configure the available template with your marketplace name and identity.'),
+                    ('Ready templates',
+                     'box',
+                     'A defined starting point for delivery, assessed for fit before configuration begins.'),
+                    ('Marketplace domain',
+                     'link',
+                     'We connect your marketplace to an address under your own brand.'),
+                    ('Seller registration',
+                     'users',
+                     'A way for sellers to join and provide their details within the marketplace.'),
+                    ('Review and approval',
+                     'id',
+                     'Seller status and approval rules within the available capabilities.'),
+                    ('Commission management',
+                     'scale',
+                     'Configure the marketplace share using the supported revenue settings.'),
+                    ('Financial reporting',
+                     'chart',
+                     'Sales, commissions, balances and amounts due give your team financial visibility.'),
+                    ('Payments and settlements',
+                     'card',
+                     'Supporting capabilities, with activation arrangements agreed with the service '
+                     'provider.')]},
+ 'audience': {'title': 'Choose this solution when…',
+              'chips': ['You bring sellers together under one brand',
+                        'You want NX to configure the platform',
+                        'Ready templates and capabilities fit your needs',
+                        'You need one place to manage the market']},
+ 'earn': {'title': 'How does this differ from Marketplace Engine?',
+          'items': ['Starts with a ready platform and templates',
+                    'Delivery focuses on configuration and setup',
+                    'Available capabilities define the configuration scope'],
+          'note': 'NX delivers both solutions. Choose <strong>Market Builder</strong> when the ready '
+                  'solution fits your business. For specific interfaces, workflows or integrations, <a '
+                  'href="/en/solutions/commerce/marketplace/"><strong>Marketplace Engine</strong></a> is the '
+                  'custom project route.'},
+ 'close': {'h2': 'Your marketplace idea, backed by a ready platform',
+           'p': 'We will show you the solution, assess its fit and define what NX will configure under your '
+                'brand.',
+           'cta': 'Request a solution demo'}}
 
 
 PAGES = [MARKETPLACE, PAY_SAAS, SERVICES, BOOKING, PAYOUTS, AFFILIATE, FRANCHISE, LOGISTICS,

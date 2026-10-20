@@ -225,11 +225,10 @@ def scales(d, lang):
     return f'<div class="cx-scales" role="group">{out}</div>'
 
 
-def caps(ids):
+def caps(ids, items=None):
     # the source shows eight cards per solution, all drawn from one catalogue
     out = ''
-    for cid in ids:
-        title, icon, body = D.CAPS[cid]
+    for title, icon, body in (items if items is not None else [D.CAPS[cid] for cid in ids]):
         out += f'''<div class="cx-cap">
             <div class="cx-ic"><svg viewBox="0 0 24 24">{ICONS[icon]}</svg></div>
             <h3>{title}</h3><p>{body}</p>
@@ -302,7 +301,7 @@ def page(d, _ver, lang='ar'):
 <section class="sec cx-anim">
   <div class="wrap">
     <div class="sec-head rv"><span class="eyebrow">{d['caps']['eyebrow']}</span><h2>{d['caps']['title']}</h2></div>
-    <div class="cx-caps" data-n="{len(d['caps']['ids'])}">{caps(d['caps']['ids'])}</div>
+    <div class="cx-caps" data-n="{len(d['caps'].get('items', d['caps'].get('ids', [])))}">{caps(d['caps'].get('ids', []), d['caps'].get('items'))}</div>
   </div>
 </section>
 
@@ -324,7 +323,7 @@ def page(d, _ver, lang='ar'):
     <div class="cx-close rv">
       <div><h2>{d['close']['h2']}</h2><p>{d['close']['p']}</p></div>
       <div class="cx-close-act">
-        <a class="cx-close-cta" href="/{lang}/contact/">{L['contact']}
+        <a class="cx-close-cta" href="/{lang}/contact/">{d['close'].get('cta', L['contact'])}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
     </div>
