@@ -16,7 +16,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/nx.css?v=131">
+<link rel="stylesheet" href="/assets/css/nx.css?v=132">
 <link rel="stylesheet" href="/assets/css/nx-request.css?v=118">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
@@ -594,6 +594,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 /* Hero: a dark question, then the call line in the brand colour */
 .pm .pm-hero h1 .pm-h1-b{display:block;margin-top:.3em;color:#2C74B3;font-size:.76em;letter-spacing:-.8px}
+
+/* ── التطبيق داخل جوال ── */
+.pm-app{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:clamp(26px,4vw,52px);align-items:center;margin-top:34px}
+@media(max-width:820px){.pm-app{grid-template-columns:1fr;justify-items:center}}
+.pm-phone{margin:0;width:100%;max-width:300px}
+.pm-phone-body{position:relative;aspect-ratio:9/19.5;border-radius:44px;padding:11px;background:linear-gradient(160deg,#2B3442,#161C24 42%,#2B3442);box-shadow:0 2px 2px rgba(255,255,255,.22) inset,0 40px 70px -28px rgba(10,26,47,.62)}
+.pm-phone-notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:3;width:88px;height:24px;border-radius:999px;background:#0B0F14}
+.pm-phone-play{display:block;width:100%;height:100%;position:relative;overflow:hidden;border:0;padding:0;border-radius:34px;cursor:pointer;background:#0B0F14}
+.pm-phone-play img,.pm-phone-body video{width:100%;height:100%;object-fit:cover;display:block;border-radius:34px}
+.pm-phone-body video{position:relative;z-index:2}
+.pm-play-btn{position:absolute;inset:0;margin:auto;width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.6);transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.pm-phone-play:hover .pm-play-btn{transform:scale(1.07)}
+.pm-play-btn svg{width:26px;height:26px;fill:#0A1A2F;margin-inline-start:3px}
+.pm-play-cap{position:absolute;inset-inline:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:.45rem;font-size:.74rem;font-weight:700;color:#fff;background:rgba(10,15,20,.62);border-radius:999px;padding:.4rem .8rem;backdrop-filter:blur(6px)}
+.pm-play-cap em{font-style:normal;font-weight:600;opacity:.75}
+.pm-phone-play:focus-visible{outline:3px solid #5BA3DF;outline-offset:4px}
+.pm-app-list{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.pm-app-list li{display:flex;align-items:flex-start;gap:.65rem;font-size:.95rem;line-height:1.8;color:#3A4A60}
+.pm-app-list svg{width:17px;height:17px;flex:none;margin-top:.42rem;fill:none;stroke:#2E9E63;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pm-app-list b{color:#0A1A2F;font-weight:700}
+.pm-app-note{font-size:.84rem;color:#5B6878;line-height:1.8;margin-top:1.3rem}
+@media(prefers-reduced-motion:reduce){.pm-play-btn{transition:none}}
 </style>
 </head>
 <body class="p-work">
@@ -1199,7 +1221,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="pm-band"></div>
       <div>
         <h2>The plate looks the way a real plate looks</h2>
-        <p>In a market whose product is the plate, drawing it is not decoration — it is the product photo. Three types and three editions give five geometries: the long plate is one continuous face with an emblem at its centre, while the standard, sport and motorcycle plates give every letter and digit its own recessed cell, exactly as they are made. All of them are SVG vector SVG, crisp from the thumbnail on a card to full screen.</p>
+        <p>In a market whose product is the plate, how it is drawn is the product photo. Three types and three editions give five geometries: the long plate is one continuous face with an emblem at its centre, while the standard, sport and motorcycle plates give every letter and digit its own recessed cell, exactly as they are made. All of them are SVG vector SVG, crisp from the thumbnail on a card to full screen.</p>
       </div>
     </div>
     <div class="pm-grid3" style="gap:20px">
@@ -1207,19 +1229,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div><div id="p-standard" style="background:#EFF0ED;border-radius:12px;padding:14px"></div><p class="pm-cap">Standard — 460×230, a separate cell for every letter and digit</p></div>
       <div><div id="p-sport" style="background:#EFF0ED;border-radius:12px;padding:22px 14px"></div><p class="pm-cap">Sport — 760×200, a single Latin row, so the two Arabic fields are hidden from the form</p></div>
     </div>
-    <div class="pm-rows" style="margin-top:34px">
-      <div class="pm-row"><div><h4>The plate’s real typography</h4></div>
-        <p>Layout is measured in ink, not font size: in Arial an Arabic digit stands about 0.52em tall against 0.72em for a Latin one, so without compensation the Arabic row reads visibly smaller. The size is normalised per cell, so no character shrinks because its neighbour is wider.</p></div>
-      <div class="pm-row"><div><h4>An engraved face and struck ink</h4></div>
-        <p>An inner shadow sinks each cell into the metal and an emboss raises the character alone — instead of white tiles pasted onto black. One light passes across the whole face, not four identical glints.</p></div>
-      <div class="pm-row"><div><h4>Letters from the traffic-authority table</h4></div>
-        <p>Seventeen approved letters with their Latin counterparts — and these are not transliterations: ص maps to X, م to Z and ى to V, exactly as the traffic table dictates. Three dropdowns rather than a text field, and a cell does not open until the one before it is filled.</p></div>
-      <div class="pm-row"><div><h4>Real emblems</h4></div>
-        <p>The palm and swords in the national block, and the centre emblem on the long plate: Diriyah, Vision 2030 or Hegra — baked at their original fidelity rather than approximate paths that give themselves away the moment anyone compares them to the real thing.</p></div>
-    </div>
+    
   </div>
 </section>
 
+
+    <!-- ══ التطبيق ══ -->
+    <section id="app">
+      <div class="pm-wrap">
+        <div class="pm-sec-head">
+          <div class="pm-band"></div>
+          <div>
+            <h2>The app, on iPhone and Android</h2>
+            <p>The same market in your customer’s pocket. The bid reaches their phone the moment it lands, not after they open a browser and find out they lost.</p>
+          </div>
+        </div>
+        <div class="pm-app">
+          <figure class="pm-phone">
+            <div class="pm-phone-body">
+              <span class="pm-phone-notch" aria-hidden="true"></span>
+              <button type="button" class="pm-phone-play" data-src="/assets/video/plate-app-9x16.mp4"
+                      aria-label="Play the film">
+                <img src="/assets/images/video/plate-app-poster.jpg" alt="A screen from the plate auctions mobile app"
+                     width="540" height="960" loading="lazy" decoding="async">
+                <span class="pm-play-btn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </span>
+                <span class="pm-play-cap">Play the film<em>1:37</em></span>
+              </button>
+            </div>
+          </figure>
+          <div class="pm-app-tx">
+            <ul class="pm-app-list">
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>A push on every bid. </b>Outbid, a new offer, an auction about to close — it reaches them wherever they are.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Bidding in two taps. </b>Countdown, balance and deposit on one screen, with no jumping between pages.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Their wallet travels with them. </b>Balance, held funds and the statement, checked without calling you.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Both platforms, one account. </b>iPhone and Android, signed in with the same account as the website.</span></li>
+            </ul>
+            <p class="pm-app-note">The film is an example of the app build. The finished design carries your name and your colours, like the rest of the platform.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 <!-- ══ 13 · REALTIME ══ -->
 <section id="live">
   <div class="pm-wrap">
@@ -1283,29 +1331,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </section>
 
 <!-- ══ 15 · REFERENCE NUMBERS ══ -->
-<section id="refs">
-  <div class="pm-wrap">
-    <div class="pm-sec-head">
-      <div class="pm-band"></div>
-      <div>
-        <h2>A number you can read out on a phone call</h2>
-        <p>When a customer calls to complain, they are not going to read you a twenty-character identifier. Everything in your platform has a readable number: a type letter, a two-digit year, then a five-digit sequence — restarting each year and never reused.</p>
-      </div>
-    </div>
-    <div class="pm-grid3" style="gap:14px">
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">U26-00003</div><div class="pm-sub">Customer — they see it in their account, and it matches what you see in their file</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">L26-00043</div><div class="pm-sub">Listing — called the listing number, not the plate number, because the plate has its own printed digits</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">S26-00012</div><div class="pm-sub">Deal — its letter is S, not O, because O gets heard as zero when read aloud</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">D26-00007</div><div class="pm-sub">Deposit</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">P26-00019</div><div class="pm-sub">Payment</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">W26-00120</div><div class="pm-sub">Wallet movement</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">R26-00031</div><div class="pm-sub">Platform revenue entry</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">F26-00001</div><div class="pm-sub">Payout order</div></div>
-      <div class="pm-kpi"><div class="pm-val" style="direction:ltr;font-size:20px">T26-00001</div><div class="pm-sub">Tax invoice</div></div>
-    </div>
-    <p class="pm-cap" style="max-width:74ch">Search matches exactly rather than partially, and accepts Arabic-Indic digits, any letter case, and the number with or without its dash — so whoever types it as they heard it finds what they are looking for.</p>
-  </div>
-</section>
+
 
 <!-- ══ 16 · LAUNCH ══ -->
 <section id="launch">
@@ -1605,7 +1631,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </footer>
 
-<script src="/assets/js/nx.js?v=131" defer></script>
+<script src="/assets/js/nx.js?v=132" defer></script>
 <script src="/assets/js/nx-form.js?v=118" defer></script>
 <script src="/assets/js/nx-request.js?v=118" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
@@ -2273,6 +2299,19 @@ function tick(){
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(tick,1000);
 tick();
 
+
+  /* the app film: the poster is the button, and nothing downloads until it is
+     pressed — seven megabytes is too much to spend on a maybe */
+  document.querySelectorAll('.pm-phone-play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = document.createElement('video');
+      v.src = btn.getAttribute('data-src');
+      v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('aria-label', btn.getAttribute('aria-label') || '');
+      btn.replaceWith(v);
+      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); });
+    });
+  });
 </script>
 </body>
 </html>
