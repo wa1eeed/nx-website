@@ -4,8 +4,36 @@
     {
       "name": "nx-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8765"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765"
+      ],
       "port": 8765
+    },
+    {
+      "name": "taste-before",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8791",
+        "--directory",
+        "/private/tmp/claude-501/-Users-aa-nx-website/8352967a-2726-4dcd-9c96-75131ff6e64b/scratchpad/taste-lab/before"
+      ],
+      "port": 8791
+    },
+    {
+      "name": "taste-after",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8792",
+        "--directory",
+        "/private/tmp/claude-501/-Users-aa-nx-website/8352967a-2726-4dcd-9c96-75131ff6e64b/scratchpad/taste-lab/after"
+      ],
+      "port": 8792
     }
   ]
 }

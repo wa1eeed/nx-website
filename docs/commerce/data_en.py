@@ -53,7 +53,111 @@ ATITLE = 'Who is this for?'
 SAR = 'SAR'
 
 
+PLATFORM_EN = dict(
+    eyebrow='Platform capabilities',
+    title='What the marketplace can do',
+    sub='What gets switched on depends on the agreed scope and the approved payment provider, and is confirmed before launch.',
+    groups=[
+        dict(name='Marketplace and catalogue', icon='shop', items=[
+            ('Catalogue and categories',
+             'The category tree and product attributes are built around what your marketplace '
+             'actually sells — and what a seller may edit is set separately from what stays with you.'),
+            ('Search and filtering',
+             'Search inside the marketplace, filtered by category, price and seller. What surfaces '
+             'and how results are ordered follows your priorities.'),
+            ('A page per seller',
+             'Each seller gets their own storefront inside your marketplace — products, ratings and '
+             'policies — carrying your brand, not theirs.'),
+            ('Multi-seller cart and order',
+             'A customer buys from several sellers in one cart, and the order is divided between '
+             'them at the moment of payment.'),
+            ('Ratings and reviews',
+             'Product or seller ratings once an order arrives, with publishing and reply rules set '
+             'within scope.'),
+            ('Shipping and delivery',
+             'Shipping options and who carries the cost follow your model. Carrier integrations are '
+             'assessed as part of the integration scope.'),
+            ('Coupons and offers',
+             'A discount across the marketplace, on one seller, or on one category — and who absorbs '
+             'its cost is agreed before it goes live.'),
+            ('Returns and exchanges',
+             'The return window, who approves it and how it affects what is owed are all part of the '
+             'workflow we build.'),
+        ]),
+        dict(name='Payments and settlement', icon='split', items=[
+            ('Commission per seller or per category', 'Per-Merchant & Per-Category Commission',
+             'A different rate for each seller, or for each product category, rather than one rate '
+             'across the whole marketplace. The rules are set within scope and depend on the provider.'),
+            ('Authorization and capture', 'Authorization & Capture',
+             'The amount is held on the customer’s card without being charged, then captured after '
+             'delivery or completion — or released before settlement. This is not an escrow account '
+             'and creates no fiduciary holding.'),
+            ('Splitting a payment', 'Split Payment',
+             'One payment divided across several beneficiaries, with the shares summing to the '
+             'transaction. Available for the models the provider has approved.'),
+            ('Full and partial refunds', 'Full & Partial Refunds',
+             'Return the whole amount or part of it. How quickly it lands differs between mada and '
+             'the international card schemes.'),
+            ('Payment methods',
+             'mada, Visa, Mastercard, digital wallets and SADAD. Further methods are enabled per '
+             'seller, subject to availability with the provider.'),
+            ('Settlement',
+             'Each seller settles to their own verified bank account, and the marketplace share '
+             'settles separately. Schedule and minimums follow the approved provider.'),
+            ('Recurring charges',
+             'Store the payment method to collect a subscription or periodic fee without re-entering '
+             'the card.'),
+        ]),
+        dict(name='Operations and control', icon='lock', items=[
+            ('Seller onboarding and verification',
+             'Sellers register inside your marketplace with their entity details and documents — and '
+             'what is required differs by entity type: establishment, company, freelancer, non-profit.'),
+            ('A clear status for every seller',
+             'Under review, documents missing, partly active, active, on hold, rejected — shown to '
+             'the seller with the reason and what will clear it.'),
+            ('A test environment before go-live',
+             'Every seller walks the order and payment journey in a sandbox before taking a real order.'),
+            ('Seller dashboard',
+             'Their orders, sales, balance, payouts and reports, in one place inside your marketplace.'),
+            ('Balances and reporting',
+             'Sales, pending, fees, refunds and net payable, with downloadable reports.'),
+            ('Fraud protection',
+             '3-D Secure, card tokenization and screening of suspicious transactions, as provided by '
+             'the approved provider within the project scope.'),
+        ]),
+    ],
+)
+
+
+ENGINE_EN = dict(
+    core='NX ENGINE',
+    nodes=['Seller onboarding', 'KYB verification', 'Sub-accounts', 'Split payments',
+           'Commissions', 'Balances & settlement', 'Payouts', 'Refunds'],
+    feed=[
+        ('Payment received', 'SAR 1,000 from Lamma store', 'card'),
+        ('Payment split', 'SAR 900 seller · 70 marketplace · 30 partner', 'split'),
+        ('New merchant', 'Al-Ward Perfumes — awaiting review', 'id'),
+        ('Verification complete', 'KYC — owner identity matched', 'check'),
+        ('Entity approved', 'KYB — commercial registration valid', 'lock'),
+        ('Settlement', 'Paid out 12 sellers', 'bank'),
+    ],
+    a11y='Animated diagram: the platform core linking eight capabilities, with live operations notices around it.',
+)
+
+
+VIDEO_EN = dict(
+    eyebrow='Watch it work',
+    title='See how the marketplace runs, in under ninety seconds',
+    sub='From a seller signing up to the money dividing at checkout.',
+    cta='Play the video',
+    dur='1:28',
+    a11y='Explainer video: an order moving through a multi-vendor marketplace, from seller onboarding to the payment being split.',
+)
+
+
 MARKETPLACE = {'slug': 'marketplace',
+ 'video': VIDEO_EN,
+ 'engine': ENGINE_EN,
  'crumb': 'Custom branded marketplace',
  'title': 'Custom Marketplace Workflows and Integrations | NX Marketplace Engine',
  'desc': 'A multi-vendor marketplace solution for specific business requirements. NX tailors interfaces, '
@@ -124,6 +228,7 @@ MARKETPLACE = {'slug': 'marketplace',
                        'pct': 7,
                        'cur': 'SAR'},
                       {'who': 'third', 'label': 'Partner', 'value': 30, 'pct': 3, 'cur': 'SAR'}]},
+ 'platform': PLATFORM_EN,
  'caps': {'eyebrow': 'What we define with you',
           'title': 'A marketplace shaped around your requirements',
           'items': [('Requirements discovery',

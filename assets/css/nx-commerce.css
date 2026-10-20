@@ -68,7 +68,7 @@
 .cx-rows div { display: flex; justify-content: space-between; font-size: .78rem; padding: .48rem 0; border-bottom: 1px solid var(--line-2); }
 .cx-rows div span:first-child { color: var(--muted); }
 .cx-rows div span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
-.cx-phone-btn { margin-top: 1rem; background: var(--brand); color: #fff; text-align: center; border-radius: 12px; padding: .72rem; font-size: .84rem; font-weight: 700; }
+.cx .cx-phone-btn { margin-top: 1rem; background: var(--brand); color: #fff; text-align: center; border-radius: 12px; padding: .72rem; font-size: .84rem; font-weight: 700; }
 
 /* the toast that slides in over the phone — the moment of the sale */
 .cx-toast {
@@ -232,7 +232,7 @@ html[dir="rtl"] .cx-tile:hover .cx-tile-go svg { transform: scaleX(-1) translate
 
 /* the catalogue reuses the capability card, plus the number the source prints */
 .cx-cat .cx-cap { position: relative; }
-.cx-cap-n { display: block; font-size: .7rem; font-weight: 700; color: var(--gold); margin-bottom: .35rem; }
+.cx-cap-n { display: block; font-size: .7rem; font-weight: 700; color: #8A6D1F; margin-bottom: .35rem; }
 /* the catalogue is not inside a .cx-anim block, so it must never start hidden */
 .cx-ready .cx-cat .cx-cap { opacity: 1; transform: none; }
 
@@ -289,3 +289,213 @@ html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
 }
 @keyframes cx-ride { from { transform: translateX(-46px); } to { transform: translateX(var(--cx-ride, 900px)); } }
 @media (prefers-reduced-motion: reduce) { .cx-bar i u { display: none; } }
+
+
+/* ── platform capabilities ───────────────────────────────────
+   Light ground on purpose. The page already alternates dark bands, and a
+   reference block people scan for "does it do X" should not be the hardest
+   section to read on the page. */
+.cx-pf { background: var(--canvas); }
+.cx-pf-sub { max-width: 68ch; margin: .9rem auto 0; color: var(--ink-2); font-size: .98rem; line-height: 1.8; }
+.cx-pf .sec-head { text-align: center; }
+
+.cx-pf-groups { display: grid; gap: clamp(28px, 4vw, 44px); margin-top: clamp(32px, 4vw, 48px); }
+
+.cx-pf-group > h3 {
+  display: flex; align-items: center; gap: .7rem;
+  font-size: 1.04rem; font-weight: 800; letter-spacing: -.01em; color: var(--ink);
+  padding-bottom: .9rem; margin-bottom: 20px; border-bottom: 1px solid var(--line);
+}
+.cx-pf-ic {
+  width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0;
+  background: var(--grad); box-shadow: 0 6px 16px -6px rgba(20, 66, 114, .5);
+}
+.cx-pf-ic svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+.cx-pf-items { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+@media (max-width: 1040px) { .cx-pf-items { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px)  { .cx-pf-items { grid-template-columns: 1fr; } }
+
+/* Hairline dividers rather than eight floating cards: this is a reference
+   table people read across, not a set of features competing for a click. */
+.cx-pf-item { background: var(--surface); padding: 20px 22px; transition: background .22s ease; }
+.cx-pf-item:hover { background: #FBFCFE; }
+.cx-pf-item h4 { font-size: .92rem; font-weight: 800; color: var(--ink); line-height: 1.5; margin-bottom: .45rem; }
+.cx-pf-item p { font-size: .84rem; line-height: 1.78; color: var(--ink-2); margin: 0; }
+
+
+/* ── the dark-ground contract ────────────────────────────────
+   nx.css styles the hero's own paragraphs — `.phero p { color: var(--ink-2) }`
+   — and that selector outweighs a single class like `.cx-lede`. On the light
+   heroes it was written for that is correct; on these navy ones it put #3A4A60
+   on #081426, a contrast of 2.0:1, and it shipped that way on all 22 pages.
+
+   Rather than patch the two elements that showed it, state the rule once: on a
+   dark ground, text is light unless something deliberately says otherwise. */
+.cx .cx-dark p,
+.cx .cx-dark li,
+.cx .cx-dark span:not([class]),
+.cx-dark .cx-lede { color: var(--cx-dim); }
+
+.cx .cx-dark h1,
+.cx .cx-dark h2,
+.cx .cx-dark h3,
+.cx .cx-dark h4 { color: #fff; }
+
+.cx-dark .cx-fineprint { color: #8FA6C0; }
+.cx-dark .crumb, .cx-dark .crumb a { color: #8FA6C0; }
+.cx-dark .crumb a:hover { color: #BFE0FF; }
+
+/* The surfaces that sit on the dark ground are light themselves, so they opt
+   back out of the contract. The opt-out has to outrank the contract rule, not
+   merely follow it — `:not([class])` carries attribute specificity, so a bare
+   `.cx-dark .cx-phone span` lost and the card's own text went pale on white. */
+.cx .cx-dark .cx-phone p,
+.cx .cx-dark .cx-phone span,
+.cx .cx-dark .cx-phone div:not(.cx-phone-btn),
+.cx .cx-dark .cx-toast { color: var(--ink); }
+.cx .cx-dark .cx-phone .cx-rows div span:first-child,
+.cx .cx-dark .cx-phone .cx-amount-label { color: var(--ink-2); }
+
+/* #6B7888 clears 4.5:1 on white and fails on every tinted ground the page
+   uses, so the small print that sits on those grounds takes the darker ink. */
+.cx-pf-item p,
+.cx-stop .cx-when,
+.cx-startnote,
+.cx-rel-t { color: var(--ink-2); }
+.cx-stop .cx-when i { background: var(--brand); color: #fff; }
+
+/* The English term a capability is known by, beside the Arabic name: a
+   technical buyer scans for "Split Payment", not for its translation. */
+.cx-pf-term {
+  display: block; font-style: normal; font-family: var(--mono);
+  font-size: .64rem; font-weight: 500; letter-spacing: .04em;
+  color: var(--hi); margin-top: .25rem;
+}
+html[dir="rtl"] .cx-pf-term { direction: ltr; text-align: right; }
+
+
+/* ── the hero engine ─────────────────────────────────────────
+   A core with eight branches, taken from the explainer video's opening and
+   rebuilt in NX's own colours. The labels are DOM, not paths, so they stay
+   selectable and translatable; the SVG carries only the geometry. */
+.cx-eg { position: relative; width: min(520px, 100%); margin-inline: auto; aspect-ratio: 1; }
+.cx-eg-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+.cx-eg-ring { fill: none; stroke: rgba(91, 163, 223, .20); stroke-width: 1; }
+.cx-eg-ring-2 { stroke: rgba(91, 163, 223, .13); }
+.cx-ready .cx-eg-ring { transform-origin: 260px 260px; animation: cx-eg-spin 54s linear infinite; stroke-dasharray: 3 9; }
+.cx-ready .cx-eg-ring-2 { animation-duration: 38s; animation-direction: reverse; }
+@keyframes cx-eg-spin { to { transform: rotate(360deg); } }
+
+.cx-eg-spoke { stroke: rgba(91, 163, 223, .26); stroke-width: 1.2; transition: stroke .35s ease, stroke-width .35s ease; }
+.cx-eg-dot { fill: #5BA3DF; opacity: .55; transition: opacity .35s ease, r .35s ease; }
+.cx-eg-spoke.lit { stroke: #7CC0F5; stroke-width: 2.2; }
+.cx-eg-dot.lit { opacity: 1; r: 7; }
+
+.cx-eg-core { filter: drop-shadow(0 18px 44px rgba(8, 20, 38, .75)); }
+.cx-eg-pulse { fill: none; stroke: rgba(124, 192, 245, .5); stroke-width: 1.5; transform-origin: 260px 260px; opacity: 0; }
+.cx-ready .cx-eg-pulse { animation: cx-eg-pulse 3.4s cubic-bezier(.22, 1, .36, 1) infinite; }
+@keyframes cx-eg-pulse {
+  0%   { transform: scale(1);    opacity: .7; }
+  70%  { transform: scale(2.18); opacity: 0; }
+  100% { transform: scale(2.18); opacity: 0; }
+}
+
+.cx-eg-core-tx {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-family: var(--mono); font-size: .68rem; font-weight: 600; letter-spacing: .34em;
+  color: #DCEBFA; white-space: nowrap; pointer-events: none;
+}
+
+.cx-eg-pills { position: absolute; inset: 0; }
+.cx-eg-pill {
+  position: absolute; transform: translate(-50%, -50%); white-space: nowrap; cursor: pointer;
+  font: inherit; font-size: .72rem; font-weight: 600; color: #CFE3F7;
+  background: rgba(13, 32, 56, .92); border: 1px solid rgba(91, 163, 223, .3);
+  border-radius: 999px; padding: .4rem .8rem;
+  transition: color .3s, border-color .3s, background .3s, box-shadow .3s;
+}
+.cx-eg-pill:hover, .cx-eg-pill.lit {
+  color: #fff; background: rgba(28, 74, 124, .95); border-color: #5BA3DF;
+  box-shadow: 0 0 0 4px rgba(91, 163, 223, .14), 0 10px 26px -10px rgba(0, 0, 0, .7);
+}
+.cx-eg-pill:focus-visible { outline: 2px solid #BFE0FF; outline-offset: 3px; }
+
+/* the live feed: one notice at a time, below the diagram on narrow screens and
+   floating over its lower edge where there is room */
+.cx-eg-feed { position: absolute; left: 0; right: 0; bottom: -6%; list-style: none; margin: 0; padding: 0; height: 62px; }
+.cx-eg-note {
+  position: absolute; inset-inline: 6% auto; width: min(340px, 88%);
+  display: flex; align-items: center; gap: .6rem;
+  background: rgba(255, 255, 255, .97); color: var(--ink);
+  border-radius: 12px; padding: .6rem .8rem;
+  box-shadow: 0 16px 38px -14px rgba(4, 12, 26, .8);
+  opacity: 0; transform: translateY(10px) scale(.97);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+.cx-eg-note.on { opacity: 1; transform: none; }
+.cx-eg-note-ic { width: 30px; height: 30px; border-radius: 9px; background: #EAF3FC; display: grid; place-items: center; flex-shrink: 0; }
+.cx-eg-note-ic svg { width: 15px; height: 15px; stroke: var(--brand-2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cx-eg-note-tx { display: block; min-width: 0; }
+.cx-eg-note-tx b { display: block; font-size: .78rem; font-weight: 800; line-height: 1.3; }
+.cx-eg-note-tx em { display: block; font-style: normal; font-size: .71rem; color: var(--ink-2); line-height: 1.45; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 900px) {
+  .cx-eg { width: min(420px, 100%); margin-bottom: 76px; }
+  .cx-eg-pill { font-size: .64rem; padding: .32rem .62rem; }
+  .cx-eg-feed { bottom: -78px; }
+  .cx-eg-note { inset-inline: 0 auto; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-ready .cx-eg-ring, .cx-ready .cx-eg-pulse { animation: none; }
+  .cx-eg-note { transition: none; }
+}
+
+
+/* ── the explainer ───────────────────────────────────────────
+   A poster until someone asks for the video. The two encodes are 12 MB and
+   10 MB; loading either on page view would cost every visitor who never
+   presses play. */
+.cx-vid { background: var(--canvas); }
+.cx-vid .sec-head { text-align: center; }
+.cx-vid-frame { margin: clamp(26px, 4vw, 40px) auto 0; max-width: 980px; }
+.cx-vid-play {
+  display: block; position: relative; width: 100%; padding: 0; border: 0; cursor: pointer;
+  background: var(--cx-deep); border-radius: var(--r-lg); overflow: hidden;
+  box-shadow: 0 30px 70px -28px rgba(8, 20, 38, .6);
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s;
+}
+.cx-vid-play:hover { transform: translateY(-4px); box-shadow: 0 40px 84px -28px rgba(8, 20, 38, .72); }
+.cx-vid-play:active { transform: translateY(-1px); }
+.cx-vid-play:focus-visible { outline: 3px solid var(--hi); outline-offset: 4px; }
+.cx-vid-poster { display: block; width: 100%; height: auto; }
+
+.cx-vid-btn {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: clamp(62px, 8vw, 88px); aspect-ratio: 1; border-radius: 50%;
+  background: #fff; display: grid; place-items: center;
+  box-shadow: 0 14px 36px -10px rgba(0, 0, 0, .55);
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+.cx-vid-play:hover .cx-vid-btn { transform: translate(-50%, -50%) scale(1.08); }
+.cx-vid-btn svg { width: 38%; height: 38%; fill: var(--brand); margin-inline-start: 8%; }
+.cx-vid-btn::after {
+  content: ""; position: absolute; inset: -14px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .5);
+}
+.cx-ready .cx-vid-btn::after { animation: cx-vid-ring 2.8s cubic-bezier(.22, 1, .36, 1) infinite; }
+@keyframes cx-vid-ring { 0% { transform: scale(.9); opacity: .8; } 70%, 100% { transform: scale(1.45); opacity: 0; } }
+
+.cx-vid-label {
+  position: absolute; inset-inline-start: 22px; bottom: 20px;
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .86rem; font-weight: 700; color: #fff;
+  background: rgba(8, 20, 38, .66); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: 999px; padding: .45rem .95rem;
+}
+.cx-vid-label em { font-style: normal; font-family: var(--mono); font-size: .74rem; color: #BFE0FF; }
+
+.cx-vid-frame video { display: block; width: 100%; height: auto; border-radius: var(--r-lg); background: #000; }
+@media (max-width: 700px) { .cx-vid-frame video { max-height: 78vh; width: auto; margin-inline: auto; } }
+@media (prefers-reduced-motion: reduce) { .cx-ready .cx-vid-btn::after { animation: none; } }

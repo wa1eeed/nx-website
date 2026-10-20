@@ -142,6 +142,86 @@
     });
   });
 
+
+  /* ── the hero engine ───────────────────────────────────────
+     Eight branches and a feed of operations notices. It runs on its own clock
+     rather than on scroll, because it sits above the fold and is the first
+     thing on the page: it should already be moving when the page arrives.
+
+     Pointing at a branch takes over — the cycle stops, that branch lights, and
+     its matching notice shows — so the diagram answers a question instead of
+     only performing. It hands control back a moment after the pointer leaves. */
+  (function () {
+    var eg = document.querySelector('.cx-eg');
+    if (!eg) return;
+
+    var pills = [].slice.call(eg.querySelectorAll('.cx-eg-pill'));
+    var spokes = eg.querySelectorAll('.cx-eg-spoke');
+    var dots = eg.querySelectorAll('.cx-eg-dot');
+    var notes = [].slice.call(eg.querySelectorAll('.cx-eg-note'));
+    if (!pills.length) return;
+
+    var at = 0, held = null, timer = null;
+
+    function light(i) {
+      pills.forEach(function (p, k) { p.classList.toggle('lit', k === i); });
+      [].forEach.call(spokes, function (sp, k) { sp.classList.toggle('lit', k === i); });
+      [].forEach.call(dots, function (dt, k) { dt.classList.toggle('lit', k === i); });
+      // the feed is shorter than the ring, so it wraps independently
+      if (notes.length) {
+        var n = i % notes.length;
+        notes.forEach(function (el, k) { el.classList.toggle('on', k === n); });
+      }
+    }
+
+    function step() {
+      if (held === null) { light(at); at = (at + 1) % pills.length; }
+      timer = setTimeout(step, still ? 4200 : 2100);
+    }
+
+    pills.forEach(function (p, i) {
+      function take() { held = i; light(i); }
+      function give() { held = null; }
+      p.addEventListener('pointerenter', take);
+      p.addEventListener('pointerleave', give);
+      p.addEventListener('focus', take);
+      p.addEventListener('blur', give);
+      p.addEventListener('click', function () { held = held === i ? null : i; light(i); });
+    });
+
+    light(0);
+    step();
+
+    // nothing moves while the tab is away: an unwatched animation is only
+    // wasted battery, and it would otherwise race ahead unseen
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { clearTimeout(timer); }
+      else if (!timer || true) { clearTimeout(timer); step(); }
+    });
+  })();
+
+
+  /* ── the explainer ─────────────────────────────────────────
+     The poster is a button. Pressing it picks the cut that fits the viewport
+     and swaps the player in, so nothing downloads for the visitors — most of
+     them — who never press it. */
+  document.querySelectorAll('.cx-vid-play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var tall = matchMedia('(max-width: 700px)').matches;
+      var src = btn.getAttribute(tall ? 'data-tall' : 'data-wide');
+      var v = document.createElement('video');
+      v.src = src;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute('aria-label', btn.getAttribute('aria-label') || '');
+      btn.replaceWith(v);
+      // autoplay with sound is refused by every browser; start muted and let
+      // the visitor unmute rather than silently failing to play at all
+      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); });
+    });
+  });
+
   if (still || !('IntersectionObserver' in window)) {
     blocks.forEach(play);
     return;

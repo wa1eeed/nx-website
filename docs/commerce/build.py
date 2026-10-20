@@ -48,11 +48,11 @@ def with_engine(foot, ver):
 LANG = {
     'ar': dict(home='الرئيسية', solutions='الحلول', other='en',
                explore='استعرض الحل', browse='استعرض الحلول العشرة',
-               related='حلول أخرى في نظام البيع الذكي', contact='تواصل معنا',
+               related='حلول أخرى في نظام البيع الذكي', contact='تواصل معنا', cap='القدرة',
                scales=['عملية واحدة', '100 عملية', '1,000 عملية']),
     'en': dict(home='Home', solutions='Solutions', other='ar',
                explore='Explore the solution', browse='Browse the ten solutions',
-               related='More in Commerce Infrastructure', contact='Contact us',
+               related='More in Commerce Infrastructure', contact='Contact us', cap='Capability',
                scales=['One transaction', '100 transactions', '1,000 transactions']),
 }
 
@@ -236,6 +236,124 @@ def caps(ids, items=None):
     return out
 
 
+def platform(d, lang):
+    """The platform capability block: three groups, grouped rather than listed.
+
+    Twenty-one capabilities as one flat grid would read as a wall and nothing
+    would stand out; grouped by what the reader is actually deciding about —
+    the storefront, the money, the running of it — each group stays scannable.
+    Light ground on purpose: the page already alternates enough dark bands."""
+    pf = d.get('platform')
+    if not pf:
+        return ''
+    groups = ''
+    for g in pf['groups']:
+        rows = ''
+        for it in g['items']:
+            # a capability may carry the industry term it is known by, which is
+            # what a technical buyer scans for and often what they search
+            title, term, body = (it if len(it) == 3 else (it[0], None, it[1]))
+            tag = f'<em class="cx-pf-term">{term}</em>' if term else ''
+            rows += f'<div class="cx-pf-item"><h4>{title}{tag}</h4><p>{body}</p></div>'
+        groups += (f'<section class="cx-pf-group">'
+                   f'<h3><span class="cx-pf-ic"><svg viewBox="0 0 24 24">{ICONS[g["icon"]]}</svg></span>{g["name"]}</h3>'
+                   f'<div class="cx-pf-items">{rows}</div></section>')
+    return f"""<section class="sec cx-pf" id="platform">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">{pf['eyebrow']}</span>
+      <h2>{pf['title']}</h2>
+      <p class="cx-pf-sub">{pf['sub']}</p></div>
+    <div class="cx-pf-groups rv">{groups}</div>
+  </div>
+</section>
+"""
+
+
+def engine(d, lang):
+    """The hero diagram: a core, a halo, eight branches, and a live feed.
+
+    Built as SVG with the labels in real DOM rather than drawn into the picture,
+    so they are selectable, translatable and readable to a screen reader. The
+    geometry is computed here rather than hand-placed, which is what lets the
+    node count change without anyone re-measuring angles."""
+    import math
+    e = d.get('engine')
+    if not e:
+        return ''
+    n = len(e['nodes'])
+    R, cx, cy = 190, 260, 260
+    spokes, pills = '', ''
+    for i, label in enumerate(e['nodes']):
+        # start at the top and go clockwise, matching the explainer video
+        a = -math.pi / 2 + (2 * math.pi * i / n)
+        x, y = cx + R * math.cos(a), cy + R * math.sin(a)
+        spokes += (f'<line class="cx-eg-spoke" data-i="{i}" x1="{cx}" y1="{cy}" '
+                   f'x2="{x:.1f}" y2="{y:.1f}"/>')
+        spokes += f'<circle class="cx-eg-dot" data-i="{i}" cx="{x:.1f}" cy="{y:.1f}" r="5"/>'
+        # the pill is positioned as a percentage so it tracks the svg as it scales
+        pills += (f'<button type="button" class="cx-eg-pill" data-i="{i}" '
+                  f'style="left:{x / 520 * 100:.2f}%;top:{y / 520 * 100:.2f}%">{label}</button>')
+
+    feed = ''
+    for i, (title, body, icon) in enumerate(e['feed']):
+        feed += (f'<li class="cx-eg-note" data-i="{i}">'
+                 f'<span class="cx-eg-note-ic"><svg viewBox="0 0 24 24">{ICONS[icon]}</svg></span>'
+                 f'<span class="cx-eg-note-tx"><b>{title}</b><em>{body}</em></span></li>')
+
+    return f"""<div class="cx-eg" role="img" aria-label="{e['a11y']}">
+  <svg class="cx-eg-svg" viewBox="0 0 520 520" aria-hidden="true">
+    <defs>
+      <radialGradient id="egCore" cx="50%" cy="38%" r="68%">
+        <stop offset="0" stop-color="#1B3F6B"/><stop offset="1" stop-color="#0B1B30"/>
+      </radialGradient>
+      <radialGradient id="egGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#2C74B3" stop-opacity=".40"/>
+        <stop offset="1" stop-color="#2C74B3" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="260" cy="260" r="248" fill="url(#egGlow)"/>
+    <circle class="cx-eg-ring" cx="260" cy="260" r="190"/>
+    <circle class="cx-eg-ring cx-eg-ring-2" cx="260" cy="260" r="134"/>
+    {spokes}
+    <circle class="cx-eg-pulse" cx="260" cy="260" r="86"/>
+    <circle class="cx-eg-core" cx="260" cy="260" r="86" fill="url(#egCore)"/>
+  </svg>
+  <span class="cx-eg-core-tx" aria-hidden="true">{e['core']}</span>
+  <div class="cx-eg-pills" aria-hidden="true">{pills}</div>
+  <ul class="cx-eg-feed" aria-hidden="true">{feed}</ul>
+</div>"""
+
+
+def video(d, lang):
+    """The explainer, as a poster that becomes a player on request.
+
+    Nothing is downloaded until someone asks for it — the two encodes are 12 MB
+    and 10 MB, and most visitors will never press play. The source is chosen at
+    that moment by viewport, so a phone gets the vertical cut and a desktop the
+    wide one, and neither ever fetches the other."""
+    v = d.get('video')
+    if not v:
+        return ''
+    return f"""<section class="sec cx-vid" id="video">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">{v['eyebrow']}</span>
+      <h2>{v['title']}</h2><p class="cx-pf-sub">{v['sub']}</p></div>
+    <figure class="cx-vid-frame rv">
+      <button type="button" class="cx-vid-play"
+              data-wide="/assets/video/nx-marketplace-16x9.mp4"
+              data-tall="/assets/video/nx-marketplace-9x16.mp4"
+              aria-label="{v['cta']}">
+        <img class="cx-vid-poster" src="/assets/images/video/marketplace-poster-16x9.jpg"
+             alt="{v['a11y']}" width="1600" height="900" loading="lazy" decoding="async">
+        <span class="cx-vid-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="cx-vid-label">{v['cta']}<em>{v['dur']}</em></span>
+      </button>
+    </figure>
+  </div>
+</section>
+"""
+
+
 def page(d, _ver, lang='ar'):
     L = LANG[lang]
     head, foot, ver = chrome(lang)
@@ -261,7 +379,7 @@ def page(d, _ver, lang='ar'):
         </div>
         <p class="cx-fineprint">{d['fineprint']}</p>
       </div>
-      <div class="rv in">{phone(d['phone'])}</div>
+      <div class="rv in">{engine(d, lang) or phone(d['phone'])}</div>
     </div>
   </div>
 </header>
@@ -305,6 +423,8 @@ def page(d, _ver, lang='ar'):
   </div>
 </section>
 
+{video(d, lang)}
+{platform(d, lang)}
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head rv"><h2 style="font-size:clamp(1.4rem,2.8vw,1.9rem)">{d['audience']['title']}</h2></div>
@@ -356,7 +476,7 @@ def hub(_ver, lang='ar'):
         title, icon, body = D.CAPS[cid]
         cat += f'''<div class="cx-cap">
             <div class="cx-ic"><svg viewBox="0 0 24 24">{ICONS[icon]}</svg></div>
-            <span class="cx-cap-n">القدرة {n:02d}</span>
+            <span class="cx-cap-n">{L['cap']} {n:02d}</span>
             <h3>{title}</h3><p>{body}</p>
           </div>'''
     return f'''{head}<main id="main" class="cx">
