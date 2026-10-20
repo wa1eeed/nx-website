@@ -602,46 +602,77 @@
     show(0); run();
   });
 
-  // hero NX-cloud network: auto-cycle the active cell + tap/hover focus
-  const viz = document.querySelector('.netviz');
-  if (viz) {
-    const cells  = Array.from(viz.querySelectorAll('.hexcell'));
-    const links  = Array.from(viz.querySelectorAll('.nv-links > path'));
-    const labels = Array.from(viz.querySelectorAll('.nv-lab'));
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (cells.length) {
-      let idx = 0, timer = null, resumeT = null;
-      const activate = (i) => {
-        idx = i;
-        cells.forEach((c, k) => c.classList.toggle('active', k === i));
-        links.forEach((l, k) => l.classList.toggle('glow', k === i));
-        labels.forEach((l, k) => l.classList.toggle('on', k === i));
-        viz.classList.add('focusing');
-      };
-      const run = () => { if (timer) clearInterval(timer); timer = setInterval(() => activate((idx + 1) % cells.length), 2800); };
-      const pause = () => {
-        if (timer) { clearInterval(timer); timer = null; }
-        clearTimeout(resumeT);
-        if (!reduce) resumeT = setTimeout(() => { run(); activate((idx + 1) % cells.length); }, 6000);
-      };
-      cells.forEach((c, i) => {
-        c.addEventListener('pointerenter', () => { pause(); activate(i); });
-        c.addEventListener('click', () => {
-          pause(); activate(i);
-          if (c.dataset.cta === 'contact') {
-            const t = document.querySelector('#contact');
-            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-      if (!reduce) { activate(0); run(); document.addEventListener('visibilitychange', () => { document.hidden ? (timer && clearInterval(timer), timer = null) : run(); }); }
+  // ---------- Hero: the three layers ----------
+  // A deck that assembles itself, then lets you pull any layer out to read it.
+  // Pointer lifts, click pins, and the keyboard gets the same behaviour through
+  // focus — the layers are real buttons, not divs with listeners.
+  const nxs = document.querySelector('.nxs');
+  if (nxs) {
+    // Only now may the stylesheet hide a layer. Without this the deck would
+    // stay invisible for anyone whose JS never arrives, which is the whole
+    // picture gone to save an animation.
+    document.documentElement.classList.add('js');
 
-      // live "operations now" counter
-      const live = viz.querySelector('[data-count]');
-      if (live) {
-        let n = parseInt(live.textContent.replace(/\D/g, ''), 10) || 128540;
-        setInterval(() => { n += 3 + Math.floor(Math.random() * 9); live.textContent = n.toLocaleString('en-US'); }, 1700);
-      }
+    const deck = nxs.querySelector('.nxs-deck');
+    const layers = Array.from(nxs.querySelectorAll('.nxs-layer'));
+    const gates = Array.from(nxs.querySelectorAll('.nxs-gw'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let pinned = null;
+
+    const clear = () => {
+      deck.classList.remove('on');
+      layers.forEach(l => { l.classList.remove('lift'); l.setAttribute('aria-pressed', 'false'); });
+    };
+    const lift = (i) => {
+      deck.classList.add('on');
+      layers.forEach((l, k) => {
+        l.classList.toggle('lift', k === i);
+        l.setAttribute('aria-pressed', String(k === i && pinned === i));
+      });
+    };
+    const drop = () => { if (pinned === null) clear(); };
+
+    layers.forEach((l, i) => {
+      l.addEventListener('pointerenter', () => { if (pinned === null) lift(i); });
+      l.addEventListener('focus', () => { if (pinned === null) lift(i); });
+      l.addEventListener('blur', drop);
+      l.addEventListener('click', () => {
+        pinned = pinned === i ? null : i;
+        if (pinned === null) clear(); else lift(i);
+      });
+    });
+    deck.addEventListener('pointerleave', drop);
+
+    // `animation-fill-mode: both` keeps holding every property the keyframes
+    // touched, which no later rule can override — so the entry animation is
+    // taken off once it has played, and the deck keeps its resting transform
+    // from the cascade instead.
+    const settled = () => { nxs.classList.remove('in'); nxs.classList.add('built'); };
+    const build = () => {
+      nxs.classList.add('in');
+      const last = layers[layers.length - 1];
+      let done = false;
+      const finish = () => { if (!done) { done = true; settled(); } };
+      last.addEventListener('animationend', finish, { once: true });
+      setTimeout(finish, 1600);          // in case the animation never fires
+      gates.forEach((g, i) => setTimeout(() => g.classList.add('ok'), 900 + i * 320));
+    };
+    if (reduce) { nxs.classList.add('built'); gates.forEach(g => g.classList.add('ok')); }
+    else if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { build(); io.disconnect(); }
+      }), { threshold: 0.25 });
+      io.observe(nxs);
+    } else build();
+
+    const live = nxs.querySelector('[data-count]');
+    if (live) {
+      let n = parseInt(live.textContent.replace(/\D/g, ''), 10) || 128540;
+      setInterval(() => {
+        if (document.hidden) return;              // nobody is watching
+        n += 3 + Math.floor(Math.random() * 9);
+        live.textContent = n.toLocaleString('en-US');
+      }, 1700);
     }
   }
 
