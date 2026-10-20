@@ -228,8 +228,8 @@ def scales(d, lang):
 def caps(ids, items=None):
     # the source shows eight cards per solution, all drawn from one catalogue
     out = ''
-    for title, icon, body in (items if items is not None else [D.CAPS[cid] for cid in ids]):
-        out += f'''<div class="cx-cap">
+    for i, (title, icon, body) in enumerate(items if items is not None else [D.CAPS[cid] for cid in ids]):
+        out += f'''<div class="cx-cap" style="--i:{i}">
             <div class="cx-ic"><svg viewBox="0 0 24 24">{ICONS[icon]}</svg></div>
             <h3>{title}</h3><p>{body}</p>
           </div>'''
@@ -257,7 +257,7 @@ def platform(d, lang):
             rows += f'<div class="cx-pf-item"><h4>{title}{tag}</h4><p>{body}</p></div>'
         groups += (f'<section class="cx-pf-group">'
                    f'<h3><span class="cx-pf-ic"><svg viewBox="0 0 24 24">{ICONS[g["icon"]]}</svg></span>{g["name"]}</h3>'
-                   f'<div class="cx-pf-items">{rows}</div></section>')
+                   f'<div class="cx-pf-items rv-stagger">{rows}</div></section>')
     return f"""<section class="sec cx-pf" id="platform">
   <div class="wrap">
     <div class="sec-head rv"><span class="eyebrow">{pf['eyebrow']}</span>
@@ -354,6 +354,209 @@ def video(d, lang):
 """
 
 
+def _cs_kpis(kpis, keys=()):
+    """The four tiles above every view. Numbers carry data-count so the panel
+    can run them up when it opens; the written value is also the final value,
+    so a visitor without JS reads the same figures, just already arrived."""
+    out = ''
+    for i, (label, val, unit, delta, dir_) in enumerate(kpis):
+        num = val.replace(',', '')
+        cnt = f' data-count="{num}"' if num.replace('.', '', 1).isdigit() else ''
+        # a tile the arriving orders have to keep in step with names itself,
+        # rather than being found by its position in the row
+        k = f' data-kpi="{keys[i]}"' if i < len(keys) else ''
+        out += (f'<div class="cx-cs-kpi"{k}><span class="cx-cs-kl">{label}</span>'
+                f'<span class="cx-cs-kv"><b{cnt}>{val}</b>'
+                f'{f"<em>{unit}</em>" if unit else ""}</span>'
+                f'<span class="cx-cs-kd{" up" if dir_ == "up" else ""}">{delta}</span></div>')
+    return f'<div class="cx-cs-kpis">{out}</div>'
+
+
+def _cs_head(cols):
+    return '<thead><tr>' + ''.join(f'<th scope="col">{c}</th>' for c in cols) + '</tr></thead>'
+
+
+def _cs_order_row(r, cur, extra=''):
+    oid, seller, st, stl, amt, when = r
+    return (f'<tr{extra}><td class="cx-cs-id"><span class="cx-ltr">{oid}</span></td><td class="cx-cs-who2">{seller}</td>'
+            f'<td><span class="cx-cs-st cx-cs-st-{st}">{stl}</span></td>'
+            f'<td class="cx-cs-amt">{amt}<em>{cur}</em></td>'
+            f'<td class="cx-cs-time">{when}</td></tr>')
+
+
+def _cs_orders(t, cur, label, rate):
+    rows = ''.join(_cs_order_row(r, cur) for r in t['rows'])
+    live = ''.join(_cs_order_row(r, cur) for r in t.get('live', []))
+    s = t.get('strip')
+    strip = ''
+    if s:
+        steps = ''.join(f'<li class="{"done" if i == 0 else ""}"><b>{a}</b><span>{b}</span><em>{c}</em></li>'
+                        for i, (a, b, c) in enumerate(s['steps']))
+        strip = (f'<div class="cx-cs-strip"><div class="cx-cs-strip-hd"><b>{s["title"]}</b>'
+                 f'<em>{s["term"]}</em></div><p>{s["body"]}</p>'
+                 f'<ol class="cx-cs-steps2">{steps}</ol></div>')
+    return (f'{_cs_kpis(t["kpis"], ("count", "sales", "fee"))}'
+            f'<div class="cx-cs-tblwrap"><table class="cx-cs-tbl" data-rate="{rate}">'
+            f'<caption class="cx-sr">{label}</caption>'
+            f'{_cs_head(t["head"])}<tbody>{rows}</tbody></table></div>'
+            f'<template class="cx-cs-live"><table><tbody>{live}</tbody></table></template>'
+            f'{strip}')
+
+
+def _cs_sellers(t, label):
+    n = len(t['steps'])
+    rows = ''
+    for i, (name, reg, done, state, status) in enumerate(t['rows']):
+        pips = ''.join(f'<i class="{"on" if k < done else ""}"></i>' for k in range(n))
+        rows += (f'<tr data-row="{i}"><td class="cx-cs-who2">{name}</td><td class="cx-cs-id"><span class="cx-ltr">{reg}</span></td>'
+                 f'<td><span class="cx-cs-pips" data-done="{done}" data-n="{n}">{pips}</span>'
+                 f'<em class="cx-cs-pipn">{done}/{n}</em></td>'
+                 f'<td><span class="cx-cs-st cx-cs-st-{state}">{status}</span></td></tr>')
+    legend = ''.join(f'<li>{s}</li>' for s in t['steps'])
+    adv = t.get('advance', '')
+    advs, advl = t.get('advanceTo', ('', ''))
+    toast = ''
+    if t.get('toast'):
+        toast = (f'<div class="cx-cs-toast" role="status"><b>{t["toast"][0]}</b>'
+                 f'<em>{t["toast"][1]}</em></div>')
+    return (f'{_cs_kpis(t["kpis"])}'
+            f'<ol class="cx-cs-legend2">{legend}</ol>'
+            f'<div class="cx-cs-tblwrap"><table class="cx-cs-tbl" data-advance="{adv}" '
+            f'data-advance-state="{advs}" data-advance-label="{advl}">'
+            f'<caption class="cx-sr">{label}</caption>'
+            f'{_cs_head(t["head"])}<tbody>{rows}</tbody></table></div>{toast}')
+
+
+def _cs_payouts(t, cur, label):
+    bars = ''.join(f'<i class="cx-cs-seg cx-{w}" style="--w:{pct}%"></i>'
+                   for _, pct, _, w in t['split'])
+    legend = ''.join(f'<li><span class="cx-cs-key cx-{w}"></span>{name}'
+                     f'<b>{val}<em>{cur}</em></b><span class="cx-cs-pct">{pct}%</span></li>'
+                     for name, pct, val, w in t['split'])
+    rows = ''
+    for name, orders, owed, acct, state, status in t['rows']:
+        rows += (f'<tr><td class="cx-cs-who2">{name}</td><td>{orders}</td>'
+                 f'<td class="cx-cs-amt">{owed}<em>{cur}</em></td>'
+                 f'<td class="cx-cs-id"><span class="cx-ltr">{acct}</span></td>'
+                 f'<td><span class="cx-cs-st cx-cs-st-{state}">{status}</span></td></tr>')
+    return (f'{_cs_kpis(t["kpis"])}'
+            f'<div class="cx-cs-split"><span class="cx-cs-split-hd">{t["splitLabel"]}</span>'
+            f'<div class="cx-cs-stack">{bars}</div><ul class="cx-cs-legend3">{legend}</ul></div>'
+            f'<div class="cx-cs-tblwrap"><table class="cx-cs-tbl"><caption class="cx-sr">{label}</caption>'
+            f'{_cs_head(t["head"])}<tbody>{rows}</tbody></table></div>'
+            f'<p class="cx-cs-foot">{t["foot"]}</p>')
+
+
+def _cs_rules(t, slug):
+    """Commission rules, as radio rows rather than a fake table of buttons.
+
+    One rule applies to an order at a time, which is exactly what a radio group
+    means — so the arrow keys, the grouping and the announcement all come for
+    free instead of being re-implemented in script."""
+    c = t['calc']
+    amount = float(c['amount'].replace(',', ''))
+    head = ''.join(f'<span>{h}</span>' for h in t['head'])
+    rows = ''
+    for i, r in enumerate(t['rules']):
+        rows += (f'<label class="cx-cs-rule"><input type="radio" name="cx-rule-{slug}" '
+                 f'data-pct="{r["pct"]}" data-fee="{r["fee"]}"{" checked" if i == 0 else ""}>'
+                 f'<span class="cx-cs-rs"><b>{r["scope"]}</b>'
+                 f'<em class="cx-cs-badge">{r["badge"]}</em></span>'
+                 f'<span class="cx-cs-rk">{r["kind"]}</span>'
+                 f'<span class="cx-cs-rv">{r["val"]}</span>'
+                 f'<span class="cx-cs-rp">{r["pri"]}</span></label>')
+    first = t['rules'][0]
+    fee = amount * first['pct'] / 100 + first['fee']
+    money = lambda v: f'{v:,.2f}'
+    lines = (f'<div><span>{c["lines"][0]}</span><b>{money(amount)}<em>{c["cur"]}</em></b></div>'
+             f'<div><span>{c["lines"][1]}</span>'
+             f'<b class="cx-cs-gold" data-calc="fee">{money(fee)}<em>{c["cur"]}</em></b></div>'
+             f'<div><span>{c["lines"][2]}</span>'
+             f'<b data-calc="net">{money(amount - fee)}<em>{c["cur"]}</em></b></div>')
+    return (f'<p class="cx-cs-hint">{t["hint"]}</p>'
+            f'<div class="cx-cs-rulewrap" data-amount="{amount}">'
+            f'<div class="cx-cs-rules"><div class="cx-cs-rule-hd">{head}</div>{rows}'
+            f'<p class="cx-cs-pick">{c["pick"]}</p></div>'
+            f'<aside class="cx-cs-calc"><span class="cx-cs-calc-hd">{c["label"]}</span>'
+            f'<div class="cx-cs-calc-rows">{lines}</div>'
+            f'<div class="cx-cs-calc-bar" aria-hidden="true">'
+            f'<i class="cx-platform" style="width:{first["pct"]:.4g}%"></i>'
+            f'<i class="cx-seller" style="width:{100 - first["pct"]:.4g}%"></i></div>'
+            f'<p class="cx-cs-calc-note">{c["note"]}</p></aside></div>')
+
+
+def console(d, lang):
+    """The operations console: four real screens instead of a picture of one.
+
+    The brief asked for platform shots that look like the product and move. A
+    screenshot would go stale the first time a label changed and would not be
+    readable, selectable or translatable; this is the interface itself, built
+    from the same tokens as the page, with sample data that adds up.
+
+    Only the active panel is in the accessible tree, the sidebar is decorative
+    chrome and marked as such, and the tabs are a real tablist — so the thing
+    that looks like an app also behaves like one for a keyboard."""
+    c = d.get('console')
+    if not c:
+        return ''
+    cur = d['money']['cur']
+    slug = d['slug']
+    # the live tiles move by the same commission the money board above argues
+    rate = next((s['pct'] for s in d['money']['shares'] if s['who'] == 'platform'), 0)
+
+    nav = ''
+    for i, (label, icon, badge) in enumerate(c['nav']):
+        nav += (f'<li class="{"on" if i == 1 else ""}">'
+                f'<svg viewBox="0 0 24 24">{ICONS[icon]}</svg><span>{label}</span>'
+                f'{f"<em>{badge}</em>" if badge else ""}</li>')
+
+    tabs, panels = '', ''
+    for i, t in enumerate(c['tabs']):
+        k, sel = t['key'], 'true' if i == 0 else 'false'
+        tabs += (f'<button type="button" role="tab" class="cx-cs-tab" id="cs-{slug}-t-{k}" '
+                 f'aria-controls="cs-{slug}-p-{k}" aria-selected="{sel}" '
+                 f'tabindex="{0 if i == 0 else -1}">{t["label"]}'
+                 f'<em>{t["term"]}</em></button>')
+        if k == 'orders':
+            inner = _cs_orders(t, cur, t['label'], rate)
+        elif k == 'sellers':
+            inner = _cs_sellers(t, t['label'])
+        elif k == 'payouts':
+            inner = _cs_payouts(t, cur, t['label'])
+        else:
+            inner = _cs_rules(t, slug)
+        panels += (f'<div role="tabpanel" class="cx-cs-panel" id="cs-{slug}-p-{k}" data-k="{k}" '
+                   f'aria-labelledby="cs-{slug}-t-{k}"{"" if i == 0 else " hidden"}>{inner}</div>')
+
+    initial = c['user'].strip()[0]
+    return f"""<section class="sec cx-cs" id="console">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">{c['eyebrow']}</span>
+      <h2>{c['title']}</h2><p class="cx-pf-sub">{c['sub']}</p></div>
+    <div class="cx-cs-win rv" role="group" aria-label="{c['a11y']}">
+      <div class="cx-cs-chrome" aria-hidden="true">
+        <span class="cx-cs-dots"><i></i><i></i><i></i></span>
+        <span class="cx-cs-host"><svg viewBox="0 0 24 24">{ICONS['lock']}</svg>{c['host']}</span>
+        <span class="cx-cs-who"><span class="cx-cs-wt"><b>{c['user']}</b><em>{c['role']}</em></span>
+          <span class="cx-cs-av">{initial}</span></span>
+      </div>
+      <div class="cx-cs-body">
+        <nav class="cx-cs-side" aria-hidden="true">
+          <span class="cx-cs-brand">{c['brand']}</span>
+          <ul>{nav}</ul>
+        </nav>
+        <div class="cx-cs-main">
+          <div class="cx-cs-tabs" role="tablist" aria-label="{c['title']}">{tabs}</div>
+          <div class="cx-cs-panels">{panels}</div>
+        </div>
+      </div>
+    </div>
+    <p class="cx-cs-note rv">{c['note']}</p>
+  </div>
+</section>
+"""
+
+
 def page(d, _ver, lang='ar'):
     L = LANG[lang]
     head, foot, ver = chrome(lang)
@@ -424,14 +627,14 @@ def page(d, _ver, lang='ar'):
 </section>
 
 {video(d, lang)}
-{platform(d, lang)}
+{console(d, lang)}{platform(d, lang)}
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head rv"><h2 style="font-size:clamp(1.4rem,2.8vw,1.9rem)">{d['audience']['title']}</h2></div>
-    <div class="cx-chips rv">{''.join(f'<span class="cx-chip">{c}</span>' for c in d['audience']['chips'])}</div>
+    <div class="cx-chips rv-stagger">{''.join(f'<span class="cx-chip">{c}</span>' for c in d['audience']['chips'])}</div>
 
     <div class="sec-head rv" style="margin-top:clamp(36px,5vw,56px)"><h2 style="font-size:clamp(1.4rem,2.8vw,1.9rem)">{d['earn']['title']}</h2></div>
-    <div class="cx-earn rv">{''.join(f'<div>{TICK}<span>{i}</span></div>' for i in d['earn']['items'])}</div>
+    <div class="cx-earn rv-stagger">{''.join(f'<div>{TICK}<span>{i}</span></div>' for i in d['earn']['items'])}</div>
     {f'<p class="cx-startnote rv">{d["earn"]["note"]}</p>' if d['earn'].get('note') else ''}
   </div>
 </section>

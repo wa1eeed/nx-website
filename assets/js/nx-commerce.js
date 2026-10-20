@@ -222,6 +222,270 @@
     });
   });
 
+
+  /* ── the operations console ────────────────────────────────
+     Four views of the same admin panel. The point of the motion here is
+     different from the rest of the page: the other blocks explain an idea,
+     this one has to behave like software, so a visitor can tell within a
+     second that they are looking at an interface and not an illustration.
+
+     So: the tabs are a real tablist with arrow keys and a roving tabindex,
+     orders arrive while you watch and move the tiles above them, a seller
+     finishes verification, the batch divides, and choosing a commission rule
+     recomputes the order beside it. Everything is sample data, said plainly
+     under the window, and every figure is derived from the ones already on
+     the page rather than invented in script. */
+  (function () {
+    var win = document.querySelector('.cx-cs-win');
+    if (!win) return;
+    var tabs = [].slice.call(win.querySelectorAll('.cx-cs-tab'));
+    var panels = [].slice.call(win.querySelectorAll('.cx-cs-panel'));
+    if (!tabs.length || tabs.length !== panels.length) return;
+
+    var money2 = function (n) {
+      return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+    var num = function (el) { return parseFloat(el.getAttribute('data-count')) || 0; };
+    function put(el, to, dec) {
+      if (!el) return;
+      el.setAttribute('data-count', to);
+      if (still) el.textContent = fmt(to, dec);
+      else countUp(el, to, 650);
+    }
+
+    /* every number in a panel, counted up once when that panel opens */
+    function runCounts(panel) {
+      [].forEach.call(panel.querySelectorAll('[data-count]'), function (el, i) {
+        var to = parseFloat(el.getAttribute('data-count'));
+        if (isNaN(to)) return;
+        if (still) { el.textContent = fmt(to, to % 1 === 0 ? 0 : 1); return; }
+        setTimeout(function () { countUp(el, to, 780); }, i * 85);
+      });
+    }
+
+    /* ·· orders arriving ···································· */
+    var orders = win.querySelector('.cx-cs-panel[data-k="orders"]');
+    var pool = [], queue = [], otimer = null, streamed = false;
+    if (orders) {
+      var tpl = orders.querySelector('template.cx-cs-live');
+      if (tpl && tpl.content) pool = [].slice.call(tpl.content.querySelectorAll('tr'));
+    }
+    function tile(k) { return orders.querySelector('[data-kpi="' + k + '"] b'); }
+
+    function arrive() {
+      otimer = null;
+      var tr = queue.shift();
+      if (!tr) return;
+      var body = orders.querySelector('.cx-cs-tbl tbody');
+      var tbl = orders.querySelector('.cx-cs-tbl');
+      if (!body) return;
+      var rate = parseFloat(tbl.getAttribute('data-rate')) || 0;
+      var cell = tr.querySelector('.cx-cs-amt');
+      var amt = cell ? parseFloat((cell.textContent || '').replace(/[^\d.]/g, '')) || 0 : 0;
+
+      body.insertBefore(tr, body.firstElementChild);
+      tr.classList.add('cx-cs-new');
+      while (body.children.length > 5) body.removeChild(body.lastElementChild);
+
+      // the tiles move with the table, and the commission tile is recomputed
+      // from the new total rather than added to — so the third figure is always
+      // the stated percentage of the second, which is the first thing anyone
+      // sharp enough to read a dashboard will check
+      var cnt = tile('count'), sales = tile('sales'), fee = tile('fee');
+      if (cnt) put(cnt, num(cnt) + 1, 0);
+      if (sales) {
+        var total = Math.round(num(sales) + amt);
+        put(sales, total, 0);
+        if (fee) put(fee, Math.round(total * rate / 100), 0);
+      }
+      if (queue.length) otimer = setTimeout(arrive, 3400);
+    }
+
+    function stream() {
+      if (still || !pool.length || otimer || streamed) return;
+      streamed = true;
+      queue = pool.map(function (n) { return n.cloneNode(true); });
+      otimer = setTimeout(arrive, 1700);
+    }
+    function halt() { if (otimer) { clearTimeout(otimer); otimer = null; } }
+
+    /* ·· a seller finishing verification ···················· */
+    function advance(panel) {
+      var tbl = panel.querySelector('.cx-cs-tbl[data-advance]');
+      if (!tbl || tbl.dataset.ran) return;
+      var i = tbl.getAttribute('data-advance');
+      var row = tbl.querySelector('tr[data-row="' + i + '"]');
+      if (!row) return;
+      tbl.dataset.ran = '1';
+      var pips = row.querySelector('.cx-cs-pips');
+      var n = parseInt(pips && pips.getAttribute('data-n'), 10) || 0;
+      var chip = row.querySelector('.cx-cs-st');
+      var toast = panel.querySelector('.cx-cs-toast');
+      setTimeout(function () {
+        if (pips) {
+          [].forEach.call(pips.querySelectorAll('i'), function (p) { p.classList.add('on'); });
+          pips.setAttribute('data-done', n);
+          var lab = row.querySelector('.cx-cs-pipn');
+          if (lab) lab.textContent = n + '/' + n;
+        }
+        if (chip) {
+          chip.className = 'cx-cs-st cx-cs-st-' + tbl.getAttribute('data-advance-state');
+          chip.textContent = tbl.getAttribute('data-advance-label');
+        }
+        if (toast) toast.classList.add('on');
+      }, still ? 0 : 1300);
+    }
+
+    /* ·· the batch dividing ································· */
+    function fill(panel) {
+      if (still) return;
+      [].forEach.call(panel.querySelectorAll('.cx-cs-seg'), function (seg) {
+        seg.style.width = '0';
+        seg.getBoundingClientRect();
+        requestAnimationFrame(function () { seg.style.width = ''; });
+      });
+    }
+
+    /* ·· commission rules, applied to the order beside them ·· */
+    var wrap = win.querySelector('.cx-cs-rulewrap');
+    if (wrap) {
+      var amount = parseFloat(wrap.getAttribute('data-amount')) || 0;
+      var feeB = wrap.querySelector('[data-calc="fee"]');
+      var netB = wrap.querySelector('[data-calc="net"]');
+
+      // the currency sits in an <em> after the figure, so only the text node
+      // in front of it is rewritten; replacing the whole cell would drop it
+      function writeMoney(b, to) {
+        if (!b) return;
+        var node = b.firstChild;
+        if (!node || node.nodeType !== 3) {
+          node = document.createTextNode('');
+          b.insertBefore(node, b.firstChild);
+        }
+        if (still) { node.nodeValue = money2(to); return; }
+        var from = parseFloat((node.nodeValue || '0').replace(/,/g, '')) || 0;
+        var t0 = null, ms = 420, done = false;
+        function fin() { if (!done) { done = true; node.nodeValue = money2(to); } }
+        setTimeout(fin, ms + 300);
+        requestAnimationFrame(function step(t) {
+          if (done) return;
+          if (t0 === null) t0 = t;
+          var p = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - p, 3);
+          node.nodeValue = money2(from + (to - from) * e);
+          if (p < 1) requestAnimationFrame(step); else fin();
+        });
+      }
+
+      wrap.addEventListener('change', function (ev) {
+        var r = ev.target;
+        if (!r || r.type !== 'radio') return;
+        var fee = amount * (parseFloat(r.getAttribute('data-pct')) || 0) / 100
+                + (parseFloat(r.getAttribute('data-fee')) || 0);
+        writeMoney(feeB, fee);
+        writeMoney(netB, amount - fee);
+        // the bar shows the share the rule actually takes, fixed fee included,
+        // which is not the same as the percentage printed in the row
+        var bar = wrap.querySelector('.cx-cs-calc-bar');
+        if (bar && amount) {
+          var share = Math.max(0, Math.min(100, fee / amount * 100));
+          bar.children[0].style.width = share.toFixed(2) + '%';
+          bar.children[1].style.width = (100 - share).toFixed(2) + '%';
+        }
+      });
+    }
+
+    /* ·· one height for every view ··························
+       The views are not the same length, and letting the window grow and
+       shrink as you move between tabs makes the whole thing feel like a web
+       page again. So the panels are measured once — off-screen, in the same
+       frame, so nothing flashes — and the shortest is given the tallest one's
+       room. Re-measured on resize, because the answer changes with width. */
+    function sizePanels() {
+      var box = win.querySelector('.cx-cs-panels');
+      if (!box) return;
+      box.style.minHeight = '';
+      var tall = 0;
+      panels.forEach(function (p) {
+        var hid = p.hidden;
+        if (hid) {
+          p.style.position = 'absolute';
+          p.style.insetInlineStart = '0';
+          p.style.insetInlineEnd = '0';
+          p.style.visibility = 'hidden';
+          p.hidden = false;
+        }
+        tall = Math.max(tall, p.offsetHeight);
+        if (hid) {
+          p.hidden = true;
+          p.style.position = p.style.insetInlineStart = p.style.insetInlineEnd = p.style.visibility = '';
+        }
+      });
+      // the box sizes border-box, so the floor has to carry its own padding
+      var pad = parseFloat(getComputedStyle(box).paddingTop) * 2 || 0;
+      if (tall) box.style.minHeight = (tall + pad) + 'px';
+    }
+
+    var sizing = null;
+    addEventListener('resize', function () {
+      clearTimeout(sizing);
+      sizing = setTimeout(sizePanels, 180);
+    }, { passive: true });
+    // measured after the webfonts land, or the mono figures are the wrong width
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizePanels);
+    else addEventListener('load', sizePanels);
+
+    /* ·· opening a view ····································· */
+    var at = 0, entered = [];
+    function enter(i) {
+      var panel = panels[i];
+      if (!entered[i]) { entered[i] = true; runCounts(panel); }
+      var k = panel.getAttribute('data-k');
+      if (k === 'orders') stream(); else halt();
+      if (k === 'sellers') advance(panel);
+      if (k === 'payouts') fill(panel);
+    }
+
+    function open(i, focus) {
+      at = i;
+      tabs.forEach(function (t, k) {
+        var on = k === i;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[k].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+      enter(i);
+    }
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { open(i, false); });
+      t.addEventListener('keydown', function (ev) {
+        var rtl = getComputedStyle(win).direction === 'rtl';
+        var k = ev.key, go = null;
+        if (k === 'ArrowRight') go = rtl ? at - 1 : at + 1;
+        else if (k === 'ArrowLeft') go = rtl ? at + 1 : at - 1;
+        else if (k === 'Home') go = 0;
+        else if (k === 'End') go = tabs.length - 1;
+        if (go === null) return;
+        ev.preventDefault();
+        open((go + tabs.length) % tabs.length, true);
+      });
+    });
+
+    // nothing runs until the window is actually on screen, and nothing keeps
+    // running once it leaves or the tab goes to the background
+    if (!('IntersectionObserver' in window)) { enter(0); return; }
+    var started = false;
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { if (!started) { started = true; enter(at); } else if (panels[at].getAttribute('data-k') === 'orders') stream(); }
+        else halt();
+      });
+    }, { threshold: .18 }).observe(win);
+
+    document.addEventListener('visibilitychange', function () { if (document.hidden) halt(); });
+  })();
+
   if (still || !('IntersectionObserver' in window)) {
     blocks.forEach(play);
     return;
