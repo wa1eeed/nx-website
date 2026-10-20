@@ -169,19 +169,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-screen .pm-bar code{direction:ltr;background:rgba(255,255,255,.12);padding:2px 9px;border-radius:5px;font-family:inherit}
 .pm .pm-screen .pm-bar .pm-who{margin-inline-start:auto;color:#AEBCCC}
 .pm .pm-screen .pm-body{padding:20px}
-.pm .pm-mkt{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.pm .pm-mkt.pm-four{grid-template-columns:repeat(4,1fr)}
-@media(max-width:760px){.pm .pm-mkt,.pm .pm-mkt.pm-four{grid-template-columns:1fr 1fr}}
-.pm .pm-mcard{border:1px solid var(--line);border-radius:12px;padding:11px;background:#FBFCFD}
-.pm .pm-mcard svg{width:100%;height:auto;display:block}
-.pm .pm-mcard .pm-tags{display:flex;gap:9px;font-size:11px;color:var(--ink-50);margin-top:8px}
-.pm .pm-mcard .pm-tags i{width:7px;height:7px;border-radius:50%;display:inline-block;margin-inline-end:4px}
-.pm .pm-mcard .pm-meta{display:flex;align-items:baseline;justify-content:space-between;margin-top:8px}
-.pm .pm-mcard .pm-go{margin-top:9px;text-align:center;font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:8px;padding:6px}
-.pm .pm-mcard .pm-go.pm-gold{background:#B7902E;border-color:#B7902E;color:#0A1A2F}
-.pm .pm-mcard .pm-go.pm-green{background:#0B7A55;border-color:#0B7A55;color:#fff}
-.pm .pm-mcard .pm-go.pm-sky{background:#2C74B3;border-color:#2C74B3;color:#fff}
-.pm .pm-mcard .pm-line{font-size:11.5px;color:var(--ink-50);margin-top:8px;display:flex;justify-content:space-between;align-items:baseline}
 .pm .pm-mrow .pm-go{margin-top:6px;text-align:center;font-size:11px;font-weight:700;border-radius:7px;padding:5px}
 .pm .pm-mrow .pm-go.pm-gold{background:#B7902E;color:#0A1A2F}
 .pm .pm-mrow .pm-go.pm-green{background:#0B7A55;color:#fff}
@@ -190,7 +177,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-shot .pm-go.pm-gold{background:#B7902E;color:#0A1A2F}
 .pm .pm-shot .pm-go.pm-green{background:#0B7A55;color:#fff}
 .pm .pm-shot .pm-go.pm-sky{background:#2C74B3;color:#fff}
-.pm .pm-mcard .pm-ref{font-size:10.5px;color:var(--ink-30);margin-top:7px;direction:ltr;text-align:start}
 .pm /* ── TRACK ── */
 .pm-rail{display:flex;margin-top:6px}
 .pm .pm-rail .pm-st{flex:1;text-align:center;position:relative;padding-top:26px}
@@ -241,15 +227,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .pm .pm-step:last-child::after{display:none}
 .pm .pm-step h4{font-size:17px;margin-bottom:6px}
 .pm .pm-step p{font-size:15px;color:var(--ink-70)}
-.pm /* ── GALLERY ── */
-.pm-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.pm .pm-tabs button{background:var(--face);border:1px solid var(--line);color:var(--ink-70);padding:9px 18px;border-radius:10px;font-family:inherit;font-size:14.5px;cursor:pointer}
-.pm .pm-tabs button[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
-.pm .pm-browser{background:var(--face);border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 40px 70px -50px rgba(10,26,47,.9)}
-.pm .pm-browser .pm-chrome{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#12253C}
-.pm .pm-browser .pm-chrome i{width:10px;height:10px;border-radius:50%;background:#3A4A60;display:block}
-.pm .pm-browser .pm-url{margin-inline-start:12px;flex:1;background:#1B3050;color:#AEBCCC;font-size:12px;padding:5px 12px;border-radius:7px;direction:ltr;text-align:left}
-.pm .pm-browser .pm-view{padding:22px;background:#F8FAFC;min-height:380px}
 
 
 
@@ -1350,137 +1327,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <!-- ══ 18 · SYSTEM SHOTS ══ -->
-<section id="gallery">
-  <div class="pm-wrap">
-    <div class="pm-sec-head">
-      <div class="pm-band"></div>
-      <div>
-        <h2>Screens from inside the system</h2>
-        <p>Platform screens as you and your customers will see them — on desktop and on mobile.</p>
-      </div>
-    </div>
-
-    <div class="pm-tabs" role="tablist" aria-label="Desktop screens">
-      <button role="tab" aria-selected="true" data-panel="pv-new">Add a plate</button>
-      <button role="tab" aria-selected="false" data-panel="pv-orders">Admin deals</button>
-      <button role="tab" aria-selected="false" data-panel="pv-rev">Revenue</button>
-      <button role="tab" aria-selected="false" data-panel="pv-market2">Market</button>
-    </div>
-
-    <div class="pm-browser">
-      <div class="pm-chrome"><i></i><i></i><i></i><span class="pm-url" id="url-bar">https://your-plates.sa/account/listings/new</span></div>
-      <div class="pm-view">
-
-        <div id="pv-new">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px">
-            <div>
-              <div style="background:radial-gradient(120% 90% at 50% 0%,#F5F5F3,#E4E5E1);border-radius:14px;padding:18px" id="new-plate"></div>
-              <p class="pm-cap" style="text-align:center">The plate sits above the form and changes with every character typed</p>
-            </div>
-            <div>
-              <div style="font-size:12.5px;color:var(--ink-50);margin-bottom:6px">Plate type</div>
-              <div style="display:flex;gap:8px;margin-bottom:14px"><span class="pm-pill" style="background:var(--ink);color:#fff;border-color:var(--ink)">Private</span><span class="pm-pill">Private transport</span><span class="pm-pill">Motorcycle</span></div>
-              <div style="font-size:12.5px;color:var(--ink-50);margin-bottom:6px">Edition</div>
-              <div style="display:flex;gap:8px;margin-bottom:14px"><span class="pm-pill" style="background:var(--ink);color:#fff;border-color:var(--ink)">Standard</span><span class="pm-pill">Long</span><span class="pm-pill">Sport</span></div>
-              <div style="font-size:12.5px;color:var(--ink-50);margin-bottom:6px">Letters and number</div>
-              <div style="display:flex;gap:8px;margin-bottom:14px">
-                <span class="pm-pill" style="min-width:54px;justify-content:center">ل · L</span>
-                <span class="pm-pill" style="min-width:54px;justify-content:center">و · U</span>
-                <span class="pm-pill" style="min-width:54px;justify-content:center">ح · J</span>
-                <span class="pm-pill" style="flex:1;justify-content:center"><b class="pm-money">2030</b></span>
-              </div>
-              <div style="font-size:12.5px;color:var(--ink-50);margin-bottom:6px">Auction duration</div>
-              <div style="display:flex;gap:8px;margin-bottom:14px">
-                <span class="pm-pill" style="flex:1;flex-direction:column;padding:8px"><b class="pm-money" style="font-size:17px">3</b><span style="font-size:10px;color:var(--ink-50)">ends 07/09</span></span>
-                <span class="pm-pill" style="flex:1;flex-direction:column;padding:8px;background:var(--ink);color:#fff;border-color:var(--ink)"><b class="pm-money" style="font-size:17px">7</b><span style="font-size:10px;opacity:.7">ends 11/09</span></span>
-                <span class="pm-pill" style="flex:1;flex-direction:column;padding:8px"><b class="pm-money" style="font-size:17px">10</b><span style="font-size:10px;color:var(--ink-50)">ends 14/09</span></span>
-                <span class="pm-pill" style="flex:1;flex-direction:column;padding:8px"><b class="pm-money" style="font-size:17px">30</b><span style="font-size:10px;color:var(--ink-50)">ends 04/10</span></span>
-              </div>
-              <div class="pm-callout" style="margin-bottom:14px">
-                Platform rules on this listing: 5% deposit · 48-hour payment window · 3-minute extension.
-                <div style="margin-top:6px;color:var(--ink-50);font-size:13px">Shown, not editable — set by the admin for the whole market.</div>
-              </div>
-              <div style="font-size:13px;color:var(--ink-50);margin-bottom:12px">If it sells for 150,000, the platform commission on you is <b class="pm-money" style="color:var(--ink)">3,750</b> riyals, and you receive <b class="pm-money" style="color:var(--ink)">146,250</b>.</div>
-              <div style="display:flex;gap:8px"><span class="pm-btn" style="border-radius:10px">Save and publish</span><span class="pm-btn pm-ghost" style="border-radius:10px">Save as draft</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div id="pv-orders" hidden>
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-            <span class="pm-pill" style="background:var(--ink);color:#fff;border-color:var(--ink)">Awaiting your decision · 3</span>
-            <span class="pm-pill">In progress · 11</span><span class="pm-pill">Completed · 84</span>
-          </div>
-          <div style="border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;margin-bottom:12px">
-            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center">
-              <div style="display:flex;gap:12px;align-items:center">
-                <span style="direction:ltr;font-size:13px;color:var(--ink-50)">S26-00012</span>
-                <b style="font-size:15px">L U J 2030</b>
-                <span style="font-size:13px;color:var(--ink-50)">Waleed Al-Otaibi ← Majed Al-Shehri</span>
-              </div>
-              <span class="pm-money" style="font-size:19px">148,000</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)">
-              <div>
-                <span class="pm-pill pm-red">Rule on the buyer’s objection</span>
-                <div style="font-size:13px;color:var(--ink-50);margin-top:6px">Reason for objection: “the proof uploaded is in a name other than mine”</div>
-              </div>
-              <div style="display:flex;gap:8px"><span class="pm-btn" style="border-radius:9px;padding:9px 16px;font-size:14px">Release to seller</span><span class="pm-btn pm-ghost" style="border-radius:9px;padding:9px 16px;font-size:14px">Refund to buyer</span></div>
-            </div>
-          </div>
-          <div style="border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff">
-            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center">
-              <div style="display:flex;gap:12px;align-items:center">
-                <span style="direction:ltr;font-size:13px;color:var(--ink-50)">S26-00021</span>
-                <b style="font-size:15px">N U R 77</b>
-                <span style="font-size:13px;color:var(--ink-50)">Majed Al-Shehri ← Sarah Al-Qahtani</span>
-              </div>
-              <span class="pm-money" style="font-size:19px">38,950</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)">
-              <div>
-                <span class="pm-pill">Payment window lapsed — forfeit or cancel</span>
-                <div style="font-size:13px;color:var(--red);margin-top:6px">2 days overdue · deposit held 1,950</div>
-              </div>
-              <div style="display:flex;gap:8px"><span class="pm-btn" style="border-radius:9px;padding:9px 16px;font-size:14px">Forfeit and re-award</span><span class="pm-btn pm-ghost" style="border-radius:9px;padding:9px 16px;font-size:14px">Cancel the deal</span></div>
-            </div>
-          </div>
-          <p class="pm-cap">No eleven-column table burying the actions column past the edge — a wide card, with the buttons where they are needed.</p>
-        </div>
-
-        <div id="pv-rev" hidden>
-          <div class="pm-grid3" style="gap:14px;margin-bottom:20px">
-            <div class="pm-kpi"><div class="pm-lbl">Revenue collected</div><div class="pm-val" style="color:var(--green)">184,300</div><div class="pm-sub">commissions and forfeited deposits</div></div>
-            <div class="pm-kpi"><div class="pm-lbl">Due, not yet collected</div><div class="pm-val" style="color:var(--gold)">12,750</div><div class="pm-sub">commissions against balances that fell short</div></div>
-            <div class="pm-kpi"><div class="pm-lbl">Tax to remit to the authority</div><div class="pm-val">27,645</div><div class="pm-sub">held in trust, not revenue — separated from the figures above</div></div>
-          </div>
-          <table class="pm-tbl">
-            <thead><tr><th>Reference</th><th>Description</th><th>Deal</th><th style="text-align:end">Amount</th><th style="text-align:end">Status</th></tr></thead>
-            <tbody>
-              <tr><td style="direction:ltr">R26-00031</td><td>Seller commission 2.5%</td><td style="direction:ltr">S26-00007</td><td class="pm-money" style="text-align:end">3,700</td><td style="text-align:end"><span class="pm-pill pm-green">Collected</span></td></tr>
-              <tr><td style="direction:ltr">R26-00032</td><td>VAT on commission 15%</td><td style="direction:ltr">S26-00007</td><td class="pm-money" style="text-align:end">555</td><td style="text-align:end"><span class="pm-pill pm-green">Collected</span></td></tr>
-              <tr><td style="direction:ltr">R26-00033</td><td>Deposit forfeiture 50%</td><td style="direction:ltr">S26-00021</td><td class="pm-money" style="text-align:end">1,950</td><td style="text-align:end"><span class="pm-pill pm-gold">Reversible 19h</span></td></tr>
-              <tr><td style="direction:ltr">R26-00034</td><td>Buyer commission 2.5%</td><td style="direction:ltr">S26-00019</td><td class="pm-money" style="text-align:end">1,550</td><td style="text-align:end"><span class="pm-pill">Due</span></td></tr>
-            </tbody>
-          </table>
-          <p class="pm-cap">Tax is kept apart from your revenue because it is not earnings — a page that adds the two together shows your profit larger than it is, and pricing and decisions get built on that number.</p>
-        </div>
-
-        <div id="pv-market2" hidden>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
-            <span class="pm-pill pm-gold">Auction</span><span class="pm-pill pm-green">Direct sale</span><span class="pm-pill pm-sky">Offer</span>
-            <span class="pm-pill">Three letters</span><span class="pm-pill">Single digit</span>
-            <span style="margin-inline-start:auto;font-size:13px;color:var(--ink-50)">Showing 12 of 47 plates</span>
-          </div>
-          <div class="pm-mkt pm-four" id="market-cards-2"></div>
-        </div>
-
-      </div>
-    </div>
-
-    
-  </div>
-</section>
 
 <!-- ══ 19 · CLOSING ══ -->
 <section id="final" style="border:0">
@@ -1927,7 +1773,7 @@ function plateSVG(o){
 
 /* ── Listed plates ── */
 const HERO={ar:['ل','و','ح'],lat:['L','U','J'],num:'2030',emblem:'vision-2030'};
-['hero-plate','listing-plate','new-plate'].forEach(id=>{
+['hero-plate','listing-plate'].forEach(id=>{
   const e=document.getElementById(id); if(e) e.innerHTML=plateSVG({...HERO,emboss:true});
 });
 document.getElementById('p-standard').innerHTML=plateSVG({format:'standard',ar:['ا','ب','ح'],lat:['A','B','J'],num:'1',emboss:true});
@@ -1936,38 +1782,6 @@ document.getElementById('p-sport').innerHTML=plateSVG({format:'sport',lat:['K','
   document.getElementById('p-transport').innerHTML=plateSVG({format:'long',type:'transport',ar:['ص','ع','ى'],lat:['X','E','V'],num:'7171',emblem:'palm-swords',emboss:true});
   document.getElementById('p-moto').innerHTML=plateSVG({type:'motorcycle',ar:['ق','و','ل'],lat:['G','U','L'],num:'22',emboss:true});
 
-/* ── Selling modes: each with its own colour and button ── */
-const MODE={
-  auction:{cls:'pm-gold', label:'Auction',        cta:'Bid now',        color:'#B7902E'},
-  direct: {cls:'pm-green',label:'Direct sale',   cta:'Pay and buy now', color:'#0B7A55'},
-  offer:  {cls:'pm-sky',  label:'Sealed offers', cta:'Make an offer',     color:'#2C74B3'}
-};
-
-const cards=[
- {ar:['ل','و','ح'],lat:['L','U','J'],num:'2030',m:'auction',price:'148,000',note:'Current bid',cd:'2:07:41:18',ref:'L26-00043'},
- {ar:['ا','ب','ح'],lat:['A','B','J'],num:'1',   m:'direct', price:'890,000',note:'Price',            ref:'L26-00044'},
- {ar:['ر','س','م'],lat:['R','S','Z'],num:'4040',m:'offer',  price:'60,000', note:'Minimum offer accepted',   ref:'L26-00058',till:'closes 20/09'},
- {ar:['ك','ك','ك'],lat:['K','K','K'],num:'999', m:'auction',price:'21,500', note:'Current bid',cd:'0:00:09:12',ref:'L26-00047'},
- {ar:['ن','و','ر'],lat:['N','U','R'],num:'77',  m:'direct', price:'38,950', note:'Price',            ref:'L26-00061'},
- {ar:['س','ع','د'],lat:['S','E','D'],num:'1234',m:'offer',  price:'15,000', note:'Minimum offer accepted',   ref:'L26-00039',till:'closes 28/09'},
- {ar:['ه','د','ى'],lat:['H','D','V'],num:'50',  m:'auction',price:'64,000', note:'Current bid',cd:'0:14:02:35',ref:'L26-00052'},
- {ar:['ط','ع','ن'],lat:['T','E','N'],num:'808', m:'direct', price:'12,300', note:'Price',            ref:'L26-00055'}
-];
-/* The centre emblem alternates across plates: Vision 2030, then the palm and swords with no frame */
-cards.forEach((c,i)=>{ c.emblem = i%2 ? 'palm-swords' : 'vision-2030'; });
-
-const cdBoxes=cd=>`<div class="pm-cd pm-sm" data-cd="${cd}" style="margin-top:9px"><span><b>00</b><span>ي</span></span><span><b>00</b><span>س</span></span><span><b>00</b><span>د</span></span><span><b>00</b><span>ث</span></span></div>`;
-
-const cardHTML=c=>{
-  const M=MODE[c.m];
-  const timing = c.cd ? cdBoxes(c.cd)
-    : `<div class="pm-line"><span>${c.m==='direct'?'Available to buy now':(c.till||'')}</span><span style="color:${M.color};font-weight:600">${M.label}</span></div>`;
-  return `<div class="pm-mcard">${plateSVG(c)}
-    <div class="pm-tags"><span><i style="background:${M.color}"></i>${M.label}</span><span><i style="background:#9AA6B6"></i>Private</span></div>
-    ${timing}
-    <div class="pm-meta"><span style="font-size:11px;color:var(--ink-50)">${c.note}</span><span class="pm-money" style="font-size:16px">${c.price}</span></div>
-    <div class="pm-go ${M.cls}">${M.cta}</div><div class="pm-ref">${c.ref}</div></div>`;
-};
 /* ── Visitor-screen cards: auction · direct sale · offers ── */
 const IC_GAVEL='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5l5 5M16.5 2.5l5 5M12.5 6.5l5 5"/><path d="M11 8l-7 7 4 4 7-7"/><path d="M3 22h10"/></svg>';
 const IC_TAG='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4a1 1 0 011-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg>';
@@ -2000,7 +1814,6 @@ const visitorCards=[
  {format:'sport',lat:['E'],num:'1',m:'offer',price:'180,000',ref:'L26-00018',tags:['Sport plate']}
 ];
 document.getElementById('market-cards').innerHTML=visitorCards.map(listingHTML).join('');
-document.getElementById('market-cards-2').innerHTML=cards.map(cardHTML).join('');
 
 /* ── Showcase rail ── */
 /* The three mode cards in the strip: the same design as a listing card */
@@ -2147,15 +1960,6 @@ track.innerHTML=set+set;   /* Two identical copies make an endless loop */
     pause(2600);
   }));
 })();
-
-/* ── Tabs ── */
-const urls={'pv-new':'/account/listings/new','pv-orders':'/admin/orders','pv-rev':'/admin/revenue','pv-market2':'/market'};
-document.querySelectorAll('.pm-tabs button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.pm-tabs button').forEach(x=>x.setAttribute('aria-selected','false'));
-  b.setAttribute('aria-selected','true');
-  Object.keys(urls).forEach(id=>document.getElementById(id).hidden=(id!==b.dataset.panel));
-  document.getElementById('url-bar').textContent='https://your-plates.sa'+urls[b.dataset.panel];
-}));
 
 /* ── Calculator ── */
 const nf=n=>n.toLocaleString('en-US');
