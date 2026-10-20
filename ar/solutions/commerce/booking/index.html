@@ -17,7 +17,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/nx.css?v=118">
-<link rel="stylesheet" href="/assets/css/nx-commerce.css?v=159">
+<link rel="stylesheet" href="/assets/css/nx-commerce.css?v=168">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
 <link rel="manifest" href="/site.webmanifest">
@@ -102,47 +102,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <h2>قصة: عائلة تحجز شاليه لنهاية الأسبوع</h2>
       <p>عائلة العتيبي تحجز شاليهًا لثلاث ليالٍ بقيمة 2,000 ريال عبر منصة حجوزات.</p>
     </div>
-    <div class="cx-rail"><div class="cx-stop">
-            <div class="cx-when"><i>1</i>الإثنين</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
-              <div class="cx-tag">حجز المبلغ</div>
-              <div class="cx-big">2,000 ر.س</div>
-            </div>
-            <div class="cx-txt">يُحجز المبلغ ويظهر الحجز مؤكدًا للعائلة.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>2</i>الإثنين</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-              <div class="cx-tag">مهلة الإلغاء</div>
-              <div class="cx-big">72 ساعة</div>
-            </div>
-            <div class="cx-txt">تنتهي مهلة الإلغاء المجاني دون تغيير.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>3</i>الخميس</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-              <div class="cx-tag">يوم الوصول</div>
-              <div class="cx-big">تم التحصيل</div>
-            </div>
-            <div class="cx-txt">يُحصَّل المبلغ وفق السياسة عند موعد الحجز.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>4</i>الجمعة</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.3 2.6L3 8"/><path d="M3 4v4h4"/></svg></div>
-              <div class="cx-tag">تقليص الإقامة</div>
-              <div class="cx-big">استرداد 500 ر.س</div>
-            </div>
-            <div class="cx-txt">تغادر العائلة قبل ليلة، فيُسترد جزء من المبلغ.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>5</i>التسوية</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><path d="M3 12h5l3-5 3 10 3-5h4"/></svg></div>
-              <div class="cx-tag">توزيع الباقي</div>
-              <div class="cx-big">1,350 / 150</div>
-            </div>
-            <div class="cx-txt">عمولة المنصة 10%، والباقي لمالك الشاليه.</div>
-          </div></div>
+    <ol class="cx-rail"><li class="cx-stop" style="--i:0">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">01</em>الإثنين</span>
+            <b class="cx-stop-big">2,000 ر.س</b>
+            <span class="cx-stop-tag">حجز المبلغ</span>
+            <p class="cx-stop-txt">يُحجز المبلغ ويظهر الحجز مؤكدًا للعائلة.</p>
+          </li><li class="cx-stop" style="--i:1">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">02</em>الإثنين</span>
+            <b class="cx-stop-big">72 ساعة</b>
+            <span class="cx-stop-tag">مهلة الإلغاء</span>
+            <p class="cx-stop-txt">تنتهي مهلة الإلغاء المجاني دون تغيير.</p>
+          </li><li class="cx-stop" style="--i:2">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">03</em>الخميس</span>
+            <b class="cx-stop-big">تم التحصيل</b>
+            <span class="cx-stop-tag">يوم الوصول</span>
+            <p class="cx-stop-txt">يُحصَّل المبلغ وفق السياسة عند موعد الحجز.</p>
+          </li><li class="cx-stop" style="--i:3">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.3 2.6L3 8"/><path d="M3 4v4h4"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">04</em>الجمعة</span>
+            <b class="cx-stop-big">استرداد 500 ر.س</b>
+            <span class="cx-stop-tag">تقليص الإقامة</span>
+            <p class="cx-stop-txt">تغادر العائلة قبل ليلة، فيُسترد جزء من المبلغ.</p>
+          </li><li class="cx-stop" style="--i:4">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><path d="M3 12h5l3-5 3 10 3-5h4"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">05</em>التسوية</span>
+            <b class="cx-stop-big">1,350 / 150</b>
+            <span class="cx-stop-tag">توزيع الباقي</span>
+            <p class="cx-stop-txt">عمولة المنصة 10%، والباقي لمالك الشاليه.</p>
+          </li></ol>
   </div>
 </section>
 
@@ -272,7 +262,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </footer>
 
 <script src="/assets/js/nx.js?v=118" defer></script>
-<script src="/assets/js/nx-commerce.js?v=159" defer></script>
+<script src="/assets/js/nx-commerce.js?v=168" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
 <script src="https://desk.zoho.sa/portal/api/feedbackwidget/13864000000213003?orgId=150001325171&displayType=iframe"></script>
 <script src="/assets/js/nx-zoho.js?v=118" defer></script>

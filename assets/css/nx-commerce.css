@@ -14,6 +14,9 @@
   --cx-seller: var(--hi);      /* the party who earns the most */
   --cx-platform: var(--gold);  /* the platform's own cut — money is gold here */
   --cx-third: var(--sky);      /* a third party in the split */
+  /* --muted measures 4.5:1 on white and under it on every tinted ground these
+     panels use, so small print on a product surface takes this instead. */
+  --cx-m: #5B6878;
 }
 
 /* ── dark sections ───────────────────────────────────────── */
@@ -85,56 +88,82 @@
   .cx-toast { position: static; margin-bottom: .7rem; box-shadow: none; border: 1px solid var(--line); }
 }
 
-/* ── the story rail: five stations lighting up in order ───── */
+/* ── the project journey ──────────────────────────────────
+   This used to be five navy cards sitting on a light section — a row of black
+   rectangles that read as a different page pasted in, and five more boxes on a
+   page already full of them. It is type on the section's own ground now,
+   strung on one rail that fills as you scroll, so the reader can see how far
+   along the journey they have read. */
 .cx-story-head { text-align: center; max-width: 60ch; margin-inline: auto; }
-.cx-rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 34px; position: relative; }
-.cx-rail::before {
-  content: ""; position: absolute; top: 9px; inset-inline: 6%; height: 2px;
-  background: var(--line); z-index: 0;
+
+.cx-rail {
+  --p: 0;
+  list-style: none; margin: clamp(34px, 4vw, 52px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(14px, 2vw, 26px);
+  position: relative;
 }
+/* the track, and the part of it already travelled */
+.cx-rail::before, .cx-rail::after {
+  content: ""; position: absolute; top: 17px; height: 2px; border-radius: 2px;
+}
+.cx-rail::before { inset-inline: 10%; background: var(--line); }
 .cx-rail::after {
-  content: ""; position: absolute; top: 9px; inset-inline-start: 6%; height: 2px; width: 0;
-  background: linear-gradient(90deg, var(--brand), var(--hi)); z-index: 1;
-  transition: width 2.6s cubic-bezier(.4, 0, .2, 1);
+  inset-inline-start: 10%; background: linear-gradient(90deg, var(--brand), var(--hi));
+  width: calc(var(--p) * 80%); transition: width .25s linear;
 }
-.cx-ready .cx-rail::after { width: 0; }
-.cx-ready .cx-anim.on .cx-rail::after { width: 88%; }
-@media (max-width: 860px) { .cx-rail { grid-template-columns: repeat(2, 1fr); } .cx-rail::before, .cx-rail::after { display: none; } }
-@media (max-width: 480px) { .cx-rail { grid-template-columns: 1fr; } }
 
-.cx-stop { position: relative; z-index: 2; text-align: center; }
-.cx-stop .cx-when {
-  display: inline-flex; align-items: center; gap: .4rem; font-size: .7rem; font-weight: 700;
-  color: var(--muted); margin-bottom: .6rem;
+.cx-stop { position: relative; text-align: center; padding-top: 0; }
+.cx-stop-node {
+  position: relative; z-index: 2; width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; margin: 0 auto .9rem;
+  background: var(--surface); border: 2px solid var(--line);
+  transition: border-color .4s ease, background .4s ease, box-shadow .4s ease;
 }
-.cx-stop .cx-when i {
-  font-style: normal; width: 18px; height: 18px; border-radius: 50%; background: var(--line);
-  color: var(--muted); font-size: .64rem; display: grid; place-items: center;
-  transition: background .5s ease, color .5s ease;
+.cx-stop-node svg {
+  width: 16px; height: 16px; stroke: var(--faint); fill: none; stroke-width: 1.9;
+  stroke-linecap: round; stroke-linejoin: round; transition: stroke .4s ease;
 }
-.cx-stop.lit .cx-when i { background: var(--hi); color: #fff; }
+.cx-stop.lit .cx-stop-node {
+  background: var(--grad); border-color: transparent;
+  box-shadow: 0 0 0 5px rgba(44, 116, 179, .12), 0 10px 22px -10px rgba(20, 66, 114, .6);
+}
+.cx-stop.lit .cx-stop-node svg { stroke: #fff; }
 
-/* the station itself: a dark tile, as in the source designs, so the gold
-   figure it carries reads as the thing that changed at that moment. */
-.cx-stop .cx-box {
-  background: var(--cx-deep); border-radius: var(--r); padding: 18px 12px 16px;
-  transition: transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .5s ease;
+/* --muted measures 4.2:1 on the section's tinted ground, and the stage name
+   is the label that says where you are — it takes the darker ink. */
+.cx-stop-head {
+  display: flex; align-items: baseline; justify-content: center; gap: .4rem;
+  font-size: .72rem; font-weight: 600; color: var(--ink-2);
 }
-.cx-stop.lit .cx-box { box-shadow: 0 18px 38px -18px rgba(20, 66, 114, .75); }
-.cx-stop .cx-bulb {
-  width: 40px; height: 40px; border-radius: 12px; margin: 0 auto .7rem; display: grid; place-items: center;
-  background: rgba(91, 163, 223, .14); border: 1px solid rgba(91, 163, 223, .26);
-  transform: scale(.82); opacity: .5;
-  transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .5s ease, background .5s ease;
+.cx-stop-n { font-style: normal; font-family: var(--mono); font-size: .72rem; font-weight: 600; color: #8A6D1F; }
+.cx-stop-big {
+  display: block; font-size: 1.04rem; font-weight: 800; color: var(--ink);
+  letter-spacing: -.015em; line-height: 1.4; margin-top: .3rem;
 }
-.cx-stop .cx-bulb svg { width: 19px; height: 19px; stroke: var(--sky); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.cx-stop.lit .cx-bulb { transform: none; opacity: 1; background: rgba(91, 163, 223, .24); }
-.cx-stop .cx-tag { font-size: .7rem; color: var(--cx-dim); margin-bottom: .25rem; }
-.cx-stop .cx-big { font-size: 1.02rem; font-weight: 800; color: var(--gold); letter-spacing: -.01em; }
-.cx-stop .cx-txt { font-size: .78rem; color: var(--ink-2); line-height: 1.6; margin-top: .6rem; }
-.cx-stop { transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
-.cx-ready .cx-stop { opacity: 0; transform: translateY(14px); }
+.cx-stop-tag { display: block; font-size: .72rem; color: var(--hi); font-weight: 600; margin-top: .2rem; }
+.cx-stop-txt { font-size: .8rem; line-height: 1.75; color: var(--ink-2); margin: .55rem auto 0; max-width: 24ch; }
+
+/* arriving: each stage fades up as the rail reaches it */
+.cx-ready .cx-stop { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
 .cx-ready .cx-stop.lit { opacity: 1; transform: none; }
+
+/* On a narrow screen the journey is a column, which is what a journey is on a
+   phone anyway — the rail moves to the start edge and the stages read down it. */
+@media (max-width: 860px) {
+  .cx-rail { grid-template-columns: 1fr; gap: 26px; }
+  .cx-rail::before, .cx-rail::after { top: 10px; bottom: 10px; height: auto; width: 2px; inset-inline: auto; }
+  .cx-rail::before { inset-inline-start: 17px; }
+  .cx-rail::after { inset-inline-start: 17px; width: 2px; height: calc(var(--p) * 100%); transition: height .25s linear; }
+  .cx-stop { text-align: start; padding-inline-start: 56px; }
+  .cx-stop-node { position: absolute; inset-inline-start: 0; top: 0; margin: 0; }
+  .cx-stop-head { justify-content: flex-start; }
+  .cx-stop-txt { margin-inline: 0; max-width: 46ch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-ready .cx-stop { opacity: 1 !important; transform: none !important; }
+  .cx-rail::after { transition: none !important; }
+}
 
 /* ── the money split: every riyal finding its way ─────────── */
 .cx-money { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 56px); align-items: center; }
@@ -225,10 +254,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cx-ready .cx-stop, .cx-ready .cx-cap, .cx-ready .cx-toast { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .cx-ready .cx-rail::after { width: 88% !important; transition: none !important; }
+  .cx-rail { --p: 1 !important; }
+  .cx-rail::after { transition: none !important; }
   .cx-bar i { transition: none !important; }
 }
-
 
 /* ── the family page: ten solutions over one stack ───────── */
 .cx-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; margin-top: 1.8rem; }
@@ -258,7 +287,6 @@ html[dir="rtl"] .cx-tile:hover .cx-tile-go svg { transform: scaleX(-1) translate
 /* the catalogue is not inside a .cx-anim block, so it must never start hidden */
 .cx-ready .cx-cat .cx-cap { opacity: 1; transform: none; }
 
-
 /* ── sideways links between the solutions ────────────────── */
 .cx-rels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 1.2rem; }
 @media (max-width: 760px) { .cx-rels { grid-template-columns: 1fr; } }
@@ -283,7 +311,6 @@ html[dir="rtl"] .cx-tile:hover .cx-tile-go svg { transform: scaleX(-1) translate
 .cx-close-act .cx-close-cta:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 12px 26px -10px rgba(0, 0, 0, .45); }
 .cx-close-act .cx-close-cta svg { width: 16px; height: 16px; }
 html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
-
 
 /* ── the volume switch on the money board ────────────────── */
 /* The switch does nothing without the engine, so it only exists once the
@@ -311,7 +338,6 @@ html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
 }
 @keyframes cx-ride { from { transform: translateX(-46px); } to { transform: translateX(var(--cx-ride, 900px)); } }
 @media (prefers-reduced-motion: reduce) { .cx-bar i u { display: none; } }
-
 
 /* ── platform capabilities ───────────────────────────────────
    Light ground on purpose. The page already alternates dark bands, and a
@@ -368,7 +394,6 @@ html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
 .cx-pf-item h4 { font-size: .92rem; font-weight: 800; color: var(--ink); line-height: 1.5; margin-bottom: .45rem; }
 .cx-pf-item p { font-size: .84rem; line-height: 1.78; color: var(--ink-2); margin: 0; }
 
-
 /* ── the dark-ground contract ────────────────────────────────
    nx.css styles the hero's own paragraphs — `.phero p { color: var(--ink-2) }`
    — and that selector outweighs a single class like `.cx-lede`. On the light
@@ -405,10 +430,9 @@ html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
 /* #6B7888 clears 4.5:1 on white and fails on every tinted ground the page
    uses, so the small print that sits on those grounds takes the darker ink. */
 .cx-pf-item p,
-.cx-stop .cx-when,
+.cx-stop-txt,
 .cx-startnote,
 .cx-rel-t { color: var(--ink-2); }
-.cx-stop .cx-when i { background: var(--brand); color: #fff; }
 
 /* The English term a capability is known by, beside the Arabic name: a
    technical buyer scans for "Split Payment", not for its translation. */
@@ -419,90 +443,13 @@ html[dir="rtl"] .cx-close-cta svg { transform: scaleX(-1); }
 }
 html[dir="rtl"] .cx-pf-term { direction: ltr; text-align: right; }
 
-
-/* ── the hero engine ─────────────────────────────────────────
-   A core with eight branches, taken from the explainer video's opening and
-   rebuilt in NX's own colours. The labels are DOM, not paths, so they stay
-   selectable and translatable; the SVG carries only the geometry. */
-.cx-eg { position: relative; width: min(520px, 100%); margin-inline: auto; aspect-ratio: 1; }
-.cx-eg-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-
-.cx-eg-ring { fill: none; stroke: rgba(91, 163, 223, .20); stroke-width: 1; }
-.cx-eg-ring-2 { stroke: rgba(91, 163, 223, .13); }
-.cx-ready .cx-eg-ring { transform-origin: 260px 260px; animation: cx-eg-spin 54s linear infinite; stroke-dasharray: 3 9; }
-.cx-ready .cx-eg-ring-2 { animation-duration: 38s; animation-direction: reverse; }
-@keyframes cx-eg-spin { to { transform: rotate(360deg); } }
-
-.cx-eg-spoke { stroke: rgba(91, 163, 223, .26); stroke-width: 1.2; transition: stroke .35s ease, stroke-width .35s ease; }
-.cx-eg-dot { fill: #5BA3DF; opacity: .55; transition: opacity .35s ease, r .35s ease; }
-.cx-eg-spoke.lit { stroke: #7CC0F5; stroke-width: 2.2; }
-.cx-eg-dot.lit { opacity: 1; r: 7; }
-
-.cx-eg-core { filter: drop-shadow(0 18px 44px rgba(8, 20, 38, .75)); }
-.cx-eg-pulse { fill: none; stroke: rgba(124, 192, 245, .5); stroke-width: 1.5; transform-origin: 260px 260px; opacity: 0; }
-.cx-ready .cx-eg-pulse { animation: cx-eg-pulse 3.4s cubic-bezier(.22, 1, .36, 1) infinite; }
-@keyframes cx-eg-pulse {
-  0%   { transform: scale(1);    opacity: .7; }
-  70%  { transform: scale(2.18); opacity: 0; }
-  100% { transform: scale(2.18); opacity: 0; }
-}
-
-.cx-eg-core-tx {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  font-family: var(--mono); font-size: .68rem; font-weight: 600; letter-spacing: .34em;
-  color: #DCEBFA; white-space: nowrap; pointer-events: none;
-}
-
-.cx-eg-pills { position: absolute; inset: 0; }
-.cx-eg-pill {
-  position: absolute; transform: translate(-50%, -50%); white-space: nowrap; cursor: pointer;
-  font: inherit; font-size: .72rem; font-weight: 600; color: #CFE3F7;
-  background: rgba(13, 32, 56, .92); border: 1px solid rgba(91, 163, 223, .3);
-  border-radius: 999px; padding: .4rem .8rem;
-  transition: color .3s, border-color .3s, background .3s, box-shadow .3s;
-}
-.cx-eg-pill:hover, .cx-eg-pill.lit {
-  color: #fff; background: rgba(28, 74, 124, .95); border-color: #5BA3DF;
-  box-shadow: 0 0 0 4px rgba(91, 163, 223, .14), 0 10px 26px -10px rgba(0, 0, 0, .7);
-}
-.cx-eg-pill:focus-visible { outline: 2px solid #BFE0FF; outline-offset: 3px; }
-
 /* the live feed: one notice at a time, below the diagram on narrow screens and
    floating over its lower edge where there is room */
-.cx-eg-feed { position: absolute; left: 0; right: 0; bottom: -6%; list-style: none; margin: 0; padding: 0; height: 62px; }
-.cx-eg-note {
-  position: absolute; inset-inline: 6% auto; width: min(340px, 88%);
-  display: flex; align-items: center; gap: .6rem;
-  background: rgba(255, 255, 255, .97); color: var(--ink);
-  border-radius: 12px; padding: .6rem .8rem;
-  box-shadow: 0 16px 38px -14px rgba(4, 12, 26, .8);
-  opacity: 0; transform: translateY(10px) scale(.97);
-  transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
-}
-.cx-eg-note.on { opacity: 1; transform: none; }
-.cx-eg-note-ic { width: 30px; height: 30px; border-radius: 9px; background: #EAF3FC; display: grid; place-items: center; flex-shrink: 0; }
-.cx-eg-note-ic svg { width: 15px; height: 15px; stroke: var(--brand-2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.cx-eg-note-tx { display: block; min-width: 0; }
 /* The notice is a white card sitting inside the dark hero, so it states its
    own colours rather than inheriting either side's. */
-.cx .cx-dark .cx-eg-note,
-.cx .cx-dark .cx-eg-note-tx b { color: var(--ink); }
-.cx .cx-dark .cx-eg-note-tx em { color: var(--ink-2); }
-.cx-eg-note-tx b { display: block; font-size: .78rem; font-weight: 800; line-height: 1.3; }
-.cx-eg-note-tx em { display: block; font-style: normal; font-size: .71rem; color: var(--ink-2); line-height: 1.45; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 @media (max-width: 900px) {
-  .cx-eg { width: min(420px, 100%); margin-bottom: 76px; }
-  .cx-eg-pill { font-size: .64rem; padding: .32rem .62rem; }
-  .cx-eg-feed { bottom: -78px; }
-  .cx-eg-note { inset-inline: 0 auto; width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .cx-ready .cx-eg-ring, .cx-ready .cx-eg-pulse { animation: none; }
-  .cx-eg-note { transition: none; }
-}
-
-
 /* ── the explainer ───────────────────────────────────────────
    A poster until someone asks for the video. The two encodes are 12 MB and
    10 MB; loading either on page view would cost every visitor who never
@@ -559,7 +506,7 @@ html[dir="rtl"] .cx-pf-term { direction: ltr; text-align: right; }
    proportional digits are the single clearest tell that a mock
    was typed by a designer rather than printed by a system.
    ============================================================ */
-.cx-cs { --cx-cs-m: #5B6878; }   /* 5.6:1 on white, 5.3:1 on the tinted rows */
+.cx-cs { --cx-cs-m: var(--cx-m); }
 .cx-sr {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -911,3 +858,192 @@ html[dir="rtl"] .cx-pf-term { direction: ltr; text-align: right; }
 .cx-cs-calc-bar .cx-platform { background: var(--cx-platform); }
 .cx-cs-calc-bar .cx-seller { background: var(--cx-seller); }
 @media (prefers-reduced-motion: reduce) { .cx-cs-calc-bar i { transition: none !important; } }
+
+/* ============================================================
+   The hero, on a light ground.
+
+   What stood here was a ring of eight capability names around a
+   core: a picture of the feature list, with nothing travelling
+   through it. It argued that the product has parts. This argues
+   that it does work — one order is verified, held, costed and
+   divided while you read the headline beside it.
+
+   Light on purpose. The panel is a product surface, and a white
+   bordered card only reads as one above something lighter than
+   itself; on the navy slab it was one more dark rectangle, and
+   every line of copy had to fight its background to stay legible.
+   ============================================================ */
+.cx-hero-lit {
+  background:
+    radial-gradient(52% 46% at 78% 6%, rgba(44, 116, 179, .13), transparent 68%),
+    radial-gradient(38% 42% at 8% 92%, rgba(183, 144, 46, .08), transparent 70%),
+    linear-gradient(180deg, #FFF 0%, #F5F8FC 58%, var(--canvas) 100%);
+}
+/* a hairline grid, far enough back to read as paper texture */
+.cx-hero-lit::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(to right, rgba(20, 66, 114, .045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 66, 114, .045) 1px, transparent 1px);
+  background-size: 68px 68px;
+  mask-image: radial-gradient(70% 60% at 50% 30%, #000, transparent 76%);
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000, transparent 76%);
+}
+.cx-hero-lit .wrap { position: relative; z-index: 1; }
+.cx-hero-lit .crumb { color: var(--muted); }
+.cx-hero-lit h1 { color: var(--ink); font-size: clamp(1.9rem, 4.2vw, 3rem); line-height: 1.25; letter-spacing: -.02em; margin: 0; }
+.cx-hero-lit h1 b {
+  font-weight: inherit; display: block;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cx-hero-lit .cx-lede { color: var(--ink-2); }
+.cx-hero-lit .cx-fineprint { color: var(--muted); }
+.cx-hero-lit .cx-eyebrow { color: var(--brand); background: rgba(44, 116, 179, .09); border-color: rgba(44, 116, 179, .22); }
+.cx-hero-lit .cx-kicker { color: var(--hi); }
+
+/* ── the live panel ──────────────────────────────────────── */
+.cx-hp { position: relative; width: min(430px, 100%); margin-inline: auto; margin-block: 30px; }
+.cx-hp-panel {
+  background: var(--surface); border: 1px solid #E1E8F0; border-radius: 18px;
+  padding: 16px 18px 18px; position: relative; overflow: hidden;
+  box-shadow: 0 2px 4px rgba(10, 26, 47, .03), 0 30px 60px -28px rgba(20, 66, 114, .45);
+}
+.cx-hp-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+.cx-hp-title { font-size: .76rem; font-weight: 700; color: var(--ink); }
+.cx-hp-live {
+  display: inline-flex; align-items: center; gap: .35rem; font-size: .66rem; font-weight: 600;
+  color: #15663A; background: #E6F5EC; border-radius: 999px; padding: .2rem .55rem;
+}
+.cx-hp-live i { width: 5px; height: 5px; border-radius: 50%; background: #2E9E63; }
+.cx-hp.run .cx-hp-live i { animation: hpPulse 1.6s ease-in-out infinite; }
+@keyframes hpPulse { 0%, 100% { opacity: 1; transform: none; } 50% { opacity: .35; transform: scale(.7); } }
+
+.cx-hp-order {
+  display: grid; grid-template-columns: auto 1fr; gap: .1rem .6rem; align-items: baseline;
+  margin-top: .85rem; padding-bottom: .85rem; border-bottom: 1px solid var(--line);
+}
+.cx-hp-oid { font-family: var(--mono); font-size: .68rem; color: var(--cx-m); }
+.cx-hp-seller { font-size: .8rem; font-weight: 600; color: var(--ink); min-width: 0; }
+.cx-hp-total { grid-column: 1 / -1; display: flex; align-items: baseline; gap: .3rem; margin-top: .2rem; }
+.cx-hp-total b {
+  font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.5rem;
+  font-weight: 600; color: var(--ink); letter-spacing: -.02em;
+}
+.cx-hp-total em { font-style: normal; font-size: .76rem; color: var(--cx-m); }
+
+/* ── the four steps, landing one at a time ───────────────── */
+.cx-hp-steps { list-style: none; margin: .7rem 0 0; padding: 0; display: grid; gap: 2px; }
+.cx-hp-step {
+  display: flex; align-items: center; gap: .6rem; padding: .42rem .4rem; border-radius: 9px;
+  opacity: .62; transition: opacity .35s ease, background .35s ease;
+}
+.cx-hp-step.at { opacity: 1; background: #F3F8FD; }
+.cx-hp-step.ok { opacity: 1; }
+.cx-hp-mark {
+  position: relative; width: 26px; height: 26px; border-radius: 8px; flex: none;
+  display: grid; place-items: center; background: #EDF1F6;
+  transition: background .35s ease;
+}
+.cx-hp-step.at .cx-hp-mark { background: rgba(44, 116, 179, .14); }
+.cx-hp-step.ok .cx-hp-mark { background: #E6F5EC; }
+.cx-hp-mark svg { grid-area: 1 / 1; width: 14px; height: 14px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cx-hp-ic { stroke: #7E8EA2; transition: stroke .3s ease, opacity .25s ease; }
+.cx-hp-step.at .cx-hp-ic { stroke: var(--hi); }
+.cx-hp-step.ok .cx-hp-ic { opacity: 0; }
+.cx-hp-tick {
+  stroke: #2E9E63; stroke-dasharray: 26; stroke-dashoffset: 26; opacity: 0;
+  transition: stroke-dashoffset .4s cubic-bezier(.22, 1, .36, 1) .05s, opacity .1s ease;
+}
+.cx-hp-step.ok .cx-hp-tick { opacity: 1; stroke-dashoffset: 0; }
+/* the spinner only exists while a step is working */
+.cx-hp-step.at .cx-hp-mark::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 10px;
+  border: 2px solid transparent; border-top-color: var(--hi);
+  animation: hpSpin .7s linear infinite;
+}
+@keyframes hpSpin { to { transform: rotate(360deg); } }
+.cx-hp-tx { min-width: 0; flex: 1; display: flex; flex-direction: column; line-height: 1.3; }
+.cx-hp-tx b { font-size: .78rem; font-weight: 600; color: var(--ink); }
+.cx-hp-tx em { font-style: normal; font-size: .64rem; color: var(--cx-m); direction: ltr; }
+.cx-hp-ms {
+  font-family: var(--mono); font-size: .66rem; color: var(--cx-m); flex: none;
+  opacity: 0; transition: opacity .3s ease;
+}
+.cx-hp-ms i { font-style: normal; margin-inline-start: .1rem; }
+.cx-hp-step.ok .cx-hp-ms { opacity: 1; }
+
+/* ── and what the last step produced ─────────────────────── */
+.cx-hp-result {
+  margin-top: .85rem; padding-top: .8rem; border-top: 1px solid var(--line);
+  opacity: .5; transition: opacity .45s ease;
+}
+.cx-hp.split .cx-hp-result { opacity: 1; }
+.cx-hp-rhead { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .45rem; min-height: 22px; }
+.cx-hp-rlabel { font-size: .68rem; color: var(--cx-m); }
+/* The three rows share one grid rather than each being its own, so the label
+   column sizes itself to the longest label and the bars still line up —
+   "Platform commission" was wrapping and shoving its bar out of the column. */
+.cx-hp-rows {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: auto 1fr auto; gap: .34rem .55rem; align-items: center;
+}
+.cx-hp-row { display: contents; }
+.cx-hp-who { font-size: .72rem; color: var(--ink-2); line-height: 1.35; }
+.cx-hp-bar { height: 7px; border-radius: 4px; background: #EDF1F6; overflow: hidden; }
+.cx-hp-bar i { display: block; height: 100%; width: 0; border-radius: 4px; transition: width .9s cubic-bezier(.22, 1, .36, 1); }
+.cx-hp.split .cx-hp-row.cx-seller   .cx-hp-bar i { background: var(--cx-seller); }
+.cx-hp.split .cx-hp-row.cx-platform .cx-hp-bar i { background: var(--cx-platform); }
+.cx-hp.split .cx-hp-row.cx-third    .cx-hp-bar i { background: var(--cx-third); }
+.cx-hp-amt {
+  font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .76rem;
+  font-weight: 600; color: var(--ink); opacity: 0; transition: opacity .4s ease;
+}
+.cx-hp.split .cx-hp-amt { opacity: 1; }
+.cx-hp-done {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-size: .7rem; font-weight: 700; color: #15663A; background: #E6F5EC;
+  border-radius: 999px; padding: .28rem .7rem;
+  opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+.cx-hp-done svg { width: 12px; height: 12px; stroke: #15663A; fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.cx-hp.done .cx-hp-done { opacity: 1; transform: none; }
+
+/* ── the operations notices around it ────────────────────── */
+.cx-hp-chips { list-style: none; margin: 0; padding: 0; }
+.cx-hp-chip {
+  position: absolute; inset-inline-start: -16%; width: min(252px, 74%);
+  background: var(--surface); border: 1px solid #E1E8F0; border-radius: 12px;
+  padding: .5rem .7rem; display: flex; align-items: center; gap: .5rem;
+  box-shadow: 0 16px 34px -16px rgba(20, 66, 114, .4);
+  opacity: 0; transform: translateY(10px) scale(.97); pointer-events: none;
+  transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+.cx-hp-chip[data-i="0"], .cx-hp-chip[data-i="2"] { top: -26px; }
+.cx-hp-chip[data-i="1"], .cx-hp-chip[data-i="3"] { top: auto; bottom: -26px; inset-inline-start: auto; inset-inline-end: -12%; }
+.cx-hp-chip.on { opacity: 1; transform: none; }
+.cx-hp-chip-ic { width: 26px; height: 26px; border-radius: 8px; background: #EAF3FC; display: grid; place-items: center; flex: none; }
+.cx-hp-chip-ic svg { width: 14px; height: 14px; stroke: var(--brand-2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cx-hp-chip-tx { min-width: 0; }
+.cx-hp-chip-tx b { display: block; font-size: .73rem; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.cx-hp-chip-tx em { font-style: normal; font-size: .67rem; color: var(--ink-2); line-height: 1.4; display: block; }
+
+/* On a phone the panel takes the full width and the notices stop floating:
+   a card hanging off the edge of a 375px screen is a horizontal scrollbar. */
+@media (max-width: 1040px) { .cx-hp-chip { inset-inline-start: -4%; } .cx-hp-chip[data-i="1"], .cx-hp-chip[data-i="3"] { inset-inline-end: -4%; } }
+@media (max-width: 760px) {
+  .cx-hp { width: 100%; }
+  .cx-hp { margin-block: 0; }
+  .cx-hp-chips { display: grid; gap: 8px; margin-top: 10px; }
+  .cx-hp-chip { position: static; width: 100%; box-shadow: none; display: none; }
+  .cx-hp-chip.on { display: flex; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-hp-step { opacity: 1 !important; }
+  .cx-hp-ms, .cx-hp-result, .cx-hp-done, .cx-hp-amt { opacity: 1 !important; transform: none !important; }
+  .cx-hp-tick { opacity: 1 !important; stroke-dashoffset: 0 !important; }
+  .cx-hp-ic { opacity: 0 !important; }
+  .cx-hp-step.at .cx-hp-mark::after { display: none; }
+  .cx-hp-chip { opacity: 1 !important; transform: none !important; }
+}

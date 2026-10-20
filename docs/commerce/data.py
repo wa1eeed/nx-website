@@ -120,23 +120,32 @@ PLATFORM_AR = dict(
 )
 
 
-# ── the hero engine diagram ───────────────────────────────────────────────
-# Lifted from the explainer video's opening: a core, a halo, eight branches.
-# The labels are the page's own capabilities, not the video's, so the picture
-# and the text below it never disagree.
-ENGINE_AR = dict(
-    core='NX ENGINE',
-    nodes=['تسجيل البائعين', 'التحقق KYB', 'حسابات فرعية', 'تقسيم المدفوعات',
-           'العمولات', 'الأرصدة والتسويات', 'تحويل المستحقات', 'الاسترداد'],
-    feed=[
-        ('دفعة جديدة', '1,000 ر.س من متجر لمّة', 'card'),
-        ('تم تقسيم المدفوعة', '900 للبائع · 70 للسوق · 30 للشريك', 'split'),
-        ('تاجر جديد', 'مؤسسة الورد للعطور — بانتظار المراجعة', 'id'),
-        ('اكتمل التحقق', 'KYC — هوية المالك مطابقة', 'check'),
-        ('اعتماد المنشأة', 'KYB — السجل التجاري ساري', 'lock'),
-        ('تسوية', 'حوّلت مستحقات 12 بائعًا', 'bank'),
-    ],
-    a11y='رسم متحرك: نواة المنصة تربط ثماني قدرات، وتظهر حولها إشعارات تشغيل حيّة.',
+# ── the hero: one order, processed in front of you ────────────────────────
+# The ring of eight labels it replaces was a map of the feature list — nothing
+# in it moved through anything, so it argued that the product has parts rather
+# than that it does work. This runs a single order end to end instead: the
+# seller is checked, the amount is held, the commission is worked out, the
+# money divides. Amounts live here; the percentages come from the money board
+# further down the page, so the two can never drift apart.
+HERO_AR = dict(
+    live='معالجة مباشرة',
+    tag='مباشر',
+    stage='الطلب',
+    orders=[('ORD-74518', 'مؤسسة نجد للقطع الصناعية', 1480.00),
+            ('ORD-74519', 'متجر الفهد للإطارات', 2470.00),
+            ('ORD-74520', 'ورشة الخليج لقطع الغيار', 865.00)],
+    steps=[('التحقق من البائع', 'KYC · KYB', 'id', '0.3'),
+           ('حجز المبلغ على البطاقة', 'Authorization', 'lock', '0.6'),
+           ('احتساب العمولة', 'Commission', 'scale', '0.1'),
+           ('تقسيم وتحويل', 'Split & payout', 'split', '0.4')],
+    unit='ث',
+    result='توزيع المبلغ',
+    done='تمت التسوية',
+    feed=[('تاجر جديد', 'مؤسسة الورد للعطور — بانتظار المراجعة', 'id'),
+          ('اكتمل التحقق', 'KYC — هوية المالك مطابقة', 'check'),
+          ('اعتماد المنشأة', 'KYB — السجل التجاري ساري', 'lock'),
+          ('تسوية', 'حُوّلت مستحقات 12 بائعًا', 'bank')],
+    a11y='رسم متحرك: طلب واحد يمر في المنصة — تحقق من البائع، حجز المبلغ، احتساب العمولة، ثم تقسيم المبلغ على البائع والمنصة والشريك.',
 )
 
 
@@ -234,7 +243,7 @@ CONSOLE_AR = dict(
 MARKETPLACE = {'slug': 'marketplace',
  'video': VIDEO_AR,
  'console': CONSOLE_AR,
- 'engine': ENGINE_AR,
+ 'hero': HERO_AR,
  'crumb': 'سوق مخصص تحت علامتك',
  'title': 'سوق مخصص لسير عملك وتكاملاتك | NX Marketplace Engine',
  'desc': 'حل سوق متعدد البائعين للشركات ذات المتطلبات الخاصة. نخصص الواجهات وسير العمل والصلاحيات، وندرس '

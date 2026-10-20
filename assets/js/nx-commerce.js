@@ -63,17 +63,11 @@
   function play(root) {
     root.classList.add('on');
 
-    // 1 · the five stations, one after another, so the eye reads the
-    //     order of events rather than a wall of finished boxes.
-    var stops = root.querySelectorAll('.cx-stop');
-    stops.forEach(function (s, i) {
-      setTimeout(function () { s.classList.add('lit'); }, still ? 0 : 260 + i * 420);
-    });
-
-    // 2 · the split bars, after the stations have finished telling the
-    //     story — the money is the consequence, so it lands last.
+    // 1 · the split bars. The five stages used to be lit from here, on a
+    //     timer; they are tied to the scroll now (see the rail driver below),
+    //     so this block is left with the money, which is the consequence.
     var shares = root.querySelectorAll('.cx-share');
-    var afterStory = still ? 0 : 260 + stops.length * 420;
+    var afterStory = still ? 0 : 420;
     shares.forEach(function (sh, i) {
       var pct = sh.getAttribute('data-pct');
       var bar = sh.querySelector('.cx-bar i');
@@ -143,63 +137,195 @@
   });
 
 
-  /* ── the hero engine ───────────────────────────────────────
-     Eight branches and a feed of operations notices. It runs on its own clock
-     rather than on scroll, because it sits above the fold and is the first
-     thing on the page: it should already be moving when the page arrives.
 
-     Pointing at a branch takes over — the cycle stops, that branch lights, and
-     its matching notice shows — so the diagram answers a question instead of
-     only performing. It hands control back a moment after the pointer leaves. */
+  /* ── the project journey, tied to the scroll ───────────────
+     It used to light its five stages on a timer the moment the section came
+     into view, which meant the whole journey had already happened before the
+     reader had read the first stage. The rail now tracks the scroll: the line
+     fills as you move through the section and each stage arrives when the line
+     reaches it, so how far along the rail is says how far along you are.
+
+     Anyone who asked for reduced motion gets the whole thing arrived. */
+  document.querySelectorAll('.cx-rail').forEach(function (rail) {
+    var stops = [].slice.call(rail.querySelectorAll('.cx-stop'));
+    if (!stops.length) return;
+
+    if (still) {
+      rail.style.setProperty('--p', 1);
+      stops.forEach(function (s) { s.classList.add('lit'); });
+      return;
+    }
+
+    var queued = false;
+    function measure() {
+      queued = false;
+      var r = rail.getBoundingClientRect();
+      // 0 when the rail's top reaches three quarters of the way down the
+      // viewport, 1 once its bottom has risen past the half way line
+      var start = innerHeight * .78;
+      var end = innerHeight * .42;
+      var span = (r.height + start - end) || 1;
+      var p = (start - r.top) / span;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      rail.style.setProperty('--p', p.toFixed(3));
+      stops.forEach(function (s, i) {
+        // a stage lights a little before the line physically reaches it, so the
+        // node is already lit when the eye arrives rather than a beat after
+        s.classList.toggle('lit', p >= (i / stops.length) * .92);
+      });
+    }
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(measure);
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    measure();
+  });
+
+  /* ── the hero: one order, processed in front of you ────────
+     The ring that stood here rotated through eight capability names. It was a
+     picture of the feature list, and a visitor learned from it only that the
+     product has parts. This runs a transaction instead — verify the seller,
+     hold the amount, work out the commission, divide the money — because that
+     sequence IS the product, and watching it happen says more in six seconds
+     than eight labels say at rest.
+
+     Every figure is derived, never invented: the amounts come from the markup
+     and the percentages from the same money board the page argues two sections
+     down, so the hero cannot contradict it.
+
+     It runs above the fold, so it starts on its own clock rather than on
+     scroll — and stops the moment it is scrolled past or the tab goes away. */
   (function () {
-    var eg = document.querySelector('.cx-eg');
-    if (!eg) return;
+    var hp = document.querySelector('.cx-hp');
+    if (!hp) return;
 
-    var pills = [].slice.call(eg.querySelectorAll('.cx-eg-pill'));
-    var spokes = eg.querySelectorAll('.cx-eg-spoke');
-    var dots = eg.querySelectorAll('.cx-eg-dot');
-    var notes = [].slice.call(eg.querySelectorAll('.cx-eg-note'));
-    if (!pills.length) return;
+    var panel = hp.querySelector('.cx-hp-panel');
+    var steps = [].slice.call(hp.querySelectorAll('.cx-hp-step'));
+    var rows = [].slice.call(hp.querySelectorAll('.cx-hp-row'));
+    var chips = [].slice.call(hp.querySelectorAll('.cx-hp-chip'));
+    var oid = hp.querySelector('.cx-hp-oid');
+    var seller = hp.querySelector('.cx-hp-seller');
+    var total = hp.querySelector('.cx-hp-total b');
+    if (!steps.length || !panel) return;
 
-    var at = 0, held = null, timer = null;
+    var orders = (hp.getAttribute('data-orders') || '').split('|').map(function (o) {
+      var bits = o.split(';');
+      return { id: bits[0], who: bits[1], amount: parseFloat(bits[2]) || 0 };
+    }).filter(function (o) { return o.amount; });
+    var pcts = (hp.getAttribute('data-pcts') || '').split(',').map(parseFloat);
+    if (!orders.length) return;
 
-    function light(i) {
-      pills.forEach(function (p, k) { p.classList.toggle('lit', k === i); });
-      [].forEach.call(spokes, function (sp, k) { sp.classList.toggle('lit', k === i); });
-      [].forEach.call(dots, function (dt, k) { dt.classList.toggle('lit', k === i); });
-      // the feed is shorter than the ring, so it wraps independently
-      if (notes.length) {
-        var n = i % notes.length;
-        notes.forEach(function (el, k) { el.classList.toggle('on', k === n); });
-      }
+    var money = function (n) {
+      return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+
+    var timers = [], at = 0, running = false, visible = true;
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clearAll() { timers.forEach(clearTimeout); timers = []; }
+
+    function paint(order) {
+      if (oid) oid.textContent = order.id;
+      if (seller) seller.textContent = order.who;
+      if (total) total.textContent = money(order.amount);
+      rows.forEach(function (row, i) {
+        var amt = row.querySelector('.cx-hp-amt');
+        var pct = pcts[i] || parseFloat(row.getAttribute('data-pct')) || 0;
+        if (amt) amt.textContent = money(order.amount * pct / 100);
+        var bar = row.querySelector('.cx-hp-bar i');
+        // the biggest share is the full width; the rest read against it, so a
+        // 3% sliver still looks like 3% of something rather than of the box
+        if (bar) bar.dataset.w = (pct / Math.max.apply(null, pcts) * 100).toFixed(1) + '%';
+      });
     }
 
-    function step() {
-      if (held === null) { light(at); at = (at + 1) % pills.length; }
-      timer = setTimeout(step, still ? 4200 : 2100);
+    function reset() {
+      clearAll();
+      hp.classList.remove('split', 'done', 'run');
+      steps.forEach(function (st) { st.classList.remove('at', 'ok'); });
+      rows.forEach(function (row) {
+        var bar = row.querySelector('.cx-hp-bar i');
+        if (bar) { bar.style.transition = 'none'; bar.style.width = '0'; }
+      });
     }
 
-    pills.forEach(function (p, i) {
-      function take() { held = i; light(i); }
-      function give() { held = null; }
-      p.addEventListener('pointerenter', take);
-      p.addEventListener('pointerleave', give);
-      p.addEventListener('focus', take);
-      p.addEventListener('blur', give);
-      p.addEventListener('click', function () { held = held === i ? null : i; light(i); });
-    });
+    // the finished state, for anyone who asked not to be animated: the same
+    // information, already arrived
+    function settle() {
+      paint(orders[0]);
+      hp.classList.add('split', 'done');
+      steps.forEach(function (st) { st.classList.add('ok'); });
+      rows.forEach(function (row) {
+        var bar = row.querySelector('.cx-hp-bar i');
+        if (bar) bar.style.width = bar.dataset.w || '100%';
+      });
+      chips.forEach(function (c, i) { if (i < 2) c.classList.add('on'); });
+    }
 
-    light(0);
-    step();
+    function cycle() {
+      if (!visible) { running = false; return; }
+      running = true;
+      reset();
+      paint(orders[at]);
+      at = (at + 1) % orders.length;
+      hp.classList.add('run');
 
-    // nothing moves while the tab is away: an unwatched animation is only
-    // wasted battery, and it would otherwise race ahead unseen
+      var t = 420;
+      steps.forEach(function (st, i) {
+        var hold = 520 + i * 60;
+        later(function () { st.classList.add('at'); }, t);
+        t += hold;
+        later(function () { st.classList.remove('at'); st.classList.add('ok'); }, t);
+        t += 180;
+      });
+
+      later(function () {
+        hp.classList.add('split');
+        rows.forEach(function (row, i) {
+          var bar = row.querySelector('.cx-hp-bar i');
+          if (!bar) return;
+          bar.getBoundingClientRect();              // let the reset take first
+          bar.style.transition = '';
+          later(function () { bar.style.width = bar.dataset.w || '100%'; }, i * 110);
+        });
+      }, t);
+
+      later(function () { hp.classList.add('done'); }, t + 900);
+      later(cycle, t + 3200);
+    }
+
+    /* the notices run on their own clock — operations do not wait for one
+       order to finish before the next thing happens */
+    var chipAt = 0, chipTimer = null;
+    function chipStep() {
+      chips.forEach(function (c, i) { c.classList.toggle('on', i === chipAt || i === (chipAt + 1) % chips.length); });
+      chipAt = (chipAt + 1) % chips.length;
+      chipTimer = setTimeout(chipStep, 2800);
+    }
+
+    if (still) { settle(); return; }
+
+    function start() { if (!running) cycle(); if (!chipTimer) chipStep(); }
+    function stop() {
+      running = false; clearAll();
+      if (chipTimer) { clearTimeout(chipTimer); chipTimer = null; }
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          visible = e.isIntersecting;
+          if (visible) start(); else stop();
+        });
+      }, { threshold: .15 }).observe(hp);
+    } else { start(); }
+
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden) { clearTimeout(timer); }
-      else if (!timer || true) { clearTimeout(timer); step(); }
+      if (document.hidden) stop(); else if (visible) start();
     });
   })();
-
 
   /* ── the explainer ─────────────────────────────────────────
      The poster is a button. Pressing it picks the cut that fits the viewport

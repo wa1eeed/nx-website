@@ -189,17 +189,22 @@ def phone(p):
 
 
 def stops(items):
+    """The project journey, as a sequence rather than five boxes.
+
+    What this replaces put each stage in a dark card and dropped the row onto a
+    light section — five black rectangles on white, reading as a different page
+    that had been pasted in. The stages are now type on the section's own
+    ground, strung on one rail that fills as the reader scrolls, which is what
+    a journey looks like: a line you are part of the way along."""
     out = ''
     for n, s in enumerate(items, 1):
-        out += f'''<div class="cx-stop">
-            <div class="cx-when"><i>{n}</i>{s['when']}</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24">{ICONS[s['icon']]}</svg></div>
-              <div class="cx-tag">{s['tag']}</div>
-              <div class="cx-big">{s['big']}</div>
-            </div>
-            <div class="cx-txt">{s['cap']}</div>
-          </div>'''
+        out += f'''<li class="cx-stop" style="--i:{n - 1}">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24">{ICONS[s['icon']]}</svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">{n:02d}</em>{s['when']}</span>
+            <b class="cx-stop-big">{s['big']}</b>
+            <span class="cx-stop-tag">{s['tag']}</span>
+            <p class="cx-stop-txt">{s['cap']}</p>
+          </li>'''
     return out
 
 
@@ -269,59 +274,75 @@ def platform(d, lang):
 """
 
 
-def engine(d, lang):
-    """The hero diagram: a core, a halo, eight branches, and a live feed.
+def herolive(d, lang):
+    """The hero visual: one order being processed, rather than a diagram of the
+    parts that would process it.
 
-    Built as SVG with the labels in real DOM rather than drawn into the picture,
-    so they are selectable, translatable and readable to a screen reader. The
-    geometry is computed here rather than hand-placed, which is what lets the
-    node count change without anyone re-measuring angles."""
-    import math
-    e = d.get('engine')
-    if not e:
+    The ring this replaces placed eight capability names around a core. It was
+    a picture of the feature list — nothing travelled through it, so it argued
+    that the product has parts, not that it does work. This runs a transaction
+    instead: the seller is verified, the amount is held, the commission is
+    worked out, and the money divides, each step landing in turn with the time
+    it took beside it.
+
+    The amounts are written here; the percentages are read off the money board
+    further down this same page, so the split in the hero can never contradict
+    the split the page spends a section explaining."""
+    h = d.get('hero')
+    if not h:
         return ''
-    n = len(e['nodes'])
-    R, cx, cy = 190, 260, 260
-    spokes, pills = '', ''
-    for i, label in enumerate(e['nodes']):
-        # start at the top and go clockwise, matching the explainer video
-        a = -math.pi / 2 + (2 * math.pi * i / n)
-        x, y = cx + R * math.cos(a), cy + R * math.sin(a)
-        spokes += (f'<line class="cx-eg-spoke" data-i="{i}" x1="{cx}" y1="{cy}" '
-                   f'x2="{x:.1f}" y2="{y:.1f}"/>')
-        spokes += f'<circle class="cx-eg-dot" data-i="{i}" cx="{x:.1f}" cy="{y:.1f}" r="5"/>'
-        # the pill is positioned as a percentage so it tracks the svg as it scales
-        pills += (f'<button type="button" class="cx-eg-pill" data-i="{i}" '
-                  f'style="left:{x / 520 * 100:.2f}%;top:{y / 520 * 100:.2f}%">{label}</button>')
+    shares = d['money']['shares']
+    cur = d['money']['cur']
+    first = h['orders'][0]
 
-    feed = ''
-    for i, (title, body, icon) in enumerate(e['feed']):
-        feed += (f'<li class="cx-eg-note" data-i="{i}">'
-                 f'<span class="cx-eg-note-ic"><svg viewBox="0 0 24 24">{ICONS[icon]}</svg></span>'
-                 f'<span class="cx-eg-note-tx"><b>{title}</b><em>{body}</em></span></li>')
+    steps = ''
+    for i, (title, term, icon, secs) in enumerate(h['steps']):
+        steps += (f'<li class="cx-hp-step" data-i="{i}">'
+                  f'<span class="cx-hp-mark"><svg class="cx-hp-ic" viewBox="0 0 24 24">{ICONS[icon]}</svg>'
+                  f'<svg class="cx-hp-tick" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>'
+                  f'<span class="cx-hp-tx"><b>{title}</b><em>{term}</em></span>'
+                  f'<span class="cx-hp-ms">{secs}<i>{h["unit"]}</i></span></li>')
 
-    return f"""<div class="cx-eg" role="img" aria-label="{e['a11y']}">
-  <svg class="cx-eg-svg" viewBox="0 0 520 520" aria-hidden="true">
-    <defs>
-      <radialGradient id="egCore" cx="50%" cy="38%" r="68%">
-        <stop offset="0" stop-color="#1B3F6B"/><stop offset="1" stop-color="#0B1B30"/>
-      </radialGradient>
-      <radialGradient id="egGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0" stop-color="#2C74B3" stop-opacity=".40"/>
-        <stop offset="1" stop-color="#2C74B3" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <circle cx="260" cy="260" r="248" fill="url(#egGlow)"/>
-    <circle class="cx-eg-ring" cx="260" cy="260" r="190"/>
-    <circle class="cx-eg-ring cx-eg-ring-2" cx="260" cy="260" r="134"/>
-    {spokes}
-    <circle class="cx-eg-pulse" cx="260" cy="260" r="86"/>
-    <circle class="cx-eg-core" cx="260" cy="260" r="86" fill="url(#egCore)"/>
-  </svg>
-  <span class="cx-eg-core-tx" aria-hidden="true">{e['core']}</span>
-  <div class="cx-eg-pills" aria-hidden="true">{pills}</div>
-  <ul class="cx-eg-feed" aria-hidden="true">{feed}</ul>
-</div>"""
+    rows = ''
+    for s in shares:
+        amount = first[2] * s['pct'] / 100
+        rows += (f'<li class="cx-hp-row cx-{s["who"]}" data-pct="{s["pct"]}">'
+                 f'<span class="cx-hp-who">{s["label"]}</span>'
+                 f'<span class="cx-hp-bar"><i></i></span>'
+                 f'<span class="cx-hp-amt" data-money="{amount:.2f}">{amount:,.2f}</span></li>')
+
+    chips = ''
+    for i, (title, body, icon) in enumerate(h['feed']):
+        chips += (f'<li class="cx-hp-chip" data-i="{i}">'
+                  f'<span class="cx-hp-chip-ic"><svg viewBox="0 0 24 24">{ICONS[icon]}</svg></span>'
+                  f'<span class="cx-hp-chip-tx"><b>{title}</b><em>{body}</em></span></li>')
+
+    # every order the loop will show, as data rather than as script literals
+    pool = '|'.join(f'{o[0]};{o[1]};{o[2]:.2f}' for o in h['orders'])
+
+    return f'''<div class="cx-hp" role="img" aria-label="{h['a11y']}" data-orders="{pool}"
+     data-cur="{cur}" data-pcts="{','.join(str(s['pct']) for s in shares)}">
+  <div class="cx-hp-panel">
+    <div class="cx-hp-top">
+      <span class="cx-hp-title">{h['live']}</span>
+      <span class="cx-hp-live"><i></i>{h['tag']}</span>
+    </div>
+    <div class="cx-hp-order">
+      <span class="cx-hp-oid">{first[0]}</span>
+      <span class="cx-hp-seller">{first[1]}</span>
+      <span class="cx-hp-total"><b data-money="{first[2]:.2f}">{first[2]:,.2f}</b><em>{cur}</em></span>
+    </div>
+    <ol class="cx-hp-steps">{steps}</ol>
+    <div class="cx-hp-result">
+      <div class="cx-hp-rhead">
+        <span class="cx-hp-rlabel">{h['result']}</span>
+        <span class="cx-hp-done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>{h['done']}</span>
+      </div>
+      <ul class="cx-hp-rows">{rows}</ul>
+    </div>
+  </div>
+  <ul class="cx-hp-chips">{chips}</ul>
+</div>'''
 
 
 def video(d, lang):
@@ -563,12 +584,20 @@ def page(d, _ver, lang='ar'):
     head = retarget(head, d, ver, lang)
     crumb = (f'<a href="/{lang}/">{L["home"]}</a> / <a href="/{lang}/solutions/">{L["solutions"]}</a> / '
              f'<a href="/{lang}/solutions/commerce/">{D.HUB["crumb"]}</a> / {d["crumb"]}')
+    # A page that runs the live panel gets a light hero. The panel is a product
+    # surface — white, bordered, shadowed — and it reads as one only on a ground
+    # it can sit above; on the navy slab it was just another dark rectangle, and
+    # every word of the copy had to fight the background to stay legible.
+    lit = bool(d.get('hero'))
+    hcls = 'phero cx-anim cx-hero-lit' if lit else 'phero cx-dark cx-anim'
+    mesh = '' if lit else '<div class="cx-mesh"></div>'
+    cstyle = '' if lit else ' style="color:#8FA6C0"'
     return f'''{head}<main id="main" class="cx">
 
-<header class="phero cx-dark cx-anim" style="padding-bottom:clamp(48px,6vw,80px)">
-  <div class="cx-mesh"></div>
+<header class="{hcls}" style="padding-bottom:clamp(48px,6vw,80px)">
+  {mesh}
   <div class="wrap">
-    <div class="crumb rv in" style="color:#8FA6C0">{crumb}</div>
+    <div class="crumb rv in"{cstyle}>{crumb}</div>
     <div class="cx-hero-grid" style="margin-top:clamp(20px,3vw,34px)">
       <div class="rv in">
         <span class="cx-eyebrow">{d['badge']}</span>
@@ -582,7 +611,7 @@ def page(d, _ver, lang='ar'):
         </div>
         <p class="cx-fineprint">{d['fineprint']}</p>
       </div>
-      <div class="rv in">{engine(d, lang) or phone(d['phone'])}</div>
+      <div class="rv in">{herolive(d, lang) or phone(d['phone'])}</div>
     </div>
   </div>
 </header>
@@ -594,7 +623,7 @@ def page(d, _ver, lang='ar'):
       <h2>{d['story']['title']}</h2>
       <p>{d['story']['sub']}</p>
     </div>
-    <div class="cx-rail">{stops(d['story']['stops'])}</div>
+    <ol class="cx-rail">{stops(d['story']['stops'])}</ol>
   </div>
 </section>
 

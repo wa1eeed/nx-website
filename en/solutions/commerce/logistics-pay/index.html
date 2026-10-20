@@ -17,7 +17,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/nx.css?v=118">
-<link rel="stylesheet" href="/assets/css/nx-commerce.css?v=159">
+<link rel="stylesheet" href="/assets/css/nx-commerce.css?v=168">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon.png?v=118">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=118">
 <link rel="manifest" href="/site.webmanifest">
@@ -102,47 +102,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <h2>Story: a shipment from Riyadh to Jeddah</h2>
       <p>A factory in Riyadh requests transport of a shipment to its customer in Jeddah through a logistics platform.</p>
     </div>
-    <div class="cx-rail"><div class="cx-stop">
-            <div class="cx-when"><i>1</i>Before the order</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M5 16c.8-1.4 2.2-2 4-2s3.2.6 4 2"/></svg></div>
-              <div class="cx-tag">Verified carrier</div>
-              <div class="cx-big">KYB</div>
-            </div>
-            <div class="cx-txt">Carrier and driver are registered and verified in advance.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>2</i>Saturday 9 am</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
-              <div class="cx-tag">Shipment value held</div>
-              <div class="cx-big">1,000 SAR</div>
-            </div>
-            <div class="cx-txt">The amount is held on the factory’s card when the order is confirmed.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>3</i>Sunday 2 pm</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><rect x="1" y="6" width="14" height="10" rx="1"/><path d="M15 9h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div>
-              <div class="cx-tag">Delivery</div>
-              <div class="cx-big">Proof of delivery</div>
-            </div>
-            <div class="cx-txt">The recipient in Jeddah signs and proof of delivery is uploaded.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>4</i>After delivery</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><path d="M3 12h5l3-5 3 10 3-5h4"/></svg></div>
-              <div class="cx-tag">Capture and split</div>
-              <div class="cx-big">Four parties</div>
-            </div>
-            <div class="cx-txt">650 to the carrier, 200 to the driver, 100 to the partner, 50 to the platform.</div>
-          </div><div class="cx-stop">
-            <div class="cx-when"><i>5</i>Sunday</div>
-            <div class="cx-box">
-              <div class="cx-bulb"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v9M19 10v9M9 10v9M15 10v9M3 21h18"/></svg></div>
-              <div class="cx-tag">Payouts</div>
-              <div class="cx-big">To each party</div>
-            </div>
-            <div class="cx-txt">Each party withdraws what they are owed to their bank account.</div>
-          </div></div>
+    <ol class="cx-rail"><li class="cx-stop" style="--i:0">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M5 16c.8-1.4 2.2-2 4-2s3.2.6 4 2"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">01</em>Before the order</span>
+            <b class="cx-stop-big">KYB</b>
+            <span class="cx-stop-tag">Verified carrier</span>
+            <p class="cx-stop-txt">Carrier and driver are registered and verified in advance.</p>
+          </li><li class="cx-stop" style="--i:1">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">02</em>Saturday 9 am</span>
+            <b class="cx-stop-big">1,000 SAR</b>
+            <span class="cx-stop-tag">Shipment value held</span>
+            <p class="cx-stop-txt">The amount is held on the factory’s card when the order is confirmed.</p>
+          </li><li class="cx-stop" style="--i:2">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><rect x="1" y="6" width="14" height="10" rx="1"/><path d="M15 9h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">03</em>Sunday 2 pm</span>
+            <b class="cx-stop-big">Proof of delivery</b>
+            <span class="cx-stop-tag">Delivery</span>
+            <p class="cx-stop-txt">The recipient in Jeddah signs and proof of delivery is uploaded.</p>
+          </li><li class="cx-stop" style="--i:3">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><path d="M3 12h5l3-5 3 10 3-5h4"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">04</em>After delivery</span>
+            <b class="cx-stop-big">Four parties</b>
+            <span class="cx-stop-tag">Capture and split</span>
+            <p class="cx-stop-txt">650 to the carrier, 200 to the driver, 100 to the partner, 50 to the platform.</p>
+          </li><li class="cx-stop" style="--i:4">
+            <span class="cx-stop-node"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v9M19 10v9M9 10v9M15 10v9M3 21h18"/></svg></span>
+            <span class="cx-stop-head"><em class="cx-stop-n">05</em>Sunday</span>
+            <b class="cx-stop-big">To each party</b>
+            <span class="cx-stop-tag">Payouts</span>
+            <p class="cx-stop-txt">Each party withdraws what they are owed to their bank account.</p>
+          </li></ol>
   </div>
 </section>
 
@@ -278,7 +268,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </footer>
 
 <script src="/assets/js/nx.js?v=118" defer></script>
-<script src="/assets/js/nx-commerce.js?v=159" defer></script>
+<script src="/assets/js/nx-commerce.js?v=168" defer></script>
 <!-- Zoho Desk feedback widget initialiser -->
 <script src="https://desk.zoho.sa/portal/api/feedbackwidget/13864000000213003?orgId=150001325171&displayType=iframe"></script>
 <script src="/assets/js/nx-zoho.js?v=118" defer></script>

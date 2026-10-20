@@ -129,19 +129,32 @@ PLATFORM_EN = dict(
 )
 
 
-ENGINE_EN = dict(
-    core='NX ENGINE',
-    nodes=['Seller onboarding', 'KYB verification', 'Sub-accounts', 'Split payments',
-           'Commissions', 'Balances & settlement', 'Payouts', 'Refunds'],
-    feed=[
-        ('Payment received', 'SAR 1,000 from Lamma store', 'card'),
-        ('Payment split', 'SAR 900 seller · 70 marketplace · 30 partner', 'split'),
-        ('New merchant', 'Al-Ward Perfumes — awaiting review', 'id'),
-        ('Verification complete', 'KYC — owner identity matched', 'check'),
-        ('Entity approved', 'KYB — commercial registration valid', 'lock'),
-        ('Settlement', 'Paid out 12 sellers', 'bank'),
-    ],
-    a11y='Animated diagram: the platform core linking eight capabilities, with live operations notices around it.',
+# ── the hero: one order, processed in front of you ────────────────────────
+# The ring of eight labels it replaces was a map of the feature list — nothing
+# in it moved through anything, so it argued that the product has parts rather
+# than that it does work. This runs a single order end to end instead: the
+# seller is checked, the amount is held, the commission is worked out, the
+# money divides. Amounts live here; the percentages come from the money board
+# further down the page, so the two can never drift apart.
+HERO_EN = dict(
+    live='Processing now',
+    tag='live',
+    stage='Order',
+    orders=[('ORD-74518', 'Najd Industrial Parts', 1480.00),
+            ('ORD-74519', 'Al-Fahd Tyres', 2470.00),
+            ('ORD-74520', 'Gulf Spare Parts Workshop', 865.00)],
+    steps=[('Seller checked', 'KYC · KYB', 'id', '0.3'),
+           ('Amount held on the card', 'Authorization', 'lock', '0.6'),
+           ('Commission worked out', 'Commission', 'scale', '0.1'),
+           ('Split and paid out', 'Split & payout', 'split', '0.4')],
+    unit='s',
+    result='How the money divides',
+    done='Settled',
+    feed=[('New merchant', 'Al-Ward Perfumes — awaiting review', 'id'),
+          ('Verification complete', 'KYC — owner identity matched', 'check'),
+          ('Entity approved', 'KYB — commercial registration valid', 'lock'),
+          ('Settlement', 'Paid out 12 sellers', 'bank')],
+    a11y='Animated diagram: a single order moving through the platform — the seller is checked, the amount is held, the commission is worked out, then the money divides between the seller, the marketplace and the partner.',
 )
 
 
@@ -239,7 +252,7 @@ CONSOLE_EN = dict(
 MARKETPLACE = {'slug': 'marketplace',
  'video': VIDEO_EN,
  'console': CONSOLE_EN,
- 'engine': ENGINE_EN,
+ 'hero': HERO_EN,
  'crumb': 'Custom branded marketplace',
  'title': 'Custom Marketplace Workflows and Integrations | NX Marketplace Engine',
  'desc': 'A multi-vendor marketplace solution for specific business requirements. NX tailors interfaces, '
