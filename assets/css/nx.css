@@ -2623,102 +2623,93 @@ html[dir="rtl"] .fsx-arw svg{transform:scaleX(-1)}
 @media(prefers-reduced-motion:reduce){.aff-hero h1 .g{animation:none}.aff-feed{display:none!important}.aff-dash{transform:none!important}.aff-flow.run .aff-step .n{animation:none}}
 
 /* ============================================================
-   Hero: the load, and the system holding under it.
+   Hero: what is running, right now, across what we build.
 
-   Taken from the page's own sentence — "systems that work under
-   real pressure, and keep working as the business grows". Two
-   earlier attempts drew a map of what we build and said nothing
-   about pressure, which is the claim the page actually makes.
-
-   The visitor turns the pressure up themselves: the bars climb,
-   the figures climb, and the response line barely moves.
+   A single chart said one thing about the practice and made it
+   look narrow. This shows work arriving from insurance,
+   healthcare, logistics, commerce, property and the government
+   integrations at the same time — the range is the picture
+   rather than a claim written under one.
    ============================================================ */
-.nxl{position:relative;width:100%;max-width:470px;margin-inline:auto}
-.nxl-card{
+.nxv{position:relative;width:100%;max-width:478px;margin-inline:auto}
+.nxv-card{
   background:var(--surface);border:1px solid #DFE6EF;border-radius:18px;overflow:hidden;
-  box-shadow:0 2px 4px rgba(10,26,47,.04),0 30px 60px -28px rgba(20,66,114,.5);
+  box-shadow:0 2px 4px rgba(10,26,47,.04),0 32px 64px -30px rgba(20,66,114,.52);
 }
-.nxl-head{
+.nxv-head{
   display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-  padding:.72rem 1rem;border-bottom:1px solid var(--line);background:#FAFBFD;
+  padding:.75rem 1rem;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#FAFCFE,#F4F7FB);
 }
-.nxl-ttl{font-size:.82rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
-.nxl-badge{
-  display:inline-flex;align-items:center;gap:.38rem;font-size:.68rem;font-weight:700;
-  color:#15663A;background:#E6F5EC;border-radius:999px;padding:.24rem .62rem;
-  transition:background .3s ease,color .3s ease;
+.nxv-ttl{font-size:.8rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.nxv-live{
+  display:inline-flex;align-items:center;gap:.36rem;font-size:.66rem;font-weight:700;
+  color:#15663A;background:#E6F5EC;border-radius:999px;padding:.22rem .6rem;flex:none;
 }
-.nxl-badge i{width:6px;height:6px;border-radius:50%;background:#2E9E63;animation:nxlPulse 1.7s ease-in-out infinite}
-@keyframes nxlPulse{0%,100%{opacity:1}50%{opacity:.25}}
+.nxv-live i{width:6px;height:6px;border-radius:50%;background:#2E9E63;animation:nxvPulse 1.7s ease-in-out infinite}
+@keyframes nxvPulse{0%,100%{opacity:1}50%{opacity:.25}}
 
-/* ── the chart: load climbing, latency flat ──────────────── */
-.nxl-chart{position:relative;height:168px;margin:14px 16px 0;padding-top:16px}
-.nxl-ymax{
-  position:absolute;top:0;inset-inline-start:0;font-size:.64rem;color:#5B6878;
+/* the sectors, lighting as their work arrives */
+.nxv-chips{display:flex;flex-wrap:wrap;gap:5px;padding:11px 14px 0}
+.nxv-chip{
+  font-size:.64rem;font-weight:600;color:#5B6878;background:#F1F5F9;
+  border:1px solid transparent;border-radius:999px;padding:.2rem .55rem;
+  transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s ease;
 }
-.nxl-bars{
-  position:absolute;inset-inline:0;bottom:0;height:150px;
-  display:flex;align-items:flex-end;gap:3px;
-}
-.nxl-bars i{
-  flex:1;min-width:0;height:6%;border-radius:3px 3px 0 0;
-  background:linear-gradient(180deg,var(--hi),#1F5C9B);
-  transition:height .75s cubic-bezier(.22,1,.36,1);
-  transition-delay:var(--d,0ms);
-}
-/* the line that does not move, which is the whole argument */
-.nxl-lat{
-  position:absolute;inset-inline:0;bottom:14%;height:0;
-  border-top:2px dashed #B7902E;
-  transition:bottom .75s cubic-bezier(.22,1,.36,1);
-}
-.nxl-lat-tag{
-  position:absolute;inset-inline-end:0;top:-1.05rem;
-  font-size:.64rem;font-weight:700;color:#8A6D1F;background:var(--surface);
-  padding-inline:.3rem;
-}
+.nxv-chip.on{background:rgba(44,116,179,.13);border-color:rgba(44,116,179,.28);color:var(--brand);transform:translateY(-1px)}
 
-/* ── the figures ─────────────────────────────────────────── */
-.nxl-stats{
+/* the stream */
+.nxv-feed{list-style:none;margin:10px 0 0;padding:0;height:216px;overflow:hidden;position:relative}
+.nxv-row{
+  display:flex;align-items:center;gap:.6rem;padding:.5rem 14px;
+  border-top:1px solid var(--line-2);
+}
+.nxv-row:first-child{border-top:0}
+.nxv-row.new{animation:nxvIn .55s cubic-bezier(.22,1,.36,1) both}
+@keyframes nxvIn{
+  0%{opacity:0;transform:translateY(-14px)}
+  60%{background:rgba(44,116,179,.09)}
+  100%{opacity:1;transform:none;background:transparent}
+}
+.nxv-ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;background:#EEF3F9}
+.nxv-ic svg{width:15px;height:15px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke:var(--brand-2)}
+.nxv-row[data-s="ins"]   .nxv-ic{background:#EAF2FB}
+.nxv-row[data-s="health"] .nxv-ic{background:#E9F6F0}
+.nxv-row[data-s="health"] .nxv-ic svg{stroke:#1C7A55}
+.nxv-row[data-s="log"]   .nxv-ic{background:#F4F1FB}
+.nxv-row[data-s="log"]   .nxv-ic svg{stroke:#5B4A9E}
+.nxv-row[data-s="shop"]  .nxv-ic{background:#FBF4E7}
+.nxv-row[data-s="shop"]  .nxv-ic svg{stroke:#8A6D1F}
+.nxv-row[data-s="gov"]   .nxv-ic{background:#EDF1F6}
+.nxv-row[data-s="gov"]   .nxv-ic svg{stroke:#3A4A60}
+.nxv-row[data-s="prop"]  .nxv-ic{background:#FBEFEF}
+.nxv-row[data-s="prop"]  .nxv-ic svg{stroke:#9B3B3B}
+.nxv-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35}
+.nxv-tx b{font-size:.76rem;font-weight:600;color:var(--ink);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.nxv-tx em{font-style:normal;font-size:.65rem;color:#5B6878}
+.nxv-ago{font-size:.63rem;color:#5B6878;flex:none;font-variant-numeric:tabular-nums}
+
+.nxv-foot{
   display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
-  margin:16px 0 0;border-block:1px solid var(--line);
+  border-top:1px solid var(--line);
 }
-.nxl-stat{display:flex;flex-direction:column;gap:.1rem;background:var(--surface);padding:.6rem 1rem}
-.nxl-stat span{font-size:.64rem;color:#5B6878}
-.nxl-stat b{
-  font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.02rem;
-  font-weight:600;color:var(--ink);letter-spacing:-.02em;
+.nxv-foot span{background:var(--surface);padding:.55rem .7rem;font-size:.63rem;color:#5B6878;text-align:center}
+.nxv-foot b{
+  display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:.95rem;font-weight:600;color:var(--ink);
 }
-.nxl-stat b em{font-style:normal;font-size:.62rem;color:#5B6878;margin-inline-start:.12rem}
-
-/* ── the control the visitor actually uses ───────────────── */
-.nxl-ctl{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem 1rem;flex-wrap:wrap}
-.nxl-ctl-l{font-size:.7rem;font-weight:700;color:var(--ink-2);flex:none}
-.nxl-steps{display:flex;gap:4px;background:#EFF3F8;border-radius:10px;padding:3px}
-.nxl-step{
-  appearance:none;border:0;background:none;cursor:pointer;font:inherit;
-  font-size:.68rem;font-weight:600;color:#5B6878;border-radius:8px;padding:.32rem .55rem;
-  transition:background .25s ease,color .25s ease,box-shadow .25s ease;white-space:nowrap;
-}
-.nxl-step:hover{color:var(--ink)}
-.nxl-step[aria-pressed="true"]{background:var(--surface);color:var(--brand);box-shadow:var(--shadow-s)}
-.nxl-step:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
-
-.nxl-note{font-size:.7rem;color:#5B6878;text-align:center;line-height:1.7;margin:.7rem 0 0}
+.nxv-note{font-size:.69rem;color:#5B6878;text-align:center;line-height:1.7;margin:.7rem 0 0}
 
 @media(max-width:860px){
-  .nxl{max-width:420px}
-  .nxl-ctl{justify-content:center}
-  .nxl-steps{flex-wrap:wrap;justify-content:center}
+  .nxv{max-width:420px}
+  .nxv-feed{height:192px}
   .p-home .stage{min-height:0}
 }
-@media(max-width:400px){
-  .nxl-stat{padding-inline:.6rem}
-  .nxl-step{padding-inline:.42rem}
-}
 @media(prefers-reduced-motion:reduce){
-  .nxl-bars i,.nxl-lat{transition:none!important}
-  .nxl-badge i{animation:none}
+  .nxv-row.new{animation:none}
+  .nxv-live i{animation:none}
+  .nxv-chip{transition:none}
+}
 }
 }
 }

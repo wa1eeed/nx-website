@@ -602,103 +602,72 @@
     show(0); run();
   });
 
-  // ---------- Hero: the load, and the system holding ----------
-  // The page claims its systems work under real pressure and keep working as
-  // the business grows. So the visitor applies the pressure: four steps from a
-  // single customer to a campaign peak. Requests climb two thousandfold, the
-  // response line moves by fifteen milliseconds, and uptime holds — which is
-  // the argument the copy makes, made in the one way a picture can make it.
+  // ---------- Hero: what is running across what we build ----------
+  // Work arrives from insurance, healthcare, logistics, commerce, property and
+  // the government integrations, one event at a time, oldest dropping off the
+  // bottom. The sector chip for each arrival lights, so the range registers
+  // even for someone who never reads a single row.
   //
-  // The figures are illustrative and the card says so. They are consistent
-  // with each other rather than impressive: latency rises with load, just far
-  // less than load does.
-  const nxl = document.querySelector('.nxl');
-  if (nxl) {
-    document.documentElement.classList.add('js');
-
-    const LEVELS = [
-      { rps: 12,     ms: 48, up: '100',   amp: 0.10, lat: 0.12 },
-      { rps: 1240,   ms: 51, up: '100',   amp: 0.34, lat: 0.13 },
-      { rps: 9800,   ms: 58, up: '100',   amp: 0.66, lat: 0.15 },
-      { rps: 24500,  ms: 63, up: '99.99', amp: 0.92, lat: 0.17 }
-    ];
-    const bars = Array.from(nxl.querySelectorAll('.nxl-bars i'));
-    const lat = nxl.querySelector('.nxl-lat');
-    const steps = Array.from(nxl.querySelectorAll('.nxl-step'));
-    const stat = (k) => nxl.querySelector(`[data-k="${k}"]`);
+  // The events are illustrative and the card says so underneath.
+  const nxv = document.querySelector('.nxv');
+  if (nxv) {
+    const feed = nxv.querySelector('.nxv-feed');
+    const chips = Array.from(nxv.querySelectorAll('.nxv-chip'));
+    const ops = nxv.querySelector('[data-k="ops"]');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let at = 0, jitter = null;
+    if (feed) {
+      // the full set, kept as templates so rows can be recycled forever
+      const pool = Array.from(feed.children).map(n => n.cloneNode(true));
+      const NOW = pool[0].querySelector('.nxv-ago').textContent;
+      const UNIT = document.documentElement.lang === 'ar' ? 'ث' : 's';
+      let next = 0, count = 0, timer = null;
 
-    const fmt = (n) => n.toLocaleString('en-US');
+      const light = (sector) => chips.forEach(c => c.classList.toggle('on', c.dataset.s === sector));
 
-    // count a figure up or down so the change is legible rather than a jump
-    const roll = (el, to, suffix) => {
-      if (!el) return;
-      const from = parseFloat((el.firstChild.textContent || '0').replace(/,/g, '')) || 0;
-      if (reduce) { el.firstChild.textContent = fmt(to); return; }
-      const t0 = performance.now(), ms = 520;
-      const tick = (now) => {
-        const p = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - p, 3);
-        el.firstChild.textContent = fmt(Math.round(from + (to - from) * e));
-        if (p < 1) requestAnimationFrame(tick);
-        else el.firstChild.textContent = fmt(to);
-      };
-      requestAnimationFrame(tick);
-    };
-
-    // a little noise per bar, so it reads as traffic rather than a bar chart
-    const draw = (amp) => {
-      bars.forEach((b, i) => {
-        const n = 0.62 + 0.38 * Math.abs(Math.sin(i * 12.9898 + Date.now() / 1400));
-        b.style.height = Math.max(4, amp * n * 100).toFixed(1) + '%';
+      // "now" on arrival, then a plain second count as it slides down — unit-less
+      // rather than inventing a phrase for "seconds ago" in two languages for a
+      // label nobody reads twice.
+      const age = () => Array.from(feed.children).forEach(row => {
+        const t = row.querySelector('.nxv-ago');
+        if (!t) return;
+        const n = parseInt(row.dataset.age || '0', 10);
+        t.textContent = n === 0 ? NOW : n + UNIT;
+        row.dataset.age = String(n + 4);
       });
-    };
 
-    const apply = (i) => {
-      at = i;
-      const L = LEVELS[i];
-      steps.forEach((s, k) => s.setAttribute('aria-pressed', String(k === i)));
-      draw(L.amp);
-      if (lat) lat.style.bottom = (L.lat * 100).toFixed(1) + '%';
-      roll(stat('rps'), L.rps);
-      const msEl = stat('ms');
-      if (msEl) roll(msEl, L.ms);
-      const upEl = stat('up');
-      if (upEl) upEl.firstChild.textContent = L.up;
-    };
+      const arrive = () => {
+        const row = pool[next % pool.length].cloneNode(true);
+        next++;
+        row.dataset.age = '0';
+        row.classList.add('new');
+        feed.insertBefore(row, feed.firstElementChild);
+        while (feed.children.length > 4) feed.removeChild(feed.lastElementChild);
+        light(row.dataset.s);
+        age();
+        if (ops) {
+          count += 1 + Math.floor(Math.random() * 4);
+          ops.textContent = count.toLocaleString('en-US');
+        }
+      };
 
-    steps.forEach((s, i) => s.addEventListener('click', () => apply(i)));
+      const start = () => {
+        if (timer) return;
+        while (feed.children.length > 4) feed.removeChild(feed.lastElementChild);
+        Array.from(feed.children).forEach((r, i) => { r.dataset.age = String(i * 5); });
+        age();
+        if (ops) { count = 1284; ops.textContent = count.toLocaleString('en-US'); }
+        if (reduce) { light(feed.firstElementChild.dataset.s); return; }
+        timer = setInterval(() => { if (!document.hidden) arrive(); }, 2600);
+        arrive();
+      };
 
-    const start = () => {
-      apply(0);
-      if (reduce) { apply(LEVELS.length - 1); return; }
-      if (jitter) return;
-
-      // At rest the chart is a row of stubs, and the first thing a visitor
-      // sees should be the argument rather than the starting line. So it
-      // climbs through the levels once, by itself, and then stops and leaves
-      // the control where the visitor can take it back.
-      let step = 1;
-      const climb = setInterval(() => {
-        apply(step);
-        if (++step >= LEVELS.length) clearInterval(climb);
-      }, 850);
-      // any click hands control straight back
-      steps.forEach(b => b.addEventListener('click', () => clearInterval(climb), { once: true }));
-
-      // and the traffic keeps moving at whatever level is selected
-      jitter = setInterval(() => {
-        if (document.hidden) return;
-        draw(LEVELS[at].amp);
-      }, 1500);
-    };
-
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(es => es.forEach(e => {
-        if (e.isIntersecting) { start(); io.disconnect(); }
-      }), { threshold: 0.25 });
-      io.observe(nxl);
-    } else start();
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(es => es.forEach(e => {
+          if (e.isIntersecting) { start(); io.disconnect(); }
+        }), { threshold: 0.2 });
+        io.observe(nxv);
+      } else start();
+    }
   }
 
   // ---------- Program terms: keep the figures honest ----------
