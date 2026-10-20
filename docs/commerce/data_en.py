@@ -165,12 +165,13 @@ MARKETPLACE = {'slug': 'marketplace',
  'badge': 'A solution tailored to your operations',
  'kicker': 'NX Marketplace Engine',
  'h1': ['A multi-vendor marketplace,', 'tailored to how you operate.'],
- 'lede': 'When your marketplace needs a distinct selling experience, specific permissions or connections to '
-         'existing systems, NX delivers a tailored solution under your brand. Your requirements shape the '
-         'interfaces, workflows and operating rules we configure and test.',
+ 'lede': 'Some marketplaces do not fit a template. A seller who clears two reviews before going live, '
+         'a team where every role sees something different, or stock software nobody intends to replace. '
+         'That is where we start: we map the journey with you, build the interfaces under your brand, '
+         'and test whatever we agreed to connect before the first seller arrives.',
  'cta1': 'Discuss your project',
- 'cta2': 'See our delivery approach',
- 'fineprint': 'Customisation, integrations and launch timing are agreed after reviewing your requirements.',
+ 'cta2': 'How we work through your requirements',
+ 'fineprint': 'What gets customised, what gets connected, and when it launches — all settled once we have reviewed your requirements.',
  'phone': {'title': 'Illustrative project scope',
            'toast': 'Your requirements',
            'amount': 'Your marketplace',
@@ -182,39 +183,39 @@ MARKETPLACE = {'slug': 'marketplace',
                     ('Integrations', 'Agreed scope')],
            'btn': 'Your project scope'},
  'story': {'eyebrow': 'Project journey',
-           'title': 'From specific requirements to a connected solution',
-           'sub': 'Illustrative example: an automotive parts company needs specific seller approval rules '
-                  'and team permissions, and wants to connect its existing systems. We use those operational '
-                  'and integration requirements to define the project scope.',
+           'title': 'From the first meeting to the first order',
+           'sub': 'An illustrative example: a car-parts company selling to workshops and to the public, '
+                  'each with its own pricing and permissions, running stock software it has no plans to '
+                  'replace. That is where defining the scope begins.',
            'stops': [{'when': 'Discovery',
                       'icon': 'users',
                       'tag': 'Understand the business',
                       'big': 'Clear objectives',
-                      'cap': 'We discuss your customers, sellers and the way your company needs to sell.'},
+                      'cap': 'Who sells, who buys, and how the money reaches them. We leave with a clear picture, not a wish list.'},
                      {'when': 'Scope',
                       'icon': 'link',
                       'tag': 'Requirements and integrations',
                       'big': 'An agreed scope',
-                      'cap': 'We define interfaces, roles and operating rules, then assess connections to '
-                             'systems and providers.'},
+                      'cap': 'We agree what will be built and what will not. Any link to your systems or '
+                              'to a payment provider is checked before we promise it.'},
                      {'when': 'Configuration',
                       'icon': 'shop',
                       'tag': 'Tailor the experience',
                       'big': 'Under your brand',
-                      'cap': 'We prepare customer, seller and administration workflows around the agreed '
-                             'requirements.'},
+                      'cap': 'The buyer’s side, the seller’s side, and your team’s dashboard — in your '
+                              'identity, not a template with your logo dropped on it.'},
                      {'when': 'Testing',
                       'icon': 'check',
                       'tag': 'Review the sales journey',
                       'big': 'Before launch',
-                      'cap': 'We test the included workflows, permissions and integrations with your team.'},
+                      'cap': 'We walk the whole journey with your team: a seller signs up, an order is paid, an amount is refunded. Then we fix what breaks.'},
                      {'when': 'Launch',
                       'icon': 'bolt',
                       'tag': 'Begin operating',
                       'big': 'Your marketplace',
-                      'cap': 'We launch after readiness checks and approval of the launch requirements.'}]},
+                      'cap': 'The first seller comes in, and the marketplace starts running.'}]},
  'money': {'eyebrow': 'Commission rule example',
-           'title': 'Define the split around your business model',
+           'title': 'Who gets what, and when',
            'sub': 'An arithmetic illustration, not service pricing or payment processing fees. Commission '
                   'and settlement rules are agreed in scope; execution depends on the provider and available '
                   'integration.',
@@ -230,34 +231,34 @@ MARKETPLACE = {'slug': 'marketplace',
                       {'who': 'third', 'label': 'Partner', 'value': 30, 'pct': 3, 'cur': 'SAR'}]},
  'platform': PLATFORM_EN,
  'caps': {'eyebrow': 'What we define with you',
-          'title': 'A marketplace shaped around your requirements',
+          'title': 'What we settle with you before anything is built',
           'items': [('Requirements discovery',
                      'users',
-                     'Define your audience, sales model and launch priorities before agreeing the project '
-                     'scope.'),
+                     'Who are your buyers? Who sells to them? What has to work on day one? We '
+                     'answer those before fixing any scope.'),
                     ('Branded interfaces',
                      'shop',
-                     'Tailor the marketplace experience and identity within the agreed scope.'),
+                     'The marketplace looks and reads like yours — not a stock template wearing your logo.'),
                     ('Business workflows',
                      'bolt',
-                     'Define customer and seller journeys, including the review stages your operations '
-                     'need.'),
+                     'Who reviews what, when, and what happens when something is rejected. We map '
+                     'it with you, step by step.'),
                     ('Roles and permissions',
                      'lock',
-                     'Agree the responsibilities and access your administrators and sellers need.'),
+                     'Every role has its edge: who adds a seller, who approves a product, who sees the financials.'),
                     ('Seller management',
                      'id',
-                     'Prepare seller registration, information review and the required approval rules.'),
+                     'The sign-up form, the documents required, the approval rule — built around your business, not a generic flow.'),
                     ('Commission rules',
                      'scale',
-                     'Define how the marketplace and participating parties earn their share.'),
+                     'One rate across the marketplace? Or a rate per seller, or per category? Settled before we build.'),
                     ('Project integrations',
                      'link',
                      'Assess connections to your systems and service providers. Each integration depends on '
                      'availability and confirmed requirements.'),
                     ('Testing and launch',
                      'check',
-                     'Review agreed journeys and integrations before approving launch readiness.')]},
+                     'Nothing launches until the agreed journeys and integrations have been through a review you are part of.')]},
  'audience': {'title': 'When is Marketplace Engine the right fit?',
               'chips': ['Requirements beyond ready settings',
                         'Business-specific selling journeys',
@@ -271,9 +272,8 @@ MARKETPLACE = {'slug': 'marketplace',
                   'If the ready platform and templates meet your needs, explore <a '
                   'href="/en/solutions/commerce/market-builder/"><strong>Market Builder</strong></a> for '
                   'configuration within its available capabilities.'},
- 'close': {'h2': 'Let’s define what your marketplace needs',
-           'p': 'Tell us about your marketplace and existing systems. We will discuss requirements and '
-                'integrations to prepare a scope and proposal for your project.',
+ 'close': {'h2': 'Let’s work out what your marketplace needs',
+           'p': 'Tell us about the idea and the systems you already run. You leave the meeting with a written scope and a proposal to match.',
            'cta': 'Discuss your project'}}
 
 

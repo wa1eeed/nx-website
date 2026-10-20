@@ -438,6 +438,11 @@ html[dir="rtl"] .cx-pf-term { direction: ltr; text-align: right; }
 .cx-eg-note-ic { width: 30px; height: 30px; border-radius: 9px; background: #EAF3FC; display: grid; place-items: center; flex-shrink: 0; }
 .cx-eg-note-ic svg { width: 15px; height: 15px; stroke: var(--brand-2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .cx-eg-note-tx { display: block; min-width: 0; }
+/* The notice is a white card sitting inside the dark hero, so it states its
+   own colours rather than inheriting either side's. */
+.cx .cx-dark .cx-eg-note,
+.cx .cx-dark .cx-eg-note-tx b { color: var(--ink); }
+.cx .cx-dark .cx-eg-note-tx em { color: var(--ink-2); }
 .cx-eg-note-tx b { display: block; font-size: .78rem; font-weight: 800; line-height: 1.3; }
 .cx-eg-note-tx em { display: block; font-style: normal; font-size: .71rem; color: var(--ink-2); line-height: 1.45; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
